@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QuizGraphicalResult" language="groovy" pageWidth="690" pageHeight="270" columnWidth="680" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="10">
+	<property name="ireport.zoom" value="0.8264462809917374"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Serif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Serif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Serif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Serif" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Serif" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Cid" class="java.lang.String"/>
+	<parameter name="QID" class="java.lang.String"/>
+	<parameter name="QTS" class="java.lang.String"/>
+	<parameter name="studCount" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select q.WorkshopID, q.QuizName, qrq.ParticipantID, p.ParticipantName, qrq.Response, if(o.OptionID = '0','No Response', if(o.OptionCorrectness='1','Correct','Incorrect')) as OptionCorrectness, qr.TimeStamp from quiz q, quizrecord qr, quizrecordquestion qrq, participant p, options o where q.WorkshopID= $P{Cid} and qr.QuizID = q.QuizID and qr.QuizID = $P{QID} and qr.TimeStamp = $P{QTS} and qr.WorkshopID= $P{Cid} and qrq.QuizRecordID = qr.QuizRecordID and p.ParticipantID=qrq.ParticipantID  and o.OptionID = qrq.OptionID order by p.ParticipantID]]>
+	</queryString>
+	<field name="WorkshopID" class="java.lang.String"/>
+	<field name="QuizName" class="java.lang.String"/>
+	<field name="ParticipantID" class="java.lang.String"/>
+	<field name="ParticipantName" class="java.lang.String"/>
+	<field name="Response" class="java.lang.String"/>
+	<field name="OptionCorrectness" class="java.lang.String"/>
+	<field name="TimeStamp" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="180" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="680" height="54" backcolor="#404040"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="308" height="43"/>
+					<textElement>
+						<font size="36" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Quiz Response]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="571" y="14" width="85" height="29"/>
+					<textElement>
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Clicker]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="54" width="680" height="40" forecolor="#000000" backcolor="#9BBB59"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="512" y="0" width="144" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="517" y="108" width="135" height="18"/>
+				<textElement>
+					<font size="14" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{QuizName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="401" y="108" width="88" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QuizName]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="517" y="139" width="143" height="18"/>
+				<textElement>
+					<font size="14" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Timestamp"><![CDATA[$F{TimeStamp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="401" y="139" width="111" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TimeStamp]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="136" y="108" width="139" height="18"/>
+				<textElement>
+					<font size="14" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{WorkshopID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="4" y="108" width="114" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Workshop ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="4" y="139" width="114" height="34" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number of Participant]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="141" y="150" width="93" height="18"/>
+				<textElement>
+					<font size="14" isItalic="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{studCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

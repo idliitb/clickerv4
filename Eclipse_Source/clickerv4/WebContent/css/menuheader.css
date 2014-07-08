@@ -1,0 +1,139 @@
+/* sachin, dipti*/ 
+/* ............................................Menuheader.jsp................................................*/
+
+/* start black background */
+.table{
+	
+	width:1040px;
+	height:15px;
+	background-color: #404040;
+	/*margin: -5% 0 0 -5%;*/
+	margin:auto;
+	border-radius:10px;
+	
+}/* end black background */
+
+.ui-content{
+	width:100%;
+	text-align: center;
+	float:left;
+}
+/* this is used for all content*/
+.ui-Mainbody{
+	position:relative;
+	text-align:center;
+	font-size:14px;
+	width:100%;
+	margin:auto;
+	min-width:70%;
+background: #E6E7E8 url();
+
+}/* till here*/
+
+/*
+   body{width:90%;margin:auto;min-width:600px;}
+*/
+/* start Clicker v3 logo*/
+.ui-square {
+    margin-left:10px;
+   margin-top:5px;
+   width: 100px; 
+   height: 120px;  
+   min-width:10%;
+   min-height:70%; 
+   background:url('../img/mhrd.png')  no-repeat center;
+   -moz-box-shadow:3.5px 3.5px 5px #000000;
+-webkit-box-shadow:3.5px 3.5px 5px #000000;
+box-shadow:3.5px 3.5px 5px #000000;
+background-color:#9bbb59;
+border-radius:5px;
+-moz-border-radius:5px;
+-webkit-border-radius:5px; 
+}
+.ui-triangle-down { 
+	
+	width: 0;    
+	height: 0;	
+	border-left: 71px solid transparent; 
+	border-right: 71px solid transparent; 
+	border-top: 71px solid #9bbb59; 
+	}
+.ui-shape-text {
+    font-size: 26px; 
+    text-align: center;
+    font-family: Calibri;
+    font-weight: bold;
+    color: #e46c0a;
+}
+/* end Clicker v3 logo*/
+
+/* start logout btn with logout shape*/
+.ui-logoutshape { 
+	font-size: 4em; 
+	display: inline-block; 
+	width: 0.4em; 
+	height: 0.4em; 
+	border: 0.1em solid #e46c0a;
+	 position: relative; border-radius: 0.35em; 
+}
+.ui-logoutshape::before { 
+	 content: ""; 
+	 display: inline-block; 
+	 position: absolute; 
+	 right: -0.01em; 
+	 bottom: 0.16em; 
+	 border-width: 0; 
+	 background: #e46c0a; 
+	 width: 0.42em; 
+	 height: 0.08em; 
+	 -webkit-transform: rotate(45deg); 
+	 -moz-transform: rotate(45deg); 
+	 -ms-transform: rotate(45deg); 
+	 -o-transform: rotate(45deg);
+ } 
+
+.ui-logoutbutton{
+	background:#9bbb59;
+	/*border: solid #404040;*/
+	width:50px; height:50px; margin:30px 0 0 -80px;
+
+	border-radius:10px; 
+	
+}
+/* end logout btn with logout shape*/
+
+
+
+/*end menu button with menu button text*/
+
+/*.............Menufooter.jsp............*/
+.ui-menu-footer{
+	width:1040px;
+	height:60px;
+	background-color: #404040;
+	/*margin: 480px 0 0 -47px;*/
+	margin:auto;
+	margin-top:610px;
+	border-radius:10px;
+}
+.ui-menu-footer-text{
+	 font-size: 12px; 
+    text-align: center;
+    font-family: Calibri;
+    font-weight: normal;
+    color: #ffffff;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

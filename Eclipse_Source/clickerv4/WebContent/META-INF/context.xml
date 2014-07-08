@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/aakashdb" auth="Container"
+        type="javax.sql.DataSource" username="clicker_ui" password="clicker_ui"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/aakashclicker"
+        maxActive="500" maxIdle="100" />
+    <!-- Specify a JDBC datasource -->
+    <Resource name="jdbc/remotedb" auth="Container"
+        type="javax.sql.DataSource" username="clicker_ui" password="clicker_ui"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/remoteaakashclicker"
+        maxActive="500" maxIdle="100" />     
+</Context>

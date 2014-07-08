@@ -1,0 +1,67 @@
+/* sachin  */
+.form-4 input[type=text],
+
+.form-4 input[type=password] {
+    /* Size and position */
+    width: 180px;
+    margin:3px 0 0 0px;
+    padding: 10px 4px 8px 2px;
+    margin-bottom: 6px;
+  
+    
+
+    /* Styles */
+    border: 1px solid #4e3043; /* Fallback */
+    border: 1px solid rgba(78,48,67, 0.8);
+    background: rgba(0,0,0,0.15);
+    border-radius: 5px;
+    box-shadow: 
+        0 1px 0 rgba(255,255,255,0.2), 
+        inset 0 1px 1px rgba(0,0,0,0.1);
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+
+    /* Font styles */
+    font-family: 'Raleway', 'Lato', Arial, sans-serif;
+    color: #fff;
+    font-size: 13px;
+}
+
+
+
+.form-4 input[type=text]:hover,
+
+.form-4 input[type=password]:hover {
+    border-color: #C0C0C0;
+}
+
+.form-4 input[type=text]:focus,
+.form-4 input[type=password]:focus,
+
+.form-4 input[type=submit]:focus {
+    box-shadow: 
+        0 2px 0 rgba(255,255,255,0.2), 
+        inset 0 10px 10px rgba(0,0,0,0.3),
+        0 0 0 5px rgba(255,255,255,0.15);
+    
+}
+
+/* Fallback */
+.no-boxshadow .form-4 input[type=text]:focus,
+
+.no-boxshadow .form-4 input[type=password]:focus {
+    outline: 1px solid white;
+}
+
+.form-4 input::-webkit-input-placeholder {
+    color: rgba(37,21,26,0.5);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.15);
+text-align:center;
+}
+
+
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ChatQuizResultPercentage_subreport" language="groovy" pageWidth="555" pageHeight="300" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Cid" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="session" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT count(*) as Numbers, if(sc.StudentID in (select StudentID from attendance where Date(AttendanceTS) = $P{date} and Session=$P{session} and CourseID = $P{Cid}), 'Present', 'Absent') as Attendance FROM studentcourse sc where CourseID = $P{Cid} group by Attendance]]>
+	</queryString>
+	<field name="Numbers" class="java.lang.Long"/>
+	<field name="Attendance" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageFooter>
+		<band height="268" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="63" y="14" width="412" height="236"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Attendance}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Numbers}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Numbers}]]></valueExpression>
+						<labelExpression><![CDATA[$F{Attendance}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</pageFooter>
+</jasperReport>

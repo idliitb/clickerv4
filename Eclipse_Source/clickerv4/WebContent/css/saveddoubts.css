@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+.doubtWrap {
+	margin-top: 10px;
+	padding-top: 5px;
+	width: 700px;
+	height: 105px;
+}
+
+.doubtTextDiv {
+	text-align: left;
+	margin-left: 5px;
+	width: 400px;
+	height: 70px;
+	overflow: auto;
+	float: left;
+	background-color: #9bbb59;
+	border-radius: 3px;
+	opacity: 0.9;
+	color: white;
+}
+
+.studentInfo {
+	margin-right: 5px;
+	width: 285px;
+	height: 70px;
+	float: right;
+	background-color: #9bbb59;
+	border-radius: 3px;
+	opacity: 0.9;
+	color: white;
+}
+
+.emailDiv {
+	width: 400px;
+	float: left;
+	margin-left: 5px;
+	background-color: gray;
+	margin-top: 3px;
+	height: 25px;
+	border-radius: 3px;
+	opacity: 0.9;
+	color: white;
+	text-align: left;
+	display: table;
+}
+
+.timeStampDiv {
+	width: 285px;
+	float: right;
+	background-color:#9bbb59;
+	margin-right: 5px;
+	margin-top: 3px;
+	height: 25px;
+	border-radius: 3px;
+	opacity: 0.9;
+	color: white;
+}
+
+.checks {
+	display: table-cell;
+	float: right;
+	margin-right: 5px;
+	margin-top: 3px;
+}
+
+.buttons {
+	margin-top: 15px;
+	background-color:#e46c0a;
+	color: #ffffff;
+	margin-right:10px;
+	border-radius:8px;
+	min-width:0.6in; 
+	min-height:0.4in;
+	margin-top:15px;
+}
