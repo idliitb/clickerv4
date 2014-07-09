@@ -1,4 +1,4 @@
-<!-- Author: Kirti, Harshavardhan 
+<!-- Author: Kirti, Harshavardhan, Clicker Team, IDL lab, IIT Bombay 
 This page is used for collecting responses of poll from hash.
 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -22,8 +22,8 @@ String pollquestion= request.getParameter("pollquestion");
 String launchtime1=Global.polljsonobject.get(courseId).getlaunchtime();
 // removing pollobject (poll question) from database, so no student can access poll question after time for polling is over
 //Global.polljsonobject.remove(courseId); 
-/*pollresponsecount linear-array of size 2--->a[0] stores  total count for Yes options selected by student and a[1]
-stores count for No options selected by student*/
+/*pollresponsecount linear-array of size 3--->a[0] stores  total count for Yes options selected by student and a[1]
+stores count for No options selected by student and a[2] states the blank responses*/
 double yes_percent=0;
 double no_percent=0;
 double noresponse_percent=0;

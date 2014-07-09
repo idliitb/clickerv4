@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import clicker.v4.databaseconn.DatabaseConnection;
-
+//Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
 /**
  * Servlet implementation class EmailSetUp
  */

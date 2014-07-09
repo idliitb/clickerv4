@@ -1,4 +1,4 @@
-//  Author: Kirti
+//Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay 
 package clicker.v4.poll;
 
 public class RemoteParticipant {

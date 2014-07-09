@@ -1,4 +1,6 @@
-
+<!-- Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for forgot password.
+ -->
 <%@ page import="clicker.v4.login.*" %>
 <%@ page import ="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

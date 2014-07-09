@@ -1,4 +1,4 @@
-
+//Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay 
 
 function checkLoginStatus() {
 	window.history.forward();

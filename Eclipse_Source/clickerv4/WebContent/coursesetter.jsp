@@ -1,3 +1,6 @@
+<!-- Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for setting course.
+ -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

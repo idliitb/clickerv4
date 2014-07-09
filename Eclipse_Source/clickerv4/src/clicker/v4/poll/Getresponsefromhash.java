@@ -1,4 +1,4 @@
-//  Author: Kirti, Harshavardhan
+//  Author: Kirti, Harshavardhan Clicker Team, IDL LAB ,IIT Bombay.
 package clicker.v4.poll;
 
 

@@ -1,3 +1,6 @@
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is for admin to create Gmail Id for particular institute.This id is further used for sending temporary password mail to user in case of forgot password
+-->
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
+//Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
 /**
  * Servlet implementation class ForgotPassword
  */

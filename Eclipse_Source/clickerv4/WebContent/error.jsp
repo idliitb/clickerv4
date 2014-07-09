@@ -1,4 +1,4 @@
-<%-- Author :  Dipti.G --%>
+<%-- Author : kirti, Dipti.G, Clicker Team, IDL LAB ,IIT Bombay--%>
 <%@ page language="java" isErrorPage="true"	%>
 <% 
 String message = (request.getAttribute("Error")).toString();

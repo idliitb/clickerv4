@@ -1,5 +1,5 @@
 /*
- *  Author: Dipti , Rajavel
+ *  Author:Kirti, Dipti , Rajavel
  * This Java Script file is used for POLL validation
  */
 String.prototype.trim = function() {

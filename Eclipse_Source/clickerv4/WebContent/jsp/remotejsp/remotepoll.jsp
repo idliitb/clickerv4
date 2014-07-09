@@ -1,4 +1,6 @@
-<!-- Author: Kirti -->
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is used for displaying timer and poll question at remote centre.
+-->
 <%@ page import="clicker.v4.global.Global" %>
 <%@ page import="clicker.v4.poll.*"  %>
 <%@page import="clicker.v4.rest.*"%>

@@ -1,4 +1,6 @@
-<!-- Author: Kirti-->
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is used for creating response json that to be sent to main centre. 
+-->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <%@ page import="clicker.v4.global.Global" %>

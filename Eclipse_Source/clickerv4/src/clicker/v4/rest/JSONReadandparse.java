@@ -202,7 +202,7 @@ public class JSONReadandparse {
 	 * This is used to get the normal quiz and instant quiz from main server using REST
 	 */
 
-	public  Quiz readQuizJsonFromUrl(String MainCenterIP,String workshopID, String QuizType, String coordinatorID,String centerId) throws IOException, ParseException {
+	public  Quiz readQuizJsonFromUrl(String MainCenterIP,String workshopID, String QuizType, String coordinatorID,String centerId) throws IOException, ParseException, NumberFormatException, SQLException {
 		String url="http://"+MainCenterIP+"/clicker/rest/quiz/remotequiz/"+workshopID+"/"+centerId;
 		Gson gson = new Gson();
 		InputStream is = new URL(url).openStream();

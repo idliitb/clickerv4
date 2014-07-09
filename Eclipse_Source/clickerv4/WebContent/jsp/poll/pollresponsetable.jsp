@@ -1,3 +1,6 @@
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is used for displaying list of students on click of responses of poll.
+-->
 <%@page import="clicker.v4.poll.*"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

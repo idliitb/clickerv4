@@ -1,4 +1,4 @@
-<!-- Author: Kirti 
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay
 This page is used for launching the poll.
 -->
 <%@ page import="clicker.v4.global.Global" %>

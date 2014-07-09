@@ -1,4 +1,4 @@
-<!-- author kirti -->
+<!-- Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay -->
 <%@ page import="clicker.v4.login.*" %>
 <%@ page import ="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

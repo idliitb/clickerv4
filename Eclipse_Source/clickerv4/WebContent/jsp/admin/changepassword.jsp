@@ -1,4 +1,6 @@
-<!-- author kirti -->
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is used for changing the login password of user.
+-->
 <%@ page import="clicker.v4.login.*" %>
 <%@ page import ="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

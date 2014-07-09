@@ -1,5 +1,5 @@
-<!-- Author: Kirti 
-This file is used for displaying timer and results of poll.
+<!-- Author: Kirti ,Clicker Team, IDL lab, IIT Bombay 
+* This file is used for displaying timer and results of poll.
 -->
 <%--
 @Credit - Highcharts
