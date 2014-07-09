@@ -1,4 +1,4 @@
-<%--@author Dipti, clicker lab
+<%--@author Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 This jsp file is used for display instant response chart 
 --%>
 <%@page import="clicker.v4.remote.RemoteQuizResponseHelper"%>

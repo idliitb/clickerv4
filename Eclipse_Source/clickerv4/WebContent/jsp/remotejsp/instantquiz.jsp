@@ -1,4 +1,4 @@
-<!-- Author: Rajavel
+<!-- Author: Rajavel,Dipti from Clicker Team, IDL LAB ,IIT Bombay
 	Receive the quiz json from main server and display the questions
 -->
 
@@ -20,23 +20,6 @@
 <script src="../../js/remotequiz.js"></script>
 <script src="../../js/jquery-1.9.1.js"></script>	
 <title>Remote Instant Quiz</title>
-
-<script type="text/javascript">
-
-function isQuizEnd(){
-	$(document).ready(function() {
-	    setInterval(function() {
-	    	 jQuery.get("../../jsp/remotejsp/remoteListener.jsp", function (response) {
-	        	if(response.trim()!=null){
-	            	if(response.trim()=="nopollnoquiz"){
-	            		endQuiz('instantquiz');         		
-	                }
-	        	}
-	    	});
-	    }, 1000);
-	});
-}
-</script>
 </head>    
 <%
 String CoordinatorID = (String) session.getAttribute("CoordinatorID");
@@ -51,9 +34,6 @@ String WorkshopID=(String) session.getAttribute("WorkshopID");
 String Coordinator=(String) session.getAttribute("CoordinatorID");
 RemoteDBHelper rdh= new RemoteDBHelper();
 String MainCenterURL=(String)session.getAttribute("MainCenterURL");
-RemoteQuizResponseHelper rqrh= new RemoteQuizResponseHelper();
-rqrh.ResendJsonForLateResponse(MainCenterURL);
-rqrh.createAndReSendIQResponseJsonToMC(MainCenterURL);
 ArrayList<String> storeall = new AddRemoteCenter( ).getAll( );
 int centerid = Integer.parseInt(storeall.get(0));
 JSONReadandparse reader = new JSONReadandparse();
@@ -69,7 +49,6 @@ int QuizID=json.getQuizId();
 
 <body onload="startTimer('<%=QuizType%>')"  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 <%@ include file= "../../jsp/includes/remotemenuheader.jsp" %>
-<script type="text/javascript">isQuizEnd()</script>
 <input type="hidden" style="width: 30px" id="minutes" value="<%=mins%>" /> 
 <input type="hidden" style="width: 30px"id="seconds" value="<%=sec %>"/>
 	<table class="table1">
@@ -113,22 +92,6 @@ int QuizID=json.getQuizId();
 			</div>
 		</td></tr>
 	</table>
-	<%
-		/*
-		 * This is to verify that quiz json is received properly
-		 */
-		String mcQuizRecordId=Integer.toString(Global.remotemcquizrecordids.get(WorkshopID));;
-		System.out.println(":::::value of question list ::::"+json.getquestions().size());
-		if(json.getquestions().size()!=0){
-			String RCStatus="OK";
-			System.out.println("Quiz is received properly");
-			String status=reader.updateStatusReceivedQuiz(MainCenterURL,Integer.toString(centerid),mcQuizRecordId,WorkshopID,RCStatus);
-			System.out.println("This is the status received from maincenter :::"+status);
-		}else{
-			System.out.println("Quiz is not received properly");
-			
-		}
-		%>
 	<div id="tempdata" style="display: none;"></div>
 	<div style="margin-top:-600px;">
 		<%@ include file= "../../jsp/includes/menufooter.jsp" %>

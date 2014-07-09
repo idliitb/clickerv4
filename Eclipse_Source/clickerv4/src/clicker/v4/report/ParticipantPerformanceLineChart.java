@@ -27,6 +27,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import clicker.v4.databaseconn.DatabaseConnection;
 
 /**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class ParticipantPerformanceLineChart
  */
 public class ParticipantPerformanceLineChart extends HttpServlet {

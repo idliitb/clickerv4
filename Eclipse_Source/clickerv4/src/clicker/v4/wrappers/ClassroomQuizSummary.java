@@ -1,5 +1,9 @@
 package clicker.v4.wrappers;
-
+/**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ * Storing the class room quiz summary for sending to IITB 
+ */
 public class ClassroomQuizSummary {
 	private String instName;
 	private String courseID;

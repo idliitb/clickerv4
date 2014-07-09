@@ -27,7 +27,7 @@ import net.sf.jasperreports.engine.JasperReport;
 //@WebServlet("/DownloadPDF")
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This file is used to download the jasper report as PDF
  */
 public class DownloadPDF extends HttpServlet {

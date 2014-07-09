@@ -5,10 +5,11 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import clicker.v4.global.Global;
+import clicker.v4.remote.RemoteQuizResponseHelper;
 import clicker.v4.rest.JSONReadandparse;
 /**
  * 
- * @author rajavel, Dipti
+ * @author Rajavel,Dipti from Clicker Team, IDL LAB ,IIT Bombay
  * This class is used for session listener
  */
 public class ClickerSessionListener implements HttpSessionListener {
@@ -41,8 +42,13 @@ public class ClickerSessionListener implements HttpSessionListener {
 			System.out.println("Session is Destroyed :" + session.getAttribute("CoordinatorID").toString());
 		}
 		if(session.getAttribute("WorkshopID")!=null){
+			String MainCenterURL=(String)session.getAttribute("MainCenterURL");
 			System.out.println("Active Workshop is removed : "+ session.getAttribute("WorkshopID").toString());
-			Global.activeworkshop.remove(session.getAttribute("WorkshopID").toString());		
+			RemoteQuizResponseHelper rqrh= new RemoteQuizResponseHelper();
+			rqrh.ResendJsonForLateResponse(MainCenterURL);
+			rqrh.createAndReSendIQResponseJsonToMC(MainCenterURL);
+			Global.activeworkshop.remove(session.getAttribute("WorkshopID").toString());
+
 		}
 	}
 

@@ -1,3 +1,6 @@
+<%--@author rajavel, Clicker Team, IDL Lab - IIT Bombay
+	This jsp file is used for helping the quiz dashboard in remote mode
+--%>
 <%@page import="clicker.v4.report.RemoteReportHelper"%>
 <%
 String helpContent = request.getParameter("helpcontent");

@@ -13,7 +13,7 @@ import clicker.v4.wrappers.QuizMark;
 import clicker.v4.wrappers.QuizMarkList;
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This class act as report helper
  */
 public class RemoteReportHelper {

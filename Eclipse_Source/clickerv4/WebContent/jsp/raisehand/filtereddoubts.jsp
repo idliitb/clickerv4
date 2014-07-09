@@ -1,4 +1,4 @@
-<!--Author : Dipti.G 
+<!--Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 
 This file create a UI to show doubt which are saved in database after search and date value are selected
 

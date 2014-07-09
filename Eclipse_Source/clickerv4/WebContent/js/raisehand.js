@@ -1,3 +1,7 @@
+/*
+ * Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
+ */
+
 function loadPendingDoubts(status)
 {
 	 document.getElementById("raiseques").innerHTML = "";

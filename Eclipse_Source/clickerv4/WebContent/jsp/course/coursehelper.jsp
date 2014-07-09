@@ -1,4 +1,4 @@
-<%--@author rajavel 
+<%--@author rajavel, Clicker Team, IDL Lab - IIT Bombay  
 This is helper file for course related information
 --%>
 

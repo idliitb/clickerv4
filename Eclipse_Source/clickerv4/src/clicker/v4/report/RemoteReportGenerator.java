@@ -31,7 +31,7 @@ import clicker.v4.databaseconn.DatabaseConnection;
 
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This class is used to generate jasper report as HTML
  */
 public class RemoteReportGenerator extends HttpServlet {

@@ -1,5 +1,5 @@
-<%--@author rajavel 
-This jsp file is used for quiz dashboard
+<%--@author rajavel, Clicker Team, IDL Lab - IIT Bombay
+This jsp file is used for quiz dashboard of HOD
 --%>
 <%--
 @Credit - Highcharts

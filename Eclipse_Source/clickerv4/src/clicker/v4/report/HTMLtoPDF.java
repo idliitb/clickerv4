@@ -12,10 +12,12 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.DocumentException;
 
+//@WebServlet("/HTMLtoPDF")
 /**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class HTMLtoPDF
  */
-//@WebServlet("/HTMLtoPDF")
 public class HTMLtoPDF extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

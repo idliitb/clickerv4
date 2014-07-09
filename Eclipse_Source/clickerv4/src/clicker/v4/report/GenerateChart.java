@@ -26,7 +26,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class GenerateChart
  */
 //@WebServlet("/Chart")

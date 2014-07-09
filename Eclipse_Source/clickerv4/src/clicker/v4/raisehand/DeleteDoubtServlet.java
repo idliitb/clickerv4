@@ -1,5 +1,5 @@
 /*
- * Author : Dipti.G
+ * Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
  * 
  * this servlet helps to delete the doubt from database 
  */

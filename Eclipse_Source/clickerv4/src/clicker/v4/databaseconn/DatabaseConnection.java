@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 /**
  * 
- * @author rajavel
+ * @author rajavel, Kriti Clicker Team, IDL Lab - IIT Bombay
  * This class gives database connection from connection pool
  */
 public class DatabaseConnection {

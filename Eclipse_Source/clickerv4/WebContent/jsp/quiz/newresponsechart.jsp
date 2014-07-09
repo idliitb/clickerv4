@@ -1,5 +1,9 @@
-<%--@author Dipti ,Clicker Lab
+<%--@author Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 This jsp file is used to display quiz response chart after end of quiz for normal quiz
+--%>
+<%--
+@Credit - Highcharts
+	http://api.highcharts.com/highcharts
 --%>
 
 <%@page import="clicker.v4.quiz.QuizResponseHelper"%>

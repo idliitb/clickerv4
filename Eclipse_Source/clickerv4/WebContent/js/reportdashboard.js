@@ -1,5 +1,5 @@
 /*
- * Author : Rajavel, Clicker Lab
+ * Author : Rajavel, Clicker Team, IDL Lab - IIT Bombay  
  * This Java Script file is used for report information
  */
 

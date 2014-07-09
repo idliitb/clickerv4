@@ -2,7 +2,7 @@ package clicker.v4.wrappers;
 
 /**
  * Wrapper class for course
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class Course {

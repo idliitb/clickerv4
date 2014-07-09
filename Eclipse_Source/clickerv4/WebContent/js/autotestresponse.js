@@ -1,5 +1,5 @@
 /*
- * Author : Rajavel, Clicker Lab
+ * Author : Rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This Java Script file is used for instant quiz response
  */
 
@@ -36,19 +36,13 @@ function getNewAutoTestChartMQ(instrid, questinids, charttype){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
+			//var quiz = xmlhttp.responseText;
+			//var quizJson = JSON.parse(quiz);
 			var images="";
-			for(var i=0;i<(questions.length-1);i++){
-				//images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				//for(var j=0;j<quizJson.questions[i].options.length;j++){
-					//images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				//}
-				//images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
+			for(var i=0;i<(questions.length-1);i++){				
 				images += "<img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
 			}
-			document.getElementById("quizresponse").innerHTML = images;	
-			//updateChart(instrid, questinids, charttype);	
+			document.getElementById("quizresponse").innerHTML = images;
 		}
 	};
 	xmlhttp.open("GET", "../../RemoteGenerateResponseChart?quiztype=autotest&charttype="+charttype, false);
@@ -62,16 +56,10 @@ function getAutoTestChartMQ(instrid, questinids, charttype){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			//alert();
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
+			//var quiz = xmlhttp.responseText;
+			//var quizJson = JSON.parse(quiz);
 			var images="";
 			for(var i=0;i<(questions.length-1);i++){
-				//images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				//for(var j=0;j<quizJson.questions[i].options.length;j++){
-					//images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				//}
-				//images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
 				images += "<img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
 			}
 			document.getElementById("quizresponse").innerHTML = images;	
@@ -115,7 +103,7 @@ function sendResponse(instrid, questinids){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200)
 		{		
-			var sendstatus = xmlhttp.responseText;		
+			xmlhttp.responseText;		
 			getAutoTestChartMQ(instrid, questinids, 'withoutcorrect');
 		}
 	};
@@ -141,18 +129,21 @@ function showResponsesDialog(QuestionID) {
 
 function readMainCenter()
 {
+	var listenerInterval=1;
 	$(document).ready(function() {
-	    setInterval(function() {
+		listenerInterval = setInterval(function() {
 	    	 jQuery.get("remoteListener.jsp", function (response) {
 	        	if(response.trim()!=null){
 	        		if(response.trim()=="quizlaunch"){
+	        			clearInterval(listenerInterval);
 	            		window.location.href="remotequiz.jsp";
 	                	}
 	        		else if(response.trim()=="launchinstantquiz"){
+	        			clearInterval(listenerInterval);
 	            		window.location.href="instantquiz.jsp";
 	        		}
 	        	}
 	    	});
-	    }, 500);
+	    }, 1000);
 	});
 }

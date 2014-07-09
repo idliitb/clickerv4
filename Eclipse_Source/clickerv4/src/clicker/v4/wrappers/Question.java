@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "id", "text","type","options","correctans"})
 /**
  * Wrapper class for Question 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class Question {

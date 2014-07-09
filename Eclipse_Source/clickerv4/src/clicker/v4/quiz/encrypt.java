@@ -3,7 +3,11 @@ package clicker.v4.quiz;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.binary.Base64;
-
+/**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ *
+ */
 public class encrypt {
 
 	/**

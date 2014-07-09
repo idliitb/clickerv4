@@ -1,4 +1,4 @@
-<!-- Author: Rajavel
+<!-- Author: rajavel, Clicker Team, IDL Lab - IIT Bombay
 	Receive the auto test quiz json from main server and display the questions
 -->
 
@@ -22,19 +22,22 @@
 <script>
 function readMainCenter1()
 {
+	var listenerInterval=1;
 	$(document).ready(function() {
-	    setInterval(function() {
+		listenerInterval=setInterval(function() {
 	    	 jQuery.get("remoteListener.jsp", function (response) {
 	        	if(response.trim()!=null){
 	        		if(response.trim()=="quizlaunch"){
+	        			clearInterval(listenerInterval);
 	            		window.location.href="remotequiz.jsp";
 	                	}
 	        		else if(response.trim()=="launchinstantquiz"){
+	        			clearInterval(listenerInterval);
 	            		window.location.href="instantquiz.jsp";
 	        		}
 	        	}
 	    	});
-	    }, 500);
+	    }, 1000);
 	});
 }</script>
 </head>    

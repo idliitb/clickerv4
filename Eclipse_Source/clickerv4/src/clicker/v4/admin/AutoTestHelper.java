@@ -9,8 +9,9 @@ import clicker.v4.databaseconn.DatabaseConnection;
 
 /**
  * 
- * @author rajavel
- *
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ * This Class is used for Helper class of Auto test
+ * 
  */
 public class AutoTestHelper {
 	public String getMainCenterURL(String centername){

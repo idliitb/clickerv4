@@ -1,7 +1,11 @@
 package clicker.v4.wrappers;
 
 import java.util.ArrayList;
-
+/**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ * Storing the Instant Quiz responses
+ */
 public class InstantQuizResponse {
 	private int quizrecordid;
 	private String centerid;

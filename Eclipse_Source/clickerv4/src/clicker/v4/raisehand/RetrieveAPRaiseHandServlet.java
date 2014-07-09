@@ -1,5 +1,5 @@
 /*
- * Author : Dipti.G
+ * Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
  * 
  * This servlet helps to retrive active and pending doubts of that particular course
  */

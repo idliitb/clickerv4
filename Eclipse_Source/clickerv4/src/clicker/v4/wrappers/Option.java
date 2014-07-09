@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(namespace = "quiz.Question")
 /**
  * Wrapper class for Option
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class Option {

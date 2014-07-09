@@ -1,4 +1,4 @@
-<!-- Author: Dipti.G
+<!-- Author: Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 
 This is used to display main raise hand module with list of active and pending doubt for that course
  -->

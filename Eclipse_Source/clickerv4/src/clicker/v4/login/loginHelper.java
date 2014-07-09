@@ -1,4 +1,6 @@
- //Author: Kirti, Dipti
+ /*
+  * Author: Kirti, Dipti  from Clicker Team, IDL LAB -IIT Bombay
+  */
 package clicker.v4.login;
 
 import java.sql.*;

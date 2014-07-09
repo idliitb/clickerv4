@@ -19,85 +19,36 @@ function getXMLhttp() {
 		}
 	}
 }
-var reloadinstantchartmqcount=0;
-var reloadinstantchartcount=0;
-function updateInstantChartMQ(instrid, questinids, charttype){
-	reloadinstantchart=setInterval(function(){getNewInstantChartMQ(instrid, questinids, charttype);},5000);
-}
 
-function getNewInstantChartMQ(instrid, questinids, charttype){
-	reloadinstantchartmqcount++;
-	if(reloadinstantchartmqcount>=2){
-		clearInterval(reloadinstantchart);
-	}
-	getXMLhttp();
-	var questions = questinids.split("@");
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
-			var images="";
-			for(var i=0;i<(questions.length-1);i++){
-				//images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				//for(var j=0;j<quizJson.questions[i].options.length;j++){
-					//images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				//}
-				//images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-				images += "<img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-			}
-			document.getElementById("quizresponse").innerHTML = images;	
-			//updateChart(instrid, questinids, charttype);	
-		}
-	};
-	xmlhttp.open("GET", "../../RemoteGenerateResponseChart?quiztype=remoteinstantquizmq&charttype="+charttype, false);
-	xmlhttp.send();
-}
 
-function getInstantChartMQ(instrid, questinids, charttype){
-	getXMLhttp();
-	var questions = questinids.split("@");
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			//alert();
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
-			var images="";
-			for(var i=0;i<(questions.length-1);i++){
-				//images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				//for(var j=0;j<quizJson.questions[i].options.length;j++){
-					//images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				//}
-				//images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-				images += "<img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-			}
-			document.getElementById("quizresponse").innerHTML = images;	
-			updateInstantChartMQ(instrid, questinids, charttype);
-		}
-	};
-	xmlhttp.open("GET", "../../RemoteGenerateResponseChart?quiztype=remoteinstantquizmq&charttype="+charttype, false);
-	xmlhttp.send();
-}
+//function used for getting reponse chart
+
 var responsecount=0;
 var idlesec = 0;
+
+function showResponsesDialog(QuestionID) {	
+	getXMLhttp();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			document.getElementById("ResponseDialog").innerHTML = xmlhttp.responseText;
+			document.getElementById("ResponseDialog").style.visibility = 'visible';
+			document.getElementById("ResponseDialog").title ="Responses";
+			$("#ResponseDialog").dialog({height: 400, width: 600, modal: true});
+		}
+	};	
+	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=responseDialog&quiztype=instantquizmq&questionid="+QuestionID, true);
+	xmlhttp.send();
+}
 
 function checkResponse(instrid, questinids, isSent,rightcount,wrongcount,noresponsecount){
 	after20SecCheckNewQuizAvailable();
 	if(isSent == "no"){
 		resposeidlecheck=setInterval(function(){checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount);},2000);
 	}else{
-			overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid);
+		overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid);
 		
-		//Below is earlier code
-		
-		//if (document.getElementById('showCorrect').checked) {
-	    //     getInstantChartMQ(instrid, questinids, 'withcorrect');
-		//}else{
-		//	getInstantChartMQ(instrid, questinids, 'withoutcorrect');
-		//}
 	}
 }
 
@@ -107,7 +58,7 @@ function after20SecCheckNewQuizAvailable(){
 
 function checkNewQuizAvailable(){
 	clearInterval(calAfter20Sec);
-	InsideResponseReadForQuizPoll();
+	InsideResponseReadForQuizPoll(); // method is defined in remotereport.js
 }
 
 function checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount){
@@ -132,6 +83,7 @@ function checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount){
 	xmlhttp.send();
 }
 
+
 function sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount){
 	getXMLhttp();
 	xmlhttp.onreadystatechange=function()
@@ -140,39 +92,12 @@ function sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount)
 		{		
 			var sendstatus = xmlhttp.responseText;		
 			overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid);
-			//getInstantChartMQ(instrid, questinids, 'withoutcorrect');
 		}
 	};
 	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=sendinstantquizresponse", true);
 	xmlhttp.send();
 }
 
-function showInstantCorrectMQ(instrid, questinids, check){
-	document.getElementById("quizresponse").innerHTML = "";
-	clearInterval(reloadinstantchart);
-	if(check.checked){				
-		getInstantChartMQ(instrid, questinids, "withcorrect");
-	}
-	else{
-		getInstantChartMQ(instrid, questinids, "withoutcorrect");
-	}
-}
-
-function showResponsesDialog(QuestionID) {	
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			document.getElementById("ResponseDialog").innerHTML = xmlhttp.responseText;
-			document.getElementById("ResponseDialog").style.visibility = 'visible';
-			document.getElementById("ResponseDialog").title ="Responses";
-			$("#ResponseDialog").dialog({height: 400, width: 600, modal: true});
-		}
-	};	
-	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=responseDialog&quiztype=instantquizmq&questionid="+QuestionID, true);
-	xmlhttp.send();
-}
 
 //Highchart related javascript function
 

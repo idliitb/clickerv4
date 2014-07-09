@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(propOrder = { "courseId","launchtime","currenttime","quizId","quizrecordId","quizTime", "questions","notShuffle"})
 /**
  *  Wrapper class for Quiz
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class Quiz {

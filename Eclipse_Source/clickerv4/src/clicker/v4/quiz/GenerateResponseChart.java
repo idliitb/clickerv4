@@ -39,7 +39,7 @@ import clicker.v4.wrappers.Quiz;
 //@WebServlet("/generateResponseChart")
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This Servlet generates the chart for response
  */
 public class GenerateResponseChart extends HttpServlet {

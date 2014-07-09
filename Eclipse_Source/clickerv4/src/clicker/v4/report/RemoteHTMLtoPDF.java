@@ -14,7 +14,7 @@ import com.lowagie.text.DocumentException;
 
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class RemoteHTMLtoPDF
  */
 public class RemoteHTMLtoPDF extends HttpServlet {

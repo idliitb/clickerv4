@@ -1,7 +1,7 @@
 package clicker.v4.wrappers;
 /**
  *  Wrapper class for Quiz Mark
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class QuizMark {

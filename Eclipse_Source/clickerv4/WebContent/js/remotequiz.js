@@ -1,3 +1,7 @@
+/*
+ *  author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
+ */
+
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 };
@@ -36,7 +40,7 @@ $(document).ready(function() {
             	}           		
         	}
     	});
-    }, 500);
+    }, 1000);
 });
 }  
 
@@ -78,7 +82,7 @@ function InsideResponseReadForQuizPoll(){
 	            	}
 	        	}
 	    	});
-	    }, 500);
+	    }, 1000);
 	});
 }  
 

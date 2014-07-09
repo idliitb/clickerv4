@@ -35,7 +35,7 @@ import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 //@WebServlet("/Report")
 /**
  * 
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This class is used to generate jasper report as HTML
  */
 public class ReportGenerator extends HttpServlet {

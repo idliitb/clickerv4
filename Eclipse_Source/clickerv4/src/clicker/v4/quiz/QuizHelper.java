@@ -23,7 +23,7 @@ import clicker.v4.wrappers.Question;
 import clicker.v4.wrappers.Quiz;
 /**
  * 
- * @author rajavel
+ * @author rajavel, Kriti, Clicker Team, IDL Lab - IIT Bombay
  * This class file act as helper for conducting quiz
  */
 public class QuizHelper {

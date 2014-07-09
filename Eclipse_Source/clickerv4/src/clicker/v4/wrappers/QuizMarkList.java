@@ -3,7 +3,7 @@ package clicker.v4.wrappers;
 import java.util.ArrayList;
 /**
  *  Wrapper class for Quiz mark list
- * @author rajavel
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
 public class QuizMarkList {

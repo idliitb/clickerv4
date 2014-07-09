@@ -27,7 +27,7 @@ import org.jfree.chart.ChartUtilities;
 import clicker.v4.databaseconn.DatabaseConnection;
 
 /** 
- * @author rajavel
+ * @author rajavel@author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class StudentPerformanceLineChart
  */
 //studentPerformanceChart

@@ -26,13 +26,14 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import clicker.v4.global.Global;
 import clicker.v4.remote.RemoteQuizResponseHelper;
-import clicker.v4.remote.RemoteGenerateResponseChart.GreenRedBarRenderer;
 import clicker.v4.wrappers.Question;
 import clicker.v4.wrappers.Quiz;
 
 import com.google.gson.Gson;
 
 /**
+ * 
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * Servlet implementation class RemoteGenerateResponseChart
  */
 public class RemoteGenerateResponseChart extends HttpServlet {

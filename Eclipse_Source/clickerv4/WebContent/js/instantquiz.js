@@ -1,3 +1,7 @@
+/*
+ * Author : rajavel, Clicker Team, IDL Lab - IIT Bombay  
+ * This Java Script file is used for report information for HOD
+ */
 function displayQuestion(noofquestions){
 	var questionoptions ="";
 	for(var i=0;i<noofquestions;i++){

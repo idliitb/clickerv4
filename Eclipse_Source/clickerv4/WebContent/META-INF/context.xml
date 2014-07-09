@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- @Author : rajavel, Clicker Team, IDL Lab - IIT Bombay-->
 <Context>
     <!-- Specify a JDBC datasource -->
     <Resource name="jdbc/aakashdb" auth="Container"

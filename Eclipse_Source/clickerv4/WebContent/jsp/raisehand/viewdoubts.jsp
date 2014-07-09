@@ -1,5 +1,4 @@
-<!-- Author : Dipti.G 
-
+<!-- Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 this is used to display doubt text and time stamp of select student ID
  -->
 

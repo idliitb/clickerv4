@@ -1,4 +1,4 @@
-<%--@author rajavel 
+<%--@author rajavel, Clicker Team, IDL Lab - IIT Bombay  
 This jsp file is act as helper for quiz conduction
 --%>
 
@@ -100,14 +100,7 @@ else if(helpContent.equals("getquizresponsestatus")){
 }else if(helpContent.equals("quizdetail")){
 	QuizHelper quizHelper = new QuizHelper();
 	String tooltip_msg = request.getParameter("Quiz_msg").toString();	
-	//System.out.println("========================================================================>"+request.getParameter("Quiz_msg").toString());
-	//String quiz_date=quizHelper.getquiz_detail(tooltip_msg);	
-	//String Q_summ=quizHelper.get_quizsumm(tooltip_msg);	
 	String[] quiz_sum=tooltip_msg.split("~");
-	
-	//String no_of_question=quiz_sum[0];
-	//String total_no_of_marks=quiz_sum[1];
-	//String[] quizDateArray=null;
 	int Quiz_count=0;	
 	String html_tag= "<div style='height:auto ;width: 250px;border: solid;'>"+
 	"<table style='font-size: 12px;height: 100%;width: 100%;border: none;font-weight: bold;'>"+

@@ -1,6 +1,6 @@
 /*
- * Author : Rajavel, Clicker Lab
- * This Java Script file is used for report information
+ * Author : rajavel, Clicker Team, IDL Lab - IIT Bombay  
+ * This Java Script file is used for report information for principal
  */
 
 var xmlhttp;

@@ -1,5 +1,5 @@
 /*
- * Author : Dipti.G
+ * Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
  * 
  * This servlet helps to send save reply for doubt in database and update raise hand status as replied ie( setting '2')
  *  and redirect again instructor to raisehand main page. 

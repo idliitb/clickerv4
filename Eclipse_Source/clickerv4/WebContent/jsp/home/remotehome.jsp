@@ -1,6 +1,7 @@
 
 <!--  
-    Author       : Dipti
+    Author       : Dipti.G  
+    			   Clicker Team, IDL LAB ,IIT Bombay
  -->
 <%@page import="clicker.v4.util.*"%>
 <%@page import="clicker.v4.global.*"%>
@@ -91,9 +92,6 @@ else{
 	HashSet<String> activeparticipant = new HashSet<String>();
 	Global.activeparticipantlist.put(workshopID, activeparticipant);
 	System.out.println("Active Workshop List : " +  Global.activeworkshop);
-	RemoteQuizResponseHelper rqrh= new RemoteQuizResponseHelper();
-	rqrh.ResendJsonForLateResponse(MainCenterURL);
-	rqrh.createAndReSendIQResponseJsonToMC(MainCenterURL);
 	Status="ok";
 }
 

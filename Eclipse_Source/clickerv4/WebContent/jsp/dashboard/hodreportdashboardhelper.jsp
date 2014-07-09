@@ -1,3 +1,6 @@
+<%--@author rajavel, Clicker Team, IDL Lab - IIT Bombay
+	This jsp file is used for helping the quiz dashboard of HOD
+--%>
 <%@page import="clicker.v4.report.ReportHelper"%>
 <%
 String helpContent = request.getParameter("helpcontent");

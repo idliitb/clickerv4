@@ -1,4 +1,4 @@
-<%--@author dipti ,Clicker lab
+<%--@author Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
 This jsp file is used to display quiz response chart
 --%>
 

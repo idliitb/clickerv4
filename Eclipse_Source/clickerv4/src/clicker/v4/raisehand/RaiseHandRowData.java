@@ -1,5 +1,5 @@
 /*
- * Author : Dipti.G
+ * Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
  * 
  * This class is used to set and get the details of raise hand of selected student ID for displaying in JSP
  * 

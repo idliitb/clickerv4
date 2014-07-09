@@ -1,5 +1,5 @@
 /*
- * Author : Dipti.G
+ * Author : Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
  * 
  * This class is helper class where all database queries related to raisehand module are placed.
  * 
