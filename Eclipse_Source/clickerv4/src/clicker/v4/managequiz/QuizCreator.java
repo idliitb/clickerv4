@@ -13,11 +13,15 @@ import clicker.v4.databaseconn.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+/**
+ * 
+ * @author harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet creates the quiz and saves in the database
+ */
 
 public class QuizCreator extends HttpServlet {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Connection conn=null;
 	private PreparedStatement statement1=null;

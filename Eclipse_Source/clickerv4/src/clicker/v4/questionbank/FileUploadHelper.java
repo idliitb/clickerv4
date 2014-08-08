@@ -17,13 +17,10 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-
-
-
-
-
 /**
- * Servlet implementation class FileUploadHelper
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This Class gets the Servlet Context and the path of Uploaded XLS File. Servlet implementation class FileUploadHelper
  */
 //@WebServlet("/fileuploader")
 public class FileUploadHelper extends HttpServlet {

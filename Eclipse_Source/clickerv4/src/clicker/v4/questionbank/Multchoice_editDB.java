@@ -13,6 +13,9 @@ import java.sql.*;
 import clicker.v4.databaseconn.*;
 
 /**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet inserts the edited Multiple Choice Correct questions in the database.
  * Servlet implementation class Multchoice_editDB
  */
 //@WebServlet("/multchoice_editdb")

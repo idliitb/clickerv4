@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :for adding the remote coordinator
+ *  
+ */
 package clicker.v4.admin;
 
 import java.io.IOException;
@@ -67,7 +71,7 @@ public class AddRemoteCoordinator extends HttpServlet {
 			rs1 = ps1.executeQuery( );
 				while(rs1.next( ))
 					uid = rs1.getInt("uid");
-				System.out.println("======>"+uid);
+				
 				if (uid == 0)
 				{
 					System.out.println("User name Does not exit");

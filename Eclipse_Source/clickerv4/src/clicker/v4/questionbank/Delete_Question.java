@@ -10,7 +10,9 @@ import clicker.v4.databaseconn.*;
 import java.sql.*;
 
 /**
- * Servlet implementation class Delete_Question
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: Servlet implementation class Delete_Question. This Class Deletes a question.
  */
 //@WebServlet("/deletequestion")
 public class Delete_Question extends HttpServlet {

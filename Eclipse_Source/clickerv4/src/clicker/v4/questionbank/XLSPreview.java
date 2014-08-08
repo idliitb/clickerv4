@@ -1,5 +1,10 @@
 package clicker.v4.questionbank;
 
+/**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet displays the questions in XLS file before inserting them in the database.
+ */
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;

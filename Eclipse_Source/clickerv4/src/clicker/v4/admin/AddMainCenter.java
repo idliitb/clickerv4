@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :for adding,updating and deleting the main center  
+ *  
+ */
 package clicker.v4.admin;
 
 import java.io.IOException;
@@ -77,7 +81,7 @@ public class AddMainCenter extends HttpServlet {
 		}
 		}else if(flag.equalsIgnoreCase("DELETE"))
 		{
-		System.out.println("====================");
+		
 		
 		String query4 = "delete FROM maincenter where MainCenterID='"+ MainCenterID + "'";	
 		Statement st1;
@@ -94,14 +98,14 @@ public class AddMainCenter extends HttpServlet {
 		}
 		}else if(flag.equalsIgnoreCase("UPDATE"))
 		{
-		System.out.println("====================");
+	
 		try {
 
 			Statement st2 = con.createStatement();
 			System.out.println("update maincenter set MainCName='"+MainCentername+"',URL='"+mainurl+"' where MainCenterID='"+MainCenterID+"'");
 			String query3 = "update maincenter set MainCName='"+MainCentername+"',URL='"+mainurl+"' where MainCenterID='"+MainCenterID+"'";
 			int rs3 = st2.executeUpdate(query3);
-			System.out.println("==>" + rs3);
+			
 			dbcon.closeRemoteConnection(con);	
 
 		} catch (SQLException e) {

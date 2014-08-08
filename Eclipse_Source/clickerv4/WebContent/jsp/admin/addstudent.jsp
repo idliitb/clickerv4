@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you Press add student button in student page
+			 in local mode
+			 
+USE        : to add student
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

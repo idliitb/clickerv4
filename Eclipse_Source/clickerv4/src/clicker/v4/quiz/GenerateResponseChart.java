@@ -28,7 +28,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import com.google.gson.Gson;
 
 import clicker.v4.global.Global;
-import clicker.v4.remote.RemoteDBHelper;
 import clicker.v4.wrappers.Quiz;
 
 

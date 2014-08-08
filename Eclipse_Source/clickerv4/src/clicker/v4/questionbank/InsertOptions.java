@@ -4,7 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import clicker.v4.databaseconn.DatabaseConnection;
-
+/**
+ * 
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This Class inserts the options in the database.
+ */
 public class InsertOptions {
 	public void insertOption(String optionValue,
 			String optionDesc, int optionCorrectness, int LevelOfDifficulty,

@@ -36,7 +36,7 @@ public class encrypt {
 		return encryptedText;
 	}
 	
-  static   String decrypt(String cipher){
+  public   String decrypt(String cipher){
 		byte[] cipherText = Base64.decodeBase64(cipher.getBytes());
 		String decodedbase64 = "";
 		try {

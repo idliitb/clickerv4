@@ -990,6 +990,75 @@ public class ReportHelper {
 		return courseData.toString();
 	}
 	
+	public String compareCourses(String[] CourseIDs){
+		StringBuffer courseData = new StringBuffer();
+		Connection con = null;
+        PreparedStatement pst = null, pst1 = null, pst2 = null, pst3 = null;
+        ResultSet rs = null, rs1=null, rs2=null, rs3=null;      
+        DatabaseConnection dbcon = new DatabaseConnection();
+        try {
+        	con = dbcon.createDatabaseConnection();
+        	String NQavgStudPartDates = "Select Avg(StudentQCount), Group_Concat(distinct NQDate) from (SELECT qr.QuizRecordID, count(distinct qrq.StudentID)  as StudentQCount, Date(qr.TimeStamp) as NQdate FROM quizrecordquestion qrq, quizrecord qr, quiz q where q.CourseID=? and qr.QuizID=q.QuizID and qrq.QuizRecordID = qr.QuizRecordID group by qr.QuizRecordID order by qr.TimeStamp Desc) as sq";
+        	String NoofStudent = "select count(StudentID) from studentcourse where CourseID=?";
+        	String IQavgStudPartDates = "Select Avg(StudentQCount), Group_Concat(distinct IQDate) from (SELECT iq.IQuizID, count(distinct iqr.StudentID) as StudentQCount, Date(iq.QuizDate) as IQdate FROM instantquizresponsenew iqr, instantquiznew iq where iq.CourseID=? and iqr.IQuizID = iq.IQuizID group by iq.IQuizID order by iq.QuizDate Desc) as sq";
+        	String PollavgStudPartDates = "Select Avg(StudentQCount), Group_Concat(distinct PQDate) from (SELECT pq.PollID, count(distinct p.StudentID) as StudentQCount, Date(pq.TimeStamp) as PQdate FROM pollquestion pq, poll p where pq.CourseID=? and p.PollID = pq.PollID group by pq.PollID order by pq.TimeStamp Desc) as sq";
+        	for (int i=0;i<CourseIDs.length;i++){
+                pst = con.prepareStatement(NQavgStudPartDates);
+                pst.setString(1, CourseIDs[i]);
+                rs = pst.executeQuery();
+                pst1 = con.prepareStatement(NoofStudent);
+                pst1.setString(1, CourseIDs[i]);
+                rs1 = pst1.executeQuery();                
+                if(rs.next() && rs1.next()){
+                	Float f = rs.getFloat(1);
+                    if (rs.wasNull()) {
+                    	courseData.append(0.0 + "~!~" + rs.getString(2) + "@!@");
+                    } else {
+                    	courseData.append((f / rs1.getInt(1) *100) + "~!~" + rs.getString(2) + "@!@");
+                    }
+                    //courseData.append((rs.getFloat(1) / rs1.getInt(1) *100) + "~!~" + rs.getString(2) + "@!@" );
+                }
+                rs1.beforeFirst();
+                pst2 = con.prepareStatement(IQavgStudPartDates);
+                pst2.setString(1, CourseIDs[i]);
+                rs2 = pst2.executeQuery();
+                if(rs2.next() && rs1.next()){
+                	Float f = rs2.getFloat(1);
+                    if (rs.wasNull()) {
+                    	courseData.append(0.0 + "~!~" + rs2.getString(2) + "@!@");
+                    } else {
+                    	courseData.append((f / rs1.getInt(1) *100) + "~!~" + rs2.getString(2) + "@!@");
+                    }                	
+                }
+                rs1.beforeFirst();
+                pst3 = con.prepareStatement(PollavgStudPartDates);
+                pst3.setString(1, CourseIDs[i]);
+                rs3 = pst3.executeQuery();
+                if(rs3.next() && rs1.next()){
+                	Float f = rs3.getFloat(1);
+                    if (rs.wasNull()) {
+                    	courseData.append(0.0 + "~!~" + rs3.getString(2) + "@!@");
+                    } else {
+                    	courseData.append((f / rs1.getInt(1) *100) + "~!~" + rs3.getString(2) + "@!@");
+                    }
+                	//courseData.append((rs3.getFloat(1) / rs1.getInt(1) *100) + "~!~" + rs3.getString(2) + "@!@");
+                }
+                courseData.append("@#@");
+    		}
+        }catch (SQLException e) {
+        	e.printStackTrace();        	
+		}finally{
+        	try {
+       		 rs.close();
+                pst.close();                
+                dbcon.closeLocalConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}           
+        }
+        return courseData.toString();
+	}
+	
 	public String getAllCorusesDashboardData(String instrid){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;

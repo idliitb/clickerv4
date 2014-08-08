@@ -11,7 +11,9 @@ import java.sql.*;
 import clicker.v4.databaseconn.*;
 
 /**
- * Servlet implementation class AddNumericDB
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: Servlet implementation class AddNumericDB. This class Adds Numeric type Questions in the Database.
  */
 //@WebServlet("/addnumericdb")
 public class AddNumericDB extends HttpServlet {

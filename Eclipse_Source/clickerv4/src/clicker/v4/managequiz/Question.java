@@ -10,7 +10,7 @@ import java.util.Vector;
  * This class is used to set and get he details of questions belongs to
  * particular quiz
  * 
- * @author manjur
+ * @author manjur, Harshavardhan
  */
 
 public class Question {

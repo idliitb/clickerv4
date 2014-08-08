@@ -8,7 +8,12 @@ import java.sql.Connection;
 
 import java.sql.Statement;
 
-
+/**
+ * 
+ * @author harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This class selects the questions from the database
+ */
 
 public class RetrieveQuestionsModel {
 	private Connection conn=null;

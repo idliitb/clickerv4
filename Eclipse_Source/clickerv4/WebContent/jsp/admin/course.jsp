@@ -1,3 +1,12 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display inside the department.jsp page load in course div
+			 in local mode
+			 
+USE        : it display the course when we select department in department page
+
+--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
         <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

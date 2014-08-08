@@ -15,10 +15,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
-
-//import org.json.simple.JSONObject;
-//import org.json.simple.JSONArray;
 import org.json.simple.parser.*;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -28,9 +24,11 @@ import clicker.v4.global.Global;
 import clicker.v4.poll.Poll;
 import clicker.v4.poll.RemoteParticipant;
 import clicker.v4.poll.RemotePoll;
+import clicker.v4.quiz.encrypt;
 import clicker.v4.remote.RemoteDBHelper;
 import clicker.v4.remote.RemoteQuizResponseHelper;
 import clicker.v4.wrappers.InstantQuizResponse;
+import clicker.v4.wrappers.Question;
 import clicker.v4.wrappers.Quiz;
 
 import com.google.gson.Gson;
@@ -174,13 +172,8 @@ public class JSONReadandparse {
 				Status="13";
 				System.out.println("Error in main Server IP");
 			}
-
 			if(jsonText!=null){
-				Pattern p = Pattern.compile("\"([^\"]*)\"");
-				Matcher m = p.matcher(jsonText);
-				while (m.find()) {
-					Status=m.group(1); 
-				}
+				Status=jsonText.trim();
 			}else{
 				Status="13";
 				System.out.println("Error in main Server IP");
@@ -194,7 +187,6 @@ public class JSONReadandparse {
 				System.out.println("Error in main Server IP");
 			}
 		}
-
 		return Status;
 	}
 
@@ -204,6 +196,7 @@ public class JSONReadandparse {
 
 	public  Quiz readQuizJsonFromUrl(String MainCenterIP,String workshopID, String QuizType, String coordinatorID,String centerId) throws IOException, ParseException, NumberFormatException, SQLException {
 		String url="http://"+MainCenterIP+"/clicker/rest/quiz/remotequiz/"+workshopID+"/"+centerId;
+		
 		Gson gson = new Gson();
 		InputStream is = new URL(url).openStream();
 		try {
@@ -212,7 +205,13 @@ public class JSONReadandparse {
 			Quiz obj = gson.fromJson(jsonText, Quiz.class);
 			System.out.println("launch time at server"+obj.getlaunchtime());
 			System.out.println("current time at server"+obj.getcurrenttime());
-			
+			ArrayList<Question> questions = new ArrayList<Question>();
+			for(int i=0;i<obj.getquestions().size();i++){
+				Question question = new Question(obj.getquestions().get(i));				
+				question.setCorrectAns(new encrypt().decrypt(question.getCorrectAns()));
+				questions.add(question);
+			}
+			obj.setquestions(questions);
 
 			SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
@@ -369,9 +368,7 @@ public class JSONReadandparse {
 		String mainjson=null;
 		//Poll poll= new Poll();
 		String launchtime=Global.workshoppolljsonobject.get(workshopID).getlaunchtime();
-		
-
-		
+			
 		//1. set wid in RemoteParticipant.java
 		RemotePoll rpoll = new RemotePoll();
 		rpoll.setworkshopid(workshopID);
@@ -384,17 +381,14 @@ public class JSONReadandparse {
 		
 		//4.set launchtime RemoteParticipant.java
 		rpoll.setlaunchtime(launchtime);
-			
-		
 		
 		//5. setting partid and res in pollal arraylist
 		//RemoteDBHelper dbh=new RemoteDBHelper();
-		
 	   
 	    //String centerid = null;
 		Connection conn = null;
 		PreparedStatement st1 =null;
-		
+		ResultSet resultSet=null;
 		ArrayList<RemoteParticipant> pollal = new ArrayList<RemoteParticipant>();
 	    
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -403,20 +397,15 @@ public class JSONReadandparse {
 				String selectquery="SELECT ParticipantID , Response from poll p, pollquestion pq where p.TimeStamp=? and pq.PollID=p.PollID and pq.WorkshopID=?";
 				st1 = conn.prepareStatement(selectquery);
 				st1.setString(1, launchtime);
-				st1.setString(2, workshopID);
-				
-				ResultSet resultSet = st1.executeQuery();
-				
+				st1.setString(2, workshopID);				
+				resultSet = st1.executeQuery();				
 				while (resultSet.next())
 				{
 					RemoteParticipant rp=new RemoteParticipant();
 					rp.setpid(resultSet.getString("ParticipantID"))  ;
 					rp.setresponse(resultSet.getString("Response"));
-					pollal.add(rp);
-					
+					pollal.add(rp);					
 				}
-				
-				resultSet.close();
 			}
 		catch(SQLException e)
 		{
@@ -424,6 +413,7 @@ public class JSONReadandparse {
 		}
 		finally{
 			try {
+				if(resultSet!=null){resultSet.close();}
 				st1.close();
 				dbcon.closeRemoteConnection(conn);
 
@@ -431,24 +421,15 @@ public class JSONReadandparse {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-					}
-		
-		
+		}
 		
 		//6.add arraylist pollal to RemoteParticipant.java
-		rpoll.setpresponse(pollal);
-		
+		rpoll.setpresponse(pollal);		
 		//7.create json
 		Gson gson = new Gson();
 		mainjson = gson.toJson(rpoll);
-		System.out.println("main centre json: "+mainjson);
-		
+		System.out.println("main centre json: "+mainjson);		
 		sendJsonToUrl(mainjson , workshopID , Coordinator,MainCenterURL);
-		
-
-		
-
-
 	}
 
 	//sending json to main url

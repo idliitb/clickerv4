@@ -75,6 +75,7 @@ String.prototype.trim = function() {
 };
 
 function launchInstantQuiz(courseID, instrID){
+	document.getElementById("isShowAns").disabled=true;
 	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
  		var isactive = document.getElementById("tempdata").innerHTML.trim(); 
  		if(isactive=="inactive"){
@@ -162,18 +163,19 @@ function launchInstantQuiz(courseID, instrID){
  	 		alert("Floating is not allowed");
  	 		return false;
  	 	}
- 	 	var time = (parseInt(min) * 60)  + parseInt(sec); 	 	
- 	 	$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setInstantQuizDetailNew&courseID="+encodeURIComponent(courseID) + "&instrID="+encodeURIComponent(instrID) + "&quiztime="+time +"&IQuiz="+IQuiz);
+ 	 	var time = (parseInt(min) * 60)  + parseInt(sec);
+ 	 	var isShowAns = document.getElementById("isShowAns").checked;
+ 	 	$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setInstantQuizDetailNew&courseID="+encodeURIComponent(courseID) + "&instrID="+encodeURIComponent(instrID) + "&quiztime="+time +"&IQuiz="+IQuiz + "&isShowAns="+isShowAns);
  	 	$("#quizLauncher").css("display","none");
- 	 	startTimer("instantquiz");
+ 	 	startTimer(isShowAns);
 	});
 }
 
-function startTimer(quiztype) {  	
- 	down=setInterval(function(){countDown(quiztype);},1000);
+function startTimer(isShowAns) {  	
+ 	down=setInterval(function(){countDown(isShowAns);},1000);
 }
 
-function countDown(quiztype) {	
+function countDown(isShowAns) {	
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim();
  	if(min==""){min=0;}if(sec==""){sec=0;};
@@ -191,13 +193,15 @@ function countDown(quiztype) {
 	{
 		clearInterval(down);
 		$("#quizLauncher").css("display","block");
-		document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showInstantQuizResponse()' style='margin-left:460px;'>" +
+		document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showInstantQuizResponse("+isShowAns+")' style='margin-left:460px;'>" +
 				"<span>Show Response</span>	</button>";		
 	}
-	$('#quizresponsestatus').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquizresponsestatus");
+	if(sec%5==0){
+		$('#quizresponsestatus').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquizresponsestatus");
+	}
 }
 
 
-function showInstantQuizResponse(){
-	window.location = "../../jsp/quiz/newinstantchart.jsp";
+function showInstantQuizResponse(isShowAns){
+	window.location = "../../jsp/quiz/newinstantchart.jsp?isShowAns="+isShowAns;
 }

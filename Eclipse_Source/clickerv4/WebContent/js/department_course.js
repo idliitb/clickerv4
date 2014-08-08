@@ -157,7 +157,7 @@ else if(hod == "")
 document.getElementById('Department_id').value="";
 
 
- document.getElementById('Department_name').value="";
+document.getElementById('Department_name').value="";
 
 
  document.getElementById('hod').value="";

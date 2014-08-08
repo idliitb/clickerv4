@@ -19,125 +19,11 @@ function getXMLhttp() {
 		}
 	}
 }
-var reloadnormalchartcount=0;
-var reloadinstantchartcount=0;
-function updateChart(instrid, questinids, charttype){
-	reloadnormalchart=setInterval(function(){getNewChart(instrid, questinids, charttype);},5000);
-}
 
-function getNewChart(instrid, questinids, charttype){
-	reloadnormalchartcount++;
-	if(reloadnormalchartcount>=2){
-		clearInterval(reloadnormalchart);
-	}
-	getXMLhttp();
-	var questions = questinids.split("@");
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
-			var images="";
-			for(var i=0;i<(questions.length-1);i++){
-				images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				for(var j=0;j<quizJson.questions[i].options.length;j++){
-					images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				}
-				images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-			}
-			document.getElementById("quizresponse").innerHTML = images;	
-			//updateChart(instrid, questinids, charttype);	
-		}
-	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=normalquiz&charttype="+charttype, false);
-	xmlhttp.send();
-}
+/*
+ * ...................All below function are all for High chart for Normal quiz  ..................
+ */
 
-function getChart(instrid, questinids, charttype){
-	getXMLhttp();
-	var questions = questinids.split("@");
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			//alert();
-			var quiz = xmlhttp.responseText;
-			var quizJson = JSON.parse(quiz);
-			var images="";
-			for(var i=0;i<(questions.length-1);i++){
-				images += "<br/><div>"+quizJson.questions[i].text.replace(/</g,"&lt;") +"</div><ol>";
-				for(var j=0;j<quizJson.questions[i].options.length;j++){
-					images += "<li>" +quizJson.questions[i].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
-				}
-				images += "</ol><img alt='No Response...' src='../../"+instrid+"/Chart"+i+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+questions[i]+")'> <br/><br/>";
-			}
-			document.getElementById("quizresponse").innerHTML = images;	
-			updateChart(instrid, questinids, charttype);
-		}
-	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=normalquiz&charttype="+charttype, false);
-	xmlhttp.send();
-}
-
-function updateInstantChart(instrid, charttype){
-	reloadinstantchart=setInterval(function(){getNewInstantChart(instrid, charttype);},5000);
-}
-
-function getNewInstantChart(instrid, charttype){
-	reloadinstantchartcount++;
-	if(reloadinstantchartcount>=2){
-		clearInterval(reloadinstantchart);
-	}
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			var images="<img alt='No Response...' src='../../"+instrid+"/Chart0.jpeg?"+new Date().getTime()+"' onclick='showInstantResponsesDialog()'> <br/><br/>";
-			document.getElementById("quizresponse").innerHTML = images;
-		}
-	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=instantquiz&charttype="+charttype, false);
-	xmlhttp.send();
-}
-
-function getInstantChart(instrid, charttype){
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			var images="<img alt='No Response...' src='../../"+instrid+"/Chart0.jpeg?"+new Date().getTime()+"' onclick='showInstantResponsesDialog()'> <br/><br/>";
-			document.getElementById("quizresponse").innerHTML = images;
-			updateInstantChart(instrid, charttype);
-		}
-	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=instantquiz&charttype="+charttype, false);
-	xmlhttp.send();
-}
-
-function showNormalCorrect(instrid, questinids, check){
-	document.getElementById("quizresponse").innerHTML = "";
-	clearInterval(reloadnormalchart);
-	if(check.checked){
-		getChart(instrid, questinids, "withcorrect");
-	}
-	else{
-		getChart(instrid, questinids, "withoutcorrect");
-	}
-}
-
-function showInstantCorrect(instrid, check){
-	document.getElementById("quizresponse").innerHTML = "";
-	clearInterval(reloadinstantchart);
-	if(check.checked){
-		getInstantChart(instrid, "withcorrect");
-	}
-	else{
-		getInstantChart(instrid, "withoutcorrect");
-	}
-}
 
 function showResponsesDialog(QuestionID) {	
 	getXMLhttp();
@@ -155,33 +41,13 @@ function showResponsesDialog(QuestionID) {
 	xmlhttp.send();
 }
 
-function showInstantResponsesDialog(){
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			document.getElementById("ResponseDialog").innerHTML = xmlhttp.responseText.split("@#")[0];
-			document.getElementById("ResponseDialog").style.visibility = 'visible';
-			document.getElementById("ResponseDialog").title ="Responses";
-			$("#ResponseDialog").dialog({height: 400, width: 600, modal: true});
-		}
-	};	
-	xmlhttp.open("GET", "../../jsp/quiz/responsehelper.jsp?helpContent=responseDialog&quiztype=instantquiz", true);
-	xmlhttp.send();
-}
-
-
-/*
- * ...................All below function are all for High chart for Normal quiz  ..................
- */
 
 
 /* This display the individual question chart on click of question bar of highcharts overall response
  * along with question detail at one side and at other it show chart and once click on chart it display table with student response
  */
 
-function getHighChart(instrid, questionID){
+function getHighChart(instrid, questionID,ChartType){
 	var qid=questionID-1;
 	getXMLhttp();
 	xmlhttp.onreadystatechange=function()
@@ -205,7 +71,7 @@ function getHighChart(instrid, questionID){
 			
 		}
 	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=normalquiz&charttype=withcorrect", false);
+	xmlhttp.open("GET", "../../generateResponseChart?quiztype=normalquiz&charttype="+ChartType, false);
 	xmlhttp.send();
 }
 
@@ -217,11 +83,11 @@ function getHighChart(instrid, questionID){
 
 var reloadnormalhighchartmqcount=0;
 var reloadnormalhighchartcount=0;
-function updateNormalHighChart(instrid, questionids){
-	reloadnormalhighchart=setInterval(function(){getNewNormalHighChart(instrid, questionids);},5000);
+function updateNormalHighChart(instrid, questionids,isShowAns){
+	reloadnormalhighchart=setInterval(function(){getNewNormalHighChart(instrid, questionids, isShowAns);},5000);
 }
 
-function getNewNormalHighChart(instrid, questionids){
+function getNewNormalHighChart(instrid, questionids, isShowAns){
 	reloadnormalhighchartmqcount++;
 	if(reloadnormalhighchartmqcount>=2){
 		document.getElementById("loading").innerHTML = "";
@@ -234,7 +100,7 @@ function getNewNormalHighChart(instrid, questionids){
 		{
 			var chartString = xmlhttp.responseText;
 			var stringArray=chartString.split("@");
-			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid);
+			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid, isShowAns);
 		
 		}
 	};
@@ -249,27 +115,24 @@ function getNewNormalHighChart(instrid, questionids){
  * This below function display the overall response for all question of a particular quiz using highchart
  */
 
-function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
-	
+function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid, isShowAns){
 	//Calculation for overall quiz performance
 	var rightans=rightcount.split(",");
 	var wrongans=wrongcount.split(",");
 	var noresponseans=noresponsecount.split(",");
-	var righttotal=0,wronganstotal=0;
-	
+	var righttotal=0,wronganstotal=0;	
 	for(var p=0;p<rightans.length;p++){
 		righttotal+=parseInt(rightans[p]);
 		wronganstotal+=(parseInt(wrongans[p])+parseInt(noresponseans[p])+parseInt(rightans[p]));
 		
 	}
 	var totalcorrect=0;
-	var totalwrong=0;
-	
+	var totalwrong=0;	
 	totalcorrect= Math.round(((righttotal/wronganstotal)*100)*100)/100 ;
 	totalwrong =Math.round((100- totalcorrect)*100)/100;
-
-	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
+	document.getElementById("showCorrectAnsChart").checked=isShowAns;	
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -288,15 +151,20 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 		
 	}
 		var x_axis_id=questiontext.split(",");
-		Highcharts.setOptions({
-	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
-	    });
-		$('#overallchart').highcharts({
-            chart: {
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options = {chart: {
                 type: 'column',
             },
             title: {
-                text: 'Quiz Response chart',
+                text: '',
                 style: {
                     fontWeight: 'bold',
                     fontSize: '26px',
@@ -363,9 +231,14 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
             },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.x +'</b><br/>'+
-                        this.series.name +': '+ this.y +'<br/>'+
-                        'Total: '+ this.point.stackTotal;
+                	if(isShowAns){
+	                    return '<b>'+ this.x +'</b><br/>'+
+	                        this.series.name +': '+ this.y +'<br/>'+
+	                        'Total: '+ this.point.stackTotal;
+	               	}else{
+	               		return '<b>'+ this.x +'</b><br/>'+	                        
+	                        'Total: '+ this.point.stackTotal;	                		
+	                }
                 }
             },
             plotOptions: {
@@ -387,7 +260,7 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	                    events: {
 	                        click: function() {
 	                        	var qid=this.category.split(".");
-	                        		getHighChart(instrid, qid[1]);
+	                        		getHighChart(instrid, qid[1], ChartType);
 	                        	
 	                        }
 	                    }
@@ -405,9 +278,12 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	                name: 'No Response',
 	                data: noresponsearray
 	            }]
-	        });
-	  
-	        updateNormalHighChart(instrid, questionids); // call for reload of chart
+	        };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);	    
+	    updateNormalHighChart(instrid, questionids, isShowAns); // call for reload of chart
 	   
 }
 
@@ -417,7 +293,7 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
  *  It display the overall response for all question of a particular quiz using highchart as above function
  */
 
-function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
+function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid, isShowAns){
 	
 	//Calculation for overall quiz performance
 	var rightans=rightcount.split(",");
@@ -431,13 +307,11 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 		
 	}
 	var totalcorrect=0;
-	var totalwrong=0;
-	
+	var totalwrong=0;	
 	totalcorrect= Math.round(((righttotal/wronganstotal)*100)*100)/100 ;
-	totalwrong =Math.round((100- totalcorrect)*100)/100;
-
-	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	totalwrong =Math.round((100- totalcorrect)*100)/100;	
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -456,15 +330,21 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 		
 	}
 		var x_axis_id=questiontext.split(",");
-		Highcharts.setOptions({
-	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
-	    });
-		$('#overallchart').highcharts({
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options ={
             chart: {
                 type: 'column',
             },
             title: {
-                text: 'Quiz Response chart',
+                text: '',
                 style: {
                     fontWeight: 'bold',
                     fontSize: '26px',
@@ -530,10 +410,15 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
                 shadow: false
             },
             tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.x +'</b><br/>'+
-                        this.series.name +': '+ this.y +'<br/>'+
-                        'Total: '+ this.point.stackTotal;
+                formatter: function() {                    
+                    if(isShowAns){
+	                    return '<b>'+ this.x +'</b><br/>'+
+	                        this.series.name +': '+ this.y +'<br/>'+
+	                        'Total: '+ this.point.stackTotal;
+	               	}else{
+	               		return '<b>'+ this.x +'</b><br/>'+	                        
+	                        'Total: '+ this.point.stackTotal;	                		
+	                }
                 }
             },
             plotOptions: {
@@ -555,7 +440,7 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                    events: {
 	                        click: function() {
 	                        	var qid=this.category.split(".");
-	                        		getHighChart(instrid, qid[1]);
+	                        		getHighChart(instrid, qid[1],ChartType);
 	                        	
 	                        }
 	                    }
@@ -573,9 +458,12 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                name: 'No Response',
 	                data: noresponsearray
 	            }]
-	        });
-	  
-	        //updateNormalHighChart(instrid, questionids); // call for reload of chart
+	        };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);
+	    //updateNormalHighChart(instrid, questionids); // call for reload of chart
 	   
 }
 
@@ -586,10 +474,9 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
  */
 
 function overallQuizPerformance(totalcorrect,totalwrong){
-	
 	Highcharts.setOptions({
-	     colors: ['#00FF00','#FF0000 ']
-	    });
+	  colors: ['#00FF00','#FF0000 ']
+	});	
    $('#performance').highcharts({
        chart: {
            plotBackgroundColor: null,
@@ -627,7 +514,7 @@ function overallQuizPerformance(totalcorrect,totalwrong){
            type: 'pie',
            name: 'Response',
            innerSize: '30%',
-           data: [
+           data: [                  
               ['Correct',totalcorrect],['Wrong',totalwrong]
            ]
        }]
@@ -638,4 +525,12 @@ function overallQuizPerformance(totalcorrect,totalwrong){
    }
    var percentage="<div style='width:20px; height:20px;background-color: #00FF00;border:5px ; float:left ;'></div><div style=' float:left'>&nbsp;&nbsp;&nbsp;Correct:<b> "+totalcorrect+" "+"%"+"</b></div><br><br><div style='width:20px; height:20px;background-color: #FF0000;border:5px ; float:left ;'></div><div style=' float:left'>&nbsp;&nbsp;&nbsp;Wrong:<b> "+totalwrong+" "+"%"+"</b></div>";
    document.getElementById("percentage").innerHTML = percentage;
+}
+
+function showCAnsChart(showCorrectAnsChart){
+	if(showCorrectAnsChart.checked){
+		window.location = "../../jsp/quiz/newresponsechart.jsp?isShowAns=true";
+	}else{
+		window.location = "../../jsp/quiz/newresponsechart.jsp?isShowAns=false";
+	}
 }

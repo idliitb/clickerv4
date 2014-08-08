@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you Press Department menu in admin
+			 in local mode
+			 
+USE        : to add department,course
+
+--%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

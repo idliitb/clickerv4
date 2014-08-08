@@ -24,40 +24,19 @@ String launchtime1=Global.polljsonobject.get(courseId).getlaunchtime();
 //Global.polljsonobject.remove(courseId); 
 /*pollresponsecount linear-array of size 3--->a[0] stores  total count for Yes options selected by student and a[1]
 stores count for No options selected by student and a[2] states the blank responses*/
-double yes_percent=0;
-double no_percent=0;
-double noresponse_percent=0;
 
 
 int[] pollresponsecount={0,0,0};
 // studentcount[0] stores total no. of student participated in polling
 int[] studentcount= {0};
 try {	
-	  int count=Global.responsepollobject.size(), newcount =0, idle=0;
-
-while (true) {	        	
-        newcount =Global.responseobject.size();//0        
-        if(count != newcount){
-        	count = newcount;
-        	idle=0;	            	      	
-           }
-        idle++;	            
-        if(idle>=3){
-        	
-          System.out.println("collected polljson from hash..");
+	   	
+    	  System.out.println("collected polljson from hash..");
           Getresponsefromhash  st=new Getresponsefromhash ();
       	  st.getpollcount(courseId,pollresponsecount,studentcount);
-		 double temp1=pollresponsecount[0];
-    	 double temp2=pollresponsecount[1];
-    	 double temp3=pollresponsecount[2];
-      	      	 
-         break;
-    	}
-        Thread.sleep(1000);	 
-     }
+     
   } 
-	
-	catch (Exception e) {
+catch (Exception e) {
      System.out.println("Stored Thread stopped");}
 
 PrintWriter outnew = response.getWriter();

@@ -1,3 +1,12 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you double click the department or
+			  by press edit button in department 
+			 
+USE        : to update or edit the department
+
+--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
                 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

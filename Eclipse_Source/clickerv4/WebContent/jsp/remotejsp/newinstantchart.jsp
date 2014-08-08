@@ -19,6 +19,7 @@ int quizrecordid = Global.remotequizrecordids.get(workshopID);
 RemoteDBHelper remoteDBHelper =new RemoteDBHelper();
 String questionids = remoteDBHelper.getInstantQuestionIDs(quizrecordid);
 RemoteQuizResponseHelper quizResponseHelper = new RemoteQuizResponseHelper();
+boolean isShowAns = Global.workshopjsonobject.get(workshopID).isShowAns();
 String chartString=quizResponseHelper.getInstantQuestionResponseCount(quizrecordid);
 String[] countString= chartString.split("@");
 String rightvalue=countString[0];
@@ -37,10 +38,10 @@ Global.isInstantResponseSent.put(workshopID,"yes");
 		<script src="../../js/remoteinstantresponse.js"></script>
 		<script src="../../js/jquery-1.9.1.js"></script>
 		<script src="../../js/jquery-ui.js"></script>
-		<script src="../../js/remotequiz.js"></script>
+		<script src="../../js/remotequiz.js"></script> <!-- this javascript is included bcoz  one of its function is used by remoteresponse.js -->
 		<link type="text/css" rel="stylesheet" href="../../css/jquery-ui.css">
 	</head>
-	<body onload="checkResponse('<%=CoordinatorID%>' , '<%=questionids%>', '<%=isSent %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>')"
+	<body onload="checkResponse('<%=CoordinatorID%>' , '<%=questionids%>', '<%=isSent %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>', <%=isShowAns%>)"
 	 class="ui-Mainbody" style="width:100%; height:100%; text-align: center;background-color: white;">
 		<%@ include file= "../../jsp/includes/remotemenuheader.jsp" %>
 		<!-- <script>InsideResponseReadForQuizPoll();</script> -->

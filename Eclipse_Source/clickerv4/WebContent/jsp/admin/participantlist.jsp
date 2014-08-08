@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: this page is loaded in the participant page in remote mode
+			 
+USE        : it display the list of participant for the remote center
+
+--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "java.util.ArrayList" %>

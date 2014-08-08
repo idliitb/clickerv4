@@ -11,8 +11,13 @@ if(helpContent.equals("coursedata")){
     String courseinfo = reportHelper.getAllCorusesDashboardData(instructorID);
     out.print(courseinfo);
 }
-if(helpContent.equals("alldeptchartedata")){
+else if(helpContent.equals("alldeptchartedata")){
 	String deptinfo = reportHelper.getAllDeptChartData();
 	out.print(deptinfo);
+}
+else if(helpContent.equals("comparecourses")){
+	String[] CourseIDs = request.getParameter("courses").split("@");	
+	System.out.println(CourseIDs.length);	
+	out.print(reportHelper.compareCourses(CourseIDs));
 }
 %>

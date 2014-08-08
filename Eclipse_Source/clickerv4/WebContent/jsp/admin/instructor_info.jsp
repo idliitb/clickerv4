@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: it display will display when admin press the instrutor menu
+			 
+USE        : to display the list of instructor add in the data base and admin
+			  can add ,delete and update the instructor
+
+--%>
 <%@page import="clicker.v4.admin.Admindata"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

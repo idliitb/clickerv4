@@ -37,6 +37,7 @@ QuizHelper quizHelper = new QuizHelper();
 			<tr>
 			<td width="40%">
 			<div id="quizresponsestatus" style="margin-left: 20px;float: left;margin-top: 25px; font-size: 20px;">Responses : 0 / <%=quizHelper.getNoofStudent(courseID)%>	</div>
+			<div style="margin-top: 25px;margin-left:20px; float: left; font-size: 20px;"><input id="isShowAns" type="checkbox" value="Answer" checked="checked"/>Show Answer</div>
 			</td>
 			<td width="20%">
 				<div class="ui-createquiz-text" >
@@ -46,7 +47,7 @@ QuizHelper quizHelper = new QuizHelper();
 				<div class="ui-header-text" style="float: right;"><h1 id="timer">00 : 00 </h1></div>
 			</td></tr>
 		</table>
-		<table class="table1" style="margin-top:2px;">
+		<table class="table1" style="margin-top:2px;min-height: 150px;">
 			<tr><td align="center">
 				<div class="ui-createquiz-text" style="text-align: center;  display: inline;">
 					<h3 style="text-align: center; display: inline;">Select number of questions</h3>

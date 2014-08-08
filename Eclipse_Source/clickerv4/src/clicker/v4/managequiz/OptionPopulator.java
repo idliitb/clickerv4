@@ -1,5 +1,10 @@
 package clicker.v4.managequiz;
 
+/**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet populates the options for a particular question
+ */
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -8,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class OptionPopulator extends HttpServlet{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request,HttpServletResponse response) {

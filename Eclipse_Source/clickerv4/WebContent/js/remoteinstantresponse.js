@@ -21,10 +21,74 @@ function getXMLhttp() {
 }
 
 
-//function used for getting reponse chart
+
+//Highchart related javascript function
+
+/*
+ * All below function are all for High chart for Instant quiz  
+ */
 
 var responsecount=0;
 var idlesec = 0;
+
+
+
+function checkResponse(instrid, questinids, isSent,rightcount,wrongcount,noresponsecount, isShowAns){
+	after20SecCheckNewQuizAvailable();
+	if(isSent == "no"){
+		resposeidlecheck=setInterval(function(){checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount, isShowAns);},2000);
+	}else{
+		overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid, isShowAns);
+		
+	}
+}
+
+function after20SecCheckNewQuizAvailable(){
+	calAfter20Sec = setInterval(function(){checkNewQuizAvailable();},20000);
+}
+
+
+function checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount, isShowAns){
+	getXMLhttp();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{		
+			var newresponsecount = xmlhttp.responseText;	
+			if(newresponsecount>responsecount){
+				idlesec=0;
+				responsecount = newresponsecount;
+			}
+			idlesec++;
+			if(idlesec>=5){
+				clearInterval(resposeidlecheck);
+				sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount, isShowAns);
+			}			
+		}
+	};
+	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=getinstantquizresponsecount", true);
+	xmlhttp.send();
+}
+
+function checkNewQuizAvailable(){
+	clearInterval(calAfter20Sec);
+	InsideResponseReadForQuizPoll(); // method is defined in remotequiz.js
+}
+
+
+function sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount, isShowAns){
+	getXMLhttp();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{		
+			var sendstatus = xmlhttp.responseText;		
+			overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid, isShowAns);
+		}
+	};
+	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=sendinstantquizresponse", true);
+	xmlhttp.send();
+}
 
 function showResponsesDialog(QuestionID) {	
 	getXMLhttp();
@@ -42,76 +106,12 @@ function showResponsesDialog(QuestionID) {
 	xmlhttp.send();
 }
 
-function checkResponse(instrid, questinids, isSent,rightcount,wrongcount,noresponsecount){
-	after20SecCheckNewQuizAvailable();
-	if(isSent == "no"){
-		resposeidlecheck=setInterval(function(){checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount);},2000);
-	}else{
-		overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid);
-		
-	}
-}
-
-function after20SecCheckNewQuizAvailable(){
-	calAfter20Sec = setInterval(function(){checkNewQuizAvailable();},20000);
-}
-
-function checkNewQuizAvailable(){
-	clearInterval(calAfter20Sec);
-	InsideResponseReadForQuizPoll(); // method is defined in remotereport.js
-}
-
-function checkIdle(instrid, questinids,rightcount,wrongcount,noresponsecount){
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{		
-			var newresponsecount = xmlhttp.responseText;	
-			if(newresponsecount>responsecount){
-				idlesec=0;
-				responsecount = newresponsecount;
-			}
-			idlesec++;
-			if(idlesec>=5){
-				clearInterval(resposeidlecheck);
-				sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount);
-			}			
-		}
-	};
-	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=getinstantquizresponsecount", true);
-	xmlhttp.send();
-}
-
-
-function sendResponse(instrid, questinids,rightcount,wrongcount,noresponsecount){
-	getXMLhttp();
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{		
-			var sendstatus = xmlhttp.responseText;		
-			overallGraph(questinids,rightcount,wrongcount,noresponsecount,instrid);
-		}
-	};
-	xmlhttp.open("GET", "../../jsp/remotejsp/remoteresponsehelper.jsp?helpContent=sendinstantquizresponse", true);
-	xmlhttp.send();
-}
-
-
-//Highchart related javascript function
-
-/*
- * All below function are all for High chart for Instant quiz  
- */
-
-
 
 /* This display the individual question chart on click of question bar of highcharts overall response
  * along with question detail at one side and at other it show chart and once click on chart it display table with student response
  */
 
-function getHighInstantChartMQ(instrid, questionID){
+function getHighInstantChartMQ(instrid, questionID, ChartType){
 	getXMLhttp();
 	var qid=questionID-1;
 	xmlhttp.onreadystatechange=function()
@@ -133,7 +133,7 @@ function getHighInstantChartMQ(instrid, questionID){
 			document.getElementById("Questionchart").innerHTML = images;	
 		}
 	};
-	xmlhttp.open("GET", "../../RemoteGenerateResponseChart?quiztype=remoteinstantquizmq&charttype=withcorrect", false);
+	xmlhttp.open("GET", "../../RemoteGenerateResponseChart?quiztype=remoteinstantquizmq&charttype="+ChartType, false);
 	xmlhttp.send();
 }
 
@@ -144,11 +144,11 @@ function getHighInstantChartMQ(instrid, questionID){
 
 var reloadinstanthighchartmqcount=0;
 var reloadinstanthighchartcount=0;
-function updateInstantHighChart(instrid, questionids){
-	reloadinstanthighchart=setInterval(function(){getNewInstantHighChart(instrid, questionids);},5000);
+function updateInstantHighChart(instrid, questionids, isShowAns){
+	reloadinstanthighchart=setInterval(function(){getNewInstantHighChart(instrid, questionids, isShowAns);},5000);
 }
 
-function getNewInstantHighChart(instrid, questionids){
+function getNewInstantHighChart(instrid, questionids, isShowAns){
 	reloadinstanthighchartmqcount++;
 	if(reloadinstanthighchartmqcount>=2){
 		document.getElementById("loading").innerHTML = "";
@@ -161,7 +161,7 @@ function getNewInstantHighChart(instrid, questionids){
 		{
 			var chartString = xmlhttp.responseText;
 			var stringArray=chartString.split("@");
-			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid);
+			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid, isShowAns);
 		
 		}
 	};
@@ -176,7 +176,7 @@ function getNewInstantHighChart(instrid, questionids){
  */
 
 
-function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
+function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid, isShowAns){
 	
 
 	//Calculation for overall quiz performance
@@ -194,9 +194,8 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	var totalwrong=0;
 	totalcorrect=  Math.round(((righttotal/wronganstotal)*100)*100)/100 ;
 	totalwrong =100- totalcorrect;
-
-	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -215,11 +214,17 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 		
 	}
 		var x_axis_id=questiontext.split(",");
-		Highcharts.setOptions({
-	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
-	    });
-		 $('#overallchart').highcharts({
-	            chart: {
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options = {
+                chart: {
 	                type: 'column'
 	            },
 	            title: {
@@ -290,9 +295,14 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	            },
 	            tooltip: {
 	                formatter: function() {
-	                    return '<b>'+ this.x +'</b><br/>'+
-	                        this.series.name +': '+ this.y +'<br/>'+
-	                        'Total: '+ this.point.stackTotal;
+	                	if(isShowAns){
+		                    return '<b>'+ this.x +'</b><br/>'+
+		                        this.series.name +': '+ this.y +'<br/>'+
+		                        'Total: '+ this.point.stackTotal;
+		               	}else{
+		               		return '<b>'+ this.x +'</b><br/>'+	                        
+		                        'Total: '+ this.point.stackTotal;	                		
+		                }
 	                }
 	            },
 	            plotOptions: {
@@ -315,7 +325,7 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	                        click: function() {
 	                        	var qid=this.category.split(".");
 	                        	
-	                        		getHighInstantChartMQ(instrid,qid[1]);
+	                        		getHighInstantChartMQ(instrid,qid[1], ChartType);
 	                        	 
 	                        }
 	                    }
@@ -333,9 +343,12 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	                name: 'No Response',
 	                data: noresponsearray
 	            }]
-	        });
- 
-	    		 updateInstantHighChart(instrid, questionids); // call for reload of chart
+	        };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);	    
+	    updateInstantHighChart(instrid, questionids, isShowAns); // call for reload of chart
 	    		
 }
 
@@ -346,7 +359,7 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
  */
 
 
-function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
+function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid, isShowAns){
 	
 	//Calculation for overall quiz performance
 	var rightans=rightcount.split(",");
@@ -363,9 +376,8 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	var totalwrong=0;
 	totalcorrect=  Math.round(((righttotal/wronganstotal)*100)*100)/100 ;
 	totalwrong =100- totalcorrect;
-
-	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -387,9 +399,17 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 		Highcharts.setOptions({
 	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
 	    });
-		 $('#overallchart').highcharts({
-	            chart: {
-	                type: 'column'
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options = {chart: {
+                   type: 'column'
 	            },
 	            title: {
 	                text: 'Quiz Response chart',
@@ -459,9 +479,14 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	            },
 	            tooltip: {
 	                formatter: function() {
-	                    return '<b>'+ this.x +'</b><br/>'+
-	                        this.series.name +': '+ this.y +'<br/>'+
-	                        'Total: '+ this.point.stackTotal;
+	                	if(isShowAns){
+		                    return '<b>'+ this.x +'</b><br/>'+
+		                        this.series.name +': '+ this.y +'<br/>'+
+		                        'Total: '+ this.point.stackTotal;
+		               	}else{
+		               		return '<b>'+ this.x +'</b><br/>'+	                        
+		                        'Total: '+ this.point.stackTotal;	                		
+		                }
 	                }
 	            },
 	            plotOptions: {
@@ -482,10 +507,8 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                point: {
 	                    events: {
 	                        click: function() {
-	                        	var qid=this.category.split(".");
-	                        	
-	                        		getHighInstantChartMQ(instrid,qid[1]);
-	                        	 
+	                        	var qid=this.category.split(".");	                        	
+	                        		getHighInstantChartMQ(instrid,qid[1],ChartType);	                        	 
 	                        }
 	                    }
 	                }
@@ -502,9 +525,11 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                name: 'No Response',
 	                data: noresponsearray
 	            }]
-	        });
-
-	    		
+	        };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);	     		
 }
 
 

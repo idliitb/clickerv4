@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: when the instructor press the assign course button it redirect to 
+			  this page 
+			 
+USE        : to upload the xls file and it will store in database
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@page import="clicker.v4.admin.*"%>

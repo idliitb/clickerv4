@@ -11,14 +11,9 @@ if(helpContent.equals("coursedata")){
     String atteninfo = reportHelper.getCorusesDashboardData(instructorID);
     out.print(atteninfo);
 }
-/*else if(helpContent.equals("quizdata")){
-	String CourseID = session.getAttribute("courseID").toString();
-	System.out.println(CourseID);	
-	out.print(reportHelper.getReportDashboardData(CourseID));
-}else if(helpContent.equals("atteninfo")){
-	String cid = request.getParameter("cid");
-	String date = request.getParameter("date");
-    String atteninfo = reportHelper.getAttendanceInfo(cid, date);
-    out.print(atteninfo);
-}*/
+else if(helpContent.equals("comparecourses")){
+	String[] CourseIDs = request.getParameter("courses").split("@");	
+	System.out.println(CourseIDs.length);	
+	out.print(reportHelper.compareCourses(CourseIDs));
+}
 %>

@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: this page is loaded in the student page in local mode
+			 
+USE        : to assign the course to the student by indvidual or group
+
+--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
         <%@ page import="clicker.v4.databaseconn.DatabaseConnection"%>

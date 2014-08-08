@@ -82,7 +82,7 @@ public class ParticipantXLSimport {
 				cell = sheet.getRow(i);
 				
 				xlsCell = sheet.getCell(0, i);
-				participantid = xlsCell.getContents().toString();
+				participantid = xlsCell.getContents().toString().trim();
 				System.out.println("xls participant id = " + participantid);
 				if (participantid.equals("") || participantid == null) {
 					return ("Participant ID field entry with Sr.No." + i + " cannot be empty!");

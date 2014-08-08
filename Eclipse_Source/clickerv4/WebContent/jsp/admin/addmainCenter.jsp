@@ -1,3 +1,10 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you Press the add maincenter in menu in remote mode
+USE        : to add New maincenter
+
+--%>
+
 <%@page import="clicker.v4.databaseconn.DatabaseConnection" %>
 <%@page import="java.sql.*"%>
 

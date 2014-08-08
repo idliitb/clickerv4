@@ -1,5 +1,7 @@
 /**
- * 
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This Class inserts Multiple questions from the XLS file in the database.
  */
 package clicker.v4.questionbank;
 

@@ -163,12 +163,14 @@ public class RestHelper {
 		quiz.setQuizTime("0");
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection con = dbconn.createDatabaseConnection();
+		PreparedStatement pstmt=null, pstmt1=null;
+		ResultSet rs=null, rs1=null;
 		ArrayList<Integer> notshuffle = new ArrayList<Integer>();
 		String sql = "SELECT q.QuestionID, q.Question, q.QuestionType, q.Shuffle from question q, quizquestion qq where qq.QuizID = ? and q.QuestionID = qq.QuestionID";
 		try {
-			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1,quizID);			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			ArrayList<Question> questionList = new ArrayList<Question>();
 			while (rs.next()){
 				Question question = new Question();
@@ -180,9 +182,9 @@ public class RestHelper {
 				int questionType = rs.getInt("QuestionType");
 				question.setType(questionType);
 				sql = "SELECT OptionID, OptionValue, OptionCorrectness FROM options where QuestionID = ?";
-				PreparedStatement pstmt1 = con.prepareStatement(sql);
+				pstmt1 = con.prepareStatement(sql);
 				pstmt1.setInt(1,rs.getInt("QuestionID"));			
-				ResultSet rs1 = pstmt1.executeQuery();
+				rs1 = pstmt1.executeQuery();
 				ArrayList<Option> options = new ArrayList<Option>();
 				String correctAns = "";
 				int i=0;
@@ -211,6 +213,10 @@ public class RestHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{			
+			try{if(rs!=null){rs.close();}}catch(SQLException ex){}
+			try{if(rs1!=null){rs1.close();}}catch(SQLException ex){}
+			try{if(pstmt!=null){pstmt.close();}}catch(SQLException ex){}
+			try{if(pstmt1!=null){pstmt1.close();}}catch(SQLException ex){}
 			dbconn.closeLocalConnection(con);
 		}
 		return quiz;
@@ -367,6 +373,7 @@ public class RestHelper {
 		DatabaseConnection dbcon = new DatabaseConnection();
 		Connection con = dbcon.createRemoteDatabaseConnection();
 		JSONArray responseOptionJSon;
+		PreparedStatement pstmt=null;
 		try {
 			responseOptionJSon = responseJSon.getJSONArray("options");
 			int quizrecordid = Integer.parseInt(responseJSon.get("quizID").toString());
@@ -374,8 +381,7 @@ public class RestHelper {
 			Global.remotecountresponsejson.replace(course_id, ++count);
 			System.out.println("Value of quizrecordid....in auto test of remote mode..."+quizrecordid);
 			ArrayList<Question> questionList =  quiz.getquestions();
-			String studentid = responseJSon.get("studId").toString();
-			PreparedStatement pstmt;
+			String studentid = responseJSon.get("studId").toString();			
 			pstmt = con.prepareStatement("Insert into autotestresponse(ParticipantID, IQuestionID, Response, IQuizID) values (?,?,?,?)");
 			for(int i=0;i<responseOptionJSon.length();i++){
 				Question question = questionList.get(i);
@@ -395,6 +401,7 @@ public class RestHelper {
 		}	
 		finally
 		{
+			try{if(pstmt!=null){pstmt.close();}}catch(SQLException ex){}
 			if(con!=null)dbcon.closeRemoteConnection(con);
 		}
 	}
@@ -558,10 +565,10 @@ public class RestHelper {
 		}finally{	
 			try{
 				if(rs!=null)rs.close();
-				if(rs!=null)rs1.close();
-			if(pstmt!=null)pstmt.close();
-			if(pstmt1!=null)pstmt1.close();
-			dbconn.closeRemoteConnection(con);
+				if(rs1!=null)rs1.close();
+				if(pstmt!=null)pstmt.close();
+				if(pstmt1!=null)pstmt1.close();
+				dbconn.closeRemoteConnection(con);
 			}
 			catch (SQLException e) {
 				e.printStackTrace();

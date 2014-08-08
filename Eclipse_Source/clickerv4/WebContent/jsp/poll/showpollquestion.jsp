@@ -42,7 +42,7 @@ phelp.savepollquestion(pollquestion,courseId,launchtime);
 
 int pollid=phelp.getpollidnew(launchtime, courseId);
 session.setAttribute("pollid", pollid);
-System.out.println("pollquestion saved in iitb--------->>>"+session.getAttribute("pollid").toString());
+System.out.println("pollquestion saved in local databse--------->>>"+session.getAttribute("pollid").toString());
 %>
 <script type="text/javascript">
 var secs=30;

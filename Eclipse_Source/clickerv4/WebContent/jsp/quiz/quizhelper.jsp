@@ -49,20 +49,10 @@ if(helpContent.equals("quizList")){
 	String courseID = request.getParameter("courseID");
 	System.out.println(request.getParameter("min"));
 	System.out.println(request.getParameter("sec"));
+	boolean isShowAns = Boolean.parseBoolean(request.getParameter("isShowAns"));	
 	int isnegativemarking = Integer.parseInt(request.getParameter("isnegativemarking"));
 	int sec = Integer.parseInt(request.getParameter("min")) * 60 + Integer.parseInt(request.getParameter("sec"));
-	String quizStatus = quizHelper.setQuizLaunchTime(courseID, sec, isnegativemarking);
-	System.out.println(quizStatus);
-	out.print(quizStatus);
-}
-else if(helpContent.equals("setInstantQuizDetail")){
-	QuizHelper quizHelper = new QuizHelper();
-	String courseID = request.getParameter("courseID");
-	String instrID = request.getParameter("instrID");
-	int noofoptions = Integer.parseInt(request.getParameter("numoptions"));
-	String correctAns = request.getParameter("correctAns");
-	int sec = Integer.parseInt(request.getParameter("quiztime"));;
-	String quizStatus = quizHelper.setInstantQuizDetail(courseID, instrID, noofoptions, correctAns, sec);
+	String quizStatus = quizHelper.setQuizLaunchTime(courseID, sec, isnegativemarking,isShowAns);
 	System.out.println(quizStatus);
 	out.print(quizStatus);
 }
@@ -71,8 +61,9 @@ else if(helpContent.equals("setInstantQuizDetailNew")){
 	String courseID = request.getParameter("courseID");
 	String instrID = request.getParameter("instrID");
 	String IQuiz = request.getParameter("IQuiz");
+	boolean isShowAns = Boolean.parseBoolean(request.getParameter("isShowAns"));	
 	int sec = Integer.parseInt(request.getParameter("quiztime"));;
-	String quizStatus = quizHelper.setInstantQuizDetailNew(courseID, instrID, IQuiz, sec);
+	String quizStatus = quizHelper.setInstantQuizDetailNew(courseID, instrID, IQuiz, sec, isShowAns);
 	out.print(quizStatus);
 }
 else if(helpContent.equals("iscourseactive")){

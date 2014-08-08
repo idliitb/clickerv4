@@ -6,6 +6,11 @@ import java.util.List;
 
 import clicker.v4.databaseconn.*;
 
+/**  
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This Class selects the questions from the database based on the question type, archived or not.
+ */
 public class GetAllQuestions {
 	Connection con;
 	String quest, credits = "", shuffle = "", question_repeated = "";

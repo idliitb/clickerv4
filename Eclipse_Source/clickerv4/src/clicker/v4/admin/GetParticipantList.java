@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :for getting the participant list from the database   
+ *  
+ */
 package clicker.v4.admin;
 
 import java.io.IOException;

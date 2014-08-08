@@ -5,6 +5,13 @@ import clicker.v4.databaseconn.*;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * 
+ * @author harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This class selects and displays all the active quizzes from the database for deletion
+ */
+
 public class QuizNameSelect 
 {
 	public int quiztype = 0;

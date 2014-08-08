@@ -1,3 +1,5 @@
+<%-- @Author Harshavardhan, Clicker Team, IDL, IIT Bombay--%>
+
 <%@ page import="java.sql.*" %>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 

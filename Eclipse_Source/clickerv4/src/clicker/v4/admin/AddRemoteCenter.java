@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :for adding the remote center
+ *  
+ */
 package clicker.v4.admin;
 
 import java.io.IOException;

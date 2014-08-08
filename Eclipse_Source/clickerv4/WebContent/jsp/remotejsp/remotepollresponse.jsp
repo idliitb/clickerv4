@@ -42,21 +42,7 @@ try {
 
           Getresponsefromhash  st=new Getresponsefromhash ();
       	  st.remotegetpollcount(WorkshopID,pollresponsecount,studentcount);
-		 double temp1=pollresponsecount[0];
-    	 double temp2=pollresponsecount[1];
-    	 double temp3=pollresponsecount[2]; 
-    	 yes_percent= ((temp1 / studentcount[0])*100);
-      	 no_percent= ((temp2 / studentcount[0])*100);
-      	 noresponse_percent= ((temp3 / studentcount[0])*100);
-      	 System.out.println("**==>student count remote: "+studentcount[0]+"...yes percent: "+ yes_percent+"..no percent:"+ no_percent+"..no response percent :"+ noresponse_percent);
-         if(Double.isNaN(yes_percent) || Double.isNaN(no_percent) || Double.isNaN(noresponse_percent))
-         {
-	        yes_percent = no_percent = noresponse_percent= 0;
-	     }
-      	        
-       //Thread.sleep(1000);	 
-      //create new json for main center
-
+		 
   } 
 catch (Exception e) {
      System.out.println("Stored Thread stopped");}

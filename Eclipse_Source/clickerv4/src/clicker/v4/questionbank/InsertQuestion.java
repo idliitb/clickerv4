@@ -7,6 +7,12 @@ import java.sql.Statement;
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
+/**
+ * 
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This class inserts the questions in database
+ */
 public class InsertQuestion {
 	/*
 	 * It inserts the question and it's associated details into the database.

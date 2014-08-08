@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: it will display will appear when the user press the attendance div in the have page
+
+			 
+USE        : to display present and absent list
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 

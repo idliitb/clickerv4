@@ -5,7 +5,12 @@ import java.util.ArrayList;
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
-
+/**
+ * 
+ * @author harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This class selects the options from the database
+ */
 
 public class RetrieveOptionsModel {
 	private int questionID;

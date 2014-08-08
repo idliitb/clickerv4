@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :for seeing the course preview of the student   
+ *  
+ */
 package clicker.v4.admin;
 
 import java.io.IOException;

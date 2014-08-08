@@ -1,3 +1,12 @@
+<%--
+      @author Gobinath
+DESCREPTION: it display the course list in the drop down menu in add instructor page
+			 
+USE        : to show the course for the particular department
+
+--%>
+
+
 <%@ page import="javax.swing.JOptionPane"%>
 
 <%@ page import="java.util.ArrayList"%>
@@ -26,8 +35,7 @@
 		while(rs.next())
 		{
 			cList+=rs.getString(1).concat(";");
-		}
-		
+		}	
 		
 	} 
 	catch(Exception e) {

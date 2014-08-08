@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
 
-@XmlType(propOrder = { "courseId","launchtime","currenttime","quizId","quizrecordId","quizTime", "questions","notShuffle"})
+@XmlType(propOrder = { "courseId","launchtime","currenttime","quizId","quizName","quizrecordId","quizTime", "questions","notShuffle", "isShowAns"})
 /**
  *  Wrapper class for Quiz
  * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
@@ -18,11 +18,13 @@ public class Quiz {
 	private String launchtime;
 	private String currenttime;
 	private int quizId;
+	private String quizName;
 	private int quizrecordId;
 	private String quiztype;
 	private String quizTime;
     private ArrayList<Question> questions;
     private ArrayList<Integer> notShuffle;
+    private boolean isShowAns;
     
     
     public Quiz(){
@@ -35,11 +37,13 @@ public class Quiz {
     	launchtime=q.launchtime;
     	currenttime=q.currenttime;
     	quizId=q.quizId;
+    	quizName=q.quizName;
     	quizrecordId=q.quizrecordId;
     	quiztype=q.quiztype;
     	quizTime=q.quizTime;
     	questions=q.questions;
     	notShuffle=q.notShuffle;
+    	isShowAns=q.isShowAns;
     }
     
 	public String getcourseId() {
@@ -125,6 +129,22 @@ public class Quiz {
 
 	public void setQuiztype(String quiztype) {
 		this.quiztype = quiztype;
+	}
+	//@XmlElement
+	public String getQuizName() {
+		return quizName;
+	}
+
+	public void setQuizName(String quizName) {
+		this.quizName = quizName;
+	}
+
+	public boolean isShowAns() {
+		return isShowAns;
+	}
+
+	public void setShowAns(boolean isShowAns) {
+		this.isShowAns = isShowAns;
 	}
 
 	 

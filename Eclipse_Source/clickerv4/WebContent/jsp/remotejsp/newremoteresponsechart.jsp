@@ -17,6 +17,7 @@ String MainCenterURL=(String)session.getAttribute("MainCenterURL");
 int quizrecordid = Global.remotequizrecordids.get(WorkshopID);
 RemoteQuizResponseHelper quizResponseHelper = new RemoteQuizResponseHelper();
 Quiz quiz = Global.workshopjsonobject.get(WorkshopID);
+boolean isShowAns = quiz.isShowAns();
 String questionids ="" ;
 System.out.println(quiz.getquestions().size());
 for(int i=0;i<quiz.getquestions().size();i++){
@@ -38,7 +39,7 @@ String isSent = (Global.isnormalresponsesent.get(WorkshopID)!=null?Global.isnorm
 		<link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
 		<link type="text/css" rel="stylesheet" href="../../css/style.css">
 		<script src="../../js/remoteresponse.js"></script>
-		<script src="../../js/remotequiz.js"></script>
+		<script src="../../js/remotequiz.js"></script> <!-- this javascript is included bcoz  one of its function is used by remoteresponse.js -->
 		<script src="../../js/jquery-1.9.1.js"></script>
 		<script src="../../js/jquery-ui.js"></script>
 		<link type="text/css" rel="stylesheet" href="../../css/jquery-ui.css">
@@ -49,7 +50,7 @@ String isSent = (Global.isnormalresponsesent.get(WorkshopID)!=null?Global.isnorm
 		</style>
 		
 	</head>
-	<body onload="checkResponse('<%=Coordinator%>' , '<%=questionids%>', '<%=isSent %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>')" class="ui-Mainbody" style="width:100%; height:100%; text-align: center;background-color: white;">
+	<body onload="checkResponse('<%=Coordinator%>' , '<%=questionids%>', '<%=isSent %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>', <%=isShowAns%>)" class="ui-Mainbody" style="width:100%; height:100%; text-align: center;background-color: white;">
 		<%@ include file= "../../jsp/includes/remotemenuheader.jsp" %>
 		<script src="../../js/highcharts.js"></script>
 		<table class="table1">

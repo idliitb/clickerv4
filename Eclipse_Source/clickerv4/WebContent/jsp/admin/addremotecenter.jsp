@@ -1,3 +1,9 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you Press the add remotecenter in menu in remote mode
+USE        : to add New remotecenter details
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "clicker.v4.admin.*" %>

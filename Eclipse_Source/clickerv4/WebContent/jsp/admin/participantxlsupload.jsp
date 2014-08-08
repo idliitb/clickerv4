@@ -1,3 +1,12 @@
+<%--
+      @author Gobinath
+DESCREPTION: when the coordinator press the participant upload button it redirect to 
+			  this page 
+			 
+USE        : to upload the student list from the xls file
+
+--%>
+
 <%@page import="clicker.v4.admin.*"%>
 <%@page import="java.io.*"%>
 <%@page import="java.util.*"%> 

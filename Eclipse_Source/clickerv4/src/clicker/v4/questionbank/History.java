@@ -1,5 +1,9 @@
 package clicker.v4.questionbank;
-
+/**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This Class displays the history of edited questions.
+ */
 import clicker.v4.databaseconn.*;
 import java.sql.*;
 

@@ -10,7 +10,9 @@ import java.sql.*;
 import clicker.v4.databaseconn.*;
 import java.io.*;
 /**
- * Servlet implementation class TrueFalseDB
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: Servlet implementation class TrueFalseDB. This Class adds True or False type questions in the Database.
  */
 //@WebServlet("/addtruefalsedb")
 public class AddTrueFalseDB extends HttpServlet {

@@ -93,7 +93,7 @@ public class RemoteDBHelper {
 				st3.setInt(1,quizid);
 				st3.setInt(2,Integer.parseInt(quiz.getQuizTime()));
 				st3.setString(3,workshopid);
-				st3.setString(4,workshopid+"_Quiz_"+quizid);
+				st3.setString(4,quiz.getQuizName());
 				st3.executeUpdate();		
 				for(int i=0;i<ques.size();i++){
 					Question question=ques.get(i);

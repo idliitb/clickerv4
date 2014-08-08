@@ -18,22 +18,7 @@ if (headerinstrid == null) {
 	return;
 }
 String headercid = session.getAttribute("courseID").toString();
-
-String D_ID=null;
-DatabaseConnection dbc = new DatabaseConnection();
-Connection conection = dbc.createDatabaseConnection();
-Statement stm = conection.createStatement();
-String qr = "SELECT DeptID from instructor where InstrID='"+headerinstrid+"'";
-//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-System.out.println(qr);
-ResultSet r_set = stm.executeQuery(qr);
-while (r_set.next()){
-	D_ID=r_set.getString(1);
-}
-dbc.closeLocalConnection(conection);
-
-
-
+String D_ID=session.getAttribute("D_ID").toString();
 %>
 <%@page import="java.util.*" %>
 <%@page import="clicker.v4.admin.Admindata" %>
@@ -66,40 +51,35 @@ dbc.closeLocalConnection(conection);
 			width: 50px;			
 			background:url('../../img/Clicker50x50.png') no-repeat center;		
 			}
-					
-	
 		</style>
-	</head>
-	<script src="../../js/jquery-1.9.1.js"></script>
-<script src="../../js/jquery-ui.js"></script>
-<link href="../../js/jquery-ui.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-function raiseHandCounter(){
-	
-$(document).ready(
-        function() {
-        	
-            setInterval(function() {
-            	
-            	$.get("../../jsp/raisehand/raisehandcounter.jsp", function (response) {
-                	if(response==0){
-                		document.getElementById("show").style.backgroundColor='#9bbb59';
-                		$('#show').text("");
-                    	}else{
-                    		document.getElementById("show").style.backgroundColor='#e46c0a';
-                    		$('#show').text(response);
-                        	}		
-            	}, "json");
-            }, 5000);
-        });
-}        
-</script>
-	<script type="text/javascript">
+		<script src="../../js/jquery-1.9.1.js"></script>
+		<script src="../../js/jquery-ui.js"></script>
+		<link href="../../js/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript">
+		function raiseHandCounter(){
+			$(document).ready(
+        		function() {        	
+		            setInterval(function() {            	
+            			$.get("../../jsp/raisehand/raisehandcounter.jsp", function (response) {
+		                	if(response==0){
+                				document.getElementById("show").style.backgroundColor='#9bbb59';
+                				$('#show').text("");
+                    			}else{
+		                    		document.getElementById("show").style.backgroundColor='#e46c0a';
+                    				$('#show').text(response);
+                        			}		
+            			}, "json");
+            		}, 5000);
+        		});
+		}        
+		
 		function redirect()
 		{
 			window.location.href="../../logout.jsp";
 		}
+		
 		var xmlhttp;
+		
 		// This method will get the XMLHTTP object for work with ajax
 		function getXMLhttp() {
 			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -115,6 +95,7 @@ $(document).ready(
 				}
 			}
 		}
+		
 		function makeActive() {
 			getXMLhttp();
 			xmlhttp.onreadystatechange = function() {
@@ -126,6 +107,7 @@ $(document).ready(
 			xmlhttp.open("GET",	"../../jsp/course/coursehelper.jsp?helpContent=makeActive", true);	
 			xmlhttp.send();	
 		}
+		
 		function makeInactive() {
 			getXMLhttp();
 			xmlhttp.onreadystatechange = function() {
@@ -138,197 +120,135 @@ $(document).ready(
 			xmlhttp.send();	
 		}
 		
-		
-		
 		function openWin()
 		{
-		
-		var myWindow = window.open("../../jsp/admin/version.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=700,height=400,top=200, left=300");
-		myWindow.document.title = 'About Clicker';
-		self.close();
-		}
-		
-	</script>
-	
-
-<body  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
-		<form id="myform1">
- 			<div>
+			var myWindow = window.open("../../jsp/admin/version.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=700,height=400,top=200, left=300");
+			myWindow.document.title = 'About Clicker';
+			self.close();
+		}			
+		</script>
+	</head>	
+	<body  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
+	<form id="myform1">
+ 		<div>
  			<script>raiseHandCounter();</script>
  			<table class="table" style="border: none;" >				
-				<tr> 				
-				<td rowspan="2">
-				<%if(session.getAttribute("admin").toString().equals("4")){	 %>
-				     <a style="text-decoration: none;" href="../../jsp/admin/department.jsp"><div class="ui-square" style="text-align: center;"></div></a>
-				
-				<%}else {%>
-					<a style="text-decoration: none;" href="../../jsp/home/home.jsp"><div class="ui-square" style="text-align: center;"></div></a>
-				<%} %>
-					<a href="http://www.iitb.ac.in" style="text-decoration: none;"><div style="font-size:20px;  margin-left: 13px; color: #e46c0a;font-weight: bold; letter-spacing: 7px;">MHRD</div></a>					
+				<tr> <td rowspan="2">
+					<a href="http://mhrd.gov.in" target="_blank" style="text-decoration: none;"><div class="ui-square" style="text-align: center;"></div></a>
+					<a href="http://mhrd.gov.in" target="_blank" style="text-decoration: none;"><div style="font-size:20px;  margin-left: 13px; color: #e46c0a;font-weight: bold; letter-spacing: 7px;">MHRD</div></a>									
 				</td>	
-				</tr>
-				<tr>
-				<td>
+				</tr><tr><td>
 				<table id="sample" style="width: 100%;height: 100%; border:none;border-color: green;"  >
-					<tr height="75px">
-					
-						<td >
+					<tr height="75px">	<td >
 						<table style="width: 100%;height: 100%; border:1 ;border-color:red;margin: -5px; "  >
-						<tr>
-						<td>
-						<table style="width: 100%;height: 100%;" >
-						
-						<tr>
-						<td width="160px;" align="left">
-						<div style="height:60px; width: 250px;color: #fff;font-size: 12px;font-family: ">
-						<%="Instructor ID :  " + headerinstrid %><br><br><%="Department ID : " + D_ID%><br><br><%="Course ID : " + headercid%>
-						</div>
-						</td>
-						<td align="left">
-						<div id="banner_name">
-						   <div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
-						   <div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
-						</div>
-						</td>
-						<td width="150px">
+							<tr><td>
+								<table style="width: 100%;height: 100%;" >
+									<tr><td width="160px;" align="left">
+										<div style="height:60px; width: 250px;color: #fff;font-size: 12px;font-family: ">
+											<%="Instructor ID :  " + headerinstrid %><br><br><%="Department ID : " + D_ID%><br><br><%="Course ID : " + headercid%>
+										</div>
+										</td>
+										<td align="left">			
+											<div id="banner_name">
+											<%if(session.getAttribute("admin").toString().equals("4")){	 %>
+				     							<a style="text-decoration: none;" href="../../jsp/admin/department.jsp">
+						   						<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
+						   						<div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+						   						</a>
+						   					<%}else {%>
+												<a style="text-decoration: none;" href="../../jsp/home/home.jsp">
+												<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
+						   						<div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+						   						</a>
+											<%} %>
+											</div>
+										</td>
+										<td width="150px">
+											<%if((session.getAttribute("admin").toString().equals("1")) || (session.getAttribute("admin").toString().equals("2"))||session.getAttribute("admin").toString().equals("3")){
+											%>
+												<div id="courseactiveness" style="width: 120px;height: 50px;border: none;margin-top: -27px;margin-left: 100px;">
+												<% if(Global.activecourses.containsKey(headercid)){ %>
+													<img onclick="makeInactive()" src="../../img/active.png" >
+												<%} else{%>
+													<img onclick="makeActive()" src="../../img/in_active.png" >
+												<%} %>												
+												</div>
+											<%} %>
+										</td>					
+									</tr>
+								</table>
+							</td></tr>
+							<tr><td colspan="3" height="20px" align="center">
+								<div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>
+							</td></tr>
+						</table>
+					</td></tr>
+					<tr><td>
 						<%if((session.getAttribute("admin").toString().equals("1")) || (session.getAttribute("admin").toString().equals("2"))||session.getAttribute("admin").toString().equals("3")){
 						%>
-						<div id="courseactiveness" style="width: 120px;height: 50px;border: none;margin-top: -27px;margin-left: 100px;">
-						<% if(Global.activecourses.containsKey(headercid)){ %>
-							<img onclick="makeInactive()" src="../../img/active.png" >
-						<%} else{%>
-							<img onclick="makeActive()" src="../../img/in_active.png" >
-						<%} %>
-												
-						</div>
-						
-						<%} %>
-						</td>
-						
-						
-						
-						</tr>
-						</table>
-						<tr>
-						<td colspan="3" height="20px" align="center">
-						<div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>
-						</td>
-						</tr>
-						</table>
-						</td>
-					</tr>
-					<tr>
-						<td>
 						<div style="margin-left: 20px;">
-						
-						<%if((session.getAttribute("admin").toString().equals("1")) || (session.getAttribute("admin").toString().equals("2"))||session.getAttribute("admin").toString().equals("3")){
-							
-							%>
-						
-						<ul id="css3menu1" class="topmenu" style="margin:3% 0 0 -2%;">
-						<li class="topfirst" ><a href="#" style="width:131px;height:21px;line-height:21px;"><span>Quiz</span></a>
-						<ul>
-							<li><a href="../../jsp/questionbank/questionbank.jsp">Create quiz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-							<li><a href="../../jsp/quiz/conductquiz.jsp">Conduct quiz</a></li>	    					
-	    					<li><a href="../../jsp/quiz/instantquiznew.jsp">Instant quiz</a></li>
-						</ul></li>
-						<li class="topmenu" ><a href="../../jsp/poll/poll.jsp" style="width:131px;height:21px;line-height:21px;">Poll</a>
-						
-						</li>
-						
-						<li class="topmenu"><a href="../../jsp/raisehand/raisehand.jsp" style="width:131px;height:21px;line-height:21px;">Raise hand
-						<div id="show" style="width:22px ;height:22px  ; left: 120px; top:-30px; text-align:center ; font-size:12px ;font-weight: bold; position:relative;"></div></a></li>
-						
-						
-						
-					<li class="topmenu" >
-							<%if(session.getAttribute("admin").toString().equals("2")){%>
-								<a href="../../jsp/dashboard/hodreport.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
-							<%}else if(session.getAttribute("admin").toString().equals("3")){ %>
-								<a href="../../jsp/dashboard/principalreport.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
-							<%}else{
-								%>
-								<a href="../../jsp/dashboard/report.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
-							<% }%>
-							
-						</li>
-						<!-- <li class="topmenu" ><a href="#" style="width:131px;height:21px;line-height:21px;"><span>Report</span></a>
-						<ul>
-							<li><a href="../../jsp/dashboard/quiz.jsp">Quiz Dashboard</a></li>
-							<li><a href="../../jsp/report/pollreport.jsp">Poll</a></li>
-							<li><a href="../../jsp/report/coursereport.jsp">Course</a></li>
-							<li><a href="../../jsp/report/studentreport.jsp">Student</a></li>
-						</ul>
-						</li> -->
-						<li class="toplast"><a href="#" style="width:131px;height:21px;line-height:21px;"><span>Admin</span></a>
-						<ul>
-						
-							<li><a href="../../jsp/admin/student.jsp">Student</a></li>
-							<li><a href="../../jsp/admin/changepassword.jsp">Change Password</a></li>
-						    <li onclick="openWin()"><a>About Clicker</a></li>
-						
-						</ul></li>
-					</ul>
-					</div>
-
-<%}
-else if(session.getAttribute("admin").toString().equals("4"))
-{%>
-
-<div style="margin-left: 20px;">
-						
-						<ul id="css3menu1" class="topmenu" style="margin:3% 0 0 -2%;">
-						
-						<li class="topfirst" ><a href="../../jsp/admin/department.jsp" style="width:131px;height:21px;line-height:21px;">Department</a>
-						
-						</li>
-						
-						<li class="topmenu"><a href="../../jsp/admin/instructor_info.jsp" style="width:131px;height:21px;line-height:21px;">Instructor
-						</a></li>
-						<li class="topmenu"><a href="../../jsp/admin/changepassword.jsp" style="width:131px;height:21px;line-height:21px;">Change Password
-						</a></li>
-					    <li class="toplast" onclick="openWin()"><a href="" style="width:131px;height:21px;line-height:21px;">About Clicker
-						</a></li>						
-					</ul>
-					</div>
-
-
-<%
-}
-%>
-
-
-
-						</td>
-						
-						
-						
-					</tr>
-					
+							<ul id="css3menu1" class="topmenu" style="margin:3% 0 0 -2%;">
+							<li class="topfirst" ><a href="#" style="width:131px;height:21px;line-height:21px;"><span>Quiz</span></a>
+							<ul>
+								<li><a href="../../jsp/questionbank/questionbank.jsp">Create quiz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+								<li><a href="../../jsp/quiz/conductquiz.jsp">Conduct quiz</a></li>	    					
+	    						<li><a href="../../jsp/quiz/instantquiznew.jsp">Instant quiz</a></li>
+							</ul></li>
+							<li class="topmenu" ><a href="../../jsp/poll/poll.jsp" style="width:131px;height:21px;line-height:21px;">Poll</a>
+							</li>
+							<li class="topmenu"><a href="../../jsp/raisehand/raisehand.jsp" style="width:131px;height:21px;line-height:21px;">Raise hand
+							<div id="show" style="width:22px ;height:22px  ; left: 120px; top:-30px; text-align:center ; font-size:12px ;font-weight: bold; position:relative;"></div></a></li>
+							<li class="topmenu" >
+								<%if(session.getAttribute("admin").toString().equals("2")){%>
+									<a href="../../jsp/dashboard/hodreport.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
+								<%}else if(session.getAttribute("admin").toString().equals("3")){ %>
+									<a href="../../jsp/dashboard/principalreport.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
+								<%}else{%>
+									<a href="../../jsp/dashboard/report.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
+								<% }%></li>
+							<li class="toplast"><a href="#" style="width:131px;height:21px;line-height:21px;"><span>Admin</span></a>
+								<ul>					
+									<li><a href="../../jsp/admin/student.jsp">Student</a></li>
+									<li><a href="../../jsp/admin/changepassword.jsp">Change Password</a></li>
+						    		<li onclick="openWin()"><a>About Clicker</a></li>
+								</ul></li>
+							</ul>
+						</div>
+						<%}
+						else if(session.getAttribute("admin").toString().equals("4"))
+						{%>
+						<div style="margin-left: 20px;">
+							<ul id="css3menu1" class="topmenu" style="margin:3% 0 0 -2%;">
+							<li class="topfirst" ><a href="../../jsp/admin/department.jsp" style="width:131px;height:21px;line-height:21px;">Department</a>
+							</li>
+							<li class="topmenu"><a href="../../jsp/admin/instructor_info.jsp" style="width:131px;height:21px;line-height:21px;">Instructor
+							</a></li>
+							<li class="topmenu"><a href="../../jsp/admin/changepassword.jsp" style="width:131px;height:21px;line-height:21px;">Change Password
+							</a></li>
+					    	<li class="toplast" onclick="openWin()"><a href="" style="width:131px;height:21px;line-height:21px;">About Clicker
+							</a></li>						
+							</ul>
+						</div>
+						<%}%>
+					</td></tr>					
 				</table>
-					
-				</td>
-				<td>
-			     <table style="width: 100%;height: 100%;margin-top: -5px;" border="0">
-			 			  <tr>
-							<td style="vertical-align:top;">
-								<div id="loginout" style="float:right;cursor: pointer; margin-top: -5px;"><img src='../../img/Logout Logo.png' onclick="redirect();"></div>						
-							</td>
-							</tr>
-							<tr align="center">
-							<td>
-								<div id="iit_logo" style="height: 80px;width: 80%;border: none;background-color:#9bbb59;background:url('../../img/iitb01 copy.png') no-repeat center">						
-								
-								</div>
-								<font style="color:#e46c0a;font-weight: bold; ">IIT BOMBAY</font>
-														
-							</td>
-						</tr>
+				</td><td>
+			    <table style="width: 100%;height: 100%;margin-top: -5px;" border="0">
+			 		<tr><td style="vertical-align:top;">
+						<div id="loginout" style="float:right;cursor: pointer; margin-top: -5px;"><img src='../../img/Logout Logo.png' onclick="redirect();"></div>						
+					</td></tr>
+					<tr align="center">	<td>
+						<a href="http://www.iitb.ac.in" target="_blank" style="text-decoration: none;">
+							<div id="iit_logo" style="height: 80px;width: 80%;border: none;background-color:#9bbb59;background:url('../../img/iitb01 copy.png') no-repeat center">						
+							</div>
+							<font style="color:#e46c0a;font-weight: bold; ">IIT BOMBAY</font>
+						</a>
+					</td></tr>
 				</table>
 				</tr>
 			</table>
-			</div>
-
-		</form>
-		<div id="login_div"></div>
-	</body></html>
+		</div>
+	</form>
+	<div id="login_div"></div>
+	</body>
+</html>

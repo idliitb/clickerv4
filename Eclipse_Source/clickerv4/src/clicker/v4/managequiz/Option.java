@@ -7,7 +7,7 @@ package clicker.v4.managequiz;
 /**
  * This class is used to set the details of Option belongs to question
  * 
- * @author manjur
+ * @author manjur, Harshavardhan
  */
 public class Option {
 

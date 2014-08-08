@@ -15,7 +15,7 @@
  }
  
  
- #Q_div{ 
+ #Q_div, .Q_div{ 
  
  background-color:#CCCCB2;
  cursor:pointer; 
@@ -33,7 +33,7 @@
  
  }
  
- #Q_div1{
+ #Q_div1, .Q_div1{
  
  background-color:#EFA76C;
  cursor:pointer; 

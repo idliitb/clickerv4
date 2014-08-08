@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: when the instructor press the add student button it redirect to 
+			  this page 
+			 
+USE        : to upload the xls file and it will store in database
+
+--%>
 <%@page import="clicker.v4.admin.*"%>
 <%@page import="java.io.*"%>
 <%@page import="java.util.*"%> 

@@ -100,6 +100,7 @@ function showOptions(check){
 }
 
 function launchQuiz(courseID){
+	document.getElementById("isShowAns").disabled=true;
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim(); 	
  	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
@@ -126,65 +127,21 @@ function launchQuiz(courseID){
  	 	if(document.getElementById("negativemarking").checked){
  	 		isnegativemarking = 1;
  	 	}
- 		$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setQuizLaunchTime&courseID="+encodeURIComponent(courseID) + "&min="+min + "&sec="+sec + "&isnegativemarking="+ isnegativemarking);
+ 	 	var isShowAns = document.getElementById("isShowAns").checked;
+ 		$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setQuizLaunchTime&courseID="+encodeURIComponent(courseID) + "&min="+min + "&sec="+sec + "&isnegativemarking="+ isnegativemarking + "&isShowAns="+isShowAns);
  		$("#quizLauncher").css("display","none");
  		$("#endquiz_div").css("display","block");
  		$(".optns").css("display","block");	
- 		startTimer("normalquiz");
+ 		document.getElementById("showQOptions").checked = true;
+ 		startTimer(isShowAns);
  	}); 	
 }
 
-function launchInstantQuiz(courseID, instrID){
-	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
- 		var isactive = document.getElementById("tempdata").innerHTML.trim(); 
- 		if(isactive=="inactive"){
- 			alert("Kindly active the course before launching Quiz");
- 		 	return false;
- 		}
- 	 	var radios = document.getElementsByName("optns");
- 	 	var flag = false;
- 	 	var correctAns = "Z";
- 	 	var numoptions = radios.length;
- 	 	for(var i = 0; i < numoptions; i++) {
- 	 		if(radios[i].checked)
- 	 		{
- 	 			correctAns = String.fromCharCode(65 + i);
- 	 			flag = true; 
- 	 		}
- 	 	}
- 	 	if(flag == false){
- 	 		alert("Kindly select Correct Answer");
- 	 		return false;
- 	 	}	
- 	 	var min=document.getElementById("minutes").value.trim();
- 	 	var sec=document.getElementById("seconds").value.trim();
- 	 	var time = (parseInt(min) * 60)  + parseInt(sec);
- 	 	//alert(time);
- 	 	if(min==""){min=0;}if(sec==""){sec=0;} 	 	
- 	 	if(min==0 && sec==0){
- 	 		alert("Kindly give quiz time");
- 	 		return false;
- 	 	}else if(isNaN(min) || isNaN(sec)){
- 	 		alert("Enter Valid Quiz Time");
- 	 		return false;
- 	 	}else if(min<0 || sec<0){
- 	 		alert("Negative Value is not allowed");
- 	 		return false;
- 	 	}else if(min.indexOf(".")!=-1 || sec.indexOf(".")!=-1){
- 	 		alert("Floating is not allowed");
- 	 		return false;
- 	 	}
- 	 	$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setInstantQuizDetail&courseID="+encodeURIComponent(courseID) + "&instrID="+instrID + "&quiztime="+time +"&correctAns="+correctAns + "&numoptions="+numoptions);
- 	 	$("#quizLauncher").css("display","none");
- 	 	startTimer("instantquiz");
-	});
-}
-	
-function startTimer(quiztype) {  	
- 	down=setInterval(function(){countDown(quiztype);},1000);
+function startTimer(isShowAns) {  	
+ 	down=setInterval(function(){countDown(isShowAns);},1000);
 }
 
-function countDown(quiztype) {	
+function countDown(isShowAns) {	
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim();
  	if(min==""){min=0;}if(sec==""){sec=0;};
@@ -202,15 +159,12 @@ function countDown(quiztype) {
 	{
 		clearInterval(down);
 		$("#quizLauncher").css("display","block");
-		if(quiztype=="normalquiz"){
-			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse()' style='margin-left:460px;'>" +
-						"<span>Show Response</span>	</button>";
-		}else if(quiztype=="instantquiz"){
-			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showInstantQuizResponse()' style='margin-left:460px;'>" +
-				"<span>Show Response</span>	</button>";
-		}
+		document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse("+isShowAns+")' style='margin-left:460px;'>" +
+			"<span>Show Response</span>	</button>";		
 	}
-	$('#quizresponsestatus').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquizresponsestatus");
+	if(sec%5==0){
+		$('#quizresponsestatus').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquizresponsestatus");
+	}
 }
 
 function endQuiz(quiztype) {
@@ -222,8 +176,9 @@ function endQuiz(quiztype) {
 		$("#quizLauncher").css("display","block");
 		$("#endquiz_div").css("display","none");
 		document.getElementById("timer").innerHTML = "00 : 00";
+		var isShowAns = document.getElementById("isShowAns").checked;
 		if(quiztype=="normalquiz"){
-			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse()' style='margin-left:460px;'>" +
+			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse("+isShowAns+")' style='margin-left:460px;'>" +
 						"<span>Show Response</span>	</button>";
 		}else if(quiztype=="instantquiz"){
 			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showInstantQuizResponse()' style='margin-left:460px;'>" +
@@ -233,12 +188,8 @@ function endQuiz(quiztype) {
 		
 }
 
-function showResponse(){
-	window.location = "../../jsp/quiz/newresponsechart.jsp";
-}
-
-function showInstantQuizResponse(){
-	window.location = "../../jsp/quiz/newinstantchart.jsp";
+function showResponse(isShowAns){
+	window.location = "../../jsp/quiz/newresponsechart.jsp?isShowAns="+isShowAns;
 }
 
 function displayOptions(optionNmbr){

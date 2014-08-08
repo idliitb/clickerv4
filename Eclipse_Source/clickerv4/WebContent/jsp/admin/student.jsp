@@ -1,3 +1,10 @@
+<%--
+      @author Gobinath
+DESCREPTION: it display when student information
+
+			 
+USE        : to add student and assign course
+--%>
 <%@page import="clicker.v4.admin.Admindata"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>

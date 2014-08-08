@@ -11,6 +11,9 @@ import java.sql.*;
 import clicker.v4.databaseconn.*;
 
 /**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet inserts the edited True or False type questions in the database.
  * Servlet implementation class TrueFalseEditDB
  */
 //@WebServlet("/truefalseeditdb")

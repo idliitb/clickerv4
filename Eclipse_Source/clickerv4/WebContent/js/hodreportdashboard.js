@@ -77,6 +77,31 @@ function createDOMElement(ele){
 	return element;
 }
 
+function createDOMInputElement(type, name, id, value, style, eleclass){
+	var element = document.createElement("INPUT");
+	element.setAttribute("type", type);	
+	element.setAttribute('name', name);	
+	element.setAttribute('id', id);
+	element.setAttribute('value',value);
+	element.setAttribute('style',style);
+	element.setAttribute('class',eleclass);
+	element.setAttribute('onclick',"checkboxlimit()");
+	return element;
+}
+
+function checkboxlimit(){
+	var checkgroup = document.getElementsByName("compare");
+	var limit =2;
+	var checkedcount=0;	
+	for (var i=0; i<checkgroup.length; i++){
+		checkedcount+=(checkgroup[i].checked)? 1 : 0;
+		if (checkedcount>limit){
+			alert("You can only select maximum of "+limit+" courses");
+			checkgroup[i].checked=false;
+		}
+	}
+}
+
 var arrowcontainer="", contentcontainer="";
 function loadDOMCoursesData(insid){
 	getXMLhttp();
@@ -91,9 +116,18 @@ function loadDOMCoursesData(insid){
 				var td1=createDOMElement('td');
 				var div1=createDOMElementClassStyle('div','ui-header-text', 'text-align:left;');
 				var h2=document.createElement("h2");
+				h2.setAttribute("style", "display: inline;");
 				var h2node=document.createTextNode("Course ID : "+cid);
 				h2.appendChild(h2node);
 				div1.appendChild(h2);
+				var checkbox = createDOMInputElement("checkbox", "compare", "cb_"+cid, cid, "display: inline;", "coursecompare");
+				var cblabel = document.createElement('label');
+				cblabel.htmlFor = "cb_"+cid;
+				cblabel.appendChild(document.createTextNode('Compare'));
+				div1.appendChild(checkbox);
+				div1.appendChild(cblabel);
+				var hiddendiv = createDOMElementIDStyle("div", cid + "_performance", "display:none");
+				div1.appendChild(hiddendiv);
 				var div2=createDOMElementClass('div','notebox');
 				div2.onclick=changeActive.bind(div2, cid+"nq", cid, insid, courseresponse.split("~$~")[1].split("@#@")[0]);
 				var tempdiv1=createDOMElementIDClass('div',cid+"nq_head" ,'boxhead');
@@ -169,7 +203,7 @@ function loadDOMCoursesData(insid){
 		}
 	};	
 	xmlhttp.open("GET", "../../jsp/dashboard/hodreportdashboardhelper.jsp?helpcontent=coursedata", true);
-	xmlhttp.send();	
+	xmlhttp.send();
 }
 
 function loadCoursesData(insid){
@@ -243,6 +277,7 @@ function quizData(resp,insid,cid){
 	/*$("#tempdiv").load("../../QuizLineChart?chartdata="+chartdata+"&cid="+cid,function(){
 		document.getElementById(cid+"qpChart").innerHTML = "<img src='../../"+insid+"/"+cid+"qpchart.png'/>";
 	});*/
+	document.getElementById(cid+"_performance").innerHTML=chartdata;
 	var iqchartdata = chartdata.split("~@~")[1].split("~!~").map(Number);
 	var nqchartdata = chartdata.split("~@~")[0].split("~!~").map(Number);
 	var maxquiz=nqchartdata.length;
@@ -706,4 +741,187 @@ function attendanceReport(cid, date, session){
 			});
 		});	
 	});	
+}
+
+function compareCourses(){
+	var checkgroup = document.getElementsByName("compare");
+	var checkedcount=0;	
+	var courses = "";
+	var coursesPerformances = "";
+	for (var i=0; i<checkgroup.length; i++){
+		if(checkgroup[i].checked){
+			checkedcount++;
+			courses +=checkgroup[i].value + "@";
+			coursesPerformances += document.getElementById(checkgroup[i].value + "_performance").innerHTML + "@#@";
+		}
+	}
+	if (checkedcount<2){
+		alert("You have to select minimum of 2 courses");
+		return false;
+	}
+	getXMLhttp();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var resp = xmlhttp.responseText;
+			var avgDate = resp.split("@#@");
+			var comparearray=new Array(4);
+			for (i=0; i <4; i++){
+				comparearray[i]=new Array(6);
+			}
+			var perf= coursesPerformances.split("@#@");
+			for(var i=0;i<avgDate.length-1;i++){
+				var Cdata = avgDate[i].split("@!@");
+				var avg=0;
+				var cperf = perf[i].split("~@~");
+				if(i==1)i=i+2;
+				for(var j=0;j<Cdata.length-1;j++){
+					var Qdata = Cdata[j].split("~!~");
+					for(var k=0;k<Qdata.length;k++){
+						if(k==0)
+						{							
+							comparearray[k][j+i]=Qdata[k];
+						}else if(k==1){
+							if(Qdata[k]!="null"){
+								comparearray[k][j+i]=Qdata[k].split(",").length;
+								comparearray[k+1][j+i]=Qdata[k].split(",")[0];								
+							}else{
+								comparearray[k][j+i]= " - ";
+								comparearray[k+1][j+i]= " - ";
+							}
+						}
+						var qperf = cperf[k].split("~!~");
+						var sum=0;
+						for(var l=1;l<qperf.length;l++){
+							sum += parseInt(qperf[l]);
+						}
+						avg = Math.round((sum / (qperf.length-1)) * 100) / 100;
+						if(!isNaN(avg))
+						{
+							comparearray[3][k+i]=avg;
+						}else{
+							comparearray[3][k+i]=0;
+						}
+					}
+				}
+			}
+			comparearray[3][2]=" - ";comparearray[3][5]=" - ";
+			var response = "<table id='ccomparetable' border=1 style='margin-left:20px;'><tr><th rowspan=2>Performances</th><th colspan=3>"+courses.split("@")[0]+"</th><th colspan=3>"+courses.split("@")[1]+"</th></tr>";
+			response += "<tr><th>Normal Quiz</th><th>Instant Quiz</th><th>Poll</th><th>Normal Quiz</th><th>Instant Quiz</th><th>Poll</th></tr>";
+			for(var i=0;i<4;i++){
+				if(i==0)response += "<tr><td> Average Student Participation </td>";
+				else if(i==1)response += "<tr><td> Number of Days Clicker Used </td>";
+				else if(i==2)response += "<tr><td> Last date of Clicker Used </td>";
+				else if(i==3)response += "<tr><td> Average Student Performance </td>";
+				for(var j=0;j<6;j++){
+					response += "<td> "+comparearray[i][j]+" </td>";
+				}
+				response += "</tr>";
+			}
+			response += "</table>";
+			document.getElementById("compareTable").innerHTML = response;
+			
+			$('#compareChart1').highcharts({
+		        chart: {
+		            type: 'column'
+		        },
+		        title: {
+		            text: 'Average Student Performance'
+		        },
+		        subtitle: {
+		            text: 'Course Comparative Analysis'
+		        },
+		        xAxis: {
+		            categories: [
+		                'Normal Quiz',
+		                'Instant Quiz'
+		            ]
+		        },
+		        yAxis: {
+		            min: 0,
+		            title: {
+		                text: 'Performance (%)'
+		            }
+		        },
+		        tooltip: {
+		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+		            footerFormat: '</table>',
+		            shared: true,
+		            useHTML: true
+		        },
+		        plotOptions: {
+		            column: {
+		                pointPadding: 0.2,
+		                borderWidth: 0
+		            }
+		        },
+		        series: [{
+		            name: courses.split("@")[0],
+		            data: [comparearray[3][0], comparearray[3][1]]
+
+		        }, {
+		            name: courses.split("@")[1],
+		            data: [comparearray[3][3], comparearray[3][4]]
+		        }]
+		    });
+			
+			$('#compareChart2').highcharts({
+		        chart: {
+		            type: 'column'
+		        },
+		        title: {
+		            text: 'Average Student Participation'
+		        },
+		        subtitle: {
+		            text: 'Course Comparative Analysis'
+		        },
+		        xAxis: {
+		            categories: [
+		                'Normal Quiz',
+		                'Instant Quiz'
+		            ]
+		        },
+		        yAxis: {
+		            min: 0,
+		            title: {
+		                text: 'Perticipation (%)'
+		            }
+		        },
+		        tooltip: {
+		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		                '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+		            footerFormat: '</table>',
+		            shared: true,
+		            useHTML: true
+		        },
+		        plotOptions: {
+		            column: {
+		                pointPadding: 0.2,
+		                borderWidth: 0
+		            }
+		        },
+		        series: [{
+		            name: courses.split("@")[0],
+		            data: [parseInt(comparearray[0][0]), parseInt(comparearray[0][1])]
+
+		        }, {
+		            name: courses.split("@")[1],
+		            data: [parseInt(comparearray[0][3]), parseInt(comparearray[0][4])]
+		        }]
+		    });
+
+			document.getElementById("courseCompareDiv").style.visibility = 'visible';
+			$("#courseCompareDiv").dialog({
+				title : "Course Comparative Analysis",
+				height : 540,
+				width : 810,
+				draggable : false,
+				modal : true
+			});			
+		}
+	};	
+	xmlhttp.open("GET", "../../jsp/dashboard/hodreportdashboardhelper.jsp?helpcontent=comparecourses&courses="+courses, true);
+	xmlhttp.send();
 }

@@ -1,3 +1,7 @@
+/* Author : Gobianth M
+ * Use :function that used in servlet for data    
+ *  
+ */
 package clicker.v4.admin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

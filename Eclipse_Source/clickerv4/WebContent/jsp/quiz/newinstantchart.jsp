@@ -18,6 +18,7 @@ if (InstructorID == null) {
 	return;
 }
 String courseID = session.getAttribute("courseID").toString();
+boolean isShowAns = Boolean.parseBoolean(request.getParameter("isShowAns"));
 int quizrecordid = Global.quizrecordids.get(courseID);
 QuizResponseHelper quizResponseHelper = new QuizResponseHelper();
 String questionids = quizResponseHelper.getInstantQuestionIDs(quizrecordid);
@@ -45,7 +46,7 @@ ol {
 </style>
 </head>
 <body
-	onload="overallGraph('<%=questionids %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>','<%=InstructorID%>')"
+	onload="overallGraph('<%=questionids %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>','<%=InstructorID%>', <%=isShowAns%>)"
 	class="ui-Mainbody"
 	style="width: 100%; height: 100%; text-align: center;background-color: white;">
 	<%@ include file="../../jsp/includes/menuheader.jsp"%>
@@ -53,10 +54,12 @@ ol {
 	<table class="table1">
 			<tr><td>
 				<div class="ui-header-text" id="loading">
-				<br>
 					<h2 style="display: inline;">Please wait responses are still getting collected hence chart will get update...  <img style='margin-left: 10px; margin-top: 0px; width : 73px; height : 73px;' src='../../img/ajax_loader_green_512.gif'></img>  </h2>
-				</div><br/>
+				</div>
 				<br>
+				<div style="color: #000; display: inline;font-size: 20px; margin-left: 50px;">
+					<input type="checkbox" id="showCorrectAnsChart" name="showCorrectAnsChart" checked="checked" onchange="showCAnsChart(this)"> Show Answer
+				</div>						
 			</td>
 			</tr>
 		</table>

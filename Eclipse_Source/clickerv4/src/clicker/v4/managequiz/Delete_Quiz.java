@@ -1,5 +1,10 @@
 package clicker.v4.managequiz;
 
+/**
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet deletes the selected quiz
+ */
 import clicker.v4.databaseconn.*;
 import java.io.IOException;
 import java.sql.*;

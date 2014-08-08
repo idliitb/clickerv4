@@ -49,16 +49,18 @@ QuizHelper quizHelper = new QuizHelper();
 	<body onload="quizPreview('<%=quizid%>', '<%=courseID%>')" class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 		<%@ include file= "../../jsp/includes/menuheader.jsp" %>
 		<table class="table1">
-			<tr><td width="40%"><div style="text-align: center;">
-					<label>Quiz ID : <%=quizid%></label><br/>
-					<label style="margin-left: 5px;">Quiz Name : <%=quizname%></label>
+			<tr><td width="40%">
+				<div style="margin-top: 10px;margin-left:30px; float: left;width: 220px;">
+					Quiz ID : <%=quizid%><br/>
+					Quiz Name : <%=quizname%>				
 				</div>
+				<div style="margin-top: 15px;margin-left:0px; float: left;"><input id="isShowAns" type="checkbox" value="Answer" checked="checked"/>Show Answer</div>
 				</td>
 			<td width="20%">
-				<div class="ui-header-text"><h2 style="display: inline;">Quiz</h2><input style="margin-left: 20px;" onchange="showOptions(this)" type="checkbox" value="showoption" />&nbsp;Show Option</div>
+				<div class="ui-header-text"><h2 style="display: inline;">Quiz</h2><input id="showQOptions" style="margin-left: 20px;" onchange="showOptions(this)" type="checkbox" value="showoption" />&nbsp;Show Option</div>
 			</td>
-			<td width="40%">
-				<div id="quizresponsestatus" style="margin-left: 30px;float: left;margin-top: 25px">Responses : 0 / <%=quizHelper.getNoofStudent(courseID)%>	</div>
+			<td width="40%">				
+				<div id="quizresponsestatus" style="margin-left: 60px;float: left;margin-top: 30px">Responses : 0 / <%=quizHelper.getNoofStudent(courseID)%>	</div>
 				<div id="endquiz_div" style="display: inline; display: none;">
 					<button class="ui-conductquiz-button"  id="endquiz" type="button" onclick="endQuiz('<%="normalquiz"%>')" style="margin-left: 20px;" >
 						<span>End Quiz</span>
@@ -75,7 +77,7 @@ QuizHelper quizHelper = new QuizHelper();
 		</table>
 		<table class="table1" id="quizLauncher" style="margin-top:5px; display: block;">
 			<tr><td>
-				<div id = "launcher" style="text-align: center;">
+				<div id = "launcher">
 				<form name="Timer" ><br>
 					<div style="font-size: 14px; font-weight: bold;margin-left:430px;">Select Time for Quiz</div><br>
 					<div style="font-weight: normal; margin-left:410px;">
@@ -83,7 +85,7 @@ QuizHelper quizHelper = new QuizHelper();
 						Seconds <input type="text" style="width: 30px"id="seconds" value="40" />
 						<div class="ui-header-text" style="display: inline"><input style="margin-left: 20px;" id="negativemarking" type="checkbox" value="negativemarking" />&nbsp;Negative Marking</div> 
 					</div>
-					<button class="ui-conductquiz-button"  id="pre" type="button" onclick="launchQuiz('<%=courseID%>')" style="margin-left:420px;">
+					<button class="ui-conductquiz-button"  id="pre" type="button" onclick="launchQuiz('<%=courseID%>')" style="margin-left:460px;">
 						<span>Launch quiz</span>
 					</button>
 				</form>

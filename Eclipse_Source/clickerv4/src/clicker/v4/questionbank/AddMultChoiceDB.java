@@ -1,5 +1,8 @@
 package clicker.v4.questionbank;
-
+/** 
+ * @Author: Harshavardhan, Clicker Team, IDL, IIT Bombay
+ * Description: This class adds the Multiple Choice correct questions to the Database
+ */
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +13,7 @@ import java.io.*;
 import java.sql.*;
 import clicker.v4.databaseconn.*;
 /**
- * Servlet implementation class AddMultChoiceDB
+ * Servlet implementation class AddMultChoiceDB. 
  */
 //@WebServlet("/addmultchoicedb")
 public class AddMultChoiceDB extends HttpServlet {

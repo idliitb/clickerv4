@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: This servlet populates the questions for display.
+ */
 
 public class QuestionPopulator extends HttpServlet {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request,HttpServletResponse response){

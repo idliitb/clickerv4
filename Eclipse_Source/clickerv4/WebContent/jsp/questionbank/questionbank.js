@@ -1,3 +1,5 @@
+/* @ Author: Harshavardhan, Clicker Team, IDL, IIT Bombay */
+
 var questions = null;
 
 function uploadXLS() {
@@ -323,44 +325,49 @@ function loadOptions(qid)
 function createquiz( )
 {//alert("in create quiz");
 	
-	if(document.getElementById("quiz").style.display == 'none')
-	{		
-		document.getElementById("cq_span").innerHTML = "Cancel Quiz";
-		document.getElementById("cq_button").style.background = "#C40000";
-		document.getElementById("quiz").style.display = "block";
+	if(questions != "")
+	{
+		if(document.getElementById("quiz").style.display == 'none')
+		{		
+			document.getElementById("cq_span").innerHTML = "Cancel Quiz";
+			document.getElementById("cq_button").style.background = "#C40000";
+			document.getElementById("quiz").style.display = "block";
+			
+			var check_toggle = document.getElementsByName("checkbox");
+			
+			for(var i = 0; check_toggle.length; i++)
+				(check_toggle[i]).style.display = 'block';		
+		}
+		else
+		{
+			document.getElementById("cq_span").innerHTML = "Create Quiz";
+			document.getElementById("cq_button").style.background = "#f1690a";
+			document.getElementById("quiz").style.display = "none";
+			document.getElementById("quizName").value = "";
+			document.getElementById("durationM").value = "";
+			document.getElementById("durationS").value = "";
+			
+			var check_toggle = document.getElementsByName("checkbox");
+							
+					if(document.getElementById("count").value > 0)
+					{
+						document.getElementById("count").value = 0;		
+						
+						$('.quiz_questions').remove( );
+						//alert("Count: " + document.getElementsByClassName("quiz_questions").length);					
+					}
+					for(var i = 0; check_toggle.length; i++)
+					{
+						if((check_toggle[i]).checked == true)
+							(check_toggle[i]).checked = false;
+							
+						(check_toggle[i]).style.display = 'none';	
+					}
 		
-		var check_toggle = document.getElementsByName("checkbox");
-		
-		for(var i = 0; check_toggle.length; i++)
-			(check_toggle[i]).style.display = 'block';		
+		}
 	}
 	else
-	{
-		document.getElementById("cq_span").innerHTML = "Create Quiz";
-		document.getElementById("cq_button").style.background = "#f1690a";
-		document.getElementById("quiz").style.display = "none";
-		document.getElementById("quizName").value = "";
-		document.getElementById("durationM").value = "";
-		document.getElementById("durationS").value = "";
-		
-		var check_toggle = document.getElementsByName("checkbox");
-						
-				if(document.getElementById("count").value > 0)
-				{
-					document.getElementById("count").value = 0;		
-					
-					$('.quiz_questions').remove( );
-					//alert("Count: " + document.getElementsByClassName("quiz_questions").length);					
-				}
-				for(var i = 0; check_toggle.length; i++)
-				{
-					if((check_toggle[i]).checked == true)
-						(check_toggle[i]).checked = false;
-						
-					(check_toggle[i]).style.display = 'none';	
-				}
-	
-	}
+		alert("Please add some question(s) to Create Quiz");
 }
 
 var counter = 0;
@@ -478,9 +485,9 @@ function deleteQuiz( )
 	$("#deletequiz").dialog({
 		title:"Delete Quiz",
 		modal:true,
-		height:761,
+		//height:761,
 		position: {my: "center", at: "top", of: window},
-	    width:1100,
+	    width:1150,
 	    autoOpen:false,
 	    resizable: false
 	});
@@ -521,5 +528,155 @@ function validateQuiz(InstrID) {
 		alert("You have successfully Added a new Quiz.\nThank you");
 		
 	}
+	
+}
+
+function showtip(e,Q_count,N_Ques,Marks)
+{
+
+ var x=0;
+ var y=0;
+ var m;
+ var h; 
+ if(!e)
+   var e=window.event;
+   if(e.pageX||e.pageY)
+    {
+	 x=e.pageX;
+	 y=e.pageY;
+	 }
+ else 
+  if(e.clientX||e.clientY)
+   {
+    x=e.clientX+document.body.scrollLeft+document.documentElement.scrollLeft;
+	y=e.clientY+document.body.scrollTop+document.documentElement.scrollTop;
+   }
+   
+   m=document.getElementById('tooltip');
+  // alert(y);
+  messageHeigth= 20;
+   if((y>10)&&(y<200))
+    {
+	 m.style.top=y-messageHeigth+"px";
+	 //alert(m.style.top);
+	}
+   else
+	   m.style.top=y-(5*messageHeigth)+"px";
+   if(x<850){
+     m.style.left=x - 500+"px";
+	 }
+   else{
+    m.style.left=x-500+"px";
+	}
+   var Message=Q_count+"~"+N_Ques+"~"+Marks;
+    $('#tooltip').load("../../jsp/quiz/quizhelper.jsp?helpContent=quizdetail&Quiz_msg="+encodeURIComponent(Message));
+	m.style.display="block";
+	m.style.zIndex=203;
+}
+
+function hidetip()
+{
+  var m;
+  m=document.getElementById('tooltip');
+  m.style.display="none";
+}
+
+function quizname(quizname, quiz_id)
+{	
+	var quiz_div_color = document.getElementsByClassName('Q_div');
+	var quiz_div_color1 = document.getElementsByClassName('Q_div1');
+			
+		if(quiz_div_color.length > 0)
+			for(var i = 0; i < (quiz_div_color.length); i++)
+				if($(document.getElementById(quiz_div_color[i].id)).css('background-color') == 'rgb(255, 99, 8)' || document.getElementById(quiz_div_color[i].id).style.background == '' || document.getElementById(quiz_div_color[i].id).style.background == null)
+					document.getElementById(quiz_div_color[i].id).style.background = '';
+		
+		if(quiz_div_color1.length > 0)
+			for(var i = 0; i < (quiz_div_color1.length); i++)
+				if($(document.getElementById(quiz_div_color1[i].id)).css('background-color') == 'rgb(255, 99, 8)' || document.getElementById(quiz_div_color1[i].id).style.background == '' || document.getElementById(quiz_div_color1[i].id).style.background == null)
+					document.getElementById(quiz_div_color1[i].id).style.background = '';
+			
+	document.getElementById(quiz_id).style.background = 'rgb(255, 99, 8)';
+		
+	document.getElementById("quizdetails").innerHTML = "";
+	var xmlhttp;
+	if(window.XMLHttpRequest)
+		{
+			xmlhttp=new XMLHttpRequest();
+		}
+	else
+		{
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+	xmlhttp.open("GET", "../../jsp/managequiz/deletequizdisplay.jsp?quizid=" + escape(quiz_id), true);
+	xmlhttp.send( );
+	
+	var quiz_info, quiz_info_split;
+	var questions_split, questions, quests_split, opts;
+	var quiz_info_split;
+	var timestamp;
+	var quest_table, timestamp_table; 
+
+	quest_table = "<table id = 'quiz_details' class = 'table1' border = '1' style = 'width: 1050px; margin-top: 10px; border: 3px solid #e46c0a;'> <tr><td><div id = 'details' style='font-size: 18px; height:400px;overflow: auto; text-align: justify;'>";
+	timestamp_table = "<div class='table1' style='max-height: 97px; width: 250px; margin-top: 0px; overflow: auto;'" + 
+					  "'height: 150px; text-align: justify; border: 3px solid #e46c0a;'>" +
+					  "<div style='margin-left: 10px; font-size:18px;'>Quiz Conduction Record</div>";
+					  
+	xmlhttp.onreadystatechange=function()
+	{
+		if(xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				quiz_info = (xmlhttp.responseText).trim();
+				//alert("quiz info: " + quiz_info);
+				quiz_info_split = quiz_info.split("$$");
+				questions = quiz_info_split[0].split("@@");
+				
+				//alert("TS: " + quiz_info_split[1]);
+				for(var i = 0; i < questions.length; i++)
+				{
+					if(questions[i].indexOf("!@") > -1)
+					{
+						quests_split = questions[i].split("!@");
+						//alert("TS: " + questions.length);
+						//alert("TS: " + quests_split[1]);
+						quest_table += "<font style = 'font-weight: bold'>Question " + (i + 1) + "</font>: " + quests_split[0] + "<br>";
+						
+						opts = quests_split[1].split("!!");
+						//alert("TS: " + opts.length);
+						for(var j = 0; j < opts.length; j++)
+						{
+							quest_table += "<font style = 'font-weight: bold'>Option " + (j + 1) + "</font>: " + opts[j] + "<br>";
+						}
+						quest_table += "<br>";
+					}
+					else
+						quest_table += "<font style = 'font-weight: bold'>Question " + (i + 1) + "</font>: " + questions[i] + "<br><br>";
+											
+				}
+				quest_table += "</div></td></tr></table>";
+				
+				if(quiz_info_split[1] != "1")
+				{
+					timestamp = quiz_info_split[1].split("#");
+					
+					timestamp_table += "<table  border='1' style='border-radius:5px;'><tr style  = 'font-size'" +
+					 	 			   "': 14px;'><th>Sr.No.</th><th>Quiz Conducted On</th></tr>";
+					 	 			   
+					for(var k = 0; k < timestamp.length; k++)
+					{
+						timestamp_table +=  "<tr style = 'font-size : 13px'><td style = 'text-align: center;'>" + (k + 1) + "</td>" +
+											"<td style = 'text-align: center;'>" + timestamp[k] + "</td></tr>";
+					}
+					timestamp_table += "</table></div>";
+				}
+				else
+					timestamp_table += "<div style = 'margin:10px 0px 0px -20px; color:red; font-size: 18px; text-align: center;'> This Quiz has not been conducted till date </div></div>";
+			}
+		document.getElementById("quizdetails").innerHTML = quest_table;
+		document.getElementById("quiz_conduction_record").innerHTML = timestamp_table;
+	};
+
+	document.getElementById("delete_quiz_button").style.display = "block";
+	document.getElementById("QuizID").value = quiz_id;
 	
 }

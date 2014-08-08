@@ -1,3 +1,10 @@
+<%--
+      @author Gobinath
+DESCREPTION:This JSP Page will display when you Press the Add Course Button
+USE        : to add New Course
+
+--%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

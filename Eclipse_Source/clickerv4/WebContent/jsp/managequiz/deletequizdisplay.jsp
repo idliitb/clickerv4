@@ -1,3 +1,7 @@
+<%-- @Author Harshavardhan
+	Clicker Team, IDL, IIT Bombay
+	Description: This file selects the active quizzes from the database for deletion --%>
+
 <%@	page import="clicker.v4.managequiz.*"%>
 <%@ page import = "clicker.v4.databaseconn.*" %>
 <%@ page import = "java.sql.*" %>
@@ -20,145 +24,129 @@ if (instructorID == null) {
 	int QuestionIndex=0;
 	Vector<String> CorrectAnswer = new Vector<String>();
 	
-	String qname = request.getParameter("quizname");
-	System.out.println("qname: " + qname);
-	int QuizID = qns.getQuizID(conn, qname);
+	//String qname = request.getParameter("quizname");
+	//System.out.println("qname: " + qname);
+	int QuizID = Integer.parseInt(request.getParameter("quizid"));//qns.getQuizID(conn, qname);
 	String Quiz_ID = String.valueOf(QuizID);
 	String quiztimestamp[ ] = qns.getQuizTimestamp(QuizID);
 	Vector<Question> Questiondetails = new Vector<Question>();
 	Questiondetails = qns.getallQuestionDetails(conn, String.valueOf(QuizID));
-	
-%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" rel="stylesheet" href="../../css/style.css">
-<link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
+	StringBuilder timestamp = new StringBuilder( );
+	StringBuilder quiz_info = new StringBuilder( );
 
-<title>Insert title here</title>
-</head>
-<body>
-
-<table class="table1" style="margin-top:0px;" border="1">
-<tr>
-<td>
-<div id = "details" style="font-size: 18px; height:400px;overflow: auto; text-align: justify;">
-<%	
-while ((QuestionIndex + 1) <= Questiondetails.size())
-{
-	question = Questiondetails.elementAt(QuestionIndex);	
-	int QuestionType = question.getQuestionType();
-	String QuestionAnswer="";
-	questionStr = question.getQuestionText().replace("\r\n","<br/>").replace("\n","<br/>");	
-%>						
-	<font style = "font-weight: bold">Question <%= QuestionIndex + 1%></font> :
-	<%=questionStr%>
-	<br>
-	<%
-	Vector<Option> Options = question.getOptions();
-	Option option[] = new Option[Options.size()];
-	String OptionResponse="";
-	
-	for (int i=0; i<Options.size(); i++)
-	{
-		OptionResponse =  Character.toString((char)(i+65));		
-		option[i]=Options.elementAt(i);
-		if(QuestionType!=3){
-	%>
-		<font style = "font-weight: bold">Option
-		<%=OptionResponse%></font>
-		:
-		<%=option[i].getOptionValue().toString()%>
-		<br>
-	<%}}%>
-	<br>
-	
-	<%	
-	if (QuestionType==1)
-	{
-		for(int i=0;i<Options.size();i++){
-			if (Options.elementAt(i).getCorrect()==true)
+		StringBuilder quests = new StringBuilder( );
+		//String quests = "";
+		for(int j = 0; j < Questiondetails.size( ); j++)// ((QuestionIndex + 1) <= Questiondetails.size())
+		{
+			
+			question = Questiondetails.elementAt(j);	
+			int QuestionType = question.getQuestionType();
+			String QuestionAnswer="";
+			questionStr = question.getQuestionText().replace("\r\n","<br/>").replace("\n","<br/>");	
+			//System.out.println("Questions+++++++++++++++++++++++++" + questionStr);		
+			
+			//questionStr--
+			
+			
+			Vector<Option> Options = question.getOptions();
+			Option option[] = new Option[Options.size()];
+			String OptionResponse="";
+			StringBuilder opts = new StringBuilder( );
+			for (int i=0; i<Options.size(); i++)
 			{
-				QuestionAnswer = QuestionAnswer+Character.toString((char)(i+65));
+				OptionResponse =  Character.toString((char)(i+65));		
+				option[i]=Options.elementAt(i);
+				if(QuestionType!=3){
+					if(!((i + 1) == Options.size()))
+						opts.append(option[i].getOptionValue().toString() + "!!");
+					else
+						opts.append(option[i].getOptionValue().toString());
+				
+				
+				
+				
+				
+				}
+			}
+			
+			if(!((j + 1) == Questiondetails.size( )) && QuestionType != 3)
+				quests.append(questionStr + "!@" + opts + "@@");
+			else if(QuestionType == 3)
+			{
+				if((j + 1) == Questiondetails.size( ))
+					quests.append(questionStr);
+				else
+					quests.append(questionStr + "@@");
+			}					
+			else
+				quests.append(questionStr + "!@" + opts);
+			//System.out.println("Questions--------------" + quests);
+			}
+			
+			
+			
+			/*	
+			if (QuestionType==1)
+			{
+				for(int i=0;i<Options.size();i++){
+					if (Options.elementAt(i).getCorrect()==true)
+					{
+						QuestionAnswer = QuestionAnswer+Character.toString((char)(i+65));
+						CorrectAnswer.add(QuestionAnswer);
+					}
+				}				
+			}
+			else if (QuestionType==2)
+			{
+				for(int i=0;i<Options.size();i++){
+					if (Options.elementAt(i).getCorrect()==true)
+					{
+						QuestionAnswer = QuestionAnswer+Character.toString((char)(i+65));				
+					}
+				}				
 				CorrectAnswer.add(QuestionAnswer);
 			}
-		}				
-	}
-	else if (QuestionType==2)
-	{
-		for(int i=0;i<Options.size();i++){
-			if (Options.elementAt(i).getCorrect()==true)
-			{
-				QuestionAnswer = QuestionAnswer+Character.toString((char)(i+65));				
+			else if (QuestionType==3)
+			{		
+				CorrectAnswer.add(option[0].getOptionValue(java.lang.OutOfMemoryError: Java heap space).toString());
 			}
-		}				
-		CorrectAnswer.add(QuestionAnswer);
-	}
-	else if (QuestionType==3)
-	{		
-		CorrectAnswer.add(option[0].getOptionValue().toString());
-	}
-	else if (QuestionType==4)
-	{
-		for(int i=0;i<Options.size();i++){
-			Option opt = Options.elementAt(i);
-			if (opt.getCorrect()==true)
+			else if (QuestionType==4)
 			{
-				QuestionAnswer +=(opt.getOptionValue().equalsIgnoreCase("true")?"A":"B");				
+				for(int i=0;i<Options.size();i++){
+					Option opt = Options.elementAt(i);
+					if (opt.getCorrect()==true)
+					{
+						QuestionAnswer +=(opt.getOptionValue().equalsIgnoreCase("true")?"A":"B");				
+					}
+				}				
+				CorrectAnswer.add(QuestionAnswer);
 			}
-		}				
-		CorrectAnswer.add(QuestionAnswer);
-	}
-	QuestionIndex++;	
-}
-dbconn.closeLocalConnection(conn);
-%>
-</div>
-</td>
-</tr>
-</table>
+			QuestionIndex++;*/
+			//quests.append(questionStr);
+			//quests.append("@@");
+			//questionStr += "@@";
+		//}
+		dbconn.closeLocalConnection(conn);
+		
+		
+			if(quiztimestamp.length > 0){
+				
+					 
+						for (int i = 0; i < (quiztimestamp.length); i++)
+						{ 
+							if(!((i + 1) == quiztimestamp.length))
+								timestamp.append(quiztimestamp[i] + "#");
+							else
+								timestamp.append(quiztimestamp[i]);
+					   }	
+					
+				
+				}
+			else
+			{ timestamp.append("1");
+				
+			} 
+		
+out.print(quests.append("$$" + timestamp)); %>
 
-<br>
-<div class="table1" style="width: 300px; margin-top:0px;overflow: auto; height: 150px; text-align: justify; border: 3px solid #e46c0a;"> 
-	<div style="font-size:18px; text-align: center;">Quiz Conduction Record</div>
-	<%if(quiztimestamp.length > 0){ %>
-		<table  border="1" style="margin-left: 50px; border-radius:5px;" >
-			<tr style  = "font-size : 14px;">
-				<th>Sr.No.</th>
-				<th>Quiz Conducted On</th>
-			</tr>
-			<% 
-				for (int i = 0; i < (quiztimestamp.length); i++)
-				{ %>
-						<tr style = "font-size : 13px">		 
-								<td style = "text-align: center;"> <%=i+1 %> </td>
-								<td style = "text-align: center;"> <%=quiztimestamp[i] %> </td> 
-									 
-						</tr>
-			   <%}%>	
-			
-		</table>
-		<%}
-	else
-	{%>
-		<p style = "color:red; font-size: 20px; text-align: center;"> This Quiz has not been conducted till date </p>
-	<%} %>
-</div>
 
-<table class="table1" style="margin-top:2px;">
-<tr>
-<td >
-<div style="margin-left:480px;">
-<Form id = "DeleteQuiz" action = "../../deleteQuiz" method = "post" name = "DeleteQuiz" >
-	<input type = hidden name = "QuizID" id = "QuizID" value = "<%=QuizID %>" />	
-	<button class="ui-createquiz-button" id="createqbtn1" type="submit" onclick="return confirm('Are you sure you want to Delete this Quiz?')">
-		<span>Delete quiz</span>
-	</button>
-</Form>
-</div>
-</td>
-</tr>
-</table>
-
-</body>
-</html>

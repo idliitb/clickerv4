@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display course details when you double click the course 
+			 in the department page this page will open
+			 
+USE        : to update and delete the course
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
             <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

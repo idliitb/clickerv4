@@ -14,7 +14,9 @@ import java.util.*;
 import java.io.*;
 
 /**
- * Servlet implementation class addquestionDB
+ * @author Harshavardhan
+ * Clicker Team, IDL, IIT Bombay
+ * Description: Servlet implementation class addquestionDB. This Class adds the Single Choice Correct Questions in the Database
  */
 //@WebServlet("/addsinglechoicedb")
 public class AddSingleChoiceDB extends HttpServlet {

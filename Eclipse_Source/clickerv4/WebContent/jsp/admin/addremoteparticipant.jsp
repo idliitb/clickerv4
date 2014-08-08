@@ -1,3 +1,11 @@
+<%--
+      @author Gobinath
+DESCREPTION: This JSP Page will display when you Press the add Participant in admin menu 
+			  in remote mode
+USE        : to add remote participant by xls template ,by individual,delete participant,
+			 and remove the mac address for the tablet for particular participant 
+
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import ="clicker.v4.admin.*" %>

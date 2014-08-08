@@ -150,7 +150,7 @@ public class QuizHelper {
 		return duration;
 	}
 	
-	public String setQuizLaunchTime(String courseID, int sec, int isnegativemarking){
+	public String setQuizLaunchTime(String courseID, int sec, int isnegativemarking, boolean isShowAns){
 		int quizrecordid =0;
 		Quiz quiz = new Quiz();
 		quiz = Global.coursejsonobject.get(courseID);
@@ -179,6 +179,7 @@ public class QuizHelper {
 		quiz.setcurrenttime(currenttime);
 		quiz.setlaunchtime(currenttime);
 		quiz.setQuizTime(""+sec);
+		quiz.setShowAns(isShowAns);
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(quiz));
 		Global.coursejsonobject.put(courseID, quiz);
@@ -189,72 +190,7 @@ public class QuizHelper {
 	}
 	
 	
-	public String setInstantQuizDetail(String courseID, String instrID, int nooofoptions, String correctAns, int sec) {
-		String encryptedans=null;
-		Quiz quiz = new Quiz();
-		quiz.setcourseId(courseID);
-		quiz.setQuizId(0);
-		Calendar cal = Calendar.getInstance();
-		String currenttime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.getTime());
-		quiz.setcurrenttime(currenttime);
-		quiz.setlaunchtime(currenttime);
-		quiz.setQuizTime(""+sec);		
-		DatabaseConnection dbconn = new DatabaseConnection();
-		Connection con = dbconn.createDatabaseConnection();
-		String sql = "insert into instantquiz(NoofOptions, CorrectAns, InstrID, DurationSec, CourseID) values (?,?,?,?,?)";
-		int quizrecordid = 0;
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1,nooofoptions);
-			pstmt.setString(2, correctAns);
-			pstmt.setString(3, instrID);
-			pstmt.setInt(4, sec);
-			pstmt.setString(5, courseID);
-			pstmt.executeUpdate();
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				quizrecordid = rs.getInt(1);
-			}
-			ArrayList<Question> questionList = new ArrayList<Question>();
-			Question question = new Question();
-			question.setId(0);
-			question.setText("Select Any one of the option");
-			int questionType = 1;
-			question.setType(questionType);
-			ArrayList<Option> options = new ArrayList<Option>();
-			for(int i=1;i<=nooofoptions;i++){
-				Option op = new Option();
-				op.setOptionid(i);
-				op.setOptiontext("Option "+ i);
-				options.add(op);
-			}
-			
-			System.out.println("==============***********========> correct ans is : "+correctAns);
-			encrypt en=new encrypt();
-			encryptedans=en.encrypt1(correctAns);
-			System.out.println("=============*********=========>encrypted correct ans is : "+encryptedans);
-			question.setOptions(options);
-			question.setCorrectAns(encryptedans);
-			questionList.add(question);
-			quiz.setquestions(questionList);
-			ArrayList<Integer> notshuffle = new ArrayList<Integer>();
-			notshuffle.add(0);
-			quiz.setNotShuffle(notshuffle);
-			quiz.setQuizrecordId(quizrecordid);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{			
-			dbconn.closeLocalConnection(con);
-		}
-		Global.coursejsonobject.put(courseID, quiz);
-		Global.countrequestjson.put(courseID,"0");
-		Global.quizrecordids.put(courseID, quizrecordid);
-		Gson gson = new Gson();
-		System.out.println(gson.toJson(quiz));
-		return ""+quizrecordid;
-	}	
-	
-	public String setInstantQuizDetailNew(String courseID, String instrID, String IQuiz, int sec) {
+	public String setInstantQuizDetailNew(String courseID, String instrID, String IQuiz, int sec, boolean isShowAns) {
 		String encryptedans=null;
 		Quiz quiz = new Quiz();
 		quiz.setcourseId(courseID);		
@@ -353,6 +289,7 @@ public class QuizHelper {
 			}			
 			quiz.setquestions(questionList);
 			quiz.setNotShuffle(notshuffle);			
+			quiz.setShowAns(isShowAns);
 			Gson gson = new Gson();
 			String json = gson.toJson(quiz);			
 			System.out.println(json);
@@ -365,51 +302,6 @@ public class QuizHelper {
 		{
 			dbconn.closeLocalConnection(con);
 		}
-		/*DatabaseConnection dbconn = new DatabaseConnection();
-		Connection con = dbconn.createDatabaseConnection();
-		String sql = "insert into instantquiz(NoofOptions, CorrectAns, InstrID, DurationSec, CourseID) values (?,?,?,?,?)";
-		int quizrecordid = 0;
-		try {
-			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1,nooofoptions);
-			pstmt.setString(2, correctAns);
-			pstmt.setString(3, instrID);
-			pstmt.setInt(4, sec);
-			pstmt.setString(5, courseID);
-			pstmt.executeUpdate();
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				quizrecordid = rs.getInt(1);
-			}
-			ArrayList<Question> questionList = new ArrayList<Question>();
-			Question question = new Question();
-			question.setId(0);
-			question.setText("Select Any one of the option");
-			int questionType = 1;
-			question.setType(questionType);
-			ArrayList<Option> options = new ArrayList<Option>();
-			for(int i=1;i<=nooofoptions;i++){
-				Option op = new Option();
-				op.setOptionid(i);
-				op.setOptiontext("Option "+ i);
-				options.add(op);
-			}
-			question.setOptions(options);
-			question.setCorrectAns(correctAns);
-			questionList.add(question);
-			quiz.setquestions(questionList);
-			ArrayList<Integer> notshuffle = new ArrayList<Integer>();
-			notshuffle.add(0);
-			quiz.setNotShuffle(notshuffle);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{			
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}*/
 		Global.coursejsonobject.put(courseID, quiz);
 		Global.countrequestjson.put(courseID,"0");
 		Global.quizrecordids.put(courseID, iquizid);

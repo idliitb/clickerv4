@@ -51,7 +51,7 @@ function showResponsesDialog(QuestionID){
  * along with question detail at one side and at other it show chart and once click on chart it display table with student response
  */
 
-function getHighInstantChartMQ(instrid, questionID){
+function getHighInstantChartMQ(instrid, questionID, ChartType){
 	getXMLhttp();
 	var qid=questionID-1;
 	xmlhttp.onreadystatechange=function()
@@ -63,17 +63,18 @@ function getHighInstantChartMQ(instrid, questionID){
 			var images="";
 			var questiondetail="";
 			questiondetail += "<div style='width: 560px; height: 230px; background-color:white;'>Question : "+(qid+1)+"<br/><br/> "+quizJson.questions[qid].text.replace(/</g,"&lt;") +"<ol>";
+			if(quizJson.questions[qid].type != 3){
 				for(var j=0;j<quizJson.questions[qid].options.length;j++){
 					questiondetail += "<li>" +quizJson.questions[qid].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
 				}
-				questiondetail +="</div>";
-				images += "</ol><img style='width: 440px; height: 250px;' alt='No Response...' src='../../"+instrid+"/Chart"+qid+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+quizJson.questions[qid].id+")' >";
-			
+			}
+			questiondetail +="</div>";
+			images += "</ol><img style='width: 440px; height: 250px;' alt='No Response...' src='../../"+instrid+"/Chart"+qid+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+quizJson.questions[qid].id+")' >";
 			document.getElementById("questiondetails").innerHTML = questiondetail;	
 			document.getElementById("Questionchart").innerHTML = images;	
 		}
 	};
-	xmlhttp.open("GET", "../../generateResponseChart?quiztype=instantquizmq&charttype=withcorrect", false);
+	xmlhttp.open("GET", "../../generateResponseChart?quiztype=instantquizmq&charttype="+ChartType, false);
 	xmlhttp.send();
 }
 
@@ -84,11 +85,11 @@ function getHighInstantChartMQ(instrid, questionID){
 
 var reloadinstanthighchartmqcount=0;
 var reloadinstanthighchartcount=0;
-function updateInstantHighChart(instrid, questionids){
-	reloadinstanthighchart=setInterval(function(){getNewInstantHighChart(instrid, questionids);},5000);
+function updateInstantHighChart(instrid, questionids, isShowAns){
+	reloadinstanthighchart=setInterval(function(){getNewInstantHighChart(instrid, questionids, isShowAns);},5000);
 }
 
-function getNewInstantHighChart(instrid, questionids){
+function getNewInstantHighChart(instrid, questionids,isShowAns){
 	reloadinstanthighchartmqcount++;
 	if(reloadinstanthighchartmqcount>=2){
 		document.getElementById("loading").innerHTML = "";
@@ -101,7 +102,7 @@ function getNewInstantHighChart(instrid, questionids){
 		{
 			var chartString = xmlhttp.responseText;
 			var stringArray=chartString.split("@");
-			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid);
+			reloadoverallGraph(questionids,stringArray[0],stringArray[1],stringArray[2],instrid, isShowAns);
 		
 		}
 	};
@@ -114,7 +115,7 @@ function getNewInstantHighChart(instrid, questionids){
 /*
  * This below function display the overall response for all question of a particular quiz using highchart
  */
-function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
+function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid,isShowAns){
 	
 
 	//Calculation for overall quiz performance
@@ -132,9 +133,10 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 	var totalwrong=0;
 	totalcorrect=  Math.round(((righttotal/wronganstotal)*100)*100)/100 ;
 	totalwrong =100- totalcorrect;
-
 	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
+	document.getElementById("showCorrectAnsChart").checked=isShowAns;	
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -153,128 +155,139 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
 		
 	}
 		var x_axis_id=questiontext.split(",");
-		Highcharts.setOptions({
-	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
-	    });
-		$('#overallchart').highcharts({
-            chart: {
-                type: 'column',
-            },
-            title: {
-                text: 'Quiz Response chart',
-                style: {
-                    fontWeight: 'bold',
-                    fontSize: '26px',
-                    color: '#000000'
-                }
-      
-            },
-            xAxis: {
-                categories: x_axis_id,
-                title: {
-                    text: 'Questions',
-                    style: {
- 	                   
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options = {
+	            chart: {
+	                type: 'column',
+	            },
+	            title: {
+	                text: 'Quiz Response chart',
+	                style: {
 	                    fontWeight: 'bold',
-	                    fontSize: '16px',
+	                    fontSize: '26px',
 	                    color: '#000000'
 	                }
-                },
-                labels: {
-                    style: {
-                    	fontWeight: 'bold',
-	                    fontSize: '16px',
-	                    color: '#000000'
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Responses',
-                    style: {
+	      
+	            },
+	            xAxis: {
+	                categories: x_axis_id,
+	                title: {
+	                    text: 'Questions',
+	                    style: {
 	 	                   
-	                    fontWeight: 'bold',
-	                    fontSize: '16px',
-	                    color: '#000000'
-	                }
-                },
-                labels: {
-                    style: {
-                    	fontWeight: 'bold',
-	                    fontSize: '16px',
-	                    color: '#000000'
-                    }
-                },
-                stackLabels: {
-                    enabled: true,
-                    style: {
-                        fontWeight: 'bold',
-                        fontSize: '16px',
-                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-                    }
-                }
-            },
-            legend: {
-                align: 'right',
-                x: -70,
-                verticalAlign: 'top',
-                y: 20,
-                floating: true,
-                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
-                borderColor: '#CCC',
-                borderWidth: 1,
-                shadow: false
-            },
-            tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.x +'</b><br/>'+
-                        this.series.name +': '+ this.y +'<br/>'+
-                        'Total: '+ this.point.stackTotal;
-                }
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                        style: {
-                            textShadow: '0 0 3px black, 0 0 3px black',
-                            fontWeight: 'bold',
-	                        fontSize: '14px'
-                        }
-                    }
-                },
-	            series: {
-	                cursor: 'pointer',
-	                point: {
-	                    events: {
-	                        click: function() {
-	                        	var qid=this.category.split(".");
-	                        	
-	                        		getHighInstantChartMQ(instrid,qid[1]);
-	                        	 
-	                        }
+		                    fontWeight: 'bold',
+		                    fontSize: '16px',
+		                    color: '#000000'
+		                }
+	                },
+	                labels: {
+	                    style: {
+	                    	fontWeight: 'bold',
+		                    fontSize: '16px',
+		                    color: '#000000'
 	                    }
 	                }
-	            }
-	            
 	            },
-	            series: [{
-	                name: 'Right',
-	                data: rightarray
-	            }, {
-	                name: 'Wrong',
-	                data: wrongarray
-	            },{
-	                name: 'No Response',
-	                data: noresponsearray
-	            }]
-	        });
- 
-	    		 updateInstantHighChart(instrid, questionids); // call for reload of chart
-	    		
+	            yAxis: {
+	                min: 0,
+	                title: {
+	                    text: 'Responses',
+	                    style: {
+		 	                   
+		                    fontWeight: 'bold',
+		                    fontSize: '16px',
+		                    color: '#000000'
+		                }
+	                },
+	                labels: {
+	                    style: {
+	                    	fontWeight: 'bold',
+		                    fontSize: '16px',
+		                    color: '#000000'
+	                    }
+	                },
+	                stackLabels: {
+	                    enabled: true,
+	                    style: {
+	                        fontWeight: 'bold',
+	                        fontSize: '16px',
+	                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+	                    }
+	                }
+	            },
+	            legend : { align: 'right',
+	                x: -70,
+	                verticalAlign: 'top',
+	                y: 20,
+	                floating: true,
+	                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+	                borderColor: '#CCC',
+	                borderWidth: 1,
+	                shadow: false
+	            },
+	            tooltip: {
+	                formatter: function() {
+	                	if(isShowAns){
+	                    return '<b>'+ this.x +'</b><br/>'+
+	                        this.series.name +': '+ this.y +'<br/>'+
+	                        'Total: '+ this.point.stackTotal;
+	                	}else{
+	                		return '<b>'+ this.x +'</b><br/>'+	                        
+	                        'Total: '+ this.point.stackTotal;	                		
+	                	}
+	                }
+	            },
+	            plotOptions: {
+	                column: {
+	                    stacking: 'normal',
+	                    dataLabels: {
+	                        enabled: true,
+	                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+	                        style: {
+	                            textShadow: '0 0 3px black, 0 0 3px black',
+	                            fontWeight: 'bold',
+		                        fontSize: '14px'
+	                        }
+	                    }
+	                },
+		            series: {
+		                cursor: 'pointer',
+		                point: {
+		                    events: {
+		                        click: function() {
+		                        	var qid=this.category.split(".");
+		                        	
+		                        		getHighInstantChartMQ(instrid,qid[1],ChartType);
+		                        	 
+		                        }
+		                    }
+		                }
+		            }		            
+		       },
+		       series: [{
+		    	   name: 'Right',
+		    	   data: rightarray
+		       	}, {
+		       		name: 'Wrong',
+		            data: wrongarray
+		        },{
+		            name: 'No Response',
+		            data: noresponsearray
+		        }]
+		   };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);		
+		updateInstantHighChart(instrid, questionids, isShowAns); // call for reload of chart	    		
 }
 
 
@@ -284,7 +297,7 @@ function overallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid)
  */
 
 
-function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid){
+function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,instrid, isShowAns){
 	
 	//Calculation for overall quiz performance
 	var rightans=rightcount.split(",");
@@ -303,7 +316,8 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	totalwrong =100- totalcorrect;
 
 	
-	overallQuizPerformance(totalcorrect,totalwrong);
+	var ChartType="withoutcorrect";
+	if(isShowAns){overallQuizPerformance(totalcorrect,totalwrong);ChartType="withcorrect";}
 	var questions =questionids.split("@") ;
 	var rightarray=JSON.parse("[" + rightcount + "]");
 	var wrongarray=JSON.parse("[" + wrongcount + "]");
@@ -322,10 +336,16 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 		
 	}
 		var x_axis_id=questiontext.split(",");
-		Highcharts.setOptions({
-	     colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
-	    });
-		$('#overallchart').highcharts({
+		if(isShowAns){
+			Highcharts.setOptions({
+				colors: ['#00FF00', '#FF0000 ','#C0C0C0 ']
+			});
+		}else{
+			Highcharts.setOptions({
+				colors: ['#FF0000', '#FF0000 ','#C0C0C0 ']
+			});
+		}
+		var options = {
             chart: {
                 type: 'column',
             },
@@ -397,9 +417,14 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
             },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.x +'</b><br/>'+
-                        this.series.name +': '+ this.y +'<br/>'+
-                        'Total: '+ this.point.stackTotal;
+                	if(isShowAns){
+	                    return '<b>'+ this.x +'</b><br/>'+
+	                        this.series.name +': '+ this.y +'<br/>'+
+	                        'Total: '+ this.point.stackTotal;
+	               	}else{
+	               		return '<b>'+ this.x +'</b><br/>'+	                        
+	                        'Total: '+ this.point.stackTotal;	                		
+	                }
                 }
             },
             plotOptions: {
@@ -420,10 +445,8 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                point: {
 	                    events: {
 	                        click: function() {
-	                        	var qid=this.category.split(".");
-	                        	
-	                        		getHighInstantChartMQ(instrid,qid[1]);
-	                        	 
+	                        	var qid=this.category.split(".");	                        	
+	                        	getHighInstantChartMQ(instrid,qid[1],ChartType);	                        	 
 	                        }
 	                    }
 	                }
@@ -440,8 +463,11 @@ function reloadoverallGraph(questionids,rightcount,wrongcount,noresponsecount,in
 	                name: 'No Response',
 	                data: noresponsearray
 	            }]
-	        });
-
+	        };
+		if(!isShowAns){
+			options.legend["enabled"]=false;
+		}
+		$('#overallchart').highcharts(options);
 	    		
 }
 
@@ -508,4 +534,12 @@ function overallQuizPerformance(totalcorrect,totalwrong){
    }
    var percentage="<div style='width:20px; height:20px;background-color: #00FF00;border:5px ; float:left ;'></div><div style=' float:left'>&nbsp;&nbsp;&nbsp;Correct:<b> "+totalcorrect+" "+"%"+"<b/></div><br><br><div style='width:20px; height:20px;background-color: #FF0000;border:5px ; float:left ;'></div><div style=' float:left'>&nbsp;&nbsp;&nbsp;Wrong:<b> "+totalwrong+" "+"%"+"</b></div>";
    document.getElementById("percentage").innerHTML = percentage;
+}
+
+function showCAnsChart(showCorrectAnsChart){
+	if(showCorrectAnsChart.checked){
+		window.location = "../../jsp/quiz/newinstantchart.jsp?isShowAns=true";
+	}else{
+		window.location = "../../jsp/quiz/newinstantchart.jsp?isShowAns=false";
+	}
 }
