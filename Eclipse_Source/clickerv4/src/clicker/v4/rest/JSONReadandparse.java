@@ -6,6 +6,8 @@
 package clicker.v4.rest;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,6 +47,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.Context;
 
 public class JSONReadandparse {
 
@@ -719,5 +723,33 @@ public class JSONReadandparse {
 			e.printStackTrace();
 		}
 	}
+	
+	public String version_id()
+	{
+		//System.out.println("=========>version ID");
+		String version=null;
+		String url="http://localhost:8080/clicker/rest/quiz/war_version";
+	
+		InputStream is;
+		try {
+			is = new URL(url).openStream();
+			Quiz obj = null;		
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+			 version = readAll(rd);
+			//System.out.println("======================>"+version);
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}				
+		
+		
+	return version;
+		
+	}
+	
 
 }

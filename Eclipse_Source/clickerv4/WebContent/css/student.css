@@ -1,0 +1,75 @@
+body{
+	position:relative;
+	text-align:center;
+	width:1300px;
+	height:770px;
+	margin:auto;
+	background-color: #404040;
+	}
+.ui-table_green{
+	
+	width:1200px;
+	height:600px;;
+	background-color: #9bbb59;
+	margin:auto;
+	border-radius:45px;
+	margin-top:200px;	
+	
+}/* end green background */
+.td-name{
+	text-align:center;
+	width:600px;
+	height:200px;
+	font-size:40px;
+	
+}
+.td-textbox{
+	width:500px;
+	height:70px;
+	font-size:25px;
+	
+}
+.ui-loginbutton{
+	background:#E46C0A;
+	color: balck;
+	height:90px;
+	width:250px;
+	border-radius:10px;
+	font-size:35px;
+	
+}
+
+
+.homemenu{
+	width:350px;
+	height:300px;
+	background-color: #9bbb59;
+	margin:auto;
+	border-radius:30px;
+	text-align:center;
+	color: balck;
+	font-size:35px;
+	
+}
+#homemaintable td
+{
+	width:475px;
+	height:50px;
+	
+}
+#timertable td
+{
+	font-size:30px;
+	color:#ffffff;
+	width:250px;
+	text-align:center;
+}
+.questiondiv
+{
+
+	font-size:30px;
+	text-align:center;
+	margin-top:10px;
+	
+	
+}

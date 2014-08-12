@@ -990,6 +990,39 @@ public class ReportHelper {
 		return courseData.toString();
 	}
 	
+	public String getCorusesforInstrDashboardData(String instrid, String currentcourseid){
+		StringBuffer courseData = new StringBuffer();
+		Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;      
+        DatabaseConnection dbcon = new DatabaseConnection();
+        try {        	
+            con = dbcon.createDatabaseConnection();
+            String query = "SELECT CourseID FROM instructorcourse where InstrID=? order by if (CourseID=?, ~CourseID, CourseID)";
+            st = con.prepareStatement(query);
+            st.setString(1, instrid);
+            st.setString(2, currentcourseid);
+            rs = st.executeQuery();    
+            String cid="";
+            while (rs.next()) {
+            	cid = rs.getString(1);
+            	courseData.append( cid + "~^~"+ getReportDashboardData(cid) + "~&~");
+	        }			           
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally{
+        	try {
+        		 rs.close();
+                 st.close();                
+                 dbcon.closeLocalConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}           
+        }       
+        //System.out.println(courseData.toString());
+		return courseData.toString();
+	}
+	
 	public String compareCourses(String[] CourseIDs){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;

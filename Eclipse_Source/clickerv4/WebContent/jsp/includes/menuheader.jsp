@@ -2,6 +2,7 @@
 This file is used as header for clicker application
 --%>
 <%@page import="clicker.v4.global.Global"%>
+<%@page import="clicker.v4.rest.*"%>
 <%@page import="java.io.BufferedReader"%> 
 <%@page import="java.io.FileReader"%> 
 <%@page import="java.io.IOException"%> 
@@ -10,7 +11,31 @@ This file is used as header for clicker application
 <%@page import="java.sql.*"%>
 <%
 String headerinstrid = (String) session.getAttribute("InstructorID");
-
+		JSONReadandparse version_reader = new JSONReadandparse();
+		String v_id=version_reader.version_id();
+		System.out.println("version from main center===>"+v_id);
+		
+			
+		BufferedReader br1 = null;
+		String local_version=null;
+		int tablecount1=0;
+		String path1 = getServletContext().getRealPath("/");
+		System.out.println("Path: " +path1);
+		try {
+			br1 = new BufferedReader(new FileReader(path1+"version.txt"));
+			
+				local_version = br1.readLine();
+				System.out.println("local version : " +local_version);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br1 != null)br1.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 if (headerinstrid == null) {
 	request.setAttribute("Error","Your session has expired. Login again");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
@@ -125,7 +150,20 @@ String D_ID=session.getAttribute("D_ID").toString();
 			var myWindow = window.open("../../jsp/admin/version.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=700,height=400,top=200, left=300");
 			myWindow.document.title = 'About Clicker';
 			self.close();
-		}			
+		}
+		function show_update()
+		{
+			var myWindow = window.open("../../jsp/admin/update.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=600,height=300,top=200, left=300");
+			myWindow.document.title = 'Update';
+			self.close();
+			
+		}
+		function blinker() {
+		    $('.blink_me').fadeOut(500);
+		    $('.blink_me').fadeIn(500);
+		}
+
+		setInterval(blinker, 1000);
 		</script>
 	</head>	
 	<body  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
@@ -179,7 +217,16 @@ String D_ID=session.getAttribute("D_ID").toString();
 								</table>
 							</td></tr>
 							<tr><td colspan="3" height="20px" align="center">
-								<div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>
+								<div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font>
+								<%
+						double Local_V = Double.parseDouble(local_version);						
+						double maincenter_V = Double.parseDouble(v_id);
+						if(Local_V < maincenter_V)
+						{ %>
+						<span class="blink_me" onclick="show_update();" style="color: red;cursor:pointer;">Update!</span>
+						<%} %>
+								
+								</div>
 							</td></tr>
 						</table>
 					</td></tr>
