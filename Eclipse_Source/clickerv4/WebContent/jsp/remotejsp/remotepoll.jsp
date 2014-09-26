@@ -42,15 +42,15 @@ JSONReadandparse reader = new JSONReadandparse();
 //storing all info in Poll java 
 Poll json = reader.readPollJsonFromUrl(url,WorkshopID);
 
-
+int pollid=json.getpollid();
 String pollquestion =json.getpollquestion();
 String launchtime =json.getlaunchtime();
 String currenttime1 =json.getcurrenttime();
 String polltime=json.getquizTime();
-
+int pollidnew=0;
 long time=0;
 String  ltime=null;
-if(pollquestion.equals("") && launchtime.equals("") && polltime.equals("")){
+if(pollid==0 && pollquestion.equals("") && launchtime.equals("") && polltime.equals("")){
 	System.out.println("poll not launched at main centre");
 	response.sendRedirect("../home/remotehome.jsp");
 }
@@ -106,7 +106,8 @@ else
 			      try {
 			    	ltime =json.getlaunchtime();
 					dbh.insertRemotePollDetails(json,WorkshopID,ltime);
-					
+					pollidnew=dbh.getpollidnew(ltime, WorkshopID);
+					json.setpollid(pollidnew);
 					
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

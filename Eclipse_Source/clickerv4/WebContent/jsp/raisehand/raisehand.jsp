@@ -76,7 +76,7 @@ $(document).ready(function(){
 								document.getElementById("emailDiv").innerHTML=xmlhttp.responseText;
 								document.getElementById("emailDiv").style.visibility = 'visible';
 								document.getElementById("emailDiv").title ="WRITE REPLY FOR DOUBT";
-								$("#emailDiv").dialog({height: 700, width: 700, modal: true ,
+								$("#emailDiv").dialog({height: 350, width: 440, modal: true ,
 							        close: function(ev, ui) { 
 							        	document.getElementById("raiseques").innerHTML = "";
 							        	location.href="raisehand.jsp";
@@ -123,16 +123,16 @@ function activeraiseHand(){
 </head>
 <body class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 <%@ include file= "../../jsp/includes/menuheader.jsp" %>
+<script type="text/javascript">activeraiseHand();</script>
 <table class="table1">
-<script>activeraiseHand();</script>
 <tr>
 <td>
-<div class="ui-createquiz-text" style="font-weight: bold;font-size: 24px" >
-<lable>Raise hand</lable></div>
+<div class="ui-createquiz-text" style="font-weight: bold;font-size: 24px">
+Raise hand
+</div>
 </td>
 </tr>
 </table>
-<table id="hideRaiseHandtable" class="table1">
 <div id="raisehanddisplay">
 <div id="hideRaiseHand">
 <table class="table1">
@@ -218,11 +218,9 @@ out.println(e);
 </tr>
 </table>
 </div>
-</div>
-</table>
-<br>
+</div><br>
 <div style="margin:-615px 0 0 0px;">
-<center><%@ include file= "../../jsp/includes/menufooter.jsp" %></center>
+<%@ include file= "../../jsp/includes/menufooter.jsp" %>
 </div>
 </body>
 </html>

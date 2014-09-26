@@ -2,17 +2,27 @@
 package clicker.v4.poll;
 
 public class Poll {
+private int pollid;
 private String pollquestion;
 private String launchtime;
 private String currenttime;
 private String courseId;
 private String quizTime;
 public Poll() {
+	pollid=0;
 	pollquestion="";
 	launchtime="";
 	currenttime="";
 	courseId="";
 	quizTime="";
+}
+public int getpollid() {
+	return pollid;
+}
+
+
+public void setpollid(int pollid) {
+	this.pollid=pollid;
 }
 
 public String getpollquestion() {

@@ -34,11 +34,12 @@ public class ParticipantXLSimport {
 				resultset.close();
 				if(pid == 0)
 				{	System.out.println("hi");
-					ps = conn.prepareStatement("insert into participant(ParticipantID, MACAddress,ParticipantName, WorkshopID) values(?,?, ?, ?)");
+					ps = conn.prepareStatement("insert into participant(ParticipantID, MACAddress,ParticipantName, WorkshopID,Password) values(?,?, ?, ?,?)");
 					ps.setString(1, participantid);
 					ps.setString(2, "");
 					ps.setString(3, participantname);
 					ps.setString(4, workshopid);
+					ps.setString(5, participantid);
 				
 					rs = ps.executeUpdate();
 					

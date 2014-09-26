@@ -1,6 +1,5 @@
 package clicker.v4.report;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -262,7 +261,7 @@ public class ReportGenerator extends HttpServlet {
 		String studentCount ="";
 		try {
 			
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			System.out.println(path + "jasperreport/" + reportname
 					+ ".jrxml");
 			jasReport = JasperCompileManager.compileReport(path
@@ -369,7 +368,7 @@ public class ReportGenerator extends HttpServlet {
 		String studentCount ="";
 		try {
 			
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			System.out.println(path + "jasperreport/" + reportname
 					+ ".jrxml");
 			jasReport = JasperCompileManager.compileReport(path
@@ -519,7 +518,7 @@ public class ReportGenerator extends HttpServlet {
         StringBuffer file = new StringBuffer();
 		
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path
 					+ "jasperreport/" + reportname + ".jrxml");
 
@@ -558,8 +557,8 @@ public class ReportGenerator extends HttpServlet {
 				hmapParam.put("Cid", Cid);
 			}
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
-			String data;
-			BufferedReader fbr;
+			//String data;
+			//BufferedReader fbr;
 			// Appending PDF download link in report
 			file.append("<div align=\"right\"><a href='../../DownloadPDF?reptype=course&cid="
 					+ URLEncoder.encode(Cid,"UTF-8")
@@ -610,7 +609,7 @@ public class ReportGenerator extends HttpServlet {
         String StudCount = "0";
         StringBuffer file = new StringBuffer();
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path
 					+ "jasperreport/InstantQuizResponse.jrxml");
 
@@ -662,7 +661,7 @@ public class ReportGenerator extends HttpServlet {
         String StudCount = "0";
         StringBuffer file = new StringBuffer();
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path+ "jasperreport/PollResponse.jrxml");
 			hmapParam.put("PID", PID);				
 			Statement st = con.createStatement();

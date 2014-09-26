@@ -6,8 +6,6 @@
 package clicker.v4.rest;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,11 +42,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
 
 public class JSONReadandparse {
 
@@ -105,6 +98,8 @@ public class JSONReadandparse {
 
 		return reachable;
 	}
+	
+	
 	
 	/*
 	 * this is used to get all workshop being conducted at maincenter
@@ -629,9 +624,9 @@ public class JSONReadandparse {
 		return output;
 	}
 
-	public  Quiz readAutoTestQuizJsonFromUrl(String MainCenterIP, String centerID, String workshopid) throws IOException, ParseException {
-		//System.out.println("workshopid: " + workshopid);
-		String url="http://"+MainCenterIP+"/clicker/rest/quiz/autotest/"+ workshopid + "/" + centerID;
+	public  Quiz readAutoTestQuizJsonFromUrl(String MainCenterIP, String centerID, String workshopid,String warversion,String dbversion) throws IOException, ParseException {
+		System.out.println("http://"+MainCenterIP+"/clicker/rest/quiz/autotest/"+ workshopid+"/"+centerID+"/"+warversion+"/"+dbversion);
+		String url="http://"+MainCenterIP+"/clicker/rest/quiz/autotest/"+ workshopid+"/"+centerID+"/"+warversion+"/"+dbversion;
 		Gson gson = new Gson();
 		InputStream is = new URL(url).openStream();
 		Quiz obj = null;		
@@ -724,30 +719,40 @@ public class JSONReadandparse {
 		}
 	}
 	
-	public String version_id()
+	public String version_id(String war_version, String db_version )
 	{
 		//System.out.println("=========>version ID");
-		String version=null;
-		String url="http://localhost:8080/clicker/rest/quiz/war_version";
+		String server_output = null;
+		URL url=null;
 	
-		InputStream is;
+		InputStream is;		
+				
 		try {
-			is = new URL(url).openStream();
-			Quiz obj = null;		
+						
+			url = new URL("http://localhost:8080/clicker/rest/quiz/war_version/" + war_version + "/" + db_version);
+			is = url.openStream();
+										
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-			 version = readAll(rd);
-			//System.out.println("======================>"+version);
+			server_output = rd.readLine();		
+						
+			System.out.println("======================> Version Server Output: " + server_output);
+			is.close();
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			
+			server_output = "main server down";
+			//System.out.println("In JSONReadandParse, catch block of version_id( )");
 			e.printStackTrace();
-		}				
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		
-		
-	return version;
+	return server_output;
 		
 	}
 	

@@ -1,13 +1,11 @@
 package clicker.v4.report;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.HashMap;
@@ -250,7 +248,7 @@ public class RemoteReportGenerator extends HttpServlet {
 		String studentCount ="";
 		try {
 			
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			System.out.println(path + "jasperreport/" + reportname
 					+ ".jrxml");
 			jasReport = JasperCompileManager.compileReport(path
@@ -357,7 +355,7 @@ public class RemoteReportGenerator extends HttpServlet {
 		String studentCount ="";
 		try {
 			
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			System.out.println(path + "jasperreport/" + reportname
 					+ ".jrxml");
 			jasReport = JasperCompileManager.compileReport(path
@@ -508,7 +506,7 @@ public class RemoteReportGenerator extends HttpServlet {
         String NoofQuiz ="";
         StringBuffer file = new StringBuffer();		
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path
 					+ "jasperreport/" + reportname + ".jrxml");
 
@@ -546,8 +544,8 @@ public class RemoteReportGenerator extends HttpServlet {
 				hmapParam.put("Cid", Cid);
 			}
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
-			String data;
-			BufferedReader fbr;
+			//String data;
+			//BufferedReader fbr;
 			// Appending PDF download link in report
 			file.append("<div align=\"right\"><a href='../../RemoteDownloadPDF?reptype=course&cid="
 					+ URLEncoder.encode(Cid,"UTF-8")
@@ -599,7 +597,7 @@ public class RemoteReportGenerator extends HttpServlet {
         String StudCount = "0";
         StringBuffer file = new StringBuffer();
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path
 					+ "jasperreport/InstantQuizResponse.jrxml");
 
@@ -651,7 +649,7 @@ public class RemoteReportGenerator extends HttpServlet {
         String StudCount = "0";
         StringBuffer file = new StringBuffer();
 		try {
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			jasReport = JasperCompileManager.compileReport(path+ "jasperreport/RemotePollResponse.jrxml");
 			hmapParam.put("PID", PID);				
 			Statement st = con.createStatement();

@@ -55,7 +55,5 @@ public class Global {
 	// No of reponses of the students
 	public static ConcurrentHashMap<String,Integer> countresponsejson = new ConcurrentHashMap<String, Integer>( );
 	// storing stored participant ids
-	public static ConcurrentHashMap<String, String> responsereceivedparticipants =  new ConcurrentHashMap<String, String>();
-	
-		
+	public static ConcurrentHashMap<String, String> responsereceivedparticipants =  new ConcurrentHashMap<String, String>();	
 }

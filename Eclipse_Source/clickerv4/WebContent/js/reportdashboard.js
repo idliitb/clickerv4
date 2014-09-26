@@ -1062,7 +1062,6 @@ function compareCourses(){
 
 
 //This is for showing line chart of each department 
-//This function not in use
 function loadAllDeptChart(){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {

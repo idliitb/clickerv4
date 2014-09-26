@@ -2,12 +2,10 @@ package clicker.v4.report;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +17,8 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 
 /**
@@ -73,7 +73,7 @@ public class DownloadPDF extends HttpServlet {
 			String studCount ="";
 			String path = getServletContext().getRealPath("/");
 			jasReport = JasperCompileManager.compileReport(path	+ "jasperreport/" + reportname + ".jrxml");
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			if (reptype.equals("stud")) {
 				SID = request.getParameter("sid");
 				hmapParam.put("Cid", Cid);
@@ -129,10 +129,17 @@ public class DownloadPDF extends HttpServlet {
 					hmapParam.put("SUBREPORT_DIR", path + "jasperreport/");					
 			}
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
+			JRXlsxExporter exporter = new JRXlsxExporter();
+	        exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasPrint);
+	        exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, "/home/rajavel/Desktop/test.xls");
+
+	        exporter.exportReport();
 			System.out.println("Jasper Print : " + jasPrint);
 			ServletOutputStream sos = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(jasPrint, sos);
-			sos.close();			
+			sos.close();
+			        
+	        
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}finally{

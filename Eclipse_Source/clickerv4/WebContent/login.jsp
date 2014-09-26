@@ -29,7 +29,7 @@ System.out.println("status: " + request.getParameter("status"));
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title></title>
+<title>Login</title>
 
 <link href="js/jquery-ui.css" rel="stylesheet"	type="text/css" />
 <link type="text/css" rel="stylesheet" href="css/login.css">

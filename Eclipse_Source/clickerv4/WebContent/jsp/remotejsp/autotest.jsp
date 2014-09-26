@@ -59,7 +59,7 @@ java.util.Date date = new Date();
 String activeTime = (new Timestamp(date.getTime())).toString();
 Global.activeworkshop.put("autotest", activeTime);
 JSONReadandparse reader = new JSONReadandparse();
-Quiz json = reader.readAutoTestQuizJsonFromUrl(MainCenterURL, centerid, workshopid);
+Quiz json = reader.readAutoTestQuizJsonFromUrl(MainCenterURL, centerid, workshopid,getServletContext().getInitParameter("war_version"), getServletContext().getInitParameter("db_version"));
 String autoteststatus = json.getcourseId();
 int mins = 0, sec = 0, autotestflag = 0;
 if(!autoteststatus.equals("noautotest"))

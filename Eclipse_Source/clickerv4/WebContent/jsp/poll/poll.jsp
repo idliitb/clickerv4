@@ -12,7 +12,7 @@ isactive = "active";
 %>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Poll</title>
 <script src="../../js/jquery-1.9.1.js"></script>
 <script src="../../js/jquery-ui.js"></script>
 <script src="../../js/poll.js"></script>

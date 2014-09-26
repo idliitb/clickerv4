@@ -29,6 +29,7 @@
  	else{
  		s=null;
 		JSONReadandparse jread= new JSONReadandparse();
+		
 		s = jread.readStatusJsonFromUrl(MainCenterURL,WorkshopID);
 	}
 	

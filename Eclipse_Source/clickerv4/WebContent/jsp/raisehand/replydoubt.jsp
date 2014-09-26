@@ -45,20 +45,16 @@ String StudentID=request.getParameter("StudentID");
 <form  name="replyForm" id="replyForm" action="../../raiseHandReplied" method="post">
 <input type="hidden" name ="timestamp" id="timestamp" value="<%=TimeStamp%>"/>
 <input type="hidden" name ="studentid" id="studentid" value="<%=StudentID%>"/>
-		<table border="0" width="35%" align="center" style="font-weight: bold;">
+		<table style="width:35%;font-weight: bold;margin-left: 10px;border: 1px">
 			<tr>
 				<td>Write below your explanation :</td>
-			<br><br>
 			<tr>
-				<td><textarea rows="15" cols="45"  id ="content" name="content" style="overflow: auto;"></textarea> </td>
+				<td><textarea rows="8" cols="45"  id ="content" name="content" style="overflow: auto;"></textarea> </td>
 			</tr>
-			<br>
-			<br>
 			<tr style="height: 40px">
-				<td colspan="2" align="center"><input type="submit" style="width: 50%" height="50%" onclick="return validate();" value="Send to Student"/></td>
+				<td colspan="2" align="center"><input type="submit" style="width: 50%" height="20%" onclick="return validate();" value="Send to Student"/></td>
 			</tr>
-		</table>
-		
+		</table>		
 	</form>
 </body>
 </html>

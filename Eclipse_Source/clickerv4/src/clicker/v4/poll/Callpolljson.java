@@ -2,9 +2,10 @@
 package clicker.v4.poll;
 import clicker.v4.global.*;
 public class Callpolljson {
-public void callpolljson(String courseId,String pollquestion,String launchtime,String currenttime,String quizTime)
+public void callpolljson(int pollid, String courseId,String pollquestion,String launchtime,String currenttime,String quizTime)
 {
 	 Poll pollq=new Poll();  
+	 pollq.setpollid(pollid);
 	 pollq.setpollquestion(pollquestion);
 	 pollq.setlaunchtime(launchtime);
 	 pollq.setcurrenttime(currenttime);
@@ -14,9 +15,10 @@ public void callpolljson(String courseId,String pollquestion,String launchtime,S
 	
 }
 
-public void remotecallpolljson(String courseId,String pollquestion,String launchtime,String currenttime,String quizTime)
+public void remotecallpolljson(int pollid,String courseId,String pollquestion,String launchtime,String currenttime,String quizTime)
 {
-	 Poll pollq=new Poll();  
+	 Poll pollq=new Poll(); 
+	 pollq.setpollid(pollid);
 	 pollq.setpollquestion(pollquestion);
 	 pollq.setlaunchtime(launchtime);
 	 pollq.setcurrenttime(currenttime);

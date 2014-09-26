@@ -25,8 +25,10 @@ public class RestHelper {
 		System.out.println("Response from student " + response);		
 		JSONObject responseJSon = null;
 		try {
-			responseJSon = new JSONObject(response);			
-			int quizrecordid = Global.quizrecordids.get(course_id);
+			responseJSon = new JSONObject(response);
+			int quizrecordid =0;
+			if(Global.quizrecordids.get(course_id)!=null)
+				quizrecordid= Global.quizrecordids.get(course_id);
 			//Normal Quiz response for current quiz
 			if(responseJSon.get("quiztype").toString().equals("normal") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) ==quizrecordid){
 				localNormalQuizResponse(responseJSon, course_id, quizrecordid, true);

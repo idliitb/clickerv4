@@ -11,31 +11,11 @@ This file is used as header for clicker application
 <%@page import="java.sql.*"%>
 <%
 String headerinstrid = (String) session.getAttribute("InstructorID");
-		JSONReadandparse version_reader = new JSONReadandparse();
-		String v_id=version_reader.version_id();
-		System.out.println("version from main center===>"+v_id);
-		
-			
-		BufferedReader br1 = null;
-		String local_version=null;
-		int tablecount1=0;
-		String path1 = getServletContext().getRealPath("/");
-		System.out.println("Path: " +path1);
-		try {
-			br1 = new BufferedReader(new FileReader(path1+"version.txt"));
-			
-				local_version = br1.readLine();
-				System.out.println("local version : " +local_version);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br1 != null)br1.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
+
+JSONReadandparse version_reader = new JSONReadandparse();
+String v_id=version_reader.version_id(getServletContext().getInitParameter("war_version"), getServletContext().getInitParameter("db_version"));
+System.out.println("version from main center===>"+v_id);
+				
 if (headerinstrid == null) {
 	request.setAttribute("Error","Your session has expired. Login again");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
@@ -191,14 +171,22 @@ String D_ID=session.getAttribute("D_ID").toString();
 											<%if(session.getAttribute("admin").toString().equals("4")){	 %>
 				     							<a style="text-decoration: none;" href="../../jsp/admin/department.jsp">
 						   						<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
-						   						<div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+						   						<div style="margin-top:20px;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
 						   						</a>
-						   					<%}else {%>
+						   					<%if(v_id.equals("update available")){%>
+						   						<span class="blink_me" onclick="show_update();" style="margin-right: -40px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
+						   						<%}
+						   					}else {%>
+						   					
 												<a style="text-decoration: none;" href="../../jsp/home/home.jsp">
 												<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
-						   						<div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+						   						<div style="margin-top:20px ;"><div style="width: 240px;font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
 						   						</a>
-											<%} %>
+											<%
+											if(v_id.equals("update available")){%>
+												<span class="blink_me" onclick="show_update();" style="margin-right: -68px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
+											<%}
+											} %>
 											</div>
 										</td>
 										<td width="150px">
@@ -218,13 +206,7 @@ String D_ID=session.getAttribute("D_ID").toString();
 							</td></tr>
 							<tr><td colspan="3" height="20px" align="center">
 								<div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font>
-								<%
-						double Local_V = Double.parseDouble(local_version);						
-						double maincenter_V = Double.parseDouble(v_id);
-						if(Local_V < maincenter_V)
-						{ %>
-						<span class="blink_me" onclick="show_update();" style="color: red;cursor:pointer;">Update!</span>
-						<%} %>
+								
 								
 								</div>
 							</td></tr>

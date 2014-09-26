@@ -1,19 +1,24 @@
 body{
 	position:relative;
 	text-align:center;
-	width:1300px;
-	height:770px;
+	width:100%;
+	height:100%;
 	margin:auto;
 	background-color: #404040;
 	}
+#main_container{
+margin:auto;
+width:1320px;
+height:625px;
+border: 5px solid red;
+}
 .ui-table_green{
-	
-	width:1200px;
-	height:600px;;
-	background-color: #9bbb59;
 	margin:auto;
+	width:1000px;
+	height:450px;
+	background-color: #9bbb59;
 	border-radius:45px;
-	margin-top:200px;	
+		
 	
 }/* end green background */
 .td-name{
@@ -32,17 +37,17 @@ body{
 .ui-loginbutton{
 	background:#E46C0A;
 	color: balck;
-	height:90px;
-	width:250px;
+	height:70px;
+	width:210px;
 	border-radius:10px;
-	font-size:35px;
+	font-size:30px;
 	
 }
 
 
 .homemenu{
-	width:350px;
-	height:300px;
+	width:250px;
+	height:200px;
 	background-color: #9bbb59;
 	margin:auto;
 	border-radius:30px;
@@ -51,12 +56,7 @@ body{
 	font-size:35px;
 	
 }
-#homemaintable td
-{
-	width:475px;
-	height:50px;
-	
-}
+
 #timertable td
 {
 	font-size:30px;
@@ -66,10 +66,11 @@ body{
 }
 .questiondiv
 {
-
-	font-size:30px;
+	font-size:25px;
 	text-align:center;
+	margin:auto;
 	margin-top:10px;
-	
-	
+	width:870px;
+	height:170px;
+	background-color:#456;
 }

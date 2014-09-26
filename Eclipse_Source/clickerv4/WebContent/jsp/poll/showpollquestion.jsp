@@ -31,21 +31,28 @@ Calendar cal = Calendar.getInstance();
 String launchtime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.getTime());
 System.out.println("your poll launchtime is:"+launchtime);
 String currenttime=launchtime;
-String quizTime="30";
-Callpolljson ob=new Callpolljson();
-ob.callpolljson(courseId,pollquestion,launchtime,currenttime,quizTime);
+String quizTime="60";
 
-launchtime = launchtime.replace('/','-');
-String launchtime1=Global.polljsonobject.get(courseId).getlaunchtime();
+//launchtime = launchtime.replace('/','-');
+String launchtime1=launchtime.replace('/','-');
 //saving poll question in database
-phelp.savepollquestion(pollquestion,courseId,launchtime);
+phelp.savepollquestion(pollquestion,courseId,launchtime1);
 
-int pollid=phelp.getpollidnew(launchtime, courseId);
+int pollid=phelp.getpollidnew(launchtime1, courseId);
 session.setAttribute("pollid", pollid);
 System.out.println("pollquestion saved in local databse--------->>>"+session.getAttribute("pollid").toString());
+
+
+
+
+Callpolljson ob=new Callpolljson();
+//int pollid1=1;
+ob.callpolljson(pollid,courseId,pollquestion,launchtime,currenttime,quizTime);
+
+
 %>
 <script type="text/javascript">
-var secs=30;
+var secs=60;
 var rep = 0;
 function countdown() {
 	down=setInterval(function(){Decrement();},1000);
@@ -349,7 +356,7 @@ function showPollResponsesDialog(rflag,charttype) {
 }
 </script>
 
-<input type="hidden" value="<%=pollquestion%>" id="pollquestionhidden"/>
+
 <div id="ResponseDialog" style="display: none;" ></div>
 
 <div id="response" style="margin-top:50px;width: 500px; height: 460px; margin:auto; margin-left:250px; background-color:#ffffff;  float:left">
@@ -369,5 +376,6 @@ function showPollResponsesDialog(rflag,charttype) {
 </button>
 <input type="hidden" value="<%=count%>" id="totalcounthidden"/>
 <input type="hidden" value="<%=launchtime%>" id="launchtimehidden"/>
+<input type="hidden" value="<%=pollquestion%>" id="pollquestionhidden"/>
 </body>
 </html>

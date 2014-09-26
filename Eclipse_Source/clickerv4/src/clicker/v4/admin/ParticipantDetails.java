@@ -49,7 +49,7 @@ public class ParticipantDetails extends HttpServlet {
 		
 		if(flag.equalsIgnoreCase("ADD"))
 		{
-				String query3="insert into participant(ParticipantID,MacAddress,ParticipantName,WorkshopID) values('"+participantid+"',' ','"+participantname +"','"+workshopid +"')";
+				String query3="insert into participant(ParticipantID,MacAddress,ParticipantName,WorkshopID,Password) values('"+participantid+"',' ','"+participantname +"','"+workshopid +"','"+participantid +"')";
 				int rs2;
 				try {
 					Statement st = conn.createStatement();

@@ -6,11 +6,16 @@ This file is used as header for remote clicker application
 <%@ page import = "clicker.v4.admin.*"%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>
+<%@page import="clicker.v4.rest.*"%>
 <%
 String headerinstrid = (String) session.getAttribute("CoordinatorID");
 String Maincenter_name=(String) session.getAttribute("maincentername");
 
-		
+JSONReadandparse version_reader = new JSONReadandparse();
+String v_id=version_reader.version_id(getServletContext().getInitParameter("war_version"), getServletContext().getInitParameter("db_version"));
+System.out.println("version from main center===>"+v_id);
+System.out.println("WorkshopID>>>>>>>>>"+session.getAttribute("WorkshopID"));
+
 if (headerinstrid == null) {
 	request.setAttribute("Error","Your session has expired. Login again");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
@@ -147,6 +152,18 @@ System.out.println("Privilege value: " + privilege);*/
 				});
 			});
 		}
+
+		function show_update()
+		{
+			var myWindow = window.open("../../jsp/admin/update.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=600,height=300,top=200, left=300");
+			myWindow.document.title = 'Update';
+			self.close();
+			
+		}
+		function blinker() {
+		    $('.blink_me').fadeOut(500);
+		    $('.blink_me').fadeIn(500);
+		}
 	</script>
 	<body  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;" onload = "checkquizlaunch( );">
 	<script>checkquizlaunch( );</script>
@@ -175,8 +192,11 @@ System.out.println("Privilege value: " + privilege);*/
 						 <a style="text-decoration: none;" href="../../jsp/home/remotehome.jsp">
 						 <div id="banner_name">
 						   <div id=Csquare style="float: left;margin-left: 45px;"> </div>
-						   <div style="margin-top:20px ;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
-					
+						   <div style="margin-top:20px ;"><div style="width: 255; font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+							<%
+								if(v_id.equals("update available")){%>
+									<span class="blink_me" onclick="show_update();" style="margin-right: -46px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
+								<%}%>
 						   <div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>
 						</div>
 						</a>
@@ -246,7 +266,9 @@ System.out.println("Privilege value: " + privilege);*/
 							<li><a href="../../jsp/admin/addmainCenter.jsp">Add MainCenter</a></li>
 							<li><a href="../admin/addremoteparticipant.jsp">Add Participant</a></li>
 							<li><a href="../../jsp/admin/remotechangepassword.jsp">Change Password</a></li>	
-							<li id = "autotest"><a href="../../jsp/remotejsp/autotest.jsp">Auto Test</a></li>						
+							<% if(!session.getAttribute("WorkshopID").equals("No workshop Available")){ %>
+							<li id = "autotest"><a href="../../jsp/remotejsp/autotest.jsp">Auto Test</a></li>			
+								<%} %>		
 						<%} %>
 						
 						</ul></li>

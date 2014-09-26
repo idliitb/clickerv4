@@ -1,20 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
+<%
+	String instructorID = (String) session.getAttribute("InstructorID");
+	String Coordinator=(String)session.getAttribute("CoordinatorID");
+	
+	if (!(instructorID != null && Coordinator == null) && !(Coordinator != null && instructorID == null)) {
+	request.setAttribute("Error","Your session has expired. Login again");
+	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
+	rd.forward(request, response);
+	return;
+	}
+	
+	String war_version = getServletContext().getInitParameter("war_version");
+	String db_version = getServletContext().getInitParameter("db_version");
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Update Clickerv4</title>
+
+<script>
+function download_link()
+{
+	document.getElementById("downloadlink").submit( );
+}
+</script>
 </head>
-<body>
+<body onload = "">
 <div id="soft" class="sub-content">
-				<table id="read_me">
+	<form action="http://www.it.iitb.ac.in/clicker/generateupdatedwar" id = "downloadlink" method = "post">
+				<table id="read_me" border = '0'>
 					<tr>
 						<td colspan="2"><font style="color: red;font-size: x-large;font-weight: bold;">Latest Update is available</font> </td>
 					</tr>
 					<tr>
 						<td width="75px"><b>Step 1</b></td>
-						<td><a href="http://www.it.iitb.ac.in/clicker/clicker_new.zip">Press to download the
+						<td><a href="#" onclick = "download_link( );">Press to download the
 								clicker.zip and Save the file in Desktop</a></td>
 					</tr>
 					<tr>
@@ -30,11 +52,13 @@
 							chmod +x Install.sh<br> sudo ./Install.sh
 						</td>
 					</tr>
-					<tr>
-						<td colspan="2"><br>
-						<br></td>
-					</tr>
+					
 				</table>
+		<input type = "hidden" name = "war_version_check" value = "<%=war_version %>"/>
+		<input type = "hidden" name = "db_version_check" value = "<%= db_version %>" />
+		
+		
+	</form>
 			</div>
 </body>
 </html>

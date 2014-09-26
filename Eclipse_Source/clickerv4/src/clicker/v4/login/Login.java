@@ -158,7 +158,7 @@ public class Login extends HttpServlet {
 					e.printStackTrace();
 				}	
 			}
-		}
+		}		
 	}
 
 	/**
@@ -229,7 +229,8 @@ public class Login extends HttpServlet {
 						session.setAttribute("courseID", Courses[0]);
 				}
 				out1.print(courselistcount);
-				out1.close();
+				out1.close();				
+				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}finally{

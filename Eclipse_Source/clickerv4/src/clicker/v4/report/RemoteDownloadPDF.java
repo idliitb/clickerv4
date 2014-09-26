@@ -2,7 +2,6 @@ package clicker.v4.report;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -68,7 +67,7 @@ public class RemoteDownloadPDF extends HttpServlet {
 			String studCount ="";
 			String path = getServletContext().getRealPath("/");
 			jasReport = JasperCompileManager.compileReport(path	+ "jasperreport/" + reportname + ".jrxml");
-			HashMap hmapParam = new HashMap();
+			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
 			if (reptype.equals("stud")) {
 				SID = request.getParameter("sid");
 				hmapParam.put("Cid", Cid);

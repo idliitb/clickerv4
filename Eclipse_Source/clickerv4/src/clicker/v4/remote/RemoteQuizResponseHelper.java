@@ -16,9 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
 
 import com.google.gson.Gson;
 
@@ -26,7 +23,6 @@ import clicker.v4.databaseconn.DatabaseConnection;
 import clicker.v4.global.Global;
 import clicker.v4.rest.JSONReadandparse;
 import clicker.v4.wrappers.InstantQuizResponse;
-import clicker.v4.wrappers.Option;
 import clicker.v4.wrappers.ParticipantResponse;
 import clicker.v4.wrappers.QuizResponse;
 import clicker.v4.wrappers.Participant;
@@ -292,8 +288,8 @@ import clicker.v4.wrappers.Quiz;
 		public void createMCResponseJson(int quizrecordid ,String MainCenterURL)
 		{
 			 ArrayList<Participant> participantlist = new ArrayList<Participant>();
-				String workshopid = null, participantid = "", pcheck = "", opt = "";
-				int centerid = 0, quizid = 0, questionid = 0, qcheck = 0, ocheck = 0, noofrows = 0, j = 0;
+				String workshopid = null, participantid = "";
+				int centerid = 0, quizid = 0; 
 				PreparedStatement ps = null, ps1 = null, preparedStatement=null;
 				ResultSet workshopresult = null, centeridrs = null, responsers = null;				
 				//System.out.println("Quiz Record ID: " + quizrecordid);

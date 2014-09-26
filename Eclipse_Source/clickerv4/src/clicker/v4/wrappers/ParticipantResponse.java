@@ -1,6 +1,5 @@
 package clicker.v4.wrappers;
 
-import java.util.ArrayList;
 
 public class ParticipantResponse {
 	private String participantid;

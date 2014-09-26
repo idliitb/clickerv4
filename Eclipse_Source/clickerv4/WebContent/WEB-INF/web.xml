@@ -7,6 +7,14 @@
   <listener>
     <listener-class>clicker.v4.util.ClickerSessionListener</listener-class>
   </listener>
+  <context-param>
+    <param-name>war_version</param-name>
+    <param-value>4_5</param-value>
+  </context-param>
+  <context-param>
+    <param-name>db_version</param-name>
+    <param-value>4_5</param-value>
+  </context-param>
   <servlet>
     <description></description>
     <servlet-name>Login</servlet-name>
@@ -520,5 +528,5 @@
   <servlet-mapping>
     <servlet-name>AddInstitute</servlet-name>
     <url-pattern>/AddInstitute</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>  
 </web-app>
