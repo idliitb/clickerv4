@@ -16,14 +16,19 @@ import clicker.v4.wrappers.CourseList;
 /**
  * 
  * @author rajavel ,dipti
+ * Clicker Team, IDL Lab - IIT Bombay
  * This class is used as a course helper
  * 
  * Made change inorder to get the mode ie local or remote and likewise functionalities will work
  */
 public class CourseHelper {
+	
+	/*
+	 * This is used to to validated login for student/ participant and get the courselist of student/ workshop list of participant as per mode
+	 */
 	public CourseList getCourseList(String studentid, String mac,String Mode){
 		String mode="remote";
-		
+
 		if(Mode!="remote"||!Mode.equals(mode)){
 			//System.out.println("..............This is local mode................");
 			DatabaseConnection dbConn = new DatabaseConnection();
@@ -88,6 +93,8 @@ public class CourseHelper {
 							isActive.add(false);
 						}
 					}
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
 				}
 			}catch (SQLException e) {			
 				e.printStackTrace();
@@ -100,14 +107,19 @@ public class CourseHelper {
 			courseList.setIsActive(isActive);
 			courseList.setValidation(Validation);
 			courseList.setMode(ModeValue);
+			if(Global.loggedstudentlist.containsKey(studentid)){
+				courseList.setLoggedIn(true);	
+			}else{
+				Global.loggedstudentlist.put(studentid, studentid);
+				courseList.setLoggedIn(false);	
+			}
 			return courseList;
 		}
 		else{
-			
+
 			//System.out.println("..............This is Remote mode................");
 			DatabaseConnection dbConn = new DatabaseConnection();
 			Connection conn = dbConn.createRemoteDatabaseConnection();
-			boolean isParticipant=false;
 			String Validation = "Participant is Not Registered";
 			String ModeValue="remote";
 			Statement st = null;
@@ -115,85 +127,69 @@ public class CourseHelper {
 			ArrayList<String> WorkshopIDs = new ArrayList<String>();
 			ArrayList<Boolean> isActive = new ArrayList<Boolean>();
 			try {
-				
-				Statement st10 = conn.createStatement();
-				ResultSet rs10 = st10.executeQuery("select WorkshopID from participant where ParticipantID = '"+studentid+"'");
-				String WorkshopID1 = "";
-				while(rs10.next())
-				{
-					isParticipant=true;
-					WorkshopID1 = rs10.getString("WorkshopID");
-					if(Global.activeworkshop.containsKey(WorkshopID1))
-					{
-						System.out.println("is active");
-						st = conn.createStatement();
-						rs = st.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && MacAddress = '" + mac + "' && WorkshopID = '"+WorkshopID1+"'");
-						if(rs.next()){				
-							Validation =  "Success";				
-						}else {
-							Statement st1 = conn.createStatement();
-							ResultSet rs1 = st1.executeQuery("SELECT ParticipantID FROM participant WHERE ParticipantID = '"+studentid+"' && MacAddress != '' && WorkshopID = '"+WorkshopID1+"'" );
-							if(rs1.next()){
-								Validation = "You are using Wrong Tablet";
-							}else{
-								Statement st2 = conn.createStatement();
-								ResultSet rs2 = st2.executeQuery("SELECT ParticipantID FROM participant WHERE MacAddress = '"+mac+"' && WorkshopID = '"+WorkshopID1+"'" );
-								if(rs2.next()){
-									Validation = "Wrong Enrollment ID";
-								}else{
-									Statement st3 = conn.createStatement();
-									ResultSet rs3 = st3.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && MacAddress = '' && WorkshopID = '"+WorkshopID1+"'");
-									if(rs3.next()){
-										Statement st4 = conn.createStatement();
-										st4.executeUpdate("Update participant set MacAddress = '"+mac+"' where ParticipantID = '"+studentid+"' && WorkshopID = '"+WorkshopID1+"' ");
-										Validation = "Success";
-										st4.close();
-									}
-									if(rs3!=null)rs3.close();			
-									if(st3!=null)st3.close();
-								}
-								if(rs2!=null)rs2.close();			
-								if(st2!=null)st2.close();
+				st = conn.createStatement();
+				rs = st.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && MacAddress = '" + mac + "'");
+				if(rs.next()){				
+					Validation =  "Success";				
+				}else {
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("SELECT ParticipantID FROM participant WHERE ParticipantID = '"+studentid+"' && MacAddress != ''" );
+					if(rs1.next()){
+						Validation = "You are using Wrong Tablet";
+					}else{
+						Statement st2 = conn.createStatement();
+						ResultSet rs2 = st2.executeQuery("SELECT ParticipantID FROM participant WHERE MacAddress = '"+mac+"'" );
+						if(rs2.next()){
+							Validation = "Wrong Enrollment ID";
+						}else{
+							Statement st3 = conn.createStatement();
+							ResultSet rs3 = st3.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && MacAddress = ''");
+							if(rs3.next()){
+								Statement st4 = conn.createStatement();
+								st4.executeUpdate("Update participant set MacAddress = '"+mac+"' where ParticipantID = '"+studentid+"'");
+								Validation = "Success";
+								st4.close();
 							}
-							if(rs1!=null)rs1.close();			
-							if(st1!=null)st1.close();
+							if(rs3!=null)rs3.close();			
+							if(st3!=null)st3.close();
 						}
-						if(rs!=null)rs.close();			
-						if(st!=null)st.close();
-						if(Validation.equals("Success"))
-						{
-							
-								WorkshopIDs.add(WorkshopID1);
-								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+Global.activeworkshop);
-								if(Global.activeworkshop.containsKey(WorkshopID1)){
-									isActive.add(true);
-									HashSet<String> activelist = Global.activeparticipantlist.get(WorkshopID1);
-									activelist.add(studentid);
-									Global.activeparticipantlist.replace(WorkshopID1, activelist);
-									insertAttendance(conn, studentid, WorkshopID1,ModeValue);
-									System.out.println(Global.activeparticipantlist);
-								}else{
-									isActive.add(false);
-								}
-								
-						
-						}
-					
-						
+						if(rs2!=null)rs2.close();			
+						if(st2!=null)st2.close();
 					}
-					
-						
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
 				}
-				if(isParticipant && Validation.equals("Participant is Not Registered")){
-					Validation = "No Active Course(s)";
+				if(rs!=null)rs.close();			
+				if(st!=null)st.close();
+				if(Validation.equals("Success"))
+				{
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("select WorkshopID from participant where ParticipantID = '"+studentid+"'");
+					String WorkshopID = "";
+					while(rs1.next()){				
+						WorkshopID = rs1.getString("WorkshopID");
+						WorkshopIDs.add(WorkshopID);
+						System.out.println("Active Courses" + Global.activeworkshop);
+						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+Global.activeworkshop);
+						if(Global.activeworkshop.containsKey(WorkshopID)){
+							isActive.add(true);
+							HashSet<String> activelist = Global.activeparticipantlist.get(WorkshopID);
+							activelist.add(studentid);
+							Global.activeparticipantlist.replace(WorkshopID, activelist);
+							insertAttendance(conn, studentid, WorkshopID,ModeValue);
+							System.out.println(Global.activeparticipantlist);
+						}else{
+							isActive.add(false);
+						}
+					}
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
 				}
 				if(Global.activeworkshop.containsKey("autotest")){
 					WorkshopIDs.add("autotest");
 					isActive.add(true);
 				}
-				
-			
-				
+
 			}catch (SQLException e) {			
 				e.printStackTrace();
 			}
@@ -201,239 +197,201 @@ public class CourseHelper {
 				if(conn!=null)dbConn.closeRemoteConnection(conn);
 			}	
 			CourseList courseList = new CourseList();
-			if(Validation=="Success"){
-				
-				System.out.println("in 1");
-				courseList.setCourseIDs(WorkshopIDs);
-				courseList.setIsActive(isActive);
-				courseList.setValidation(Validation);
-				courseList.setMode(ModeValue);
-				
-			}
-			else if(Validation!="Success" && WorkshopIDs.isEmpty()){
-				System.out.println("in 2");
-				courseList.setCourseIDs(WorkshopIDs);
-				courseList.setIsActive(isActive);
-				courseList.setValidation(Validation);
-				courseList.setMode(ModeValue);
-			}
-			else if(Validation!="Success" && WorkshopIDs != null){
-				System.out.println("in 3");
-				courseList.setCourseIDs(WorkshopIDs);
-				courseList.setIsActive(isActive);
-				courseList.setValidation("Success");
-				courseList.setMode(ModeValue);
+			courseList.setCourseIDs(WorkshopIDs);
+			courseList.setIsActive(isActive);
+			courseList.setValidation(Validation);
+			courseList.setMode(ModeValue);
+			if(Global.loggedparticipantlist.containsKey(studentid)){
+				courseList.setLoggedIn(true);	
+			}else{
+				Global.loggedparticipantlist.put(studentid, studentid);
+				courseList.setLoggedIn(false);	
 			}
 			return courseList;
 		}
-		
+
 	}
-	
-	
-	
+
 	/*
 	 * This is for getting courselist for student browser
 	 */
-	
+
 	public CourseList getCourseListForStudent(String studentid, String password,String Mode){
-		
-			String mode="remote";
-		
+		String mode="remote";
 		if(Mode!="remote"||!Mode.equals(mode)){
-		
-		//System.out.println("..............This is local mode................");
-		DatabaseConnection dbConn = new DatabaseConnection();
-		Connection conn = dbConn.createDatabaseConnection();
-		String Validation = "";
-		String ModeValue="local";
-		Statement st = null;
-		ResultSet rs = null;
-		ArrayList<String> courseIDs = new ArrayList<String>();
-		ArrayList<Boolean> isActive = new ArrayList<Boolean>();
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery("SELECT StudentID FROM student WHERE  StudentID = '"+studentid+"' && Password = '" + password + "'");
-			if(rs.next()){				
-				Validation =  "Success";				
-			}else {
-				Statement st1 = conn.createStatement();
-				ResultSet rs1 = st1.executeQuery("SELECT StudentID FROM student WHERE StudentID = '"+studentid+"' && Password != '"+password+"'" );
-				if(rs1.next()){
-					Validation = "You are using Wrong password";
-				}else{
-					Statement st2 = conn.createStatement();
-					ResultSet rs2 = st2.executeQuery("SELECT StudentID FROM student WHERE Password  = '"+password+"'" );
-					if(rs2.next()){
-						Validation = "Wrong Enrollment ID";
-					}
-					if(rs2!=null)rs2.close();			
-					if(st2!=null)st2.close();
-				}
-				if(rs1!=null)rs1.close();			
-				if(st1!=null)st1.close();
-			}
-			if(rs!=null)rs.close();			
-			if(st!=null)st.close();
-			if(Validation.equals("Success")){
-				Statement st1 = conn.createStatement();
-				ResultSet rs1 = st1.executeQuery("select sc.CourseID from student s, studentcourse sc where s.StudentID = '"+studentid+"' and sc.StudentID = s.StudentID");
-				String courseID = "";
-				while(rs1.next()){				
-					courseID = rs1.getString("CourseID");
-					courseIDs.add(courseID);
-					System.out.println("Active Courses" + Global.activecourses);
-					if(Global.activecourses.containsKey(courseID)){
-						isActive.add(true);
-						HashSet<String> activelist = Global.activestudentlist.get(courseID);
-						activelist.add(studentid);
-						Global.activestudentlist.replace(courseID, activelist);
-						insertAttendance(conn, studentid, courseID,ModeValue);
-						System.out.println("Active Student List" + Global.activestudentlist);
+			DatabaseConnection dbConn = new DatabaseConnection();
+			Connection conn = dbConn.createDatabaseConnection();
+			String Validation = "";
+			String ModeValue="local";
+			Statement st = null;
+			ResultSet rs = null;
+			ArrayList<String> courseIDs = new ArrayList<String>();
+			ArrayList<Boolean> isActive = new ArrayList<Boolean>();
+			try {
+				st = conn.createStatement();
+				rs = st.executeQuery("SELECT StudentID FROM student WHERE  StudentID = '"+studentid+"' && Password = '" + password + "'");
+				if(rs.next()){				
+					Validation =  "Success";				
+				}else {
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("SELECT StudentID FROM student WHERE StudentID = '"+studentid+"' && Password != '"+password+"'" );
+					if(rs1.next()){
+						Validation = "You are using Wrong password";
 					}else{
-						isActive.add(false);
-					}
-				}
-			}
-		}catch (SQLException e) {			
-			e.printStackTrace();
-		}
-		finally{
-			if(conn!=null)dbConn.closeLocalConnection(conn);
-		}			
-		CourseList courseList = new CourseList();
-		courseList.setCourseIDs(courseIDs);
-		courseList.setIsActive(isActive);
-		courseList.setValidation(Validation);
-		courseList.setMode(ModeValue);
-		return courseList;
-	}else{
-		
-		//System.out.println("..............This is Remote mode................");
-		DatabaseConnection dbConn = new DatabaseConnection();
-		Connection conn = dbConn.createRemoteDatabaseConnection();
-		boolean isParticipant=false;
-		String Validation = "Participant is Not Registered";
-		String ModeValue="remote";
-		Statement st = null;
-		ResultSet rs = null;
-		ArrayList<String> WorkshopIDs = new ArrayList<String>();
-		ArrayList<Boolean> isActive = new ArrayList<Boolean>();
-		try {
-			
-			Statement st10 = conn.createStatement();
-			ResultSet rs10 = st10.executeQuery("select WorkshopID from participant where ParticipantID = '"+studentid+"'");
-			String WorkshopID1 = "";
-			while(rs10.next())
-			{
-				isParticipant=true;
-				WorkshopID1 = rs10.getString("WorkshopID");
-				if(Global.activeworkshop.containsKey(WorkshopID1))
-				{
-					System.out.println("is active");
-					st = conn.createStatement();
-					rs = st.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && Password = '" + password + "' && WorkshopID = '"+WorkshopID1+"'");
-					if(rs.next()){				
-						Validation =  "Success";				
-					}else {
-						Statement st1 = conn.createStatement();
-						ResultSet rs1 = st1.executeQuery("SELECT ParticipantID FROM participant WHERE ParticipantID = '"+studentid+"' && Password != '"+password+"' && WorkshopID = '"+WorkshopID1+"'" );
-						if(rs1.next()){
-							Validation = "You are using Wrong Password";
-						}else{
-							Statement st2 = conn.createStatement();
-							ResultSet rs2 = st2.executeQuery("SELECT ParticipantID FROM participant WHERE Password = '"+password+"' && WorkshopID = '"+WorkshopID1+"'" );
-							if(rs2.next()){
-								Validation = "Wrong Enrollment ID";
-							}
-							if(rs2!=null)rs2.close();			
-							if(st2!=null)st2.close();
+						Statement st2 = conn.createStatement();
+						ResultSet rs2 = st2.executeQuery("SELECT StudentID FROM student WHERE Password  = '"+password+"'" );
+						if(rs2.next()){
+							Validation = "Wrong Enrollment ID";
 						}
-						if(rs1!=null)rs1.close();			
-						if(st1!=null)st1.close();
+						if(rs2!=null)rs2.close();			
+						if(st2!=null)st2.close();
 					}
-					if(rs!=null)rs.close();			
-					if(st!=null)st.close();
-					if(Validation.equals("Success"))
-					{
-						
-							WorkshopIDs.add(WorkshopID1);
-							System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+Global.activeworkshop);
-							if(Global.activeworkshop.containsKey(WorkshopID1)){
-								isActive.add(true);
-								HashSet<String> activelist = Global.activeparticipantlist.get(WorkshopID1);
-								activelist.add(studentid);
-								Global.activeparticipantlist.replace(WorkshopID1, activelist);
-								insertAttendance(conn, studentid, WorkshopID1,ModeValue);
-								System.out.println(Global.activeparticipantlist);
-							}else{
-								isActive.add(false);
-							}
-							
-					}
-				
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
 				}
-					
+				if(rs!=null)rs.close();			
+				if(st!=null)st.close();
+				if(Validation.equals("Success")){
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("select sc.CourseID from student s, studentcourse sc where s.StudentID = '"+studentid+"' and sc.StudentID = s.StudentID");
+					String courseID = "";
+					while(rs1.next()){				
+						courseID = rs1.getString("CourseID");
+						courseIDs.add(courseID);
+						System.out.println("Active Courses" + Global.activecourses);
+						if(Global.activecourses.containsKey(courseID)){
+							isActive.add(true);
+							HashSet<String> activelist = Global.activestudentlist.get(courseID);
+							activelist.add(studentid);
+							Global.activestudentlist.replace(courseID, activelist);
+							insertAttendance(conn, studentid, courseID,ModeValue);
+							System.out.println("Active Student List" + Global.activestudentlist);
+						}else{
+							isActive.add(false);
+						}
+					}
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
+				}
+			}catch (SQLException e) {			
+				e.printStackTrace();
 			}
-			if(isParticipant && Validation.equals("Participant is Not Registered")){
-				Validation = "No Active Course(s)";
+			finally{
+				if(conn!=null)dbConn.closeLocalConnection(conn);
+			}			
+			CourseList courseList = new CourseList();
+			courseList.setCourseIDs(courseIDs);
+			courseList.setIsActive(isActive);
+			courseList.setValidation(Validation);
+			courseList.setMode(ModeValue);
+			if(Global.loggedstudentlist.containsKey(studentid)){
+				courseList.setLoggedIn(true);	
+			}else{
+				courseList.setLoggedIn(false);	
+				Global.loggedstudentlist.put(studentid, studentid);
 			}
-			if(Global.activeworkshop.containsKey("autotest")){
-				WorkshopIDs.add("autotest");
-				isActive.add(true);
+			return courseList;
+
+		}else{
+
+			//System.out.println("..............This is Remote mode................");
+			DatabaseConnection dbConn = new DatabaseConnection();
+			Connection conn = dbConn.createRemoteDatabaseConnection();
+			String Validation = "Participant is Not Registered";
+			String ModeValue="remote";
+			Statement st = null;
+			ResultSet rs = null;
+			ArrayList<String> WorkshopIDs = new ArrayList<String>();
+			ArrayList<Boolean> isActive = new ArrayList<Boolean>();
+			try {
+				st = conn.createStatement();
+				rs = st.executeQuery("SELECT ParticipantID FROM participant WHERE  ParticipantID = '"+studentid+"' && Password = '" + password + "'");
+				if(rs.next()){
+					Validation =  "Success";				
+				}else {
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("SELECT ParticipantID FROM participant WHERE ParticipantID = '"+studentid+"' && Password != '"+password+"'" );
+					if(rs1.next()){
+						Validation = "You are using Wrong Password";
+					}else{
+						Statement st2 = conn.createStatement();
+						ResultSet rs2 = st2.executeQuery("SELECT ParticipantID FROM participant WHERE Password = '"+password+"'" );
+						if(rs2.next()){
+							Validation = "Wrong Enrollment ID";
+						}
+						if(rs2!=null)rs2.close();			
+						if(st2!=null)st2.close();
+					}
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
+				}
+				if(rs!=null)rs.close();			
+				if(st!=null)st.close();
+				if(Validation.equals("Success"))
+				{
+					Statement st1 = conn.createStatement();
+					ResultSet rs1 = st1.executeQuery("select WorkshopID from participant where ParticipantID = '"+studentid+"'");
+					String WorkshopID = "";
+					while(rs1.next()){				
+						WorkshopID = rs1.getString("WorkshopID");
+						WorkshopIDs.add(WorkshopID);
+						System.out.println("Active Courses" + Global.activeworkshop);
+						if(Global.activeworkshop.containsKey(WorkshopID)){
+							isActive.add(true);
+							HashSet<String> activelist = Global.activeparticipantlist.get(WorkshopID);
+							activelist.add(studentid);
+							Global.activeparticipantlist.replace(WorkshopID, activelist);
+							insertAttendance(conn, studentid, WorkshopID,ModeValue);
+							System.out.println(Global.activeparticipantlist);
+						}else{
+							isActive.add(false);
+						}
+					}
+					if(rs1!=null)rs1.close();			
+					if(st1!=null)st1.close();
+				}
+				if(Global.activeworkshop.containsKey("autotest")){
+					WorkshopIDs.add("autotest");
+					isActive.add(true);
+				}
+			}catch (SQLException e) {			
+				e.printStackTrace();
 			}
-			
-			
-		}catch (SQLException e) {			
-			e.printStackTrace();
-		}
-		finally{
-			if(conn!=null)dbConn.closeRemoteConnection(conn);
-		}	
-		CourseList courseList = new CourseList();
-		if(Validation=="Success"){
-			
-			System.out.println("in 1");
+			finally{
+
+				if(conn!=null)dbConn.closeRemoteConnection(conn);
+			}	
+			CourseList courseList = new CourseList();
 			courseList.setCourseIDs(WorkshopIDs);
 			courseList.setIsActive(isActive);
 			courseList.setValidation(Validation);
 			courseList.setMode(ModeValue);
-			
+			if(Global.loggedparticipantlist.containsKey(studentid)){
+				courseList.setLoggedIn(true);	
+			}else{
+				Global.loggedparticipantlist.put(studentid, studentid);
+				courseList.setLoggedIn(false);	
+			}
+			return courseList;
 		}
-		else if(Validation!="Success" && WorkshopIDs.isEmpty()){
-			System.out.println("in 2");
-			courseList.setCourseIDs(WorkshopIDs);
-			courseList.setIsActive(isActive);
-			courseList.setValidation(Validation);
-			courseList.setMode(ModeValue);
-		}
-		else if(Validation!="Success" && WorkshopIDs != null){
-			System.out.println("in 3");
-			courseList.setCourseIDs(WorkshopIDs);
-			courseList.setIsActive(isActive);
-			courseList.setValidation("Success");
-			courseList.setMode(ModeValue);
-		}
-		return courseList;
+
 	}
-		
-	}
-	
-	
+
 	public void insertAttendance(Connection con, String studentID, String courseID,String Mode){
-		
+
 		String mode="remote";
 		if(Mode!="remote"||!Mode.equals(mode)){
 			PreparedStatement ps = null;
 			PreparedStatement pst = null;
 			try{
-				 
+
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String date = sdf.format(new Date( ));
 				String formatted_date = (date.substring(0, 10));
 				String session = "";
 				int attendance_count = 0;
 				System.out.println("Date : " + date);
-				
+
 				if(date.compareTo(formatted_date + " 12:00:00") > 0)
 					session = "Afternoon";
 				else
@@ -445,7 +403,7 @@ public class CourseHelper {
 				ps.setString(3, courseID);
 				ps.setString(4, formatted_date);
 				ResultSet rs = ps.executeQuery();
-				
+
 				if(rs.next())
 				{
 					//System.out.println("in IF!!");
@@ -468,7 +426,7 @@ public class CourseHelper {
 					pst.setString(4, session);
 					pst.executeUpdate();
 				}
-								
+
 			}catch (SQLException e) {
 				e.printStackTrace();
 			} finally{
@@ -480,7 +438,7 @@ public class CourseHelper {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}else{
 			PreparedStatement ps = null;
 			PreparedStatement pst = null;
@@ -491,20 +449,20 @@ public class CourseHelper {
 				String session = "";
 				int attendance_count = 0;
 				System.out.println("Date : " + date);
-				
+
 				if(date.compareTo(formatted_date + " 12:00:00") > 0)
 					session = "Afternoon";
 				else
 					session = "Forenoon";
 				//System.out.println("Session: " + session);
-				
+
 				ps = con.prepareStatement("Select ParticipantID, Attendance_Count, AttendanceTS from attendance where ParticipantID=? and Session=? and WorkshopID = ? and Date(AttendanceTS) = ?");
 				ps.setString(1, studentID);
 				ps.setString(2, session);
 				ps.setString(3, courseID);
 				ps.setString(4, formatted_date);
 				ResultSet rs = ps.executeQuery();
-				
+
 				if(rs.next()){
 					//System.out.println("in Remote IF!!");
 					attendance_count = rs.getInt("Attendance_Count");
@@ -537,9 +495,9 @@ public class CourseHelper {
 					e.printStackTrace();
 				}
 			}
-			
-			
+
+
 		}
-		
+
 	}
 }

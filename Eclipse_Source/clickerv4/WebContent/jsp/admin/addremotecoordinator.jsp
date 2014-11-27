@@ -13,7 +13,7 @@ USE        : to add remote cordinator details
 <%
 	ArrayList<String> storeall = new AddRemoteCenter( ).getAll( );
 	int centerid = Integer.parseInt(storeall.get(0));
-	System.out.println("Center ID: " + centerid);
+	//System.out.println("Center ID: " + centerid);
 	%>
 <html>
 <head>
@@ -109,7 +109,7 @@ $(document).ready(function(){
 <div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; font-size: 25px;">Add Co-ordinator</label></div>
 	<div style="margin-top:30px">
-	<table  style="height:150px;margin:auto; " border='0'>
+	<table  style="height:150px;margin:auto; ">
 		
 		<tr>
 			<td style="height:20px;width:260px;">

@@ -1,25 +1,17 @@
 /*
  * Author : Dipti from Clicker Team, IDL LAB -IIT Bombay
+ * 
+ * This file is used to set workshop ID for coordinator login
  */
 
 package clicker.v4.login;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashSet;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.json.simple.parser.ParseException;
-
-import clicker.v4.global.Global;
-import clicker.v4.rest.JSONReadandparse;
 
 /**
  * Servlet implementation class MainCenterSetter
@@ -37,6 +29,10 @@ public class MainCenterSetter extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+    /*
+     * This function is used to set the Workshop ID for particular coordinator login,In case of no workshop is available at maincenter 
+     * workshop will be set as "No workshop Available"
+     */
     protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 			HttpSession session=request.getSession();

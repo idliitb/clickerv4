@@ -45,6 +45,7 @@ public class RemoteReportGenerator extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
+    // This method is used to generate the jasper report as HTML file format and get the necessary data for the report
     protected void doProcess(HttpServletRequest request, HttpServletResponse response){
     	response.setContentType("text/html;charset=UTF-8");
     	HttpSession session = request.getSession(true);
@@ -63,7 +64,7 @@ public class RemoteReportGenerator extends HttpServlet {
 			String participantID = request.getParameter("pid");
 			String reportname = "ParticipantResultPercentage";
 			String path = getServletContext().getRealPath("/");
-			out.println(participantReport(workshopID, participantID, reportname, path));
+			out.println(participantReport(workshopID, participantID, reportname, path, coordinatorID));
 		}else if (ReportType.equals("quizreport")) {
 			String Cid = workshopID;
 			String QID = request.getParameter("qid");
@@ -76,7 +77,7 @@ public class RemoteReportGenerator extends HttpServlet {
 					String [] questionIDs = (String [])session.getAttribute("QuestionIDs");
 					StringBuffer htmlFile = new StringBuffer("<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Quiz Response</title></head><body>");
 					htmlFile.append("<div style='background-color:#fff;margin:auto; text-align:center;'>");
-					htmlFile.append(quizReport(Cid, QID, QTS, "RemoteQuizResponseHeader", path, topScore));
+					htmlFile.append(quizReport(Cid, QID, QTS, "RemoteQuizResponseHeader", path, topScore, coordinatorID));
 					String tContent = "";
 					String tImg = "";
 					String correctAns[] = session.getAttribute("correctAns").toString().split("@");
@@ -87,12 +88,12 @@ public class RemoteReportGenerator extends HttpServlet {
 					}
 					htmlFile.append("</div></body></html>");
 					session.setAttribute("ReportContent", htmlFile.toString());
-					if(session.getAttribute("QuestionIDs")!=null){
+					/*if(session.getAttribute("QuestionIDs")!=null){
 						session.removeAttribute("QuestionIDs");
 					}
 					if(session.getAttribute("correctAns")!=null){
 						session.removeAttribute("correctAns");
-					}
+					}*/
 					//System.out.println(htmlFile);
 					out.println(htmlFile.toString());				
 				}
@@ -103,13 +104,13 @@ public class RemoteReportGenerator extends HttpServlet {
 				}
 				StringBuffer htmlFile = new StringBuffer("<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Quiz Result</title></head><body>");
 				htmlFile.append("<div style='overflow:auto;text-align:center;background-color:#fff;'>");
-				htmlFile.append("<img src='../../"+coordinatorID+"/RemoteQuizResult.jpeg?"+new Date().getTime()+"'></img> <br/> <br/>"	+ "<img src='../../"+coordinatorID+"/RemoteQuizGrade.jpeg?"+new Date().getTime()+"'></img>");
-				htmlFile.append(quizReport(Cid, QID, QTS, reportname, path, topScore));
+				//htmlFile.append("<img src='../../"+coordinatorID+"/RemoteQuizResult.jpeg?"+new Date().getTime()+"'></img> <br/> <br/>"	+ "<img src='../../"+coordinatorID+"/RemoteQuizGrade.jpeg?"+new Date().getTime()+"'></img>");
+				htmlFile.append(quizReport(Cid, QID, QTS, reportname, path, topScore, coordinatorID));
 				htmlFile.append("</div></body></html>");			
 				session.setAttribute("QuizResultContent", htmlFile);
 				out.println(htmlFile);
 			}else {
-				out.println(quizReport(Cid, QID, QTS, reportname, path, topScore));
+				out.println(quizReport(Cid, QID, QTS, reportname, path, topScore, coordinatorID));
 			}			
 		}else if (ReportType.equals("corusereport")) {
 			String Cid = workshopID;
@@ -120,28 +121,14 @@ public class RemoteReportGenerator extends HttpServlet {
 			String queryDate = request.getParameter("date");
 			if (reportname.equals("Attendance")) {
 				String htmlFile = "<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Attendance</title></head><body>";
-				htmlFile += "<div><img src='../../"+coordinatorID+"/RemoteAttendance.jpeg?"+new Date().getTime()+"' />" + "</div>";
+				//htmlFile += "<div><img src='../../"+coordinatorID+"/RemoteAttendance.jpeg?"+new Date().getTime()+"' />" + "</div>";
 				htmlFile += "<div>";
-				htmlFile += courseReport(Cid, date, sn, "RemoteAttendance",queryDate, path);
+				htmlFile += courseReport(Cid, date, sn, "RemoteAttendance",queryDate, path, coordinatorID);
 				htmlFile += "</div>";				
 				out.println(htmlFile);
 			}else{
-			out.println(courseReport(Cid, date, sn, reportname,queryDate, path));
+			out.println(courseReport(Cid, date, sn, reportname,queryDate, path, coordinatorID));
 			}
-		}else if (ReportType.equals("instantquizreport")) {
-			System.out.println("InstantQuizReport");
-			String QID = request.getParameter("qid");
-			String path = getServletContext().getRealPath("/");
-			//out.println(instantQuizReport(QID, path));		
-			StringBuffer htmlFile = new StringBuffer("<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Instant Quiz Response</title></head><body>");
-			htmlFile.append("<div style='background-color:#fff;margin:auto; text-align:center;'>");
-			String tContent = "";
-			String tImg = "";
-			tContent = instantQuizReport(QID, path);
-			tImg = "<div style='margin:auto;'><img align='middle' src='../../"+coordinatorID+"/InstantChart.jpeg?"+new Date().getTime()+"'></img></div><br/><br/><br/>";
-			htmlFile.append(tImg + tContent);
-			htmlFile.append("</div></body></html>");
-			out.println(htmlFile);
 		}else if (ReportType.equals("instantquizreportnew")) {
 			String Cid = workshopID;
 			String QID = request.getParameter("qid");
@@ -151,7 +138,7 @@ public class RemoteReportGenerator extends HttpServlet {
 					String [] questionIDs = (String [])session.getAttribute("QuestionIDs");
 					StringBuffer htmlFile = new StringBuffer("<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Quiz Response</title></head><body>");
 					htmlFile.append("<div style='background-color:#fff;margin:auto; text-align:center;'>");
-					htmlFile.append(instantQuizReport(Cid, coordinatorID, QTS, "RemoteInstantQuizResponseHeader", path, topScore));
+					htmlFile.append(instantQuizReport(Cid, QID, coordinatorID, QTS, "RemoteInstantQuizResponseHeader", path, topScore));
 					String tContent = "";
 					String tImg = "";
 					for(int i=0;i<questionIDs.length;i++){
@@ -161,9 +148,9 @@ public class RemoteReportGenerator extends HttpServlet {
 					}
 					htmlFile.append("</div></body></html>");
 					session.setAttribute("InstantReportContent", htmlFile.toString());
-					if(session.getAttribute("QuestionIDs")!=null){
-						session.removeAttribute("QuestionIDs");
-					}
+					//if(session.getAttribute("QuestionIDs")!=null){
+						//session.removeAttribute("QuestionIDs");
+					//}
 					//System.out.println(htmlFile);
 					out.println(htmlFile.toString());				
 				}
@@ -174,17 +161,18 @@ public class RemoteReportGenerator extends HttpServlet {
 				StringBuffer htmlFile = new StringBuffer("<html><head><META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'></META><title>Poll Response</title></head><body>");
 				htmlFile.append("<div style='background-color:#fff;margin:auto; text-align:center;'>");
 				String tContent = "";
-				String tImg = "";
-				tContent = pollReport(PID, path);
-				tImg = "<div style='margin:auto;'><img align='middle' src='../../"+coordinatorID+"/PollChart.jpeg?"+new Date().getTime()+"'></img></div><br/><br/><br/>";
-				htmlFile.append(tImg + tContent);
+				//String tImg = "";
+				tContent = pollReport(PID, path, coordinatorID);
+				//tImg = "<div style='margin:auto;'><img align='middle' src='../../"+coordinatorID+"/PollChart.jpeg?"+new Date().getTime()+"'></img></div><br/><br/><br/>";
+				htmlFile.append(tContent);
 				htmlFile.append("</div></body></html>");
 				session.setAttribute("PollReportContent", htmlFile.toString());			
 				out.println(htmlFile);
 			}
     }
     
-    public String participantReport(String courseID, String studentID, String reportname, String path) {
+    // This method is set the participant details to export the report as HTML for participant report
+    public String participantReport(String courseID, String studentID, String reportname, String path, String coordinatorID) {
 		DatabaseConnection dbcon = new DatabaseConnection();
         Connection con = dbcon.createRemoteDatabaseConnection();
 		StringBuffer file = new StringBuffer();
@@ -203,6 +191,13 @@ public class RemoteReportGenerator extends HttpServlet {
 						+ studentID
 						+ "&repname=ParticipantResult_Chart"
 						+ "' method='post' target='_blank'> <img src='../../img/pdfdownload.png'> </a></div>");
+				file.append("<div style='float:right;margin-right:50px;'><a href='../../RemoteDownloadXLS?reptype=stud&cid="
+						+ URLEncoder.encode(courseID,"UTF-8")
+						+ "&sid="
+						+ studentID
+						+ "&repname=ParticipantResult"
+						+ "' method='post' target='_blank'> <img src='../../img/xls.png'> </a></div><br/><br/>");
+				file.append("<img src='../../"+coordinatorID+"/participantResult.png?"+new Date()+"' />");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
@@ -230,7 +225,7 @@ public class RemoteReportGenerator extends HttpServlet {
 	}
     
     /**
-	 * This method is used to generate the quiz report
+	 * This method is set the quiz details to export the report as HTML for quiz report
 	 * @param Cid Course id
 	 * @param QID Quiz id
 	 * @param QTS Quiz Time stamp when the quiz was conducted
@@ -239,7 +234,7 @@ public class RemoteReportGenerator extends HttpServlet {
 	 * @return
 	 */
 	private String quizReport(String Cid, String QID, String QTS,
-			String reportname, String path, double topScore) {
+			String reportname, String path, double topScore, String coordinatorID) {
 		// TODO Auto-generated method stub
 		System.out.println("Inside quizreport");
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -289,12 +284,39 @@ public class RemoteReportGenerator extends HttpServlet {
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
 			
 			if(reportname.equals("RemoteQuizResponseHeader")){
-				file.append("<div align=\"right\"><a href='../../RemoteHTMLtoPDF?reportType=Response'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
+				file.append("<div style='float:right;'><a href='../../RemoteHTMLtoPDF?reportType=Response'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
+				file.append("<div style='float:right;margin-right:50px;'><a href='../../RemoteDownloadXLS?reptype=quiz&amp;cid="
+						+ URLEncoder.encode(Cid,"UTF-8")
+						+ "&amp;qid="
+						+ QID
+						+ "&amp;qts="
+						+ QTS
+						+ "&amp;studCount="
+						+ studentCount
+						+ "&amp;topScore="
+						+ topScore
+						+ "&amp;repname="
+						+ reportname
+						+ "' method='post' target='_blank'><img src='../../img/xls.png'></img>  </a></div><br/>");
 			}else if(reportname.equals("RemoteQuizResult")){
-				file.append("<div align=\"right\"><a href='../../RemoteHTMLtoPDF?reportType=Result'> <img src='../../img/pdfdownload.png'></img>  </a></div>");
+				file.append("<div style='float:right;'><a href='../../RemoteHTMLtoPDF?reportType=Result'> <img src='../../img/pdfdownload.png'></img>  </a></div>");
+				file.append("<div style='float:right;margin-right:50px;'><a href='../../RemoteDownloadXLS?reptype=quiz&amp;cid="
+						+ URLEncoder.encode(Cid,"UTF-8")
+						+ "&amp;qid="
+						+ QID
+						+ "&amp;qts="
+						+ QTS
+						+ "&amp;studCount="
+						+ studentCount
+						+ "&amp;topScore="
+						+ topScore
+						+ "&amp;repname="
+						+ reportname
+						+ "' method='post' target='_blank'><img src='../../img/xls.png'></img>  </a></div><br/><br/><br/>");
+				file.append("<img src='../../"+coordinatorID+"/RemoteQuizResult.jpeg?"+new Date().getTime()+"'></img> <br/> <br/>"	+ "<img src='../../"+coordinatorID+"/RemoteQuizGrade.jpeg?"+new Date().getTime()+"'></img>");
 			}else{
 				// Appending PDF download link in report
-				file.append("<div align=\"right\"><a href='../../RemoteDownloadPDF?reptype=quiz&cid="
+				file.append("<div style='float:right;'><a href='../../RemoteDownloadPDF?reptype=quiz&cid="
 						+ URLEncoder.encode(Cid,"UTF-8")
 						+ "&qid="
 						+ QID
@@ -307,6 +329,19 @@ public class RemoteReportGenerator extends HttpServlet {
 						+ "&repname="
 						+ reportname
 						+ "' method='post' target='_blank'><img src='../../img/pdfdownload.png'></img>  </a></div>");
+				file.append("<div style='float:right;margin-right:50px;'><a href='../../RemoteDownloadXLS?reptype=quiz&cid="
+						+ URLEncoder.encode(Cid,"UTF-8")
+						+ "&qid="
+						+ QID
+						+ "&qts="
+						+ QTS
+						+ "&studCount="
+						+ studentCount
+						+ "&topScore="
+						+ topScore
+						+ "&repname="
+						+ reportname
+						+ "' method='post' target='_blank'><img src='../../img/xls.png'></img>  </a></div><br/>");
 			}
 			// Create the instance for HTML Exporter
 			JRExporter htmlExporter = new JRHtmlExporter();
@@ -323,7 +358,7 @@ public class RemoteReportGenerator extends HttpServlet {
 			// Export the report to StringBuffer file
 			htmlExporter.exportReport();			
 			
-			//Export to xls
+			//Export to xls in another format
 			/*JasperPrint print = JasperFillManager.fillReport(jasReport, hmapParam, con);
 	        ByteArrayOutputStream output = new ByteArrayOutputStream();
 	        OutputStream outputfile= new FileOutputStream(new File("/home/rajavel/Desktop/JasperReport.xls"));
@@ -346,7 +381,8 @@ public class RemoteReportGenerator extends HttpServlet {
 		return file.toString();
 	}
 	
-	private String instantQuizReport(String Cid, String InstrID, String QTS, String reportname, String path, double topScore) {
+	// This method is set the instant quiz details to export the report as HTML for instant quiz report
+	private String instantQuizReport(String Cid, String iQID, String InstrID, String QTS, String reportname, String path, double topScore) {
 		// TODO Auto-generated method stub
 		System.out.println("Inside instant quizreport header");
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -372,7 +408,22 @@ public class RemoteReportGenerator extends HttpServlet {
 				hmapParam.put("studCount", studentCount);	
 			}
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
-			file.append("<div align=\"right\"><a href='../../RemoteHTMLtoPDF?reportType=InstantResponse'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
+			file.append("<div style='float:right;'><a href='../../RemoteHTMLtoPDF?reportType=InstantResponse'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
+			file.append("<div style='float:right;margin-right:50px;'>" +
+					"<a href='../../RemoteDownloadXLS?reptype=InstantResponse&amp;cid="
+						+ URLEncoder.encode(Cid,"UTF-8")
+						+ "&amp;qid="
+						+ iQID
+						+ "&amp;InstrID="
+						+ InstrID
+						+ "&amp;qts="
+						+ QTS
+						+ "&amp;studCount="
+						+ studentCount
+						+ "&amp;topScore="
+						+ topScore
+						+ "&amp;repname=InstantResponse"
+						+ "' method='post' target='_blank'><img src='../../img/xls.png'></img>  </a></div><br/>");
 			
 			// Create the instance for HTML Exporter
 			JRExporter htmlExporter = new JRHtmlExporter();
@@ -396,7 +447,7 @@ public class RemoteReportGenerator extends HttpServlet {
 	}
 	
 	/**
-	 * This method is used to generate the quiz report
+	 * This method is set the question details to export the report as HTML for responses of a question
 	 * @param Cid Course id
 	 * @param QID Quiz id
 	 * @param QTS Quiz Time stamp when the quiz was conducted
@@ -447,6 +498,7 @@ public class RemoteReportGenerator extends HttpServlet {
 		return file.toString();
 	}
 	
+	// This method is set the instant question details to export the question response as HTML
 	private String instantQuestionReport(String QstnID, String QID, String reportname, String path) {		// TODO Auto-generated method stub
 		DatabaseConnection dbcon = new DatabaseConnection();
         Connection con = dbcon.createRemoteDatabaseConnection();
@@ -497,7 +549,7 @@ public class RemoteReportGenerator extends HttpServlet {
 	 * @return
 	 */
 	public String courseReport(String Cid, String date, String sn, String reportname, String queryDate,
-			String path) {
+			String path, String coordinatorID) {
 		System.out.println(reportname);
 		DatabaseConnection dbcon = new DatabaseConnection();
         Connection con = dbcon.createRemoteDatabaseConnection();
@@ -547,7 +599,7 @@ public class RemoteReportGenerator extends HttpServlet {
 			//String data;
 			//BufferedReader fbr;
 			// Appending PDF download link in report
-			file.append("<div align=\"right\"><a href='../../RemoteDownloadPDF?reptype=course&cid="
+			file.append("<div style='float:right;'><a href='../../RemoteDownloadPDF?reptype=course&cid="
 					+ URLEncoder.encode(Cid,"UTF-8")
 					+ "&date="
 					+ date
@@ -564,7 +616,26 @@ public class RemoteReportGenerator extends HttpServlet {
 					+ "&repname="
 					+ reportname
 					+ "' method='post' target='_blank'> <img src='../../img/pdfdownload.png'></img>  </a></div>");
-
+			file.append("<div style='float:right;margin-right:50px;'><a href='../../RemoteDownloadXLS?reptype=course&cid="
+					+ URLEncoder.encode(Cid,"UTF-8")
+					+ "&date="
+					+ date
+					+ "&session="
+					+ sn
+					+ "&StudCount="
+					+ StudCount
+					+ "&AttSummary="
+					+ AttSummary
+					+ "&NoofQuiz="
+					+ NoofQuiz
+					+ "&queryDate="
+					+ queryDate
+					+ "&repname="
+					+ reportname
+					+ "' method='post' target='_blank'> <img src='../../img/xls.png'></img>  </a></div><br/>");
+			if(reportname.equals("RemoteAttendance_Chart")){
+				file.append("<div><img src='../../"+coordinatorID+"/RemoteAttendance.jpeg?"+new Date().getTime()+"' />" + "</div>");
+			}
 			// Create the instance for HTML Exporter
 			JRExporter htmlExporter = new JRHtmlExporter();
 
@@ -591,59 +662,9 @@ public class RemoteReportGenerator extends HttpServlet {
 		return file.toString();
 	}
 
-	public String instantQuizReport(String QID, String path) {
-		DatabaseConnection dbcon = new DatabaseConnection();
-        Connection con = dbcon.createRemoteDatabaseConnection();
-        String StudCount = "0";
-        StringBuffer file = new StringBuffer();
-		try {
-			HashMap<String, Object> hmapParam = new HashMap<String, Object>();
-			jasReport = JasperCompileManager.compileReport(path
-					+ "jasperreport/InstantQuizResponse.jrxml");
 
-			hmapParam.put("QID", QID);				
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("select count(*) as NoofStudent from instantquizresponse where IQuizID = '" + QID + "'");
-			if(rs.next()){
-				StudCount = rs.getString("NoofStudent");
-			}
-			hmapParam.put("studCount", StudCount);
-			//hmapParam.put("SUBREPORT_DIR", path+"jasperreport/");
-			System.out.println(path+"jasperreport/");
-			System.out.println(hmapParam);
-			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
-			// Appending PDF download link in report
-			file.append("<div align=\"right\"><a href='../../DownloadPDF?reptype=instantquiz&QID="
-					+ QID
-					+ "&studCount="
-					+ StudCount
-					+ "&SUBREPORT_DIR="
-					+ path+"jasperreport/"
-					+ "&repname=InstantQuizResponse_Chart"
-					+ "' method='post' target='_blank'> <img src='../../img/pdfdownload.png'></img>  </a></div>");
-
-			// Create the instance for HTML Exporter
-			JRExporter htmlExporter = new JRHtmlExporter();
-
-			// Setup report no header, no footer, no images for layout
-			htmlExporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
-			htmlExporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, "");
-			htmlExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
-
-			// Set parameter of output string and jasper print
-			htmlExporter.setParameter(JRExporterParameter.OUTPUT_STRING_BUFFER,	file);
-			htmlExporter.setParameter(JRExporterParameter.JASPER_PRINT,	jasPrint);
-
-			// Export the report to StringBuffer file
-			htmlExporter.exportReport();			
-		} catch (Exception ex) {
-		}finally{
-			dbcon.closeRemoteConnection(con);
-		}
-		return file.toString();
-	}
-	
-	public String pollReport(String PID, String path) {
+	// This method is set the poll details to export the report as HTML for poll report
+	public String pollReport(String PID, String path, String coordinatorID) {
 		DatabaseConnection dbcon = new DatabaseConnection();
         Connection con = dbcon.createRemoteDatabaseConnection();
         String StudCount = "0";
@@ -662,8 +683,15 @@ public class RemoteReportGenerator extends HttpServlet {
 			System.out.println(hmapParam);
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
 			// Appending PDF download link in report
-			file.append("<div align=\"right\"><a href='../../RemoteHTMLtoPDF?reportType=PollResponse'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
-			
+			file.append("<div style='float:right;'><a href='../../RemoteHTMLtoPDF?reportType=PollResponse'> <img src='../../img/pdfdownload.png'> </img> </a></div>");
+			file.append("<div style='float:right;margin-right:50px;'>" +
+					"<a href='../../RemoteDownloadXLS?reptype=PollResponse&amp;pid=" +
+					PID +
+					"&amp;studCount="+
+					StudCount+
+					"&amp;repname=PollResponse"+
+					"' method='post' target='_blank'> <img src='../../img/xls.png'></img>  </a></div><br/>");
+			file.append("<div style='margin:auto;'><img align='middle' src='../../"+coordinatorID+"/PollChart.jpeg?"+new Date().getTime()+"'></img></div><br/><br/><br/>");
 			// Create the instance for HTML Exporter
 			JRExporter htmlExporter = new JRHtmlExporter();
 

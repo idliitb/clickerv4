@@ -75,7 +75,6 @@ String.prototype.trim = function() {
 };
 
 function launchInstantQuiz(courseID, instrID){
-	document.getElementById("isShowAns").disabled=true;
 	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
  		var isactive = document.getElementById("tempdata").innerHTML.trim(); 
  		if(isactive=="inactive"){
@@ -149,24 +148,32 @@ function launchInstantQuiz(courseID, instrID){
  		var IQuiz = JSON.stringify(instantquiz);
  		var min=document.getElementById("minutes").value.trim();
  	 	var sec=document.getElementById("seconds").value.trim();
- 	 	if(min==""){min=0;}if(sec==""){sec=0;} 	 	
- 	 	if(min==0 && sec==0){
- 	 		alert("Kindly give quiz time");
+ 	 	if(sec==""){sec="0";document.getElementById("seconds").value=0;}
+ 	 	if(min==""){
+ 	 		alert("Enter the Minutes"); 
  	 		return false;
- 	 	}else if(isNaN(min) || isNaN(sec)){
+ 	 	}else if(min==0 && sec==0){
+ 			alert("Enter the Quiz Time");
+ 			return false;
+ 		}else if(sec>59){
+ 			alert("Enter value for seconds in the range (0 to 59)");
+ 			return false;
+ 		}else if(isNaN(min) || isNaN(sec)){
  	 		alert("Enter Valid Quiz Time");
  	 		return false;
  	 	}else if(min<0 || sec<0){
  	 		alert("Negative Value is not allowed");
  	 		return false;
  	 	}else if(min.indexOf(".")!=-1 || sec.indexOf(".")!=-1){
- 	 		alert("Floating is not allowed");
+ 	 		alert("Decimal value is not allowed");
  	 		return false;
  	 	}
  	 	var time = (parseInt(min) * 60)  + parseInt(sec);
+ 	 	document.getElementById("isShowAns").disabled=true; 		
  	 	var isShowAns = document.getElementById("isShowAns").checked;
  	 	$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setInstantQuizDetailNew&courseID="+encodeURIComponent(courseID) + "&instrID="+encodeURIComponent(instrID) + "&quiztime="+time +"&IQuiz="+IQuiz + "&isShowAns="+isShowAns);
  	 	$("#quizLauncher").css("display","none");
+ 	 	$("#endquiz_div").css("display","block");
  	 	startTimer(isShowAns);
 	});
 }
@@ -176,8 +183,8 @@ function startTimer(isShowAns) {
 }
 
 function countDown(isShowAns) {	
-	var min=document.getElementById("minutes").value.trim();
- 	var sec=document.getElementById("seconds").value.trim();
+	var min=parseInt(document.getElementById("minutes").value.trim());
+ 	var sec=parseInt(document.getElementById("seconds").value.trim());
  	if(min==""){min=0;}if(sec==""){sec=0;};
  	var seprater="";
  	if(sec<10){seprater = " : 0";}else{seprater= " : ";}
@@ -201,6 +208,26 @@ function countDown(isShowAns) {
 	}
 }
 
+function endQuiz(quiztype) {
+	var min=document.getElementById("minutes").value.trim();
+ 	var sec=document.getElementById("seconds").value.trim();
+ 	var quiztime = (min*60) + sec;
+	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=endquiz&quizRtime="+quiztime, function(){
+		clearInterval(down);
+		$("#quizLauncher").css("display","block");
+		$("#endquiz_div").css("display","none");
+		document.getElementById("timer").innerHTML = "00 : 00";
+		var isShowAns = document.getElementById("isShowAns").checked;
+		if(quiztype=="normalquiz"){
+			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse("+isShowAns+")' style='margin-left:460px;'>" +
+						"<span>Show Response</span>	</button>";
+		}else if(quiztype=="instantquiz"){
+			document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showInstantQuizResponse("+isShowAns+")' style='margin-left:460px;'>" +
+				"<span>Show Response</span>	</button>";
+		}		
+	});
+		
+}
 
 function showInstantQuizResponse(isShowAns){
 	window.location = "../../jsp/quiz/newinstantchart.jsp?isShowAns="+isShowAns;

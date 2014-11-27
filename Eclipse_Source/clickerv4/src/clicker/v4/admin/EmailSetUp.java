@@ -43,7 +43,7 @@ public class EmailSetUp extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String mode = request.getParameter("mode");
-	//	System.out.println("mode : "+mode);
+		System.out.println("mode : "+mode);
 		
 		int rows = 0;
 		try{
@@ -51,7 +51,7 @@ public class EmailSetUp extends HttpServlet {
 			String gmailid=request.getParameter("gmailid");
 			String password=request.getParameter("password");
 			//local mode
-			if(mode.equals("local"))
+			if(mode.equals("Local"))
 			{
 					DatabaseConnection dbcon = new DatabaseConnection();
 					con=dbcon.createDatabaseConnection();
@@ -82,25 +82,25 @@ public class EmailSetUp extends HttpServlet {
 							if(rs==0)
 							{
 								
-								response.sendRedirect("jsp/admin/emailsetup.jsp?status=Unsuccessfull");
+								response.sendRedirect("jsp/admin/emailsetup.jsp?status=Unsuccessfull&mode="+mode);
 						
 							}
 							else
 							{	
-								response.sendRedirect("jsp/home/home.jsp");
+								response.sendRedirect("jsp/admin/department.jsp");
 							}
 							
 							
 						}
 						else{
 							//System.out.println("insert query error");	
-							response.sendRedirect("jsp/admin/emailsetup.jsp?status1=Unsuccessfull");
+							response.sendRedirect("jsp/admin/emailupdate.jsp?status1=Unsuccessfull&mode="+mode);
 						}
 						dbcon.closeLocalConnection(con);
 						
 					
 				}
-			else if(mode.equals("remote"))
+			else if(mode.equals("Remote"))
 			{
 					//System.out.println("in remote mode emailsetup");
 					DatabaseConnection dbcon = new DatabaseConnection();

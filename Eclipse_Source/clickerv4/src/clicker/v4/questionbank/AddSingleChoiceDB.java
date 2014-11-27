@@ -2,16 +2,11 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.*;
 import clicker.v4.databaseconn.*;
-import java.io.FileInputStream.*;
 import java.sql.*;
-import java.util.*;
-import java.io.*;
 
 /**
  * @author Harshavardhan
@@ -40,6 +35,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -53,7 +49,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 		int shuffle = 1;
 		if(request.getParameter("shuffle") != null)
 			shuffle = 0;
-		System.out.println("shuffle: " + shuffle);
+		//System.out.println("shuffle: " + shuffle);
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try
 		{
@@ -64,8 +60,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 		}
 		catch(Exception ex)
 		{
-			System.out.println(ex);
-			System.out.println("Here:");
+			System.out.println("Exception in AddSingleChoiceDB: " + ex);
 		}
 
 
@@ -107,7 +102,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 			}
 			catch(Exception ex)
 			{
-				ex.printStackTrace();
+				System.out.println("Exception in AddSingleChoiceDB: " + ex);
 			}
 			
 			/*// Adding entry to history table
@@ -146,7 +141,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 		}
 		catch(Exception ex)
 		{
-			//ex.printStackTrace();
+			System.out.println("Exception in AddSingleChoiceDB: " + ex);
 		}
 
 

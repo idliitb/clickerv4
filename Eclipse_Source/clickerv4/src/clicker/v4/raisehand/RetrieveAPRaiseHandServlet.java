@@ -9,10 +9,8 @@ package clicker.v4.raisehand;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,8 +49,6 @@ public class RetrieveAPRaiseHandServlet extends HttpServlet {
 		request.setAttribute("studentData", list);
 		RequestDispatcher rd=null;
 			rd=request.getRequestDispatcher("./jsp/raisehand/viewdoubts.jsp");
-			//rd.forward( request, response );
-			System.out.println("SaveDoubts...");
 		try {
 			rd.forward(request, response);
 		} catch (ServletException e) {
@@ -64,8 +60,6 @@ public class RetrieveAPRaiseHandServlet extends HttpServlet {
 		}
 	}
 		
-	
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

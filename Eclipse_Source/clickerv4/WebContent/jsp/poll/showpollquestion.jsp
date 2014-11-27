@@ -32,8 +32,6 @@ String launchtime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.getTi
 System.out.println("your poll launchtime is:"+launchtime);
 String currenttime=launchtime;
 String quizTime="60";
-
-//launchtime = launchtime.replace('/','-');
 String launchtime1=launchtime.replace('/','-');
 //saving poll question in database
 phelp.savepollquestion(pollquestion,courseId,launchtime1);
@@ -42,11 +40,7 @@ int pollid=phelp.getpollidnew(launchtime1, courseId);
 session.setAttribute("pollid", pollid);
 System.out.println("pollquestion saved in local databse--------->>>"+session.getAttribute("pollid").toString());
 
-
-
-
 Callpolljson ob=new Callpolljson();
-//int pollid1=1;
 ob.callpolljson(pollid,courseId,pollquestion,launchtime,currenttime,quizTime);
 
 
@@ -98,7 +92,6 @@ function showC(){
 		  var res=xmlhttp.responseText;
 		  var splittedres = res.split("@");
 		  totalstudentattended=splittedres[0];
-		  //totalstudentattended='3';
 		  
 		  notattendedcount=totalstudents-totalstudentattended;
 		  var yesrespopnse= Math.round((splittedres[1]/totalstudentattended)*100);
@@ -229,7 +222,7 @@ function showC(){
 			        });
 	    		}
 		}
-	}
+	};
 	xmlhttp.open("GET","pollresponseshow.jsp?pollquestion="+encodeURIComponent(document.getElementById("pollquestionhidden").value)+"&rep="+rep,true);
 	xmlhttp.send();
 	if(rep==3)
@@ -337,7 +330,6 @@ function reset1(){
 
 function showPollResponsesDialog(rflag,charttype) {	
 	launchtime=document.getElementById("launchtimehidden").value;
-	 //var replacedltime = launchtime.replace('/','-');
 	
 	getXMLhttp();
 	xmlhttp.onreadystatechange=function()
@@ -361,10 +353,10 @@ function showPollResponsesDialog(rflag,charttype) {
 
 <div id="response" style="margin-top:50px;width: 500px; height: 460px; margin:auto; margin-left:250px; background-color:#ffffff;  float:left">
 <script src="../../js/highcharts.js"></script>
-	<div id="timer" name="timer" style="text-align:center;">
+	<div id="timer" style="text-align:center;">
 		<b style="font-size:20px; color:#e46c0a;">Countdown</b> 
-		</br><input type="text" id="seconds" style="width:50px; height:65px; font-size:36px">
-		</br><b style="font-size:17px; color:#e46c0a;">seconds</b> 
+		<br><input type="text" id="seconds" style="width:50px; height:65px; font-size:36px">
+		<br><b style="font-size:17px; color:#e46c0a;">seconds</b> 
 	</div>
 	<script>countdown();</script>
 </div>

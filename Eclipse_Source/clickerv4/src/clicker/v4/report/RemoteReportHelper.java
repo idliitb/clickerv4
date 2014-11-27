@@ -14,9 +14,10 @@ import clicker.v4.wrappers.QuizMarkList;
 /**
  * 
  * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
- * This class act as report helper
+ * This class act as report helper to get the database data related to report
  */
 public class RemoteReportHelper {
+	// This method is used to ge the quiz mark list for a student in a course
 	public QuizMarkList getQuizMarkList(String courseID, String studentID){
 		QuizMarkList quizMarkList = new QuizMarkList();		
 		ArrayList<QuizMark> quizMarks = new ArrayList<QuizMark>();
@@ -65,6 +66,7 @@ public class RemoteReportHelper {
 		return quizMarkList;
 	}
 	
+	// This method is used to get a participant information
 	public String getParticipantInfo(String id) {
 		String studinfo = "";
         Connection con = null;
@@ -93,6 +95,7 @@ public class RemoteReportHelper {
         return studinfo;
 	}
 	
+	// This method is get the list of participant for a course
 	public String getParticipantIDs(String courseID){
 		String ParticipantIDs= "";
 		Connection con = null;
@@ -122,6 +125,7 @@ public class RemoteReportHelper {
 		return ParticipantIDs;
 	}
 	
+	// This method is to get the quiz / attendance / poll conducted date  
 	public String getCalendarDate(String WorkshopID, String Datefrom, String instructorID){
 		String calendarDate = "";
 		if(Datefrom.equals("quizCondectedDate")){
@@ -138,6 +142,7 @@ public class RemoteReportHelper {
 		return calendarDate;
 	}
 	
+	// This method is to execute the query to get the date based on getCalendarDate request
 	public String getDates(String query, String fieldName){
 		String dates = "", startDate="", endDate = "";
 		Connection con = null;
@@ -183,6 +188,7 @@ public class RemoteReportHelper {
 		return dates +"@"+ startDate +"@"+endDate;
 	}
 	
+	// This method is used to get the quiz names for a course id
 	public String getQuizNames(String courseid, String date, String instructorID) {
         String selettquizname = "";
         Connection con = null;
@@ -215,6 +221,7 @@ public class RemoteReportHelper {
         return selettquizname;
     }
 	
+	// This method is used to get the quiz conducted date for a quiz
 	public String getQuizTime(String WID, String quizid, String date) {
         String qts = "";
         Connection con= null;
@@ -246,6 +253,7 @@ public class RemoteReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the quiz conducted date for a instant quiz
 	public String getInstantQuizTime(String CID, String instrID, String date) {
         String qts = "";
         Connection con= null;
@@ -277,6 +285,7 @@ public class RemoteReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the list of question ids for a quiz
 	public String getQuestionIDs(String qid, String wid){
 		String questionIDs = "";
         Connection con = null;
@@ -306,6 +315,7 @@ public class RemoteReportHelper {
 		return questionIDs;
 	}
 	
+	// This method is used to get the list of question ids for a instant quiz
 	public String getInstantQuestionIDs(String qid){
 		String questionIDs = "";
         Connection con = null;
@@ -419,7 +429,7 @@ public class RemoteReportHelper {
         return response + "@" + correctAnswer;
 	}
 	
-	
+	// This is method is used to get the Quiz response for particular quiz
 	public String getInstantQuestionResponse(int quizrecordid, String questionid){
 		String response = "";
         Connection con = null;
@@ -491,6 +501,7 @@ public class RemoteReportHelper {
         return response + "@" + correctAnswer;
 	}
 	
+	// This is method is used to get the poll response for particular poll
 	public String getPollResponse(String pid){
 		Connection con = null;
         Statement st = null;
@@ -522,7 +533,7 @@ public class RemoteReportHelper {
 	}
 	
 	/**
-	 * This method is used to get the result information for a quiz
+	 * This method is used to get the result and grade information for a quiz
 	 * @param cid Course id
 	 * @param qid Quiz id
 	 * @param qts Quiz Time stamp
@@ -669,6 +680,7 @@ public class RemoteReportHelper {
         return attendance;
 	}
 	
+	// This method is used to get the attendance details for a course at the specific date 
 	public String getAttendanceInfo(String cid, String date){
 		String attendance = "<select name='attendancetimestamp'	id='attendancetimestamp' onclick='attendanceReport(\""+cid+"\", \""+date+"\", this.value)'><option value=''>Time Stamp</option>";
 		Connection con = null;
@@ -699,6 +711,7 @@ public class RemoteReportHelper {
         return attendance + "</select>" ;
 	}
 	
+	// This method is used to get the poll details for a course at the specific date
 	public String getPollTime(String CID, String date) {
         String qts = "";
         Connection con= null;
@@ -730,6 +743,7 @@ public class RemoteReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the instant quiz response details for a quiz
 	public String getInstantResponse(String qid){
 		Connection con = null;
         Statement st = null;
@@ -763,6 +777,7 @@ public class RemoteReportHelper {
         return response + "@" + correctAnswer;
 	}
 	
+	// This method is used to get the workshop summary for a workshop
 	public String getReportDashboardData(String wid){
 		Connection con = null;
         PreparedStatement st = null, st1=null, st2=null, st3=null, st4=null;

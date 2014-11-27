@@ -74,7 +74,7 @@ $(document).ready(function(){
 </tr>
 </table>
 
-<table class="table1" style="margin-top:2px;" border='0'>
+<table class="table1" style="margin-top:2px;">
 <tr>
 <td style="margin:auto;padding-left:80px;">
 <p style="margin-bottom:-20px">Select the Question Type :</p>

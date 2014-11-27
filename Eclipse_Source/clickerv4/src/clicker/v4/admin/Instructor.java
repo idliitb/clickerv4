@@ -39,7 +39,7 @@ public class Instructor extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		String Instructor_id=request.getParameter("InstructorID");
-		System.out.println("====>"+Instructor_id );
+		//System.out.println("====>"+Instructor_id );
 		
 		String instr_name=request.getParameter("Instructor_name");
 		//System.out.println("====>"+instr_name );
@@ -128,14 +128,14 @@ public class Instructor extends HttpServlet {
 			Statement st;
 			try {
 				String query4 = "DELETE from instructorcourse where InstrID = '"+Instructor_id+"'";
-				System.out.println("delete query==="+query4);
+				//System.out.println("delete query==="+query4);
 				st = conn.createStatement();
-				int rs3 = st.executeUpdate(query4);
+				st.executeUpdate(query4);
 				System.out.println("record Delete from Student course");
 				st = conn.createStatement();
 				String query1 = "DELETE from instructor where InstrID ='"+Instructor_id+"'";
-				System.out.println("==>"+query1);
-				int rs4=st.executeUpdate(query1);
+				//System.out.println("==>"+query1);
+				st.executeUpdate(query1);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -145,7 +145,7 @@ public class Instructor extends HttpServlet {
 		}else if(flag.equalsIgnoreCase("update"))
 		{
 			
-			System.out.println("instructor ID in Serverlet =========================>"+Instructor_id +"  Flag ==========>"+flag);
+			//System.out.println("instructor ID in Serverlet =========================>"+Instructor_id +"  Flag ==========>"+flag);
 			
 			try {
 
@@ -168,7 +168,7 @@ public class Instructor extends HttpServlet {
 			try {
 				String query4 = "DELETE from instructorcourse where InstrID = '"+Instructor_id+"' and CourseID='"+course+"'" ;
 				st = conn.createStatement();
-				int rs = st.executeUpdate(query4);
+				st.executeUpdate(query4);
 				System.out.println("record Delete from Student course");				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -180,7 +180,7 @@ public class Instructor extends HttpServlet {
 		{
 			String query3="insert into instructorcourse(Year,Semester,CourseID,InstrID) values('"+curect_year+"','"+ 1 +"','"+course +"','"+Instructor_id +"')";
 
-			System.out.println(query3);
+			//System.out.println(query3);
 			
 			int rs1;
 			try {

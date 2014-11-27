@@ -73,6 +73,17 @@
     -o-user-select: none; 
 }
 
+.mybox .myboxnote1{
+	padding:3px 0px 3px 0px;
+	font-size: 13px;	
+	border:1px solid #fff;
+	background-color: #9bbb59;	
+	-moz-user-select: none; 
+    -khtml-user-select: none; 
+    -webkit-user-select: none; 
+    -o-user-select: none; 
+}
+
 .mybox .myboxhead1{
 	padding:5px;
 	font-size: 16px;	

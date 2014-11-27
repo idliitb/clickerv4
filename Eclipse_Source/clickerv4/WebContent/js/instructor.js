@@ -1,358 +1,616 @@
-var i_id;
-var i_n;
-var doj;
-var d_id;
-var desg;
-var e_id;
-var mobile;
-var admin_pri;
-var course;
+var CurrentSelectedRow = 0;
+var graphResponses;
+var xmlhttp;
+var previousSelectedRow = 0;
+var previousSelectedColor = "#ffffff";
+// This method will get the XMLHTTP object for work with ajax
+function getXMLhttp() {
+	if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else if (window.ActiveXObject) { // IE
+		try {
+			xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e) {
+			}
+		}
+	}
+}
+
+function rowSelected(SelectedRow) {
+
+	CurrentSelectedRow = SelectedRow;
+	var cid = SelectedRow;
+	var pid = previousSelectedRow;
+	// var pid = previousSelectedRow;
+
+	// document.getElementById(SelectedRow).style.background =
+	// previousSelectedColor;
+	// alert("gobinath===>"+previousSelectedColor);
+	if (previousSelectedRow != 0) {
+		document.getElementById(pid).style.background = previousSelectedColor;
+		previousSelectedColor = document.getElementById(cid).style.background;
+		document.getElementById(cid).style.background = "#88ff99";
+		previousSelectedRow = SelectedRow;
+	} else {
+		previousSelectedColor = document.getElementById(cid).style.background;
+		document.getElementById(cid).style.background = "#88ff99";
+		previousSelectedRow = SelectedRow;
+	}
+}
+
+function checkforspecial(t) {
+
+	if (t.value.match(/\s/g) || t.value.match(/@/g)
+			|| t.value.match(/#/g) || t.value.match(/$/g) || t.value.match(/%/g)
+			|| t.value.match(/^/g) || t.value.match(/&/g))
+		 {
+		t.value = t.value.replace(/\s/g, '');
+		t.value = t.value.replace(/@/g, '');
+		t.value = t.value.replace(/#/g, '');
+		t.value = t.value.replace(/$/g, '');
+		t.value = t.value.replace(/%/g, '');
+		t.value = t.value.replace(/^/g, '');
+	}
+	//t.value = t.value.toUpperCase();
+
+}
+
+function editValue() {
+
+	if (CurrentSelectedRow == "0") {
+		alert("select Instructor....");
+	} else {
+
+		getXMLhttp();
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				document.getElementById("instr_dialog").style.visibility = 'visible';
+				document.getElementById("instr_dialog").title = "Instructor Details";
+				document.getElementById("instr_dialog").innerHTML = xmlhttp.responseText;
+				$("#instr_dialog").dialog({
+					height : 500,
+					width : 500,
+					draggable : false,
+					modal : true
+				});
+			}
+		};
+
+		xmlhttp.open("GET", "instrutor_details.jsp?instructor_id="
+				+ CurrentSelectedRow, true);
+		xmlhttp.send();
+	}
+
+}
+
+function add_instr() {
+
+	getXMLhttp();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+			document.getElementById("instr_dialog").style.visibility = 'visible';
+			document.getElementById("instr_dialog").title = "Add Instructor";
+
+			document.getElementById("instr_dialog").innerHTML = xmlhttp.responseText;
+			$("#instr_dialog").dialog({
+				height : 500,
+				width : 500,
+				draggable : false,
+				modal : true
+			});
+		}
+	};
+
+	xmlhttp.open("GET", "addinstructor.jsp", true);
+	xmlhttp.send();
+
+}
+
+function search_inst() {
+
+	var search = document.getElementById("search_box").value;
+	if (search == "") {
+		alert("enter the Instructor");
+	} else {
+		getXMLhttp();
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+				document.getElementById("instr_dialog").style.visibility = 'visible';
+				document.getElementById("instr_dialog").title = "Instructor Details";
+				document.getElementById("instr_dialog").innerHTML = xmlhttp.responseText;
+				$("#instr_dialog").dialog({
+					height : 550,
+					width : 500,
+					draggable : false,
+					modal : true
+				});
+			}
+		};
+		xmlhttp.open("GET", "instrutor_details.jsp?instructor_id=" + search,
+				true);
+		xmlhttp.send();
+	}
+
+}
+
+function add_instr_details() {
+
+	var Instructor_id = document.getElementById('instr_id').value;
+
+	var year_of_join = document.getElementById('instr_doj').value;
+
+	var instr_email_id = document.getElementById('instr_email_id').value;
+
+	var instr_name = document.getElementById('instr_name').value;
+
+	var Desg = document.getElementById('instr_Designation').value;
+	
+	
+	// var
+	// Desg=document.getElementById('instr_Desg').options[document.getElementById('instr_Desg').selectedIndex].text;;
+
+	var mobile_no = document.getElementById('instr_mobile_no').value;
+
+	var course = document.getElementById('instr_course_list').options[document
+			.getElementById('instr_course_list').selectedIndex].text;
+
+	var admin = document.getElementById('instr_Admin').options[document
+			.getElementById('instr_Admin').selectedIndex].text;
+
+	var dept_id = $(instr_Dept_id).children(":selected").attr("id");
+
+	if (Instructor_id == "")
+		alert("Enter Instructor ID");
+	else if (year_of_join == "")
+		alert("Enter Year of ");
+	else if (instr_email_id == "")
+		alert("Enter Mail Id");
+	else if (instr_name == "")
+		alert("Enter Instructor Name");
+	else if (Desg == "")
+		alert("Enter Designation");
+	else if (mobile_no == "")
+		alert("Enter Mobile NO");
+	else if (course == "SELECT")
+		alert("Select the Course");
+	else if (dept_id == "SELECT")
+		alert("Select the Department");
+	else {
+
+		var x = instr_email_id;
+		// alert(x);
+		var atpos = x.indexOf("@");
+		var dotpos = x.lastIndexOf(".");
+		if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+			alert("Not a valid e-mail address");
+			return false;
+		}
+		var re = /^(\+91-|\+91|0)?\d{10}$/;
+		if (mobile_no.match(re)) {
+			// alert("match");
+		} else {
+			alert("Enter Proper Mobile No");
+			return false;
+		}
+						
+	}
+	
+	 if( /[^a-zA-Z0-9\ ]/.test( Instructor_id ) ) {
+         alert('Special Characters & Symbols not allowed in Instructor ID!!');
+         return false;
+     }
+	
+	
+
+	{
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+			}
+		};
+
+		// document.getElementById('mac_txt').value = "";
+		var where_to = confirm("Do you want to add Instructor?");
+		{
+			if (where_to == true) {
+
+				xmlhttp.open("GET", "../../Instructor?InstructorID="
+						+ Instructor_id + "&Instructor_name=" + instr_name
+						+ "&DOJ=" + year_of_join + "&email_id="
+						+ instr_email_id + "&dept_id=" + dept_id
+						+ "&Desgination=" + Desg + "&mobile_no=" + mobile_no
+						+ "&Admin_pre=" + admin + "&Course=" + course
+						+ "&Flag=Add", true);
+				var sTempTableRow = "<tr><td>" + Instructor_id
+						+ " </td><td align='left'>" + instr_name + "</td><td>"
+						+ dept_id + "</td></tr>";
+				$('#instructor_table').append(sTempTableRow);
+				// xmlhttp.open("GET",
+				// "redirectHelper.jsp?URL=instrutor_details.jsp", true);
+				// alert("instructer add sucessfully");
+				// window.location.reload();
+
+			} else {
+				return false;
+			}
+		}
+
+		xmlhttp.send();
+		alert("Instructor Added Sucessfully!!");
+	}
+}
+
+function delete_de() {
+
+	if (CurrentSelectedRow != "0") {
+
+		// var student_id=document.getElementById('student_id').value;
+		getXMLhttp();
+		// var e;
+		// e = document.getElementById("raise_hand_id");
+
+		{
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+				}
+			};
+
+			var where_to = confirm("Do you really want to Delete Instructor?");
+			{
+				if (where_to == true) {
+					// alert("../../Instructor?InstructorID="+
+					// CurrentSelectedRow + "&Flag=Delete");
+					xmlhttp.open("GET", "../../Instructor?InstructorID="
+							+ CurrentSelectedRow + "&Flag=Delete", true);
+
+					var row = document.getElementById(CurrentSelectedRow);
+					row.parentNode.removeChild(row);
+					previousSelectedRow = 0;
+					CurrentSelectedRow = 0;
+
+				} else {
+					return false;
+				}
+			}
+
+			xmlhttp.send();
+			alert("Instructor Deleted Successfully!!!");
+		}
+	} else {
+		alert("select ");
+	}
+
+}
+function delete_values_inst() {
+
+	if (CurrentSelectedRow != "0") {
+
+		// var student_id=document.getElementById('student_id').value;
+		getXMLhttp();
+		// var e;
+		// e = document.getElementById("raise_hand_id");
+
+		{
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+				}
+			};
+
+			var where_to = confirm("Do you really want to Delete Instructor?");
+			{
+				if (where_to == true) {
+
+					xmlhttp.open("GET", "../../Instructor?InstructorID="
+							+ CurrentSelectedRow + "&Flag=Delete", true);
+
+					var row = document.getElementById(CurrentSelectedRow);
+					row.parentNode.removeChild(row);
+					previousSelectedRow = 0;
+					CurrentSelectedRow = 0;
+					$('#instr_dialog').dialog("close");
+
+				} else {
+					return false;
+				}
+			}
+
+			xmlhttp.send();
+			alert("Instructor Deleted Successfully!!!");
+			
+		}
+	} else {
+		alert("select ");
+	}
+
+	// alert(CurrentSelectedRow);
+}
+
+function update_instr_details() {
+	// var student_id=document.getElementById('student_id').value;
+
+	var Instructor_id = document.getElementById('I_id').value;
+
+	var instr_name = document.getElementById('I_name').value;
+
+	var year_of_join = document.getElementById('I_year_of_join').value;
+
+	var instr_email_id = document.getElementById('I_email_id').value;
+
+	var Desg = document.getElementById('I_Desg').value;
+
+	// var
+	// Desg=document.getElementById('instr_Desg').options[document.getElementById('instr_Desg').selectedIndex].text;;
+
+	var mobile_no = document.getElementById('I_Mobile_no').value;
+
+	if (Instructor_id == "")
+		alert("Enter Instructor ID");
+	else if (instr_name == "")
+		alert("Enter Instructor Name");
+	else if (year_of_join == "")
+		alert("Enter Year of ");
+	else if (instr_email_id == "")
+		alert("Enter Mail Id");
+
+	else if (Desg == "")
+		alert("Enter Designation");
+	else if (mobile_no == "")
+		alert("Enter Mobile NO");
+	else {
+
+		var x = instr_email_id;
+		// alert(x);
+		var atpos = x.indexOf("@");
+		var dotpos = x.lastIndexOf(".");
+		if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+			alert("Not a valid e-mail address");
+			return false;
+		}
+		var re = /^(\+91-|\+91|0)?\d{10}$/;
+		if (mobile_no.match(re)) {
+			// alert("match");
+		} else {
+			alert("Enter Proper Mobile No");
+			return false;
+		}
+
+		getXMLhttp();
+		// var e;
+		// e = document.getElementById("raise_hand_id");
+		// alert("upadte");
+		{
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+				}
+			};
+
+			var where_to = confirm("Do you really want to Update Instructor?");
+			{
+				if (where_to == true) {
+					// alert("../../Instructor?InstructorID="+
+					// CurrentSelectedRow +
+					// "&Instructor_name="+instr_name+"&DOJ=" + year_of_join+
+					// "&email_id=" + instr_email_id +"&Desgination=" + Desg+
+					// "&mobile_no="+mobile_no+"&Flag=Update");
+					xmlhttp.open("GET",
+							"../../Instructor?InstructorID="
+									+ CurrentSelectedRow + "&Instructor_name="
+									+ instr_name + "&DOJ=" + year_of_join
+									+ "&email_id=" + instr_email_id
+									+ "&Desgination=" + Desg + "&mobile_no="
+									+ mobile_no + "&Flag=Update", true);
+
+					// var row = document.getElementById(CurrentSelectedRow);
+					// row.parentNode.removeChild(row);
+					// previousSelectedRow = 0;
+					// CurrentSelectedRow = 0;
+
+				} else {
+					return false;
+				}
+			}
+
+			xmlhttp.send();
+			var where_to = confirm("Updated Successfully!! You Wants to Close Dialog box? ");
+			{
+				if (where_to == true) {
+					close_add_div();
+
+				} else {
+					return false;
+				}
+			}
+			
+			
+		}
+	}
+}
+
+function getinstrCourseValue(s) {
+	var id = $(s).children(":selected").attr("id");
+
+	getCourseVal(id);
+}
 
 var currentCourse;
 function trimstr(s) {
 	return s.replace(/^\s+|\s+$/g, '');
 }
+function getCourseVal(value) {
 
-function getCourseValueInst(value) {
-	
 	currentCourse = value;
 	var courselist = 0;
-	document.getElementById("currCourseinst").value = "" + currentCourse;
-	
-	var xmlhttp = false;
-	if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp = new XMLHttpRequest();
-	} else {// code for IE6, IE5
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.open("GET", "getCourseListInst.jsp?deptinstid=" + currentCourse, true);
-	xmlhttp.send();
-	xmlhttp.onreadystatechange = addInstructorCourseList;
 
-	function addInstructorCourseList() {
-		var courseInstSelect=document.getElementById("text69");
-		
-		courseInstSelect.options.length = 0;
-		var option=document.createElement("option");
+	getXMLhttp();
+
+	xmlhttp.open("GET", "getCourseList.jsp?deptid=" + value, true);
+	xmlhttp.send();
+	xmlhttp.onreadystatechange = addCourseList;
+
+	function addCourseList() {
+
+		var courseSelect = document.getElementById("instr_course_list");
+		courseSelect.options.length = 0;
+		var option = document.createElement("option");
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			courselist = xmlhttp.responseText;
 		}
 		courselist = trimstr(courselist);
 		var courseArr = courselist.split(";");
-		for ( var i = 0; i < courseArr.length-1; i++) {
-			option.text=courseArr[i];
-			courseInstSelect.options[courseInstSelect.options.length] = new Option(courseArr[i], courseArr[i]);
+		for ( var i = 0; i < courseArr.length - 1; i++) {
+			option.text = courseArr[i];
+			courseSelect.options[courseSelect.options.length] = new Option(
+					courseArr[i], courseArr[i]);
 		}
 	}
 
 }
-function edit_value(n)
-{
-	document.getElementById("btn_del_inst").value = "5";
-	var l = document.getElementById("count").value;	
-	document.getElementById("addnew").removeAttribute("onClick");
-	if ((document.getElementById("btn_edit_inst").value == "6") ||  document.getElementById("btn_delc").value == "5")
-	{
-		alert("Please Save the Data First");
-	}
-		
-else
-	{
-	$('#my_table tr#check_'+n).append('<td width = "1%"><img src="save.jpg" height="32" width="32" value = "s" onclick= "save_values()" alt="button" title = "Save"></td>'); 
-	i_id =  $('tr#check_'+n).find('td#td1_'+n).html();
-	i_n =  $('tr#check_'+n).find('td#td2_'+n).html();
-	doj =  $('tr#check_'+n).find('td#td3_'+n).html();
-	d_id =  $('tr#check_'+n).find('td#td4_'+n).html();
-	desg =  $('tr#check_'+n).find('td#td5_'+n).html();
-	e_id =  $('tr#check_'+n).find('td#td6_'+n).html();
-	mobile=  $('tr#check_'+n).find('td#td7_'+n).html();
-	admin_pri =  $('tr#check_'+n).find('td#td8_'+n).html();
-	course =  $('tr#check_'+n).find('td#td9_'+n).html();
 
-	course = trimstr(course);
-	
-	document.getElementById("oldinstCourseId").value = course;
-	$('#check_'+n+ ' td#td1_'+n).empty();
-	$('tr#check_'+n+ ' td#td1_'+n).append('<input type="text" id="text9" name = "edit2_txt1" style = "border:none; width:45px; "readonly/>');
-	document.getElementById("text9").value = i_id;
-	$('#check_'+n+ ' td#td2_'+n).empty();
-	$('tr#check_'+n+ ' td#td2_'+n).append('<input type="text" id="text10" name = "edit2_txt2" size= "30" style = "border:none; width:145px;"/>');
-	document.getElementById("text10").value = i_n;
-	document.getElementById("text10").focus();
-	$('#check_'+n+ ' td#td3_'+n).empty();
-	$('tr#check_'+n+ ' td#td3_'+n).append('<input type="text" id="text11" size= "8" name = "edit2_txt3" style = "border:none; width:100px;" onfocus = "show_calender()"/>');
-	document.getElementById("text11").value = doj;
-	
-	//Dept ID
-	$('#check_'+n+ ' td#td4_'+n).empty();
-    $('tr#check_'+n+ ' td#td4_'+n).append('<select type="text" id="text12" name = "edit2_txt4" onchange="getCourseValueInst(this.value)" style = "width:90px;"></select>');
-	document.getElementById("text12").value = d_id;
-    $('#dept option').clone().appendTo('#text12');
-    
-    
-    
-	$('#check_'+n+ ' td#td5_'+n).empty();
-	//$('#dept option').clone().appendTo('#text4');
-	$('tr#check_'+n+ ' td#td5_'+n).append('<input type="text" id="text5" name = "edit2_txt5"  size= "11" style = "border:none"/>');
-	document.getElementById("text5").value = desg;
-	$('#check_'+n+ ' td#td6_'+n).empty();
-	$('tr#check_'+n+ ' td#td6_'+n).append('<input type="text" id="text6" name = "edit2_txt6" size= "12" style = "border:none"/>');
-	document.getElementById("text6").value = e_id;
-	//document.getElementById("text2").focus();
-	$('#check_'+n+ ' td#td7_'+n).empty();
-	$('tr#check_'+n+ ' td#td7_'+n).append('<input type="text" id="text7" size= "10" name = "edit2_txt7" style = "border:none" maxlength = "10"/>');
-	document.getElementById("text7").value = mobile;
-	$('#check_'+n+ ' td#td8_'+n).empty();
-	$('tr#check_'+n+ ' td#td8_'+n).append('<input type="text" id="text8" name = "edit2_txt8" size= "3" style = "border:none" maxlength = "1"/>');
-	document.getElementById("text8").value = admin_pri;
-	
-	
-	
-	//Course name
-	$('#check_'+n+ ' td#td9_'+n).empty();
-    $('tr#check_'+n+ ' td#td9_'+n).append('<select name="edit_txt9" id="text69" style = "width:90px;"></select>');
-	$('#course option').clone().appendTo('#text69');
-	
-	
-	
-	document.getElementById("text12").value = d_id;
-	document.getElementById("text69").value = course;
-	
-	var opt = document.createElement("option");
-	document.getElementById("text69").options.add(opt);
-   opt.text = course;
-    opt.value = course;
-  document.getElementById("text69").value=course;
+function add_course() {
+	var Instructor_id = document.getElementById('I_id').value;
+	var course = document.getElementById('I_course_select').options[document
+			.getElementById('I_course_select').selectedIndex].text;
+	// alert(Instructor_id);
+	// alert(course);
 
-	}
-	document.getElementById("btn_edit_inst").value = "6";
+	getXMLhttp();
+	{
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-	
-}
-function show_calender()
-{
-	$('#text11').datepicker();
-}
-function save_values()
-{
-	document.getElementById("hid").value = "1";
-	var email = document.getElementById("text6").value;
-	var atpos=email.indexOf("@");
-	var dotpos=email.lastIndexOf(".");
-	var admin = document.getElementById("text8").value;
-	if(document.getElementById("text9").value== "")
-		{
-		alert("Please Enter the InstrID!!!");
-		return false;
-		}
-	else if(document.getElementById("text10").value== "")
-		{
-			alert("Please Enter the Instructor Name!!!");
-			return false;
-		}
-	else if(document.getElementById("text11").value== "")
-	{
-		alert("Please Enter the Date of Joining!!!");
-		return false;
-	}
-	else if(document.getElementById("text12").value== "")
-	{
-		alert("Please Enter the DeptID !!!");
-		return false;
-	}
-	else if(document.getElementById("text5").value== "")
-	{
-		alert("Please Enter the Designation !!!");
-		return false;
-	}
-	else if (atpos<1 || dotpos<atpos+2 || email == "")
-	{
-		  alert("Not a valid e-mail address !!!");
-		  return false;
-	}
-	else if(admin.length<1 || (isNaN(admin)== true))
-	{
-		alert("Please Enter the valid Admin Priviledges!!!");
-		return false;
-	}
-	else if(mobile.length<10 || (isNaN(mobile)==true))
-	{
-	   alert("Enter a Valid Mobile No. !!");
-	   return false; 
-	}
-
-	if(i_n == document.getElementById("text10").value &&  doj == document.getElementById("text11").value && d_id == document.getElementById("text12").value && desg == document.getElementById("text5").value && e_id == document.getElementById("text6").value && mobile == document.getElementById("text7").value && admin_pri == document.getElementById("text8").value && course == document.getElementById("text69").value)
-	
-	{
-		var r = confirm("You have not done any changes.Do you want to close edit");
-		if(r == true)
-			{
-			   window.location = "./instructor.jsp";
-			   return true;
 			}
-		else
-			{
-			   
-			   return false;
-			
-			}
-		
-	}
-	
-	document.forms["my_form"].submit();
-	
-	
-}
-function add_new()
-{
-	
-	document.getElementById("hid").value = "2";
-	
-	document.getElementById("btn_delc").value = "5";	
-	
-	
-	var l = document.getElementById("count").value;
-	
-	$('#my_table > tbody:last').after('<tr><td width= "4%"><input type="text" id="new_value_1" name="new_value_1"  size= "4" style="border:none "/></td> '
-			  +' <td width= "10%"><input type="text" style="border:none " id="new_value_2" name="new_value_2" size= "15"/></td> '
-			   +'<td width= "10%"><input type="text" style="border:none " id="new_value_3" name="new_value_3" size= "9"/></td> '
-			   +'<td width= "10%"><select name="new_value_4" id="new_value_4" onchange="getCourseValueInst(this.value)"><option value ="-1">Select</option></select></td> '
-			   +'<td width= "10%"><input type="text" id="new_value_5" name="new_value_5"  size= "10" style="border:none "/></td>'
-			   +'<td width= "10%"><input type="text" id="new_value_6" name="new_value_6"  size= "12" style="border:none "/></td>'
-			   +'<td width= "10%"><input type="text" id="new_value_7" name="new_value_7"  size= "10" style="border:none " maxlength = "10"/></td>'
-			   +'<td width= "10%"><input type="text" id="new_value_8" name="new_value_8" maxlength = "1" size= "3" style="border:none "/></td>'
-			   +'<td width= "10%"><select name="text69" id="text69"></select></td>'
-			   +'<td width= "6%"><img src="save.jpg" height="32" width="32" value = "s" onclick= "s_add()" alt="button" title = "Save"></td>'
-			   +'<td width="6%"><img src="del.png" height="37" width="37"value="cancel" title = "Cancel" onClick="window.location.reload()"/></td></tr>');
-	
-	document.getElementById("new_value_1").focus();
-	$('#dept option').clone().appendTo('#new_value_4');
-	$('#course option').clone().appendTo('#text69');
-}
-function s_add()
-{
-document.getElementById("hid").value = "2";
-var email = document.getElementById("new_value_6").value;
-var atpos=email.indexOf("@");
-var dotpos=email.lastIndexOf(".");
-var mobile = document.getElementById("new_value_7").value;
-var admin = document.getElementById("new_value_8").value;
+		};
 
-	if(document.getElementById("new_value_1").value== "")
+		var where_to = confirm("Do you really want to Add Course?");
 		{
-		alert("Please Enter the InstrID!!!");
-		return false;
-		}
-	else if(document.getElementById("new_value_2").value== "")
-		{
-			alert("Please Enter the Instructor Name!!!");
-			return false;
-		}
-	else if(document.getElementById("new_value_3").value== "")
-	{
-		alert("Please Enter the Date of Joining!!!");
-		return false;
-	}
-	else if(document.getElementById("new_value_4").value== "")
-	{
-		alert("Please Enter the DeptID !!!");
-		return false;
-	}
-	else if(document.getElementById("new_value_5").value== "")
-	{
-		alert("Please Enter the Designation !!!");
-		return false;
-	}
-	else if (atpos<1 || dotpos<atpos+2 || email == "")
-	  {
-	  alert("Not a valid e-mail address !!!");
-	  return false;
-	  }
-	else if(admin.length<1 || (isNaN(admin)== true))
-	{
-		alert("Please Enter the Admin Priviledges!!!");
-		return false;
-	}
-	else if(mobile.length<10 || (isNaN(mobile)==true))
-	{
-	   alert("Enter a Valid Mobile No. !!");
-	   return false; 
-	}
-	document.forms["my_form"].submit();
+			if (where_to == true) {
 
-}
-function delete_values_inst(a){
+				xmlhttp.open("GET", "../../Instructor?InstructorID="
+						+ Instructor_id + "&Course=" + course
+						+ "&Flag=Add_Course", true);
 
-	var coursedel =  $('tr#check_'+a).find('td#td9_'+a).html();
-	alert(coursedel);
-	coursedel = trimstr(coursedel);
-
-	alert("Course " + coursedel);
-	document.getElementById("oldinstCourseId").value =  coursedel;
-	
-	
-	
-	if(document.getElementById("btn_del_inst").value == "5"  ||  document.getElementById("btn_delc").value == "5")
-	{
-		alert("Please Save the Data First");
-	
-	}
-else
-	{
-	
-	document.getElementById("hid").value = "3" ;
-	var where_to= confirm("Do you really want to delete?");
-	{
-		if (where_to== true)
-		 {
-			alert("Record Deleted Successfully !!!");
-		 }
-		else
-			{
-			return false;
+			} else {
+				return false;
 			}
 		}
 
-   var i_id =  $('tr#check_'+a).find('td#td1_'+a).html();
-    document.getElementById("hid1").value = i_id;
-    $('tr#check_'+a).remove();
-    document.forms["my_form"].submit();
-    document.getElementById("btn_del_inst").value = "0";	
+		xmlhttp.send();
 	}
-	 
- }
-function search_result_inst()
-{
-	
-	var search=document.getElementById("search_box").value;
-	
-	if(search=="")
+
+	remove_option_I_course_select();
+
+}
+
+function remove_option_I_course_select() {
+
+	var htmlSelect = document.getElementById('I_course_select');
+	var htmlSelect1 = document.getElementById('I_course');
+
+	var optionDisplaytext = document.getElementById('I_course_select').options[document
+			.getElementById('I_course_select').selectedIndex].text;
+
+	var optionValue = "optionDisplaytext";
+
+	var selectBoxOption = document.createElement("option");
+	selectBoxOption.value = optionValue.value;
+	selectBoxOption.text = optionDisplaytext;
+	htmlSelect1.add(selectBoxOption, null);
+
+	if (htmlSelect.options.length == 0) {
+		alert('You have already removed all list items');
+		return false;
+	}
+
+	var optionToRemove = htmlSelect.options.selectedIndex;
+	htmlSelect.remove(optionToRemove);
+
+	if (htmlSelect.options.length > 0) {
+		htmlSelect.options[0].selected = true;
+	}
+
+	return true;
+
+}
+
+function delete_course() {
+	var Instructor_id = document.getElementById('I_id').value;
+	var course = document.getElementById('I_course').options[document
+			.getElementById('I_course').selectedIndex].text;
+
+	getXMLhttp();
 	{
-	alert("enter the name!!");
-	return false;
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+			}
+		};
+
+		var where_to = confirm("Do you really want to Delete Course?");
+		{
+			if (where_to == true) {
+
+				xmlhttp.open("GET", "../../Instructor?InstructorID="
+						+ Instructor_id + "&Course=" + course
+						+ "&Flag=Remove_Course", true);
+
+			} else {
+				return false;
+			}
+		}
+
+		xmlhttp.send();
 	}
-	
-	$("#my_table").remove();
-	
-	document.getElementById("addnew").style.visibility='hidden';
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	  { 
-	  xmlhttp=new XMLHttpRequest();
-	  }
-	else
-	  {
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	  }
-	xmlhttp.onreadystatechange=function()
-	  {
-	  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	    {
-	    document.getElementById("wrapper").innerHTML=xmlhttp.responseText;
-	    }
-	  }
-	
-	xmlhttp.open("GET","search.jsp?search="+search+"&type=inst",true);
-	xmlhttp.send();
-	
-}	
+
+	remove_option_I_course();
+
+}
+
+function remove_option_I_course() {
+
+	var htmlSelect = document.getElementById('I_course');
+	var htmlSelect1 = document.getElementById('I_course_select');
+
+	var optionDisplaytext = document.getElementById('I_course').options[document
+			.getElementById('I_course').selectedIndex].text;
+
+	var optionValue = "optionDisplaytext";
+
+	var selectBoxOption = document.createElement("option");
+	selectBoxOption.value = optionValue.value;
+	selectBoxOption.text = optionDisplaytext;
+	htmlSelect1.add(selectBoxOption, null);
+
+	if (htmlSelect.options.length == 0) {
+		alert('You have already removed all list items');
+		return false;
+	}
+
+	var optionToRemove = htmlSelect.options.selectedIndex;
+	htmlSelect.remove(optionToRemove);
+
+	if (htmlSelect.options.length > 0) {
+		htmlSelect.options[0].selected = true;
+	}
+
+	return true;
+
+}
+
+function close_add_div() {
+
+	$(instr_dialog).parent().remove();
+	document.getElementById("instr_dialog").style.visibility = 'hidden';
+	location.reload();
+}

@@ -1,5 +1,7 @@
 <!-- 
 Author- Dipti.G  from Clicker Team, IDL LAB -IIT Bombay
+
+This is used to display list of active raise hand in form of select box element in desc order of timestamp
  -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -26,7 +28,6 @@ ResultSet rs1=null;
 try{
 		
 		String query1="SELECT DISTINCT stu.StudentID,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+"AND rh.RepliedDoubt=0 ORDER BY rh.RaiseTimeStamp DESC";
-		//System.out.println("query1==>"+query1);
 		rs1=st.executeQuery(query1);
 
 %>
@@ -41,7 +42,6 @@ try{
 			 %>
 <option class= "opt" value="<%=studentID+"@"+TimeStamp+"@"+0+"@"+CourseID%>"><%=studentID %></option>
 <%
-//System.out.println(studentID);
 }
 
 }

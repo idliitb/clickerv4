@@ -27,7 +27,7 @@ QuizID = GH.getQuizid(CourseID);
 int sam=QuizID.size();
 //System.out.println("size of QuizID set=>"+sam);
 float tt[] = new float[sam];
-Iterator it = QuizID.iterator();
+Iterator<Integer> it = QuizID.iterator();
 int k=0;
 while (it.hasNext()){
 	String nam=it.next().toString();
@@ -37,7 +37,7 @@ while (it.hasNext()){
 	k++;
 }
 int l=0;
-Iterator it1 = QuizID.iterator();
+Iterator<Integer> it1 = QuizID.iterator();
 while (it1.hasNext()){
 	 String nam=it1.next().toString();
 	 int ii=Integer.parseInt(nam);
@@ -91,7 +91,7 @@ String data_detail="[{ label: 'sample mline', y: 50 },{ label: 'test', y: 20 },{
     });
 
 chart.render();
-}
+};
 </script>
 
 

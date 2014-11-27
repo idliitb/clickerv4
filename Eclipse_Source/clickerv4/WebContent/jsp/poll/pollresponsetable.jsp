@@ -47,7 +47,6 @@ try {
 	else if(chart.equals("stats"))
 	{
 		responseTable = new StringBuffer("<table width=300px border='1' cellpadding='5'><tr><th>S.No</th><th>Student ID</th>");
-		//int pid=ph.getPollid();
 		int pid=Integer.parseInt(pollid);
 		if(responseflag.equals("Attended"))
 		{

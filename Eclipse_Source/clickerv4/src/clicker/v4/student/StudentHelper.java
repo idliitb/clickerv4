@@ -13,12 +13,12 @@ import clicker.v4.wrappers.CourseList;
 
 /**
  * 
- * @author rajavel
+ * @author rajavel, dipti
  * This class is act as helper class for student activities
  */
 public class StudentHelper {
 	/*
-	 * This method is used to get the all Courses where the student is registered 
+	 * This method is used to get the all Courses for which the student is registered 
 	 */
 	public String getCourseList(String sid){
 		String courseList = "";
@@ -48,6 +48,9 @@ public class StudentHelper {
 		return courseList;
 	}
 
+	/*
+	 * This method is used to get the all workshop for which the participant is registered 
+	 */
 	public String getCourseListParticipant(String pid){
 		String workshopList = "";
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -257,5 +260,68 @@ public class StudentHelper {
 
 
 	}
+	
+	/*
+	 * To update password of student for browser login.
+	 */
+	
+	public String updateStudentPassword(String StudentID,String NewPassword){
+		String status="";
+		DatabaseConnection dbcon = new DatabaseConnection();
+		Connection con = null;
+		PreparedStatement pst = null;
+		try{
+			con = dbcon.createDatabaseConnection();
+			pst = con.prepareStatement("update student set Password=? where StudentID=? ");
+			pst.setString(1,NewPassword);
+			pst.setString(2, StudentID);
+			pst.executeUpdate();
+			status="success";
+					
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally{
+			try {
+				if(pst!=null)pst.close();
+				if(con!=null)dbcon.closeLocalConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}		
+		
+		return status;
+	}
 
+	/*
+	 * To update password of Participant for browser login.
+	 */
+	
+	public String updateParticipantPassword(String ParticipantID,String NewPassword){
+		String status="failed";
+		DatabaseConnection dbcon = new DatabaseConnection();
+		Connection con = null;
+		PreparedStatement pst = null;
+		try{
+			con = dbcon.createRemoteDatabaseConnection();
+			pst = con.prepareStatement("update participant set Password=? where ParticipantID=? ");
+			pst.setString(1,NewPassword);
+			pst.setString(2, ParticipantID);
+			pst.executeUpdate();
+			status="success";
+					
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}finally{
+			try {
+				if(pst!=null)pst.close();
+				if(con!=null)dbcon.closeLocalConnection(con);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}		
+		
+		return status;
+	}
+	
+	
 }

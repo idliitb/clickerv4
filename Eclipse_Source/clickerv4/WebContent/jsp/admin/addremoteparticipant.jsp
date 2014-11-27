@@ -141,42 +141,32 @@ if(WS_ID.equalsIgnoreCase(" Wrong URL") || WS_ID.equalsIgnoreCase("No Workshop, 
 <textarea name="WS_id" id="WS_id" rows="1" cols="50" style="height:0px;width:0px;visibility: hidden;"><%=WS_ID%></textarea>
 <!-- <input type="text" name="WS_id" id="WS_id" value=<%=WS_ID%> style="visibility: hidden;"> -->
 	
-	<div style="margin-top:30px;">
+	<div style="margin-top:30px;" align="center">
 	
-	<center>
-	<table border="1" id="RC_d" style="border: solid 3px #7f7f7f;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 1px #7f7f7f;width: 700px;" >
+	<table id="RC_d" style="border: solid 3px #7f7f7f;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 1px #7f7f7f;width: 700px;" >
 
-<tr style="background-color:#9BBB59">
-
+		<tr style="background-color:#9BBB59;border-left:solid 1px #7f7f7f;border-bottom:solid 1px #7f7f7f;" >
 				<th colspan="2">
 				<label class="ui-text" style="margin:auto;color:#ffffff; font-size: 25px;">Add Participant</label>		
-	
 				</th>
-				
-						
-</tr>
-<tr>
-	<th align="left" width="350px;" ><label class="ui-text" style="margin:auto; font-size: 15px;">Add Participant BY Xls</label>	</th>
-	<th align="left" ><label class="ui-text" style="margin:auto; font-size: 15px;">individual</label>	</th>
-</tr>
-
-
-<tr  height="150px;">
-		<td>
+		</tr>
+		<tr>
+				<th align="left" width="350px;" style="border-right:solid 1px #7f7f7f;" ><label class="ui-text" style="margin:auto; font-size: 15px;">Add Participant BY Xls</label>	</th>
+				<th align="left" ><label class="ui-text" style="margin:auto; font-size: 15px;">Individual</label>	</th>
+		</tr>
+		<tr  height="150px;">
+			<td style="border-right:solid 1px #7f7f7f;border-bottom:solid 1px #7f7f7f; ">
 				<div align="center">
-				<input id="file" type="file" name="xls" />
-				<br><br>
-				 <a href="../../xlstemplates/RemoteParticipantInfo_Template.xls" style = "margin-left: -15px;">Add Participant Template</a>
-				<button id="preview" type="button" style="" onclick = "uploadXLS();">
-				<span>Preview</span>
-				</button>
-			</div>
-		</td>
-		<td>
-			
-			<div>
-					<table id="tablepaging" class="sss" align="center" cellpadding="3">
-
+					<input id="file" type="file" name="xls" />
+					<br><br>
+				 	<a href="../../xlstemplates/RemoteParticipantInfo_Template.xls" style = "margin-left: -15px;">Add Participant Template</a>
+					<button id="preview" type="button" style="" onclick = "uploadXLS();">
+					<span>Preview</span>
+					</button>
+				</div>
+			</td>
+			<td style="border-bottom:solid 1px #7f7f7f; " >
+				<table id="tablepaging" class="sss">
 					<tr>
 						<td>Participant ID</td>
 						<td><input type="text" name="Part_id" id="Part_id" onkeyup="nospaces(this);" ></td>
@@ -187,69 +177,47 @@ if(WS_ID.equalsIgnoreCase(" Wrong URL") || WS_ID.equalsIgnoreCase("No Workshop, 
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-						
-						<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="add_part();" >
-						<span>ADD</span>
-						</button>
-					
+							<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="add_part();" >
+								<span>ADD</span>
+							</button>
 						</td>
-						
 					</tr>
-				
-					</table>
-
-			</div>
-		</td>
-</tr>
-
-
-<tr height="75px;">
-
-<td colspan="2">
-
-<div>
-								
-								<div style="float: left; ">
-									Delete Participant &nbsp&nbsp&nbsp <input type="text"
-										name="Part_box" id="Part_box" onkeyup="nospaces(this);" />&nbsp&nbsp&nbsp 
-										<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="delete_part();" >
-						<span>Delete</span>
+				</table>
+			</td>
+		</tr>
+		<tr height="75px;">
+			<td colspan="2" style="border-bottom:solid 1px #7f7f7f; ">
+					<div>
+						<div style="float: left; ">
+							Delete Participant &nbsp;&nbsp;&nbsp;
+							<input type="text" name="Part_box" id="Part_box" onkeyup="nospaces(this);" />&nbsp;&nbsp;&nbsp;
+							<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="delete_part();" >
+								<span>Delete</span>
+							</button>
+							<button style="background:#9bbb59; font-size:15px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="remove_mac();" >
+								<span>Remove Mac</span>
+							</button>
+						</div>
+					</div>
+			</td>
+		</tr>
+		<tr height="50px;">
+			<td colspan="2" style="border-bottom:solid 1px #7f7f7f; ">
+				<div style="float: left; ">
+						Delete All Participant &nbsp;&nbsp;&nbsp;  
+						<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="delete_all();" >
+							<span>Delete All</span>
 						</button>
-						<button style="background:#9bbb59; font-size:15px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="remove_mac();" >
-						<span>Remove Mac</span>
-						</button>
-						
-								</div>
-							</div>
+				</div>
+			</td>
+		</tr>
+	</table>
 
-</td>
-</tr>
-
-<tr height="50px;">
-
-<td colspan="2">
-<div style="float: left; ">
-									Delete All Participant &nbsp&nbsp&nbsp  
-										<button style="background:#9bbb59; font-size:16px; color:#ffffff;	margin-right:10px; border-radius:12px; min-width:0.4in; min-height:0.3in; width:100px; margin-top:15px;"   onclick="delete_all();" >
-						<span>Delete All</span>
-						</button>
-								</div>
-
-							
-
-</td>
-</tr>
-
-
-
-</table>
-<center>
-<input type="text" name="WS_id" id="WS_id" value=<%=WS_ID%> style="visibility: hidden;" >	
-	
+	<input type="text" name="WS_id" id="WS_id" value=<%=WS_ID%> style="visibility: hidden;" >	
 	</div>
 	
 	<div align="center">
-	<table id="Part_table" border="1" style="align:center; border: solid 3px #7f7f7f;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 1px #7f7f7f;width: 400px;" >
+	<table id="Part_table" style="align:center; border: solid 3px #7f7f7f;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 1px #7f7f7f;width: 400px;" >
 	<thead style="background-color:#9BBB59;font-size: 16;font-weight: bold;">
 	<tr> 
 	<td colspan="2">

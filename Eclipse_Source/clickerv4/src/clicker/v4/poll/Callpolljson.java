@@ -1,4 +1,6 @@
-//  Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+/*  Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+ * This file is used for setting the poll details in poll object and in global variable for both local and remote mode.
+ */
 package clicker.v4.poll;
 import clicker.v4.global.*;
 public class Callpolljson {

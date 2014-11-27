@@ -20,11 +20,12 @@ function getXMLhttp() {
 		}
 	}
 }
-
+//This method is used to trim the empty spaces in a string
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 };
 
+//This method is used to get the quiz details for a course and a instructor with chart
 function quizData(insid){	
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -116,8 +117,16 @@ function quizData(insid){
 				var timestamps = quizdetails[i].split("~!~");
 				var w=(timestamps[4]/quizcount[1]*100) / 100 * 130;				
 				quizzes += "<div class='mybox'><div class='myboxhead1'>"+timestamps[0] + " - " + timestamps[1] +"</div>" ;
-				quizzes += "<div class='myboxnote' onclick='participantNormalQuizReport(\""+timestamps[0]+"\",\""+insid+"\")'>"+timestamps[2]+"</div>";
-				quizzes += "<div class='myboxnote' onclick='participantInstantQuizReport(\""+timestamps[0]+"\",\""+insid+"\")'>"+timestamps[3]+"</div>";
+				if(timestamps[2]!="No.of Normal Quiz : 0"){
+					quizzes += "<div class='myboxnote1' onclick='participantNormalQuizReport(\""+timestamps[0]+"\",\""+insid+"\")'>"+timestamps[2]+"</div>";
+				}else{
+					quizzes += "<div class='myboxnote'>"+timestamps[2]+"</div>";
+				}
+				if(timestamps[3]!="No.of Instant Quiz : 0"){
+					quizzes += "<div class='myboxnote' onclick='participantInstantQuizReport(\""+timestamps[0]+"\",\""+insid+"\")'>"+timestamps[3]+"</div>";
+				}else{
+					quizzes += "<div class='myboxnote1'>"+timestamps[3]+"</div>";
+				}
 				quizzes += "<div class='studprogbar' title='Attempted Quiz : "+timestamps[4] + " / " + quizcount[1]+"'><div class='insidebar' style='width:"+w+"px;'></div></div><div class='attemptedquiz'>"+timestamps[4] + " / " + quizcount[1]+"</div>";
 				quizzes += "</div>";
 			}
@@ -142,7 +151,7 @@ function quizData(insid){
 			document.getElementById("pcontent_div").innerHTML = quizzes; 
 			$('#qpChart').highcharts({
 	            title: {
-	                text: 'Overall Quiz Preformance',
+	                text: 'Overall Quiz Performance',
 	                x: -20 //center
 	            },
 	            xAxis: {
@@ -213,6 +222,7 @@ function quizData(insid){
 	xmlhttp.send();	
 }
 
+//This method is used to change the active buttons (poll , quiz, instant quiz or student)
 function changeActive(req){
 	document.getElementById("nq").style.background="gray";
 	document.getElementById("iq").style.background="gray";
@@ -241,7 +251,7 @@ function changeActive(req){
 	}
 }
 
-
+//This method is used to request for generate quiz respons chart 
 function quizReport(quizid, qts, reportname) {
 	if(reportname=="QuizDetail"){
 		generateQuizReport(quizid, qts, reportname);
@@ -263,6 +273,7 @@ function quizReport(quizid, qts, reportname) {
 	}
 }
 
+//This method is used to request for generate quiz respons report 
 function generateQuizReport(quizid, qts, reportname){
 	getXMLhttp();
 	if(reportname!="QuizDetail"){
@@ -291,6 +302,7 @@ function generateQuizReport(quizid, qts, reportname){
 	xmlhttp.send();
 }
 
+//This method is used to request for generate instant quiz respons chart 
 function instantQuizReport(qid, qts) {
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -302,6 +314,7 @@ function instantQuizReport(qid, qts) {
 	xmlhttp.send();	
 }
 
+//This method is used to request for generate quiz respons report 
 function generateInstantQuizReport(qid, qts){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -322,7 +335,7 @@ function generateInstantQuizReport(qid, qts){
 	xmlhttp.send();
 }
 
-
+//This method is used to request for generate poll respons chart 
 function pollReport(pid) {	
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -334,6 +347,7 @@ function pollReport(pid) {
 	xmlhttp.send();	
 }
 
+//This method is used to request for generate quiz respons report 
 function generatePollReport(pid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -354,10 +368,11 @@ function generatePollReport(pid){
 	xmlhttp.send();
 }
 
+//This method is used to request for generate participant normal quiz performance chart and report 
 function participantNormalQuizReport(pid, iid){
 	$("#tempdiv").load("../../participantPerformanceChart?pid="+pid+ "&qtype=nquiz", function(){
 		$("#dlg_body").load("../../RemoteReport?pid="+pid + "&report=partcipantreport", function(){
-			document.getElementById("dlg_body").innerHTML = "<img src='../../"+iid+"/participantResult.png?"+new Date()+"' />" + document.getElementById("quizreport").innerHTML;
+			document.getElementById("dlg_body").innerHTML = document.getElementById("quizreport").innerHTML;
 			document.getElementById("quizreport").style.visibility = 'visible';
 			$("#quizreport").dialog({
 				title : "Normal Quiz Report",
@@ -370,6 +385,7 @@ function participantNormalQuizReport(pid, iid){
 	});	
 }
 
+//This method is used to request for generate participant instant quiz  performance chart and report
 function participantInstantQuizReport(pid, iid){
 	$("#tempdiv").load("../../participantPerformanceChart?pid="+pid + "&qtype=iquiz", function(){
 		document.getElementById("dlg_body").innerHTML = "<img src='../../"+iid+"/participantResult.png?"+new Date()+"' />";
@@ -384,7 +400,7 @@ function participantInstantQuizReport(pid, iid){
 	});	
 }
 
-
+//This method is used to request for get participant list
 function participantList(){
 	$("#dlg_body").load("../../RemoteReport?report=corusereport&ats=&reportname=ParticipantList&date=", function(){
 			document.getElementById("quizreport").style.visibility = 'visible';
@@ -398,6 +414,7 @@ function participantList(){
 	});		
 }
 
+// This method is usd to get the attendance list
 function attendanceList(){
 	document.getElementById("dlg_header_att").style.display ="block";
 	document.getElementById("dlg_body1").innerHTML="";
@@ -411,6 +428,7 @@ function attendanceList(){
 	});
 }
 
+// This method is used to fill the attendance detail
 function fillAttenDetail(courseID, atdates, date) {
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -442,6 +460,7 @@ function fillAttenDetail(courseID, atdates, date) {
 	xmlhttp.send();	
 }
 
+// This method is used to request for attendance chart and report for coruse
 function attendanceReport(cid, date, session){
 	if(session==''){
 		alert("select Proper session");

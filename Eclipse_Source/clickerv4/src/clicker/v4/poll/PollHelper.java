@@ -64,7 +64,7 @@ public class PollHelper
 	}
 	
 //getting count of those students who did not attended the poll 
-	//SELECT count(StudentID) FROM studentcourse WHERE courseID ='CSE101' and StudentID not in (select StudentID from poll where PollId=25);
+	
 	public int studentnotattended(String courseId,String launchtime)
 	{
 		int count=0;

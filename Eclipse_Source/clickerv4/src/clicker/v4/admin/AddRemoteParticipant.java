@@ -49,7 +49,7 @@ public class AddRemoteParticipant extends HttpServlet {
 		String participantname = request.getParameter("participantname");
 		String workshopid = request.getParameter("wsselect");
 		//System.out.println("Workshop id: " + workshopid);
-		int pid = 0, rs = 0;
+		int pid = 0;
 		
 		Connection conn = null;
 		ResultSet resultset = null;
@@ -75,7 +75,7 @@ public class AddRemoteParticipant extends HttpServlet {
 					ps.setString(2, participantname);
 					ps.setString(3, workshopid);
 				
-					rs = ps.executeUpdate();
+					ps.executeUpdate();
 					
 					
 					response.sendRedirect("jsp/admin/addremoteparticipant.jsp?status=Participant added successfully");

@@ -22,19 +22,20 @@ public class RaiseHandHelper {
 	private Connection connection;
 	private Statement statement;
 	private PreparedStatement stmt;
-	private ResultSet rs=null;
 	private ArrayList<RaiseHandRowData> resultList=null;
 	public RaiseHandHelper(){
 		connection=null;
 	}
 
+	/*
+	 * To save raise hand/ doubt question in database of a particular student
+	 */
 
 	public void saveraisequestiontext(String courseid,String studentid,String raise_qu) throws SQLException{
-		System.out.println("in raise question saving...");
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
 
-			
+
 			connection=dbcon.createDatabaseConnection();
 			/*
 			 * querry to insert the raise question into database wrt student id ,courseid
@@ -55,12 +56,14 @@ public class RaiseHandHelper {
 		}finally{
 			stmt.close();
 			dbcon.closeLocalConnection(connection);
-			
+
 		}
 
 	}
 
-
+	/*
+	 * Get the raisehand of all student for particular course and as per search engine for doubt question string.
+	 */
 	public ArrayList<RaiseHandRowData> retrieveData(String courseID,String text,String date) throws SQLException{
 		String CourseID=courseID;
 		ResultSet rs=null;
@@ -72,7 +75,7 @@ public class RaiseHandHelper {
 		}
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			rs=statement.executeQuery("SELECT DISTINCT stu.StudentID,stu.StudentName,stu.EmailID,stuCou.Semester,rh.Comments,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+"AND rh.Comments LIKE '%"+text+"%' AND rh.RaiseTimeStamp LIKE '%"+date+"%' AND rh.RepliedDoubt=2 and stuCou.CourseID = rh.CourseID ORDER BY rh.RaiseTimeStamp DESC" );
@@ -100,21 +103,24 @@ public class RaiseHandHelper {
 		}
 		return resultList;
 	}
-	
-	
+
+	/*
+	 * This is used for retriving date for doubt who have already been discussed in class.
+	 */
+
 	public ArrayList<String> retrieveDate(String courseID) throws SQLException{
 		String CourseID=courseID;
 		ResultSet rs=null;
 		ArrayList<String> resultListofDate=new ArrayList<String>();
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			rs=statement.executeQuery("SELECT DISTINCT rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+" AND rh.RepliedDoubt=2 ORDER BY rh.RaiseTimeStamp DESC" );
-			
+
 			while(rs.next()){
-				
+
 				resultListofDate.add(rs.getString("rh.RaiseTimeStamp"));
 			}
 
@@ -129,15 +135,17 @@ public class RaiseHandHelper {
 		}
 		return resultListofDate;
 	}
-	
-	
 
+
+	/*
+	 *  This is used to get raisehand for all active raisehand which will be shown in active raisehand block
+	 */
 	public ArrayList<RaiseHandRowData> retrieveRaiseHand(String StudentID, String Date,String Status,String CourseID) throws SQLException{
 		String courseID=CourseID;
 		ResultSet rs=null;
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			String query="SELECT stu.StudentID,stu.StudentName,stu.EmailID,stuCou.Semester,rh.Comments,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+courseID+"'"+" AND stuCou.CourseID=rh.CourseID AND rh.StudentID= '"+StudentID+"'"+" AND rh.RepliedDoubt='"+Status+"' AND rh.RaiseTimeStamp= '"+Date+"'";
@@ -167,10 +175,14 @@ public class RaiseHandHelper {
 		}
 		return resultList;
 	}
+
+	/*
+	 * This is used to delete particular selected raisehand
+	 */
 	public void deleteData(String raiseHandTimeStamp) throws SQLException{
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			statement.execute("DELETE FROM raisehand WHERE RaiseTimeStamp='"+raiseHandTimeStamp+"'");
@@ -185,10 +197,13 @@ public class RaiseHandHelper {
 
 	}
 
+	/*
+	 * This is to update for particular doubt as already discussed in case of similar doubt is discussed already
+	 */
 	public void updateRaiseHandStatus(String StudentID,String RaiseHandTimeStamp) throws SQLException{
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try {
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			statement.execute("update raisehand set RepliedDoubt=2 ,RepliedAnswer='Already Discussed in Class' WHERE StudentID='"+StudentID+"' and RaiseTimeStamp='"+RaiseHandTimeStamp+"'");
@@ -205,10 +220,13 @@ public class RaiseHandHelper {
 
 	}
 
+	/*
+	 * This is used to reply answer to particular doubt and save it
+	 */
 	public void updateRaiseHandReply(String StudentID,String RaiseHandTimeStamp,String Reply) throws SQLException{
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try {
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			statement.execute("update raisehand set RepliedDoubt=2 , RepliedAnswer='"+Reply+"' WHERE StudentID='"+StudentID+"' and RaiseTimeStamp='"+RaiseHandTimeStamp+"'");
@@ -225,28 +243,31 @@ public class RaiseHandHelper {
 
 	}
 
-
+	/*
+	 * This is used to update raisehand as pending in case of instructor didnt reply or checked it as already discussed this are being display in pending 
+	 * raisehand UI
+	 */
 	public void updateRaiseHandAsPending(String CourseID) throws SQLException{
 		ResultSet rs=null;
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try {
 			ArrayList<String> list = new ArrayList<String>();
-			
+
 			connection=dbcon.createDatabaseConnection();
 			statement=connection.createStatement();
 			String query="Select RaiseTimeStamp from raisehand WHERE CourseID='"+CourseID+"' and RepliedDoubt=0 ";
 			rs=statement.executeQuery(query);
 			while(rs.next()){
 				list.add(rs.getString(1));
-				
+
 			}
 			System.out.println(list.size());
 			for(int i=0;i<list.size();i++){	
 				System.out.println("update raisehand set RepliedDoubt=1 , RaiseTimeStamp='"+list.get(i)+"' WHERE CourseID='"+CourseID+"'"+"and RaiseTimeStamp='"+list.get(i)+"'"+" and RepliedDoubt=0");
 				statement.execute("update raisehand set RepliedDoubt=1 , RaiseTimeStamp='"+list.get(i)+"' WHERE CourseID='"+CourseID+"'"+"and RaiseTimeStamp='"+list.get(i)+"'"+" and RepliedDoubt=0");
 			}
-			
-		
+
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -259,24 +280,26 @@ public class RaiseHandHelper {
 
 	}
 
-
+	/*
+	 * This is used to get replied answer for particular doubt and answer is display to student side.
+	 */
 	public RepliedRaiseHand getRaiseHandReply(String StudentID,String CourseID) throws SQLException{
 		ResultSet rs=null;
 		ArrayList<String> dt = new ArrayList<String>();
 		ArrayList<String> rt  = new ArrayList<String>();
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
-		
-		connection=dbcon.createDatabaseConnection();
-		statement=connection.createStatement();
-		String query="SELECT Comments,RepliedAnswer FROM raisehand where CourseId='"+CourseID+"'"+ "and StudentId='"+StudentID+"'"+ "and RepliedDoubt=2";
-		rs=statement.executeQuery(query);
-		while(rs.next()){
-			String doubttext=rs.getString(1);
-			String replytext=rs.getString(2);
-			dt.add(doubttext);
-			rt.add(replytext);
-		}
+
+			connection=dbcon.createDatabaseConnection();
+			statement=connection.createStatement();
+			String query="SELECT Comments,RepliedAnswer FROM raisehand where CourseId='"+CourseID+"'"+ "and StudentId='"+StudentID+"'"+ "and RepliedDoubt=2";
+			rs=statement.executeQuery(query);
+			while(rs.next()){
+				String doubttext=rs.getString(1);
+				String replytext=rs.getString(2);
+				dt.add(doubttext);
+				rt.add(replytext);
+			}
 		}catch(Exception e){
 			System.out.println(e);
 		}

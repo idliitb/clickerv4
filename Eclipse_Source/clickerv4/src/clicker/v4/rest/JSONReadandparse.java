@@ -1,5 +1,6 @@
 /*
- * Author Dipti, Rajavel
+ * Author Dipti and Rajavel  
+ * 			Clicker Team, IDL Lab - IIT Bombay
  * 
  */
 
@@ -251,8 +252,6 @@ public class JSONReadandparse {
 					cal.setTimeInMillis(d3.getTime());
 					cal.add(Calendar.SECOND, (int) -diffSeconds);
 					String later = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.getTime());
-					//System.out.println("current time of the system "+currenttime);
-					//System.out.println("launched time of the system"+later);
 					obj.setlaunchtime(later);
 					obj.setcurrenttime(currenttime);
 					System.out.println("launch time at remote"+later);
@@ -480,7 +479,9 @@ public class JSONReadandparse {
 		
 	}
 	
-	
+	/*
+	 * This is used to send Instant Quiz Repsonse  to maincenter 
+	 */
 	public String sendInstantQuizResponceJSON(int quizrecordid, String MainCenterIP, String workshopID, String coordinatorID){
 		System.out.println("Inside send instant quiz json");
 		URL url = null;
@@ -532,6 +533,9 @@ public class JSONReadandparse {
 	}
 	
 	
+	/*
+	 * This is used to resend Instant Quiz Repsonse  to maincenter 
+	 */
 	public String resendInstantQuizResponceJSON(String PendingIQResponseJson,String MainCenterIP){
 		System.out.println("Inside resend instant quiz json");
 		URL url = null;

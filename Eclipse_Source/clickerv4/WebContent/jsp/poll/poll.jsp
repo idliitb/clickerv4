@@ -30,7 +30,7 @@ isactive = "active";
 		<tr >
 			<td >
 			<div class="ui-header-text" >
-			<h2><lable>Poll</lable></h2></div>
+			<h2>Poll</h2></div>
 			</td>
 		</tr>
 		
@@ -53,7 +53,7 @@ isactive = "active";
 	
 	
 	
-	<table class="table1" style="margin-top:2px; background-color:#ffffff;" overflow="true"   border="1">
+	<table class="table1" style="margin-top:2px; background-color:#ffffff;" border="1">
 		<tr >
 			<td >
 			<div id="chart_div" style="width: 1030px; height: 470px;margin-left:0px;"></div>
@@ -65,7 +65,7 @@ isactive = "active";
 </form>
 
 <div style="margin-top:-600px;">
-<center><%@ include file= "../../jsp/includes/menufooter.jsp" %></center>
+<%@ include file= "../../jsp/includes/menufooter.jsp" %>
 </div>
 
 </body>

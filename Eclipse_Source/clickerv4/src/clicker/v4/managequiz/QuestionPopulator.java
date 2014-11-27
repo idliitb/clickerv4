@@ -31,7 +31,7 @@ public class QuestionPopulator extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("QP search: " + request.getParameter("question") + " search1: ");
+		//System.out.println("QP search: " + request.getParameter("question") + " search1: ");
 		try {
 			if(!(request.getParameter("question")==null||request.getParameter("question").equals(""))){
 				System.out.println("Search: " + URLDecoder.decode(request.getParameter("question"), "UTF-8"));
@@ -40,7 +40,7 @@ public class QuestionPopulator extends HttpServlet {
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in Question Populator: " + e);
 		}
 		ArrayList<QuestionSave> allQuestions=rom.getQuestions();
 		for(QuestionSave q:allQuestions){

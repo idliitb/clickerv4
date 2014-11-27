@@ -28,7 +28,7 @@ public class ParticipantXLSPreview extends HttpServlet {
 	            //String sheetName[] = workbook.getSheetNames();
 	            Sheet sheet;
 	            Cell xlsCell;
-	            Cell[] cell;
+	            
 	            int selector = 0;
 	            // Getting first sheet of xls
 	            sheet = workbook.getSheet(0);
@@ -37,7 +37,7 @@ public class ParticipantXLSPreview extends HttpServlet {
 	            for (int i = 1; i < sheet.getRows(); i++) {
 	            	String participantid = "";
 					
-					cell = sheet.getRow(i);
+					sheet.getRow(i);
 					
 					xlsCell = sheet.getCell(0, i);
 					participantid = xlsCell.getContents().toString();

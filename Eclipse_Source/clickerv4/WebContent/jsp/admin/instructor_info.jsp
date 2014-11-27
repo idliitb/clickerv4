@@ -17,7 +17,7 @@ USE        : to display the list of instructor add in the data base and admin
 %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 <title>Insert title here</title>
 <link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
 <link type="text/css" rel="stylesheet" href="../../css/style.css">
@@ -28,7 +28,7 @@ USE        : to display the list of instructor add in the data base and admin
 
 <link href="../../js/jquery-ui.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="instructor.js"></script>
+<script type="text/javascript" src="../../js/instructor.js"></script>
 <!-- <script type="text/javascript" src="../../js/student.js"></script> -->
 
 
@@ -45,7 +45,7 @@ USE        : to display the list of instructor add in the data base and admin
 				int i = 0;
 				String query1 = "SELECT instiID FROM institution;";
 				//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-				System.out.println(query1);
+				//System.out.println(query1);
 				ResultSet rs = st1.executeQuery(query1);
 				while (rs.next()) {
 					i++;					
@@ -54,7 +54,7 @@ USE        : to display the list of instructor add in the data base and admin
 				
 				if(i==1)
 				{
-					System.out.println("------------>"+i);
+					//System.out.println("------------>"+i);
 					 // window.location.assign("../../jsp/admin/institute.jsp");
 				}
 
@@ -200,34 +200,24 @@ table.yui .pagedisplay {
 function Pager(tableName, itemsPerPage) {
 
 	this.tableName = tableName;
-
 	this.itemsPerPage = itemsPerPage;
-
 	this.currentPage = 1;
-
 	this.pages = 0;
-
 	this.inited = false;
+	this.showRecords = function(from, to) 
+	{
 
-	this.showRecords = function(from, to) {
+		var rows = document.getElementById(tableName).rows;
+		//i starts from 1 to skip table header row
+		for (var i = 1; i < rows.length; i++) 
+		{
+			if ((i < from) ||( i > to))
+				rows[i].style.display = 'none';
+			else
+				rows[i].style.display = '';
+		};
 
-	var rows = document.getElementById(tableName).rows;
-
-	// i starts from 1 to skip table header row
-
-	for (var i = 1; i < rows.length; i++) {
-
-	if (i < from || i > to)
-
-	rows[i].style.display = 'none';
-
-	else
-
-	rows[i].style.display = '';
-
-	}
-
-	}
+	};
 
 	this.showPage = function(pageNumber) {
 
@@ -255,7 +245,7 @@ function Pager(tableName, itemsPerPage) {
 
 	this.showRecords(from, to);
 
-	}
+	};
 
 	this.prev = function() {
 
@@ -263,7 +253,7 @@ function Pager(tableName, itemsPerPage) {
 
 	this.showPage(this.currentPage - 1);
 
-	}
+	};
 
 	this.next = function() {
 
@@ -273,7 +263,7 @@ function Pager(tableName, itemsPerPage) {
 
 	}
 
-	}
+	};
 
 	this.init = function() {
 
@@ -285,7 +275,7 @@ function Pager(tableName, itemsPerPage) {
 
 	this.inited = true;
 
-	}
+	};
 
 	this.showPageNav = function(pagerName, positionId) {
 
@@ -309,7 +299,7 @@ function Pager(tableName, itemsPerPage) {
 
 	element.innerHTML = pagerHtml;
 
-	}
+	};
 
 	}
 
@@ -366,7 +356,7 @@ jQuery('html').bind('click',function(e){
 	<%@ include file="../../jsp/includes/menuheader.jsp"%>
 	<input id="instcount"  style="visibility:hidden; width:220px;  font-size:15px; color:black" type="text" name="centerid" value = '<%=count%>' /> 
 <br><br>
-<div style="margin: auto; width: 70%;height:70%; border: none;">
+<div style="margin: auto; width: 70%;height:70%; border: none;" align="center">
 
 	
 		<!-- 	<div id="heade_menu">
@@ -389,7 +379,7 @@ jQuery('html').bind('click',function(e){
 
 			<div id="inst_details">
 				<div id="navBar1">
-					<table id="instructor_table" class="yui" align="center">
+					<table id="instructor_table" class="yui" >
 						<thead>
 							<tr>
 							<th colspan="3" align="left">
@@ -397,19 +387,19 @@ jQuery('html').bind('click',function(e){
 								<div style="float: left;">
 									<img src="plus.png" onclick="add_instr()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Add" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Add" />&nbsp;&nbsp;&nbsp; <img
 										src="mm.png" onclick="delete_de()()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Delete" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Delete" />&nbsp;&nbsp;&nbsp; <img
 										src="Files-Edit.png" onclick="editValue()"
 										style="cursor: pointer;" width="15px" height="15px"
 										alt="button" border="0" title="Edit" />
 								</div>
 								<div style="float: right;">
-									Search By ID &nbsp&nbsp&nbsp <input type="text"
-										name="search_box" id="search_box" />&nbsp&nbsp&nbsp <img
+									Search By ID &nbsp;&nbsp;&nbsp; <input type="text"
+										name="search_box" id="search_box" />&nbsp;&nbsp;&nbsp; <img
 										src="Search-icon-24x24.png" onclick="search_inst()"
-										style="cursor: pointer;" 16px" height="16px" alt="button"
+										style="cursor: pointer;" width="16px" height="16px" alt="button"
 										border="0" title="Search" />
 								</div>
 							</div>
@@ -441,10 +431,10 @@ jQuery('html').bind('click',function(e){
 										String dept = rs.getString(3);
 							%>
 
-							<tr id=<%=instr_id%> onclick="rowSelected(id)"
+							<tr style="border:solid 1px #7f7f7f;" id=<%=instr_id%> onclick="rowSelected(id)"
 								ondblclick="editValue(id);">
 
-								<td width="100"><%=instr_id%></td>
+								<td  width="100"><%=instr_id%></td>
 								<td align="left" width="250"><%=instr_name%></td>
 								<td width="100"><%=dept%></td>
 
@@ -484,7 +474,7 @@ pager.showPage(1);
 	
 </div>
 	<div style="margin-top: -600px;">
-		<center><%@ include file="../../jsp/includes/menufooter.jsp"%></center>
+		<%@ include file="../../jsp/includes/menufooter.jsp"%>
 	</div>
 </body>
 </html>

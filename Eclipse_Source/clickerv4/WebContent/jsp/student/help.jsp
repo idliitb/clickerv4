@@ -1,4 +1,4 @@
-<%--@author kirti, Clicker Team, IDL Lab - IIT Bombay
+<%--@author Kirti, Clicker Team, IDL Lab - IIT Bombay
 	This jsp file is used for displaying help menu for students--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -19,6 +19,7 @@ body{
 margin:auto;
 width:1320px;
 height:628px;
+
 
 }
  .ui-table_green
@@ -44,7 +45,7 @@ height:628px;
 }
 p{ 
 	color:#ffffff; 
-	text-align:justify; 
+	text-align:left; 
 	font-size:25px;
 }
 #content{
@@ -59,16 +60,13 @@ p{
   
 <script type="text/javascript">
   var name=null;
-  var intromsg="<p>Aakash Clicker V-4 is native participant response system. Instructor and participants will have Aakash tablets through which both can access Aakash Clicker V-4 using web URL. Instructor and participants both will be having different authorities. Advantage of using Aakash tablets in participant response system is that participants will be able to view question and options unlike, only question number and type in Clicker devices.\n As Aakash Clicker V-4 is REST based there no more necessity of using any other hardware for collecting responses entered by participants. Instructor can view reports of participants from any place.</p>";
-  var quizmsg="<p>Quiz module on participant device is where the participants answer the quiz conducted by Instructor. On this page the user can press right and left arrow situated to the right and left margins of the tablet screen to shuffle between the questions. The user can also press the question number from the list above the question to directly jump the desired question. In case of more questions in the quiz the buttons below the question can be pressed to jump directly to the desired set of question. No home button is provided on quiz page as the participants are required to answer the quiz and nothing else.</p>";
-  var pollmsg="<p>Polls on participant module are the means communication between instructor and participants. The instructor can conduct polls during sessions to get the overview of participants perspective. The user has to just give his/her vote which will be collected anonymously so as to keep polls discrete.</p>";
-  var reportmsg="<p>Results on the participant module are for viewing purpose only. The user can go to results page and select the course for which he/she wants to view results. The results can be downloaded in the pdf format.</p>";
-  var raisemsg="<p>Raise hand is the feature to ask doubts/questions to the instructor via the tablet. This feature allows the participant to ask doubts without disturbing the session. The answer for the participants doubts will be given by instructor at his/her perusal.</p>";
-  var tutsmsg="<p>Tutorial anhi is cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p><p>Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p><p>Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>";
-	
+  var intromsg="<p>Clicker software aims at using a paperless technology to initiate the interaction between students and instructor. This software is developed in open-source within I.I.T Bombay.</p>";
+  var quizmsg="<p>This feature enables the student to attend the quiz launched by the instructor. Students can toggle between the questions using navigation buttons.</p><br><img src=\"../../img/1help_quiz1.jpg\"  height = 300 width = 700 >";
+  var pollmsg="<p>This feature enables the student to respond to a poll conducted by the faculty.The default time to respond is <b>60 seconds</b>.</p><br><img src=\"../../img/1help_poll.png\"  height = 300 width = 700 >";
+  var reportmsg="<p>This feature enables the students to view their overall performance in the quiz.The report can be downloaded in the pdf format.</p><br><img src=\"../../img/1help_report.png\"  height = 330 width = 800 >";
+  var raisemsg="<p>This feature enables the student to ask doubts/questions to the instructor without disturbing the class using their devices (Computer/Mobiles).Students can view instructor's reply on check button.</p><br><img src=\"../../img/1help_Raisehand.png\"  height = 330 width = 800 >";
   function changecontent(name)
   {
-	 
 	  var help_div_color = document.getElementsByClassName('ui-loginbutton');
 	  
 	  if(help_div_color.length > 0)
@@ -85,7 +83,9 @@ p{
 		{
 		
 		document.getElementById('content').innerHTML=intromsg;
-			
+		 // sets up the array with some startin values
+		  // Andy Harris
+		  
 		}
 	  else if(name=='quiz')
 		{
@@ -125,10 +125,6 @@ p{
 </head>
 <body onload="changecontent('intro');">
 <div id="main_container">
-
-	
-
-
 	<div class="ui-table_green">
 		<div style="width:200px; height:555px; float:left; border: 3px solid #9bbb59; border-radius:40px;">
 			<button id="intro" type="submit" class="ui-loginbutton" style="background-color: #9bbb59;" onclick="changecontent('intro');">
@@ -146,7 +142,7 @@ p{
 				<button id="raise" type="submit" class="ui-loginbutton" style="background-color: #9bbb59;" onclick="changecontent('raise');">
 			 	<span >Raise</span>
 		 	</button>
-			<button id="tuts" type="submit" class="ui-loginbutton" style="background-color: #9bbb59;" onclick="changecontent('tuts');">
+			<button id="tuts" type="submit" class="ui-loginbutton" style="background-color: #9bbb59;" onclick="window.location.href='tutorial.jsp'">
 			 	<span >Tutorial</span>
 		 	</button>	
 		</div>

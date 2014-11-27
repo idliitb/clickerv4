@@ -34,8 +34,7 @@ public class RetrieveQuestionsModel {
 			this.selector = selector;
 		}
 		catch(Exception ex){
-			System.out.println("Exception At 1");
-			ex.printStackTrace();
+			System.out.println("Exception in RetriveQuestionsModel funtion of Retrieve Questions Model:" + ex);			
 		}
 		finally
 		{
@@ -52,15 +51,14 @@ public class RetrieveQuestionsModel {
 			statement=(Statement) conn.createStatement();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception At 2");
-			e.printStackTrace();
+			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + e);
 		}
 		try {
 			if(selector == 00)
 			{
 				//System.out.println("Course id: " + courseid);
-				//System.out.println("Selector 00: " + selector);
-				System.out.println("Search parameter: " + searchParameter);
+				System.out.println("Selector 00: " + selector);
+				//System.out.println("Search parameter: " + searchParameter);
 				if(qtype == 0)
 					statement.execute("SELECT QuestionID,Question,Archived, QuestionType FROM question WHERE InstrID='"+InstrID+"' and UPPER(CONVERT(Question USING latin1)) LIKE '%"+((searchParameter==null)?("%"):(searchParameter))+"%' and CourseID = '" + courseid + "' order by QuestionID desc");
 				else
@@ -76,16 +74,14 @@ public class RetrieveQuestionsModel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception At 4");
-			e.printStackTrace();
+			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + e);
 		}
 		ResultSet rs=null;
 		try {
 			rs=(ResultSet) statement.getResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception At 5");
-			e.printStackTrace();
+			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + e);
 		}
 		try {
 			while(rs.next()){
@@ -99,7 +95,7 @@ public class RetrieveQuestionsModel {
 			dbcon.closeLocalConnection(conn);
 		}
 		catch(Exception ex){
-			ex.printStackTrace();
+			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + ex);
 		}
 		return list;
 	}

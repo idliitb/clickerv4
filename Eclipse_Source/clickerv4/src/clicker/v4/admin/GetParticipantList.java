@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
@@ -50,8 +50,8 @@ public class GetParticipantList extends HttpServlet {
 		// TODO Auto-generated method stub
 		//System.out.println("In participant servlet");
 		PreparedStatement ps = null, ps1 = null;
-		ResultSet rs = null;
-		int cid = 0, check1 = 0, check2 = 0, selector = 0;
+		
+		int selector = 0;
 		
 		DatabaseConnection dbcon = new DatabaseConnection();
 		Connection conn = dbcon.createRemoteDatabaseConnection();
@@ -68,7 +68,7 @@ public class GetParticipantList extends HttpServlet {
 					ps1.setString(1, participantname);
 					ps1.setString(2, newparticipantid);
 					ps1.setString(3, participantid);					
-					check2 = ps1.executeUpdate();
+					 ps1.executeUpdate();
 										
 					//response.getWriter().print(false);
 					//return;
@@ -82,7 +82,7 @@ public class GetParticipantList extends HttpServlet {
 					ps = conn.prepareStatement("delete from participant where ParticipantID = ?");
 					ps.setString(1, participantid);
 										
-					check1 = ps.executeUpdate();
+					ps.executeUpdate();
 				}
 		}
 		catch (SQLException e) {

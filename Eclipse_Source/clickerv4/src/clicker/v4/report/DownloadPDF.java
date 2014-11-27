@@ -17,8 +17,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 
 
 /**
@@ -56,6 +54,7 @@ public class DownloadPDF extends HttpServlet {
 		doProcess(request, response);
 	}
 	
+	// This method is used to download the Jasper Report as PDF for student, course, quiz and instant quiz
 	protected void doProcess(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String reportname = request.getParameter("repname");
@@ -129,17 +128,10 @@ public class DownloadPDF extends HttpServlet {
 					hmapParam.put("SUBREPORT_DIR", path + "jasperreport/");					
 			}
 			jasPrint = JasperFillManager.fillReport(jasReport, hmapParam, con);
-			JRXlsxExporter exporter = new JRXlsxExporter();
-	        exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasPrint);
-	        exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, "/home/rajavel/Desktop/test.xls");
-
-	        exporter.exportReport();
 			System.out.println("Jasper Print : " + jasPrint);
 			ServletOutputStream sos = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(jasPrint, sos);
-			sos.close();
-			        
-	        
+			sos.close();			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}finally{

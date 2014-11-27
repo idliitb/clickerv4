@@ -5,6 +5,7 @@
 package clicker.v4.admin;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 import javax.servlet.ServletException;
@@ -36,7 +37,7 @@ public class addstudentcourse extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		
-		
+		PrintWriter out1 = response.getWriter();
 		String student_id=request.getParameter("StudentID");
 		String course_id=request.getParameter("CourseID");
 		String year_of_join=request.getParameter("year_of_join");
@@ -46,20 +47,20 @@ public class addstudentcourse extends HttpServlet {
 		String roll_no=request.getParameter("roll_no");
 		String dept_id=request.getParameter("dept_id");		
 		String TA=request.getParameter("TA");
-		String M_no=request.getParameter("m_no");
+		//String M_no=request.getParameter("m_no");
 		
 		//System.out.println("Course ID=========================================================>"+course_id);	
 		
-		System.out.println("student_id"+student_id);	
+		//System.out.println("student_id"+student_id);	
 		//System.out.println("roll_no"+roll_no);	
 		//System.out.println("student_name"+student_name);	
 		//System.out.println("year_of_join"+year_of_join);	
 		//System.out.println("T_A"+TA);	
 		//System.out.println("dept_id"+dept_id);	
-		System.out.println("Course ID"+course_id);	
+		//System.out.println("Course ID"+course_id);	
 		//System.out.println("Email ID"+email_id);
 	
-		
+		String courselistcount = null;
 		
 		
 		int T_A=0;
@@ -71,7 +72,7 @@ public class addstudentcourse extends HttpServlet {
 			System.out.println("==================Delete==================");
 			Statement st = conn.createStatement();
 			String query3 = "DELETE from studentcourse where StudentID ='"+student_id+"' and CourseID='"+course_id+"'";
-			System.out.println(query3);
+			//System.out.println(query3);
 			int rs3 = st.executeUpdate(query3);
 			if(rs3!=0)
 			{
@@ -142,7 +143,28 @@ public class addstudentcourse extends HttpServlet {
 		{
 			
 				
-			String query2="insert into student(StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,DeptID,Password,Status,EmailID,MacAddress) values('"+student_id+"','"+roll_no+"','"+student_name+"','"+year_of_join+"','"+T_A+"','"+dept_id+"','"+M_no+"',0,'"+email_id+"','') " ;
+			String Scount = null;
+			
+			String StudnetCount="Select Count(StudentID) from student where StudentId='6'";
+			try {
+				Statement st1=conn.createStatement();
+				ResultSet rs = st1.executeQuery(StudnetCount);
+					while (rs.next()) {
+							 Scount = rs.getString(1);
+					}
+					//System.out.println("Scount=============================================>"+Scount);
+					courselistcount=Scount;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if(courselistcount == "1")
+			{
+				
+			}
+			else
+			{
+			String query2="insert into student(StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,DeptID,Password,Status,EmailID,MacAddress) values('"+student_id+"','"+roll_no+"','"+student_name+"','"+year_of_join+"','"+T_A+"','"+dept_id+"','"+student_id+"',0,'"+email_id+"','') " ;
 	      // System.out.println(strquerysc);
 			System.out.println(query2);
 			try {
@@ -164,8 +186,10 @@ public class addstudentcourse extends HttpServlet {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
-			
+			}
+			}
+			out1.print(courselistcount);
+			out1.close();	
 			
 		}else if(flag.equalsIgnoreCase("6"))
 		{
@@ -175,36 +199,36 @@ public class addstudentcourse extends HttpServlet {
 			Statement st;
 			try {
 				st = conn.createStatement();
-				int rs4 = st.executeUpdate(query4);
+				st.executeUpdate(query4);
 				
 				
 				String query2="DELETE from raisehand where StudentID ='"+student_id+"'";
-				int rs2=st.executeUpdate(query2);
+				st.executeUpdate(query2);
 				
 				
 				
 				String query3="DELETE from attendance where StudentID ='"+student_id+"'";
-				int rs3=st.executeUpdate(query3);
+				st.executeUpdate(query3);
 				
 				
 				
 				String query5="delete from instantquizresponsenew where StudentID='"+student_id+"'";
-				int rs5=st.executeUpdate(query5);
+				st.executeUpdate(query5);
 				
 				
 				
 				String query6 ="delete from poll where StudentID='"+student_id+"'";
-				int rs6=st.executeUpdate(query6);
+				st.executeUpdate(query6);
 				
 				
 				String query7 ="delete from quizrecordquestion where StudentID='"+student_id+"'";
-				int rs7=st.executeUpdate(query7);
+				st.executeUpdate(query7);
 				
 				
 				st = conn.createStatement();
 				String query1 = "DELETE from student where StudentID ='"+student_id+"'";
 				
-				int rs1=st.executeUpdate(query1);
+				st.executeUpdate(query1);
 				
 				
 			} catch (SQLException e) {
@@ -216,7 +240,7 @@ public class addstudentcourse extends HttpServlet {
 		{
 			
 			String strquerysc ="insert into studentcourse(Year,Semester,CourseID,StudentID) values('"+year_of_join+"','Spring','"+course_id+"','"+student_id+"') " ;
-			System.out.println(strquerysc);	
+			//System.out.println(strquerysc);	
 			
 			try {
 				Statement st = conn.createStatement();

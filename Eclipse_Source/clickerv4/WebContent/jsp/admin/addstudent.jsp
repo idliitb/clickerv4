@@ -22,28 +22,6 @@ USE        : to add student
 
 <style type="text/css">
 
-table.ss {
-font-family:Liberation Serif;
-width:400px;
-border: solid 3px #7f7f7f;
-font-size:medium;
- -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-   /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
-   -ms-user-select: none;
-   user-select: none;
-}
-
-table.ss td {
-padding: 2px;
-border-right: solid 1px #7f7f7f;
-border-bottom: solid 1px #7f7f7f;
-}
-
 select {
     font-size: 12pt;
 }
@@ -64,17 +42,17 @@ select {
 
 
 <body>
-<br><br>
+
 <div id="details" style="text-align: left;">
 <center>
 <div id="main">
 
-			<table class="ss"  border="1" cellpadding="5" width="450">			
-			<tr><td>Student ID</td><td><input type="text" name="student_id" id="student_id" ></td></tr>
-			<tr><td>Student Name </td><td> <textarea name="student_name" id="student_name" style="resize: none;" cols="25" rows="1"></textarea></td></tr>
-			<tr><td>Roll No </td><td><input type="text" name="roll_no" id="roll_no" ></td></tr>
-			<tr><td>Year Of Joining</td><td> <input type="text" name="year_of_join" id="year_of_join" ></td></tr>
-			<tr> <td>T A   </td><td>
+			<table style="border: solid 3px #7f7f7f;" border="0" cellpadding="5" width="450">			
+			<tr><td align="right" valign="bottom">Student ID :</td><td><input type="text" name="student_id" id="student_id" onkeyup="checkforspecial(this);" ></td></tr>
+			<tr><td align="right" valign="bottom">Student Name : </td><td> <textarea name="student_name" id="student_name" style="resize: none;" cols="25" rows="1"></textarea></td></tr>
+			<tr><td align="right" valign="bottom">Roll No : </td><td><input type="text" name="roll_no" id="roll_no" ></td></tr>
+			<tr><td align="right" valign="bottom">Year Of Joining :</td><td> <input type="text" name="year_of_join" id="year_of_join" ></td></tr>
+			<tr> <td align="right" valign="bottom">T A :   </td><td>
 			
 				 <select id="TA_select" name="TA_select"  >
 				 <option>Yes</option>
@@ -83,9 +61,9 @@ select {
 			    
 			</td></tr>
 			
-			<tr> <td>Email ID </td><td> <input type="text" name="email_id" id="email_id"></td></tr>
-			<tr> <td>Mobile No </td><td> <input type="text" name="m_n" id="m_n"></td></tr>
-			<tr> <td>Department ID </td><td> 
+			<tr> <td align="right" valign="bottom">Email ID : </td><td> <input type="text" name="email_id" id="email_id"></td></tr>
+			<tr> <td align="right" valign="bottom">Mobile No : </td><td> <input type="text" name="m_n" id="m_n"></td></tr>
+			<tr> <td align="right" valign="bottom">Department ID : </td><td> 
     <select id="Dept_id" name="Dept_id" onchange="getCourse(this)" >
 <option id="select">SELECT</option>
 	<%
@@ -109,13 +87,13 @@ select {
 
 
 </td></tr>
-			<tr> <td>Course </td>
+			<tr> <td align="right" valign="bottom">Course : </td>
 			<td>
-            <select name="course_list" id="course_list" ><option value ="-1">Select</option></select>
+            <select name="course_list" id="course_list" ><option value ="-1">SELECT</option></select>
 
 			
 			</td></tr>
-			<tr> <td>Mac Address </td><td><div> <div style=""><input id="mac_txt" type="text" name="MacAddress"></div></div>  </td></tr>
+			<tr> <td align="right" valign="bottom">Mac Address :</td><td><div> <div style=""><input id="mac_txt" type="text" name="MacAddress"></div></div>  </td></tr>
 		
 			</table>
 			<br>

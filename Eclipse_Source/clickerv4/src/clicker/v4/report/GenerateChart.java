@@ -129,7 +129,7 @@ public class GenerateChart extends HttpServlet {
                 		maxval = Integer.parseInt(percentages[i].split("=")[1]);
                     barDataset.setValue(Integer.parseInt(percentages[i].split("=")[1]), "Result", percentages[i].split("=")[0]);                    
                 }
-                String chartInfo[] = {"Quiz Reult", "Percentage", "No. of Student"};
+                String chartInfo[] = {"Quiz Result", "Percentage", "No. of Student"};
                 chartMaker(path, username, chartInfo, maxval, barDataset, "QuizResult");
                 
                 DefaultCategoryDataset barDataset1 = new DefaultCategoryDataset();
@@ -235,6 +235,7 @@ public class GenerateChart extends HttpServlet {
         }        
 	}
 	
+	// This method is used to create the new folder with the name of instructor to keep the chart
 	public void folderCreateOrDelete(String path, String username){
 		boolean iscreated = (new File(path + username)).mkdir();
 		if (iscreated) {
@@ -255,6 +256,7 @@ public class GenerateChart extends HttpServlet {
 		}
 	}
 	
+	// This method is creating the chart with category and styles 
 	public void chartMaker(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname){
 		try{
 			
@@ -279,7 +281,7 @@ public class GenerateChart extends HttpServlet {
 		}
 	}
 	
-	//Overload for quiz chart with out delete folder
+	// Overload for quiz chart with out delete folder to set the chart color
 	public void responseChart(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname, String answers){
 		try{						
 			GreenRedBarRenderer colorGreenRed = new GreenRedBarRenderer();
@@ -318,6 +320,7 @@ public class GenerateChart extends HttpServlet {
 		}
 	}
 	
+	// This method is designing the layout of the chart
 	public void chartLayout(JFreeChart chart, CategoryPlot plot, String path, String username, String chartname, int maxval){
 		try{			
         
@@ -356,6 +359,11 @@ public class GenerateChart extends HttpServlet {
 		}
 	}
 	
+	/**
+	 * This class used to generate the bar chart with correct(green) and wrong answer(red) answer indication 
+	 * @author rajavel
+	 *
+	 */
 	class GreenRedBarRenderer extends BarRenderer {
 		private static final long serialVersionUID = 1L;
 		private String correct;
@@ -381,7 +389,12 @@ public class GenerateChart extends HttpServlet {
 		}
 	}
 	
-	 class DifferentColorRenderer extends BarRenderer {
+	/**
+	 * This class used to generate the bar chart with different colors 
+	 * @author rajavel
+	 *
+	 */
+	class DifferentColorRenderer extends BarRenderer {
 	        private static final long serialVersionUID = 1L;
 			/** The colors. */
 	        private Paint[] colors;

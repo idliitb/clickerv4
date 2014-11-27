@@ -11,6 +11,7 @@ import clicker.v4.global.Global;
 /**
  * 
  * @author rajavel,dipti
+ * Clicker Team, IDL Lab - IIT Bombay
  * This class is used as a helper for quiz response 
  */
 public class QuizResponseHelper {

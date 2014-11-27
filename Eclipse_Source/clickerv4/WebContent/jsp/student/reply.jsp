@@ -1,8 +1,16 @@
+<!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for displaying raisehand question's answer.
+ -->
 <%@page import="clicker.v4.wrappers.*"%>
  <%@page import= "com.google.gson.Gson"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+if (session.getAttribute("StudentID") == null) {
+	response.sendRedirect("studentexit.jsp");
+	return;
+}
+
 String RepliedAnswer=request.getParameter("repliedDoubt");
 System.out.println("Value from replied answer::::::"+RepliedAnswer);
 Gson gson = new Gson();
@@ -69,7 +77,7 @@ text-align:center;
 	<font size=25px; color="#ffffff" style="margin-top:5px;float:left; margin-left:550px;">Queries</font>
 
 	<div class="thdiv">
-		<table border="0" style="margin-top:10px; width:1185px;">
+		<table style="margin-top:10px; width:1185px;">
 		<tr>
 			<th style="width:100px;">Q.No.</th>
 			<th style="width:549px;">Query Raised</th>

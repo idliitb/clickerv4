@@ -139,7 +139,7 @@ alert("Can not add new Email ID in the Dtabase");
 		<div id="note" style="margin:auto;color: red;"><label>Note : In this admin has to create Gmail Id for particular institute and should maintain it and later on hand over to next admin.  </label></div>
 	
 		<div style="margin-top:30px">
-			<table  style="height:150px;width:400px; margin:auto; " border="0">
+			<table  style="height:150px;width:400px; margin:auto; border: none; " >
 				<tr>
 					<td >
 						<label style=" color: #e46c0a;font-size:18px" >Gmail ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
@@ -164,7 +164,7 @@ alert("Can not add new Email ID in the Dtabase");
 			<span>Submit</span>
 			</button>
 		</div>
-		</br>	
+		<br/>	
 <div style="color:#9bbb59;font-size:18px;text-align:center;margin-right:2px">
 	<a style="color:#e46c0a" href="./remoteemailupdate.jsp">update email</a>
 </div>

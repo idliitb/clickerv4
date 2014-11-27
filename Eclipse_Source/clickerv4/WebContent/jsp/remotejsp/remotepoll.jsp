@@ -55,8 +55,6 @@ if(pollid==0 && pollquestion.equals("") && launchtime.equals("") && polltime.equ
 	response.sendRedirect("../home/remotehome.jsp");
 }
 
-//Calendar cal = Calendar.getInstance();
-//String currenttime1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(cal.getTime());
 else
 {
 		long pollt=Long.parseLong(polltime);
@@ -174,7 +172,7 @@ function showC(){
 		xmlhttp.onreadystatechange=function()
 	  	{
 				if (xmlhttp.readyState==4 && xmlhttp.status==200)
-	    		{	
+	    		{	//taking response count from remotepollresponse count servlet. 
 					var res_count = xmlhttp.responseText;
 					//alert("old :"+old_count);
 					//alert("res_count :"+res_count);
@@ -315,7 +313,7 @@ function showC(){
 									    		
 							}
 							
-						}
+						};
 						xmlHttp2.open("GET","remotepollresponse.jsp?pollquestion="+encodeURIComponent(document.getElementById("pollquestionhidden").value),false);
 						xmlHttp2.send();
 						
@@ -432,7 +430,7 @@ function showC(){
 							}
 					}
 				}
-	  	}
+	  	};
 		
  	xmlhttp.open("GET","../../remotepollresponsecount",false);
 	xmlhttp.send();
@@ -493,7 +491,7 @@ function showPollResponsesDialog(rflag,charttype) {
 		<tr >
 		<td >
 		<div class="ui-header-text" >
-		<h2><lable>Poll</lable></h2></div>
+		<h2>Poll</h2></div>
 		</td>
 		</tr>
 		
@@ -510,16 +508,16 @@ function showPollResponsesDialog(rflag,charttype) {
 	
 	
 	
-	<table class="table1" style="margin-top:2px; background-color:#ffffff;" overflow="true"   border="1">
+	<table class="table1" style="margin-top:2px; background-color:#ffffff;" border="1">
 		<tr >
 			<td >
 				<div id="chart_div" style="width: 1030px; height: 470px;background-color:#ffffff;">
 					<div id="response" style="width: 500px; height: 460px; margin:auto; margin-left:250px; background-color:#ffffff;  float:left">
 					<script src="../../js/highcharts.js"></script>
-						<div id="timer" name="timer" style="text-align:center;">
+						<div id="timer" style="text-align:center;">
 							<b style="font-size:20px; color:#e46c0a;">Countdown</b> 
-							</br><input type="text" id="seconds" style="width:50px; height:65px; font-size:36px">
-							</br><b style="font-size:17px; color:#e46c0a;">seconds</b> 
+							<br><input type="text" id="seconds" style="width:50px; height:65px; font-size:36px">
+							<br><b style="font-size:17px; color:#e46c0a;">seconds</b> 
 						</div>
 					</div>
 					
@@ -543,7 +541,7 @@ function showPollResponsesDialog(rflag,charttype) {
 </form>
 
 <div style="margin-top:-600px;">
-<center><%@ include file= "../../jsp/includes/menufooter.jsp" %></center>
+<%@ include file= "../../jsp/includes/menufooter.jsp" %>
 </div>
 </body>
 </html>

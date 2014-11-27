@@ -42,63 +42,55 @@ public class EmailUpdate extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	
 		String mode = request.getParameter("mode");
-		//System.out.println("mode : "+mode);
+		System.out.println("mode : "+mode);
 		int rows = 0;
 		try{
 			
-			String newgmailid=request.getParameter("newgmailid");
-			
+			String newgmailid=request.getParameter("newgmailid");			
 			String newpassword=request.getParameter("newpassword");
 			
 			
-			if(mode.equals("local"))
+			if(mode.equals("Local"))
 			{
 				DatabaseConnection dbcon = new DatabaseConnection();
 				try
 				{
-					
 					con=dbcon.createDatabaseConnection();
 					
 					String selectquery="SELECT COUNT(*) as cnt FROM emailsetup";
 					st = con.prepareStatement(selectquery);
-					
 					ResultSet resultSet = st.executeQuery();
 					
 					while (resultSet.next()) {
 					  rows = resultSet.getInt("cnt");
 					}
 					resultSet.close();
-				//	System.out.println("Number of rows in local is: "+ rows);
+					System.out.println("@@@@@@@@@@@@@@@@@@@@@@Number of rows in local is: "+ rows);
 					
-					if(rows==1){
+					
 						
-						String updatequery="update emailsetup set Password=? , EmailAddress=? where id ="+1 ;
+						String updatequery="update emailsetup set Password=? , EmailAddress=?";
 						st = con.prepareStatement(updatequery);				
 						st.setString(1, newpassword.trim());
 						st.setString(2,newgmailid.trim());
+						int rs=st.executeUpdate();
 						
-						//System.out.println(st.executeUpdate()+ " ........");
+						System.out.println("rows affected : "+rs);
 						
-						//System.out.println("rows affected : "+rs);
-						
-						/*if(rs==0)
+						if(rs==0)
 						{
 							
 							response.sendRedirect("jsp/admin/emailupdate.jsp?status=Unsuccessfull");
 					
 						}
 						else
-						{	*/
-							response.sendRedirect("jsp/home/home.jsp");
-						
-						
-						
+						{	
+						System.out.println(" rows updated ");
+							response.sendRedirect("jsp/admin/department.jsp");
+						}
 					}
-					else{
-						response.sendRedirect("jsp/admin/emailsetup.jsp");
-					}
-				}
 					catch (Exception e) 
 					{
 					e.printStackTrace();
@@ -107,7 +99,7 @@ public class EmailUpdate extends HttpServlet {
 					}
 			
 			}
-			else if(mode.equals("remote"))
+			else if(mode.equals("Remote"))
 			{
 				DatabaseConnection dbcon = new DatabaseConnection();
 				con=dbcon.createRemoteDatabaseConnection();
@@ -124,28 +116,26 @@ public class EmailUpdate extends HttpServlet {
 				resultSet.close();
 			//	System.out.println("Number of rows in remote is: "+ rows);
 				
-				if(rows==1){
-					
+				if(rows==1)
+				{
 					String updatequery="update emailsetup set Password=? , EmailAddress=? where id ="+1 ;
 					st = con.prepareStatement(updatequery);				
 					st.setString(1, newpassword.trim());
 					st.setString(2,newgmailid.trim());
-					
+					int rs=st.executeUpdate();
 				//	System.out.println(st.executeUpdate()+ " ........");
 					
-					//System.out.println("rows affected : "+rs);
+					System.out.println("rows affected : "+rs);
 					
-					/*if(rs==0)
+					if(rs==0)
 					{
 						
 						response.sendRedirect("jsp/admin/emailupdate.jsp?status=Unsuccessfull");
 				
 					}
 					else
-					{	*/
 						response.sendRedirect("jsp/home/remotehome.jsp");
-					
-					
+	
 					
 				}
 				else{
@@ -169,8 +159,7 @@ public class EmailUpdate extends HttpServlet {
 			}
 		finally{
 			try {
-				st.close();
-				
+				st.close();				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

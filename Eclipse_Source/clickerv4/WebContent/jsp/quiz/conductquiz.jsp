@@ -52,7 +52,8 @@ String courseID = session.getAttribute("courseID").toString();
 					<div id = "quizList" style="margin-left: 450px;"></div>			
 				</td></tr>
 			</table> -->
-			<table align="center" >
+			<div align="center">
+			<table >
 			<tr>
 			<td>
 			 <div style="height: 30px;width: ;margin-left: 150px;" align="center">
@@ -177,6 +178,8 @@ String courseID = session.getAttribute("courseID").toString();
 			</td>
 		</tr>
 			</table>
+			
+			</div>
 		<!-- 	<table class="table1" style="margin-top:5px;" >
 				<tr><td style="margin:auto;">
 					<div style="margin-top:20px;margin-bottom:20px;margin-left:465px;">	

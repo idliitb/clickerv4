@@ -11,6 +11,7 @@ public class CourseList {
 	private ArrayList<String> courseIDs = new ArrayList<String>();
 	private ArrayList<Boolean> isActive = new ArrayList<Boolean>();
 	private String Mode;
+	private boolean loggedIn;
 	public String getValidation() {
 		return Validation;
 	}
@@ -34,6 +35,12 @@ public class CourseList {
 	}
 	public void setMode(String mode) {
 		Mode = mode;
+	}
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 	
 }

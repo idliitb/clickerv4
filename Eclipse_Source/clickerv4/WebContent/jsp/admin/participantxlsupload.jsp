@@ -30,15 +30,15 @@ else
 	
 	String path1=request.getParameter("xls");
 	String workshopid = request.getParameter("workshopid");
-	System.out.println("xls: "+path1);
+	//System.out.println("xls: "+path1);
 	
 	ServletContext context = getServletContext();
 	String pathurl = context.getRealPath("/uploads");
 	
-	System.out.println("url = " + pathurl);
+	//System.out.println("url = " + pathurl);
 	
 	File file = new File(pathurl + "/" + path1);
-	System.out.println("Filename: " + file);
+	//System.out.println("Filename: " + file);
 	//String instructorid = (String) session.getAttribute("InstructorID");
      status=xls.readQuestionXLSFile(file, workshopid);
 }

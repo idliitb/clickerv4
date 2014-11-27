@@ -129,7 +129,7 @@ alert("email address does not updated ");
 		<div id="note" style="margin:auto;color: red;"><label>Note : Only admin can update this email address and password.  </label></div>
 	
 		<div style="margin-top:30px">
-			<table  style="height:150px;width:400px; margin:auto; " border="0">
+			<table  style="height:150px;width:400px; margin:auto;border: none; " >
 				<tr>
 					<td >
 						<label style=" color: #e46c0a;font-size:18px" >Gmail ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>

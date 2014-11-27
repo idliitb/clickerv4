@@ -17,7 +17,7 @@ USE        : to add New Instructor
 <script src="../../js/jquery-1.9.1.js"></script>
 <script src="../../js/jquery-ui.js"></script>
 
-<script type="text/javascript" src="instructor.js"> </script>
+<script type="text/javascript" src="../../js/instructor.js"> </script>
 
 
 <title>Insert title here</title>
@@ -77,7 +77,7 @@ select {
 			<table class="ss"  border="1" align="center" cellpadding="5" width="450">
 				<tr>
 					<td>Instructor ID</td>
-					<td><input type="text" name="instr_id" id="instr_id"></td>
+					<td><input type="text" name="instr_id" id="instr_id" onkeyup="checkforspecial(this);"></td>
 				</tr>
 				<tr>
 					<td>Instructor Name</td>
@@ -165,31 +165,5 @@ select {
 
 		</div>
 	</div>
-
-
-
-
-	<div id="msg_div" style="visibility: hidden;">
-
-		<table cellpadding="5" width="450">
-			<tr>Record Added....
-			</tr>
-			<tr>
-				<td align="center">
-					<button onClick="add_inst()">Add</button>
-				</td>
-				<td align="center"><div id="close_btn"
-						style="width: 100px; border: solid;" onClick="close_add_div()">Close</div>
-				</td>
-			</tr>
-		</table>
-
-	</div>
-
-
-
-
-
-
 </body>
 </html>

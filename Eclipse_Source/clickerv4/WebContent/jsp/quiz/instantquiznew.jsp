@@ -43,7 +43,12 @@ QuizHelper quizHelper = new QuizHelper();
 				<div class="ui-createquiz-text" >
 					<h2>Instant quiz</h2></div>
 			</td>
-			<td width="40%">				
+			<td width="40%">	
+				<div id="endquiz_div" style="display: inline; display: none;">
+					<button class="ui-conductquiz-button"  id="endquiz" type="button" onclick="endQuiz('<%="instantquiz"%>')" style="margin-left: 20px;" >
+						<span>End Quiz</span>
+					</button>
+				</div>			
 				<div class="ui-header-text" style="float: right;"><h1 id="timer">00 : 00 </h1></div>
 			</td></tr>
 		</table>
@@ -76,8 +81,8 @@ QuizHelper quizHelper = new QuizHelper();
 				<form name="Timer" ><br>
 					<div style="font-size: 14px; font-weight: bold;margin-left:430px;">Select Time for Quiz</div><br>
 					<div style="font-weight: normal; margin-left:410px;">
-						Minutes <input type="text" style="width: 30px" id="minutes" value="00" /> 
-						Seconds <input type="text" style="width: 30px"id="seconds" value="40" />
+						Minutes <input type="text" style="width: 30px" id="minutes" value="1" /> 
+						Seconds <input type="text" style="width: 30px"id="seconds" value="00" />
 					</div>
 					<button class="ui-conductquiz-button"  id="pre" type="button" onclick="launchInstantQuiz('<%=courseID%>', '<%=InstructorID%>')" style="margin-left:460px;">
 						<span>Launch quiz</span>

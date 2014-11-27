@@ -1,9 +1,5 @@
 package clicker.v4.remote;
-
-
-	
-
-	import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -31,10 +27,17 @@ import clicker.v4.wrappers.Quiz;
 	/**
 	 * 
 	 * @author dipti, rajavel
+	 * Clicker Team, IDL Lab - IIT Bombay
 	 * This class is used as a helper for remote quiz response 
 	 */
+
+
 	public class RemoteQuizResponseHelper {
 		
+		
+		/*
+		 * This function is used to get the response count for particular question. It takes total response count and correct answer count 
+		 */
 		public String getQuestionResponse(int quizrecordid, String questionid){
 			String response = "";
 	        Connection con = null;
@@ -113,6 +116,9 @@ import clicker.v4.wrappers.Quiz;
 	        return response + "@" + correctAnswer;
 		}
 		
+		/*
+		 * This function is used to get the response count for particular Instant quiz. It takes total response count and correct answer count 
+		 */
 		public String getInstantQuizResponse(int quizrecoredid){
 			String response = "";
 	        DatabaseConnection dbcon = new DatabaseConnection();
@@ -152,6 +158,11 @@ import clicker.v4.wrappers.Quiz;
 	        return response + "@" + correctAnswer;
 		}
 		
+		
+		/*
+		 * This function is used to display a response of student for particular question of normal quiz in form of table 
+		 * having student ID, and response against it.
+		 */
 		public String getResponseTable(String questionid, String courseID){
 			int quizrecoredid = Global.remotequizrecordids.get(courseID);
 			String Query = "SELECT qrq.ParticipantID, GROUP_CONCAT(Response) as Response from quizrecordquestion qrq where QuizRecordID = "+quizrecoredid+" AND QuestionID= "+questionid+" GROUP BY qrq.ParticipantID";
@@ -185,6 +196,11 @@ import clicker.v4.wrappers.Quiz;
 			return responseTable.toString();
 		}
 		
+		
+		/*
+		 * This function is used to display a response of student for particular Instant quiz in form of table 
+		 * having Participant ID, and response against it.
+		 */
 		public String getResponseTable(String courseID){
 			int quizrecoredid = Global.remotequizrecordids.get(courseID);
 			String Query = "SELECT Distinct(iqr.ParticipantID), iqr.Response from instantquizresponse iqr, participant p where IQuizID = "+quizrecoredid+" and p.ParticipantID = iqr.ParticipantID GROUP BY iqr.ParticipantID";
@@ -217,7 +233,10 @@ import clicker.v4.wrappers.Quiz;
 			}
 			return responseTable.toString();
 		}
-		
+		/*
+		 * This function is used to display a response of student for particular question of Instant quiz in form of table 
+		 * having Participant ID, and response against it.
+		 */
 		public String getInstantResponseTable(String questionid, String courseID){
 			int quizrecoredid = Global.remotequizrecordids.get(courseID);
 			String Query = "SELECT Distinct(p.ParticipantID), p.ParticipantName, i.Response FROM instantquizresponsenew i, participant p where IQuizID = '"+quizrecoredid+"' and IQuestionID = '"+questionid+"' and p.ParticipantID = i.ParticipantID";
@@ -252,6 +271,7 @@ import clicker.v4.wrappers.Quiz;
 			return responseTable.toString();
 		}
 		
+		
 		public String getAutoTestResponseTable(String questionid){
 			int quizrecoredid = Global.remotequizrecordids.get("autotest");
 			String Query = "SELECT Distinct(p.ParticipantID), p.ParticipantName, a.Response FROM autotestresponse a, participant p where IQuizID = '"+quizrecoredid+"' and IQuestionID = '"+questionid+"' and p.ParticipantID = a.ParticipantID";
@@ -285,6 +305,9 @@ import clicker.v4.wrappers.Quiz;
 			return responseTable.toString();
 		}
 		
+		/*
+		 * This method is used to create a json of response for particular quizrecord id (a particular quiz)
+		 */
 		public void createMCResponseJson(int quizrecordid ,String MainCenterURL)
 		{
 			 ArrayList<Participant> participantlist = new ArrayList<Participant>();
@@ -307,7 +330,6 @@ import clicker.v4.wrappers.Quiz;
 						workshopid = workshopresult.getString("WorkshopID");
 						quizid=workshopresult.getInt("MCQuizRecordID");
 						ps = con.prepareStatement("Select CenterID from remotecenter");
-						
 						centeridrs = ps.executeQuery();
 						centeridrs.next();
 						centerid = centeridrs.getInt("CenterID");
@@ -418,7 +440,9 @@ import clicker.v4.wrappers.Quiz;
 					
 		}
 		
-		
+		/*
+		 * This method is used to resend a json of response of normal quiz incase it has not send at maincenter
+		 */
 		public void ResendJsonForLateResponse(String MainCenterURL){
 		
 			PreparedStatement ps = null, ps1=null,ps2=null,ps3=null,ps4=null;
@@ -585,7 +609,9 @@ import clicker.v4.wrappers.Quiz;
 					
 		}
 			
-		
+		/*
+		 * This is used to send json to main center
+		 */
 		
 		public String sendDatatoMainCenter(String quizresponse, String MainCenterURL)
 		{
@@ -634,6 +660,11 @@ import clicker.v4.wrappers.Quiz;
 			return output;
 		}
 		
+		
+		/*
+		 * This is used to create response json of instant quiz which will be send to main center
+		 */
+		
 		public String createResponseJSON(int mcquizrecordid, String workshopID, String coordinatorID){
 			InstantQuizResponse quizResponse = new InstantQuizResponse();
 			String centerid = new RemoteDBHelper().getRemoteCenterID(workshopID, coordinatorID);
@@ -677,6 +708,9 @@ import clicker.v4.wrappers.Quiz;
 			return responseJSON;
 		}
 		
+		/*
+		 * This function is used to update send status as 1 for those  insatnt quiz response which is being send to maincenter succesfully
+		 */
 		
 		public void updateResponseSendForInstantQ(InstantQuizResponse instantQR){
 			
@@ -744,7 +778,9 @@ import clicker.v4.wrappers.Quiz;
 				}
 		}
 		
-		
+		/*
+		 * This method is used to create and resend a json of response of instant quiz incase it has not send at maincenter
+		 */
 		public void createAndReSendIQResponseJsonToMC(String MainCenterURL){
 			
 			String remoteCenterID=null, workshopID=null;

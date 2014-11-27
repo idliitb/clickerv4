@@ -2,11 +2,9 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.sql.*;
 import clicker.v4.databaseconn.*;
 
@@ -38,33 +36,34 @@ public class SingleChoice_editDB extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
 		Connection conn = null;
 		PreparedStatement st =null, st1 = null, st2 = null, st3 = null, st4=null, st5=null;
-		String instructorid = (String) request.getSession().getAttribute("InstructorID");
+		
 		int option_count=-1, old_option_count=-1;
 		String question = null, optionvalue = "";
-		PrintWriter out = response.getWriter();
+		
 		try
 		{
 			DatabaseConnection dbcon = new DatabaseConnection();	
 			conn = dbcon.createDatabaseConnection();	
 			option_count = Integer.parseInt(request.getParameter("count"));
 			old_option_count = Integer.parseInt(request.getParameter("old_count"));
-			String[] options= new String[option_count];
+			
 			System.out.println("option IDs: " + request.getParameter("optionIDs"));
 			String[] optionIDs = request.getParameter("optionIDs").split(";");
 			int correctOption = Integer.parseInt(request.getParameter("option"))-1;
-			int correctness =0;
+			
 			float credits = Float.parseFloat(request.getParameter("credits"));
 			float negativemarks = Float.parseFloat(request.getParameter("negativemarks"));
-			System.out.println("Credits: " + credits);
+			//System.out.println("Credits: " + credits);
 			int shuffle = 1;
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
-			System.out.println("shuffle: " + shuffle);
+			//System.out.println("shuffle: " + shuffle);
 			question = request.getParameter("singlechoicequest");	
 			int qid = -1;
 			qid = Integer.parseInt(request.getParameter("qid"));
@@ -85,12 +84,12 @@ public class SingleChoice_editDB extends HttpServlet {
 					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
 					st1.setInt(2,correctOption==i?1:0);
 					st1.setFloat(3, credits);
-					st1.setInt(4,Integer.parseInt(optionIDs[i]));
-					
+					st1.setInt(4,Integer.parseInt(optionIDs[i]));					
 					st1.executeUpdate();
 				}	
 				st1.close();
-				st2 = conn.prepareStatement("Insert into options(OptionValue,OptionCorrectness,LevelofDifficulty,Archived,Credit,QuestionID) values(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+				st2 = conn.prepareStatement("Insert into options(OptionValue,OptionCorrectness,LevelofDifficulty,Archived," +
+					  "Credit,QuestionID) values(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 				st3 = conn.prepareStatement("Insert into quizquestionoption(QuizID, QuestionID, OptionID) values (?, ?, ?)");
 				for(int i=old_option_count;i<option_count;i++)
 				{
@@ -108,7 +107,8 @@ public class SingleChoice_editDB extends HttpServlet {
 						{
 							optionid = res.getInt(1);
 						}				
-						PreparedStatement preparedStatement = conn.prepareStatement("SELECT distinct QuizID from quizquestionoption where QuestionID = ?");
+						PreparedStatement preparedStatement = conn.prepareStatement("SELECT distinct QuizID from " +
+															  "quizquestionoption where QuestionID = ?");
 						preparedStatement.setInt(1, qid);
 						ResultSet rs = preparedStatement.executeQuery();
 						while (rs.next()) {
@@ -156,7 +156,7 @@ public class SingleChoice_editDB extends HttpServlet {
 		}	
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
+			System.out.println("Exception in SingleChoice_editDB: " + ex);
 		}
 	}
 

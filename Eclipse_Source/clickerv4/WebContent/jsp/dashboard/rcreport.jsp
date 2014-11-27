@@ -61,6 +61,7 @@ courseatt_edd = Integer.parseInt(date.split("-")[2]);
 	  	var courseatt_end = new Date(<%=courseatt_eyyyy%> , <%=courseatt_emm-1%>, <%=courseatt_edd%>);
 	  	var courseatt_dateString = "<%=courseatt_dates%>";
 	  	var courseatt_dates= courseatt_dateString.split(",");
+	  	// This method is to create the datapicker for course attendance
 	  	$(function() {
 			$( "#courseAtt_datepicker" ).datepicker({
 				minDate: courseatt_start, maxDate: courseatt_end,
@@ -90,6 +91,7 @@ courseatt_edd = Integer.parseInt(date.split("-")[2]);
 			  };
 		});	
 	  	var listener=1;
+	  	// This method is used to loop the quiz / poll reqest
 	  	function InsideResponseReadForQuizPoll(){
 	  		$(document).ready(function() {
 	  			listener = setInterval(function() {
@@ -141,7 +143,7 @@ courseatt_edd = Integer.parseInt(date.split("-")[2]);
 			<div id="p" class="boxnote">00</div>
 		</div>
 		<div class="notebox" onclick="changeActive('ts')">
-			<div id="ts_head" class="boxhead">Total Participant</div>
+			<div id="ts_head" class="boxhead">Participants</div>
 			<div id="ts" class="boxnote">00</div>
 		</div>
 		</td>

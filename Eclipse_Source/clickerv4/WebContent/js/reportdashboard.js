@@ -21,10 +21,12 @@ function getXMLhttp() {
 	}
 }
 
+// This method is used to trim the empty spaces in a string
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 };
 
+// This method is used to create the DOM element with id, style and class
 function createDOMElementIDClassStyle(ele, id, eleclass, style){
 	var element = document.createElement(ele);
 	element.setAttribute('id',id);
@@ -33,6 +35,7 @@ function createDOMElementIDClassStyle(ele, id, eleclass, style){
 	return element;
 }
 
+// This method is used to create the DOM element with style and class
 function createDOMElementClassStyle(ele, eleclass, style){
 	var element = document.createElement(ele);
 	element.setAttribute('class',eleclass);
@@ -40,6 +43,7 @@ function createDOMElementClassStyle(ele, eleclass, style){
 	return element;
 }
 
+//This method is used to create the DOM element with id and style
 function createDOMElementIDStyle(ele, id, style){
 	var element = document.createElement(ele);
 	element.setAttribute('id',id);
@@ -47,6 +51,7 @@ function createDOMElementIDStyle(ele, id, style){
 	return element;
 }
 
+// This method is used to create the DOM element with id and class
 function createDOMElementIDClass(ele, id, eclass){
 	var element = document.createElement(ele);
 	element.setAttribute('id',id);
@@ -54,35 +59,41 @@ function createDOMElementIDClass(ele, id, eclass){
 	return element;
 }
 
+// This method is used to create the DOM element with class
 function createDOMElementClass(ele, eleclass){
 	var element = document.createElement(ele);
 	element.setAttribute('class',eleclass);
 	return element;
 }
 
+// This method is used to create the DOM element with id
 function createDOMElementID(ele, id){
 	var element = document.createElement(ele);
 	element.setAttribute('id',id);
 	return element;
 }
 
+// This method is used to create the DOM element for img
 function createDOMElementImg(ele, src){
 	var element = document.createElement(ele);
 	element.setAttribute('src',src);
 	return element;
 }
 
+// This method is used to create the DOM element with style
 function createDOMElementStyle(ele, style){
 	var element = document.createElement(ele);
 	element.setAttribute('style',style);
 	return element;
 }
 
+// This method is used to create simple DOM element
 function createDOMElement(ele){
 	var element = document.createElement(ele);
 	return element;
 }
 
+// This method is used to create the DOM element for input tag
 function createDOMInputElement(type, name, id, value, style, eleclass){
 	var element = document.createElement("INPUT");
 	element.setAttribute("type", type);	
@@ -95,6 +106,7 @@ function createDOMInputElement(type, name, id, value, style, eleclass){
 	return element;
 }
 
+// This method is used to validate the number of check box checked
 function checkboxlimit(){
 	var checkgroup = document.getElementsByName("compare");
 	var limit =2;
@@ -110,6 +122,7 @@ function checkboxlimit(){
 }
 
 var arrowcontainer="", contentcontainer="";
+// This method is used to load the courses report data in report page
 function loadDOMCoursesData(insid, instrType){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -220,6 +233,7 @@ function loadDOMCoursesData(insid, instrType){
 	xmlhttp.send();
 }
 
+// This method is used to load the courses report data for a principal in report page 
 function loadDOMPrincipalCoursesData(insid){
 	//loadAllDeptChart();
 	getXMLhttp();
@@ -335,6 +349,7 @@ function loadDOMPrincipalCoursesData(insid){
 	xmlhttp.send();	
 }
 
+// This method is used to get the quiz details for a course and a instructor with chart
 function quizData(resp,insid,cid){	
 	getXMLhttp();
 	var response = resp.split("~$~")[1];
@@ -421,7 +436,7 @@ function quizData(resp,insid,cid){
 	}
 	$('#'+cid + 'qpChart').highcharts({
             title: {
-                text: cid+' Overall Quiz Preformance',
+                text: cid+' Overall Quiz Performance',
                 x: -20 //center
             },
             xAxis: {
@@ -477,6 +492,7 @@ function quizData(resp,insid,cid){
 
 var previousSelect="";
 var previouscid="";
+// This method is used to change the active buttons (poll , quiz, instant quiz or student)
 function changeActive(req, cid, insid, contentdetails){
 	var quizdetails=contentdetails.split("$#$");
 	if(previousSelect!=""){
@@ -536,8 +552,15 @@ function changeActive(req, cid, insid, contentdetails){
 			var timestamps = quizdetails[i].split("~!~");
 			var w=(timestamps[4]/quizcount[1]*100) / 100 * 130;
 			quizzes += "<div class='mybox'><div class='myboxhead1'>"+timestamps[0] + " - " + timestamps[1] +"</div>" ;
-			quizzes += "<div class='myboxnote' onclick='studentNormalQuizReport(\""+timestamps[0]+"\",\""+insid+"\", \""+cid+"\")'>"+timestamps[2]+"</div>";
-			quizzes += "<div class='myboxnote' onclick='studentInstantQuizReport(\""+timestamps[0]+"\",\""+insid+"\", \""+cid+"\")'>"+timestamps[3]+"</div>";
+			if(timestamps[2]!="No.of Normal Quiz : 0"){
+				quizzes += "<div class='myboxnote' onclick='studentNormalQuizReport(\""+timestamps[0]+"\",\""+insid+"\", \""+cid+"\")'>"+timestamps[2]+"</div>";
+			}else{
+				quizzes += "<div class='myboxnote1'>"+timestamps[2]+"</div>";
+			}if(timestamps[3]!="No.of Instant Quiz : 0"){
+				quizzes += "<div class='myboxnote' onclick='studentInstantQuizReport(\""+timestamps[0]+"\",\""+insid+"\", \""+cid+"\")'>"+timestamps[3]+"</div>";
+			}else{
+				quizzes += "<div class='myboxnote1'>"+timestamps[3]+"</div>";
+			}
 			quizzes += "<div class='studprogbar' title='Attempted Quiz : "+timestamps[4] + " / " + quizcount[1]+"'><div class='insidebar' style='width:"+w+"px;'></div></div><div class='attemptedquiz'>"+timestamps[4] + " / " + quizcount[1]+"</div>";
 			quizzes += "</div>";
 		}
@@ -560,6 +583,7 @@ function changeActive(req, cid, insid, contentdetails){
 	}		
 }
 
+// This method is used to request for generate quiz respons chart 
 function quizReport(quizid, qts, reportname, cid) {
 	if(reportname=="QuizDetail"){
 		generateQuizReport(quizid, qts, reportname, cid);
@@ -581,6 +605,7 @@ function quizReport(quizid, qts, reportname, cid) {
 	}
 }
 
+// This method is used to request for generate quiz respons report 
 function generateQuizReport(quizid, qts, reportname,cid){
 	getXMLhttp();
 	if(reportname!="QuizDetail"){
@@ -599,7 +624,7 @@ function generateQuizReport(quizid, qts, reportname,cid){
 			$("#quizreport").dialog({
 				title : "Normal Quiz Report",
 				height : 500,
-				width : 750,
+				width : 800,
 				draggable : false,
 				modal : true
 			});
@@ -609,6 +634,7 @@ function generateQuizReport(quizid, qts, reportname,cid){
 	xmlhttp.send();
 }
 
+// This method is used to request for generate instant quiz respons chart 
 function instantQuizReport(qid, qts, cid) {
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -620,6 +646,7 @@ function instantQuizReport(qid, qts, cid) {
 	xmlhttp.send();	
 }
 
+// This method is used to request for generate quiz respons report 
 function generateInstantQuizReport(qid, qts, cid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -630,7 +657,7 @@ function generateInstantQuizReport(qid, qts, cid){
 			$("#quizreport").dialog({
 				title : "Instant Quiz Report",
 				height : 500,
-				width : 750,
+				width : 800,
 				draggable : false,
 				modal : true
 			});
@@ -640,7 +667,7 @@ function generateInstantQuizReport(qid, qts, cid){
 	xmlhttp.send();
 }
 
-
+// This method is used to request for generate poll respons chart 
 function pollReport(pid, cid) {	
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -652,6 +679,7 @@ function pollReport(pid, cid) {
 	xmlhttp.send();	
 }
 
+// This method is used to request for generate quiz respons report 
 function generatePollReport(pid, cid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -672,10 +700,11 @@ function generatePollReport(pid, cid){
 	xmlhttp.send();
 }
 
+// This method is used to request for generate student normal quiz  performance chart and report 
 function studentNormalQuizReport(sid, iid, cid){
 	$("#tempdiv").load("../../studentPerformanceChart?sid="+sid+ "&qtype=nquiz&cid="+cid, function(){
 		$("#dlg_body").load("../../Report?sid="+sid + "&report=studreport&cid="+cid, function(){
-			document.getElementById("dlg_body").innerHTML = "<img src='../../"+iid+"/studResult.png?"+new Date()+"' />" + document.getElementById("quizreport").innerHTML;
+			document.getElementById("dlg_body").innerHTML = document.getElementById("quizreport").innerHTML;
 			document.getElementById("quizreport").style.visibility = 'visible';
 			$("#quizreport").dialog({
 				title : "Normal Quiz Report",
@@ -688,6 +717,7 @@ function studentNormalQuizReport(sid, iid, cid){
 	});	
 }
 
+// This method is used to request for generate student instant quiz  performance chart and report
 function studentInstantQuizReport(sid, iid, cid){
 	$("#tempdiv").load("../../studentPerformanceChart?sid="+sid + "&qtype=iquiz&cid="+cid, function(){
 		$("#dlg_body").load("../../Report?sid="+sid + "&report=studreport&cid="+cid, function(){
@@ -704,14 +734,14 @@ function studentInstantQuizReport(sid, iid, cid){
 	});	
 }
 
-
+// This method is used to request for get student list
 function studentList(cid){
 	$("#dlg_body").load("../../Report?report=corusereport&ats=&reportname=StudentList&cid="+cid, function(){
 			document.getElementById("quizreport").style.visibility = 'visible';
 			$("#quizreport").dialog({
 				title: "Student List",
 				height : 500,
-				width : 850,
+				width : 750,
 				draggable : false,
 				modal : true
 			});
@@ -719,6 +749,7 @@ function studentList(cid){
 }
 
 var datestring = "";
+// This method is used to highlight the quiz conducted date in a datepicker 
 function highlightDays(date) {
 	var att_dates= datestring.split(",");
 	for (var i = 0; i < att_dates.length-1; i++) {
@@ -728,6 +759,7 @@ function highlightDays(date) {
     }
     return [true, ''];
 } 
+// This method is used to conver the date format as YYYYMMDD
 Date.prototype.formatYYYYMMDD=function(){
     var dd = this.getDate(), mm = this.getMonth()+1, yyyy = this.getFullYear();
     if(dd<10){
@@ -739,6 +771,7 @@ Date.prototype.formatYYYYMMDD=function(){
   return String(yyyy + "-" + mm + "-" + dd);
  };
 
+// This is used to create the date picker for query with query raise date as highlighted 
 function queryList(cid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -767,7 +800,7 @@ function queryList(cid){
 			$("#quizreport1").dialog({
 				title: "Raisehand Report",
 				height : 500,
-				width : 850,
+				width : 750,
 				draggable : false,
 				modal : true
 			});			
@@ -777,6 +810,7 @@ function queryList(cid){
 	xmlhttp.send();	
 }
 
+// This method is used to request for student query report
 function studentQuery(date, cid){
 	var dateArray = date.split("/");
 	date = dateArray[2] + "-" + dateArray[0] +"-"+ dateArray[1];
@@ -789,6 +823,7 @@ function studentQuery(date, cid){
 	});
 }
 
+//This is used to create the date picker for attendance with coruse conducted date as highlighted 
 function attendanceList(cid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -817,7 +852,7 @@ function attendanceList(cid){
 			$("#quizreport1").dialog({
 				title: "Attendance Report",
 				height : 500,
-				width : 850,
+				width : 750,
 				draggable : false,
 				modal : true
 			});			
@@ -827,6 +862,7 @@ function attendanceList(cid){
 	xmlhttp.send();	
 }
 
+// This method is used to fill the attendance details 
 function fillAttenDetail(date, courseid) {
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {
@@ -858,6 +894,7 @@ function fillAttenDetail(date, courseid) {
 	xmlhttp.send();	
 }
 
+// This method is used to request for generating attendance chart and report
 function attendanceReport(cid, date, session){
 	if(session==''){
 		alert("select Proper session");
@@ -869,7 +906,7 @@ function attendanceReport(cid, date, session){
 			document.getElementById("quizreport1").title ="Attendance";
 			$("#quizreport1").dialog({
 				height : 500,
-				width : 850,
+				width : 750,
 				draggable : false,
 				modal : true
 			});
@@ -877,6 +914,7 @@ function attendanceReport(cid, date, session){
 	});	
 }
 
+// This is used to compare two course performance wiht chart 
 function compareCourses(){
 	var checkgroup = document.getElementsByName("compare");
 	var checkedcount=0;	
@@ -1083,7 +1121,7 @@ function loadAllDeptChart(){
 				document.getElementById("AllDeptChart").appendChild(div);
 				$('#' +i + 'deptChart').highcharts({
 					    title: {
-			                text: 'Overall Quiz Preformance',
+			                text: 'Overall Quiz Performance',
 			                x: -20 //center
 			            },
 			            xAxis: {

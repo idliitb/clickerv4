@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
@@ -41,7 +41,7 @@ public class DepartmentCourse extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session=request.getSession();
+		
 		// TODO Auto-generated method stub
 
 		// TODO Auto-generated method stub
@@ -51,7 +51,7 @@ public class DepartmentCourse extends HttpServlet {
 		String courseID = request.getParameter("courseID");
 		String coursename = request.getParameter("CourseName");
 		String Coursedesc = request.getParameter("CourseDesc");
-		String New_courseID = request.getParameter("New_courseID");
+		//String New_courseID = request.getParameter("New_courseID");
 		String flag = request.getParameter("Flag");
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection conn = dbconn.createDatabaseConnection();
@@ -78,10 +78,10 @@ public class DepartmentCourse extends HttpServlet {
 			try {
 				String delete_department = "delete FROM instructorcourse where InstrID=(select InstrID from instructor where DeptID='"
 						+ dept_id + "')";
-System.out.println(delete_department);
-				boolean rs1;
+				//System.out.println(delete_department);
+				
 				Statement st = conn.createStatement();
-				rs1 = st.execute(delete_department);
+				 st.execute(delete_department);
 				{
 				  {
 					  
@@ -91,7 +91,7 @@ System.out.println(delete_department);
 								+ dept_id + "'";
                         //System.out.println(delete_instr);
 
-						boolean rs3 = st.execute(delete_instr);
+						 st.execute(delete_instr);
 						
 						
 						
@@ -109,33 +109,33 @@ System.out.println(delete_department);
 										+ student_id + "'";
 								//System.out.println(query);
 								
-								boolean rs6 = st1.execute(query);
+								 st1.execute(query);
 								
 								String query2="DELETE from raisehand where StudentID ='"+student_id+"'";
-								boolean rs2=st1.execute(query2);
+								st1.execute(query2);
 								//System.out.println(query2);
 								
 								
 								
 								String query31="DELETE from attendance where StudentID ='"+student_id+"'";
-								boolean rs31=st1.execute(query31);
+								st1.execute(query31);
 								//System.out.println(query31);
 								
 								
 								
 								String query5="delete from instantquizresponsenew where StudentID='"+student_id+"'";
-								boolean rs5=st1.execute(query5);
+								st1.execute(query5);
 								//System.out.println(query5);
 								
 								
 								
 								String query6 ="delete from poll where StudentID='"+student_id+"'";
-								boolean rs61=st1.execute(query6);
+								st1.execute(query6);
 								//System.out.println(query6);
 								
 								
 								String query7 ="delete from quizrecordquestion where StudentID='"+student_id+"'";
-								boolean rs7=st1.execute(query7);	
+								st1.execute(query7);	
 								//System.out.println(query7);
 								
 															
@@ -147,17 +147,17 @@ System.out.println(delete_department);
 									+ dept_id + "'";
 							//System.out.println(stu_del);
 
-							boolean rs4 = st.execute(stu_del);
+							st.execute(stu_del);
 
 							String query4 = "DELETE from course where DeptID ='"
 									+ dept_id + "'";
 
-							boolean rs5 = st.execute(query4);
+							st.execute(query4);
 
 							String query5 = "DELETE from department where DeptID ='"
 									+ dept_id + "'";
 
-							boolean rs6 = st.execute(query5);
+							 st.execute(query5);
 
 						}
 					}
@@ -175,7 +175,7 @@ System.out.println(delete_department);
 
 				String query3 = "update department set DeptName='" + dept_name
 						+ "',HOD='" + hod + "' where DeptID='" + dept_id + "'";
-				System.out.println("Delete student Course" + query3);
+				//System.out.println("Delete student Course" + query3);
 				int rs3 = st.executeUpdate(query3);
 				System.out.println("==>" + rs3);
 
@@ -194,10 +194,10 @@ System.out.println(delete_department);
 					+ Coursedesc
 					+ "','" + dept_id + "',0)";
 
-			int rs1;
+			
 			try {
 				Statement st = conn.createStatement();
-				rs1 = st.executeUpdate(query2);
+				st.executeUpdate(query2);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -217,7 +217,7 @@ System.out.println(delete_department);
 
 					String query4 = "DELETE from course where CourseID ='"
 							+ courseID + "'";
-					boolean rs4 = st.execute(query4);
+					st.execute(query4);
 
 				}
 
@@ -235,7 +235,7 @@ System.out.println(delete_department);
 						+ "',CourseDesc='" + Coursedesc + "' where CourseID='"
 						+ courseID + "'";
 
-				int rs3 = st.executeUpdate(query3);
+				st.executeUpdate(query3);
 				
 
 			} catch (SQLException e) {

@@ -26,7 +26,7 @@ public class StudentXLSPreview extends HttpServlet {
 	public String readstudentXLSFile(PrintWriter out, File xlsfile) {
 		try {
 
-			PreparedStatement pst = null;
+			
 			ResultSet rs = null;
 			ResultSet rs1 = null;
 			int dcount = 0;
@@ -36,16 +36,16 @@ public class StudentXLSPreview extends HttpServlet {
 			Workbook workbook = Workbook.getWorkbook(xlsfile);
 			Sheet sheet;
 			Cell xlsCell;
-			Cell[] cell;
+		
 			int selector = 0;
 			sheet = workbook.getSheet(0);
 			for (int i = 1; i < sheet.getRows(); i++) {
 				String studentid = "";
-				cell = sheet.getRow(i);
+			 sheet.getRow(i);
 
 				xlsCell = sheet.getCell(0, i);
 				studentid = xlsCell.getContents().toString().trim();
-				System.out.println("xls student id = " + studentid);
+				//System.out.println("xls student id = " + studentid);
 				if (studentid.equals("")) {
 					out.print("<p style='color: red'><b> Student ID with Sr. No."+ i + " cannot be null</b></p>");
 					break;
@@ -86,7 +86,7 @@ public class StudentXLSPreview extends HttpServlet {
 				xlsCell = sheet.getCell(5, i);
 				String deptid = xlsCell.getContents().toString().trim()
 						.toUpperCase();
-				System.out.println("xls deptid = " + deptid);
+				//System.out.println("xls deptid = " + deptid);
 				Statement st = null;
 				String query1 = "SELECT DeptID FROM department where DeptID='"+ deptid + "'";
 				st = conn.createStatement();
@@ -123,7 +123,7 @@ public class StudentXLSPreview extends HttpServlet {
 				xlsCell = sheet.getCell(10, i);
 				String courseid = xlsCell.getContents().toString().trim()
 						.toUpperCase();
-				System.out.println("xls course id = " + courseid);
+				//System.out.println("xls course id = " + courseid);
 
 				Statement st1 = null;
 				String query2 = "SELECT CourseID FROM course where CourseID='"+ courseid + "'";
@@ -142,7 +142,8 @@ public class StudentXLSPreview extends HttpServlet {
 				}
 
 				if (selector == 0) {
-					out.print("<table border = '1'><tr><th>Student ID</th> <th>Student Roll Number</th> <th>Student Name</th> <th>Year of Joining</th> "
+					out.print("<style>table, td, th { border: solid 1px #1A1A1A;}th {background-color: #7f7f7f;color: white;"
+							+ "}</style><table style='border: solid 2px #1A1A1A;border-collapse:collapse;'><tr><th>Student ID</th> <th>Student Roll Number</th> <th>Student Name</th> <th>Year of Joining</th>"
 							+ "<th>Privileges</th> <th>Department ID</th> <th>Email</th> <th>Mac</th> "
 							+ "<th>CourseYear</th> <th>Semester</th> <th>Course ID</th> </tr>");
 					selector = 1;

@@ -54,6 +54,14 @@ public class Global {
 	public static ConcurrentHashMap<String, String> isnormalresponsesent =  new ConcurrentHashMap<String, String>();
 	// No of reponses of the students
 	public static ConcurrentHashMap<String,Integer> countresponsejson = new ConcurrentHashMap<String, Integer>( );
+	// Responded students list
+	public static ConcurrentHashMap<String,HashSet<String>> respondedstudlist = new ConcurrentHashMap<String, HashSet<String>>( );
+	// Responded participants list
+	public static ConcurrentHashMap<String,HashSet<String>> respondedparticipantlist = new ConcurrentHashMap<String, HashSet<String>>( );
 	// storing stored participant ids
-	public static ConcurrentHashMap<String, String> responsereceivedparticipants =  new ConcurrentHashMap<String, String>();	
+	public static ConcurrentHashMap<String, String> responsereceivedparticipants =  new ConcurrentHashMap<String, String>();
+	// No of Student Currently logged in for the course EX: 1@2@43@D123
+	public static ConcurrentHashMap<String, String> loggedstudentlist =  new ConcurrentHashMap<String, String>();
+	// No of partcipant Currently logged in for the workshop EX: 1@2@43@D123
+	public static ConcurrentHashMap<String, String> loggedparticipantlist =  new ConcurrentHashMap<String, String>();
 }

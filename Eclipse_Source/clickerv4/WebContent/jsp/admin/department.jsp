@@ -170,7 +170,7 @@ String dept_IDS = getdata.departmentIDs();
 				int i = 0;
 				String query1 = "SELECT instiID FROM institution;";
 				//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-				System.out.println(query1);
+				//System.out.println(query1);
 				ResultSet rs = st1.executeQuery(query1);
 				while (rs.next()) {
 					i++;					
@@ -183,8 +183,8 @@ String dept_IDS = getdata.departmentIDs();
 				}
 				if(i==1)
 				{
-					System.out.println("------------>"+i);
-					 // window.location.assign("../../jsp/admin/institute.jsp");
+					//System.out.println("------------>"+i);
+					//window.location.assign("../../jsp/admin/institute.jsp");
 				}
 
 					//out.println(stud_id +"-"+ roll_no + "- " +stud_name +"-"+ Yearofjoining + "- " +DeptID +"-" +EmailID);
@@ -259,13 +259,13 @@ jQuery('html').bind('click', function(e){
 
 <div><font style="font-size: large;font-weight: bold;color:black;"><%=inst_name %></font></div>
 <br>
-<div style="height: 600px;width: 1000px;margin: auto;">
+<div align="center" style="height: 600px;width: 1000px;margin: auto;">
 
-<table align="center" width="75%">
+<table >
 
 <tr>
 <td width="60%" style="margin-top: 0px;vertical-align:top;" >
- 			<table id="department_table" class="yui" align="center">
+ 			<table id="department_table" class="yui" >
 				<thead>
 				<tr>
 				<th colspan="3" align="center">
@@ -278,19 +278,19 @@ jQuery('html').bind('click', function(e){
 								<div style="float: left;">
 									<img src="plus.png" onclick="add_new_Department()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Add" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Add" />&nbsp;&nbsp;&nbsp; <img
 										src="mm.png" onclick="delete_Department()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Delete" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Delete" />&nbsp;&nbsp;&nbsp; <img
 										src="Files-Edit.png" onclick="edit_Department()"
 										style="cursor: pointer;" width="15px" height="15px"
 										alt="button" border="0" title="Edit" />
 								</div>
 								<div style="float: right;">
-									Search By ID &nbsp&nbsp&nbsp <input type="text"
-										name="D_search_box" id="D_search_box" />&nbsp&nbsp&nbsp <img
+									Search By ID &nbsp;&nbsp;&nbsp; <input type="text"
+										name="D_search_box" id="D_search_box" />&nbsp;&nbsp;&nbsp; <img
 										src="Search-icon-24x24.png" onclick="edit_dept()"
-										style="cursor: pointer;" 16px" height="16px" alt="button"
+										style="cursor: pointer;" width="16px" height="16px" alt="button"
 										border="0" title="Search" />
 								</div>
 							</div>
@@ -347,7 +347,7 @@ jQuery('html').bind('click', function(e){
 		
 </div>
 </body>
-<div style="margin-top: -600px;">
-		<center><%@ include file="../../jsp/includes/menufooter.jsp"%></center>
+<div style="margin-top: -700px;">
+		<%@ include file="../../jsp/includes/menufooter.jsp"%>
 	</div>
 </html>

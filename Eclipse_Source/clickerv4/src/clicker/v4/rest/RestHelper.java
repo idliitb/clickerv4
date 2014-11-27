@@ -1,3 +1,9 @@
+/*
+ * Author Dipti and Rajavel  
+ * 		Clicker Team, IDL Lab - IIT Bombay
+ * 
+ */
+
 package clicker.v4.rest;
 
 import java.sql.Connection;
@@ -6,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -34,6 +41,11 @@ public class RestHelper {
 				localNormalQuizResponse(responseJSon, course_id, quizrecordid, true);
 				int count = Global.countresponsejson.get(course_id);
 				Global.countresponsejson.replace(course_id, ++count);
+				HashSet<String> studList = Global.respondedstudlist.get(course_id);
+				if(studList!=null){
+					studList.add(responseJSon.get("studId").toString());
+					Global.respondedstudlist.replace(course_id, studList);
+				}
 			}
 			//Normal Quiz response for previous quiz
 			else if(responseJSon.get("quiztype").toString().equals("normal") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) !=quizrecordid){			
@@ -44,6 +56,11 @@ public class RestHelper {
 				localInstantQuizResponse(responseJSon, course_id, quizrecordid, true);
 				int count = Global.countresponsejson.get(course_id);
 				Global.countresponsejson.replace(course_id, ++count);
+				HashSet<String> studList = Global.respondedstudlist.get(course_id);
+				if(studList!=null){
+					studList.add(responseJSon.get("studId").toString());
+					Global.respondedstudlist.replace(course_id, studList);
+				}
 			}
 			//Instant Quiz response for previous quiz
 			else if(responseJSon.get("quiztype").toString().equals("instant") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) !=quizrecordid){			
@@ -55,6 +72,10 @@ public class RestHelper {
 		}
 	}
 	
+	/*
+	 * This is used when late response is received from tablet it will be checked for quiz record id for noraml Quiz
+	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id
+	 */
 	public void localNormalQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
 		if(isCurrentResponse){
@@ -155,6 +176,9 @@ public class RestHelper {
 			}
 	}
 	
+	/*
+	 * This is used to get quiz details like questions, options and all for particular quiz of normal quiz type whose quizrecordid and courseid we know.
+	 */
 	public Quiz getQuizDetails(int quizrecordid, String courseID){
 		int quizID = getQuizID(quizrecordid);
 		Quiz quiz = new Quiz();
@@ -224,6 +248,9 @@ public class RestHelper {
 		return quiz;
 	}
 	
+	/*
+	 * This is used to get the quizid of quiz having particular quizrecordID
+	 */
 	public int getQuizID(int quizrecordid){
 		int quizid=0;
 		DatabaseConnection dbconn = new DatabaseConnection();
@@ -251,6 +278,10 @@ public class RestHelper {
 		return quizid;
 	}
 	
+	/*
+	 * This is used when late response is received from tablet it will be checked for quiz record id of the instant quiz
+	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id
+	 */
 	public void localInstantQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
 		if(isCurrentResponse){
@@ -295,6 +326,9 @@ public class RestHelper {
 		}
 	}
 	
+	/*
+	 * This is used to get quiz details like questions, options and all for particular quiz of Instant quiz typewhoes quizrecordid and courseid we know.
+	 */
 	public Quiz getInstantQuizDetails(int quizrecordid, String course_id, String mode){
 		Quiz quiz = new Quiz();
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -355,12 +389,20 @@ public class RestHelper {
 				remoteNormalQuizResponse(responseJSon, course_id, quizrecordid, true);
 				int count = Global.remotecountresponsejson.get(course_id);
 				Global.remotecountresponsejson.replace(course_id, ++count);
+				HashSet<String> participantList = Global.respondedparticipantlist.get(course_id);
+				participantList.add(responseJSon.get("studId").toString());
+				Global.respondedparticipantlist.replace(course_id, participantList);
 			}
 			else if(responseJSon.get("quiztype").toString().equals("normal") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) !=quizrecordid){			
 				remoteNormalQuizResponse(responseJSon, course_id, Integer.parseInt(responseJSon.get("quizrecordId").toString()), false);
 			}						
 			else if(responseJSon.get("quiztype").toString().equals("instant") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) ==quizrecordid){
 				remoteInstantQuizResponse(responseJSon, course_id, quizrecordid, true);
+				int count = Global.remotecountresponsejson.get(course_id);
+				Global.remotecountresponsejson.replace(course_id, ++count);
+				HashSet<String> participantList = Global.respondedparticipantlist.get(course_id);
+				participantList.add(responseJSon.get("studId").toString());
+				Global.respondedparticipantlist.replace(course_id, participantList);
 			}		
 			else if(responseJSon.get("quiztype").toString().equals("instant") && Integer.parseInt(responseJSon.get("quizrecordId").toString()) !=quizrecordid){
 				remoteInstantQuizResponse(responseJSon, course_id, Integer.parseInt(responseJSon.get("quizrecordId").toString()), false);
@@ -407,6 +449,11 @@ public class RestHelper {
 			if(con!=null)dbcon.closeRemoteConnection(con);
 		}
 	}
+	
+	/*
+	 * This is used for Remote Mode ,when late response is received from tablet it will be checked for quiz record id of the NORMAL quiz
+	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id provided
+	 */
 	
 	public void remoteNormalQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
@@ -502,6 +549,9 @@ public class RestHelper {
 		}
 	}
 	
+	/*
+	 * This is used to get quiz details like questions, options and all for particular quiz of NORMAL quiz type whose quizrecordid and courseid we know.
+	 */
 	
 	public Quiz getRemoteQuizDetails(int quizrecordid, String courseID){
 		int quizID = getRemoteQuizID(quizrecordid, courseID);
@@ -579,7 +629,10 @@ public class RestHelper {
 		return quiz;
 	}
 	
-	public int getRemoteQuizID(int quizrecordid, String coruseid){
+	/*
+	 * This is used to get quiz ID for particular quizrecord id
+	 */
+	public int getRemoteQuizID(int quizrecordid, String courseid){
 		int quizid=0;
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection con=dbconn.createRemoteDatabaseConnection();
@@ -587,7 +640,7 @@ public class RestHelper {
 		ResultSet rs = null;
 		try{
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("select QuizID from quizrecord where QuizRecordID="+quizrecordid +" and WorkshopID='"+coruseid + "'");
+			rs = stmt.executeQuery("select QuizID from quizrecord where QuizRecordID="+quizrecordid +" and WorkshopID='"+courseid + "'");
 			if(rs.next()){
 				quizid = rs.getInt("QuizID");
 			}
@@ -606,6 +659,10 @@ public class RestHelper {
 		return quizid;
 	}
 	
+	/*
+	 * This is used for Remote Mode ,when late response is received from tablet it will be checked for quiz record id of the INSTANT quiz
+	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id provided
+	 */
 	public void remoteInstantQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
 		if(isCurrentResponse){

@@ -44,6 +44,7 @@ public class RemoteHTMLtoPDF extends HttpServlet {
    		doProcess(request, response);
    	}
    	
+   	// This method is used to convert the HTML tag strings to PDF file 
    	protected void doProcess(HttpServletRequest request,	HttpServletResponse response) {
    		response.setContentType("application/pdf;");		
    		String path = getServletContext().getRealPath("/");
@@ -100,6 +101,7 @@ public class RemoteHTMLtoPDF extends HttpServlet {
    		}
    	}
    	
+   	// Replace the <br> and <span> tags as end tag which don't have end tag
    	public String responseReplace(String reportContent, ServletOutputStream sos, String InstructorID, String path) {
    		reportContent = reportContent.replace("<br>", "<br/>");
    		reportContent = reportContent.replace("../../","");
@@ -107,6 +109,8 @@ public class RemoteHTMLtoPDF extends HttpServlet {
    		reportContent = reportContent.replace(InstructorID + "/", path + InstructorID + "/");
    		return reportContent;
    	}
+   	
+   	// Replace the <br> tag as end tag which don't have end tag and image path
    	public String InstantResponseReplace(String reportContent, ServletOutputStream sos, String InstructorID, String path) {
    		reportContent = reportContent.replace("<br>", "<br/>");
    		reportContent = reportContent.replace("../../","");
@@ -114,6 +118,7 @@ public class RemoteHTMLtoPDF extends HttpServlet {
    		return reportContent;
    	}
    	
+   	// Replace the <br> and <span> tags as end tag which don't have end tag and image path
    	public String resultReplace(String reportContent, ServletOutputStream sos, String InstructorID, String path) {
    		reportContent = reportContent.replace("<br>", "<br/>");
    		reportContent = reportContent.replace("../../","");
@@ -122,6 +127,7 @@ public class RemoteHTMLtoPDF extends HttpServlet {
    		return reportContent;
    	}
    	
+   	// Replace the <br> tag as end tag which don't have end tag and image path
    	public String pollResponseReplace(String reportContent, ServletOutputStream sos, String InstructorID, String path) {
 		reportContent = reportContent.replace("<br>", "<br/>");
 		reportContent = reportContent.replace("../../","");

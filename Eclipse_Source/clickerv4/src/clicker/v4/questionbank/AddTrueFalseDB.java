@@ -2,7 +2,6 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,7 +45,7 @@ public class AddTrueFalseDB extends HttpServlet {
 		try{
 			int question_id=0;String query4,query3;
 			String question=request.getParameter("tfaddquest");
-			String credit=request.getParameter("credit");
+			//String credit=request.getParameter("credit");
 			String option=request.getParameter("option");
 			String image = request.getParameter("browse");
 			float credits = Float.parseFloat(request.getParameter("credits"));
@@ -55,7 +54,7 @@ public class AddTrueFalseDB extends HttpServlet {
 			int shuffle = 1;
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
-			System.out.println("shuffle: " + shuffle);
+			//System.out.println("shuffle: " + shuffle);
 			
 			
 			conn = dbconn.createDatabaseConnection();
@@ -101,12 +100,12 @@ public class AddTrueFalseDB extends HttpServlet {
 			}
 			catch(Exception e)
 			{
-				out.println(e);
+				System.out.println("Exception in AddTrueFalseDB: " + e);
 			}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				e.getStackTrace();
+				System.out.println("Exception in AddTrueFalseDB: " + e);
 			}
 		}
 	}

@@ -71,8 +71,7 @@ public class QuizCreator extends HttpServlet {
 			statement1.setString(4, courseID);
 			statement1.setInt(5, quiztype);
 			statement1.setString(6,InstrID);
-			Boolean b =statement1.execute();
-			System.out.println(b);
+			statement1.execute();
 			rs=(ResultSet) statement1.getGeneratedKeys();
 			if(rs.next()){
 				quizID=rs.getInt(1);
@@ -84,21 +83,18 @@ public class QuizCreator extends HttpServlet {
 			System.out.println("Count Recieved as "+ctr );
 			questionID=new int[ctr];
 			for(int i=0;i<questionID.length;i++){
-				System.out.println("Hidden Field "+(i+1)+" :"+request.getParameter(""+(i+1)));
 				questionID[i]=Integer.parseInt(request.getParameter(""+(i+1)));
 				System.out.println("questionid i="+questionID[i]);
 				statement2.setInt(1, quizID);
 				statement2.setInt(2,questionID[i]);
 				statement2.setFloat(3, 5f);
-				Boolean b2=statement2.execute();
-				System.out.println(b2);
+				statement2.execute();
 				rs=(ResultSet) statement4.executeQuery("SELECT OptionID FROM options WHERE QuestionID="+questionID[i]);
 				while(rs.next()){
 					statement3.setInt(1, quizID);
 					statement3.setInt(2,questionID[i]);
 					statement3.setInt(3, rs.getInt("OptionID"));
-					Boolean b1=statement3.execute();
-					System.out.println(b1);
+					statement3.execute();
 					
 				}
 			}
@@ -108,14 +104,14 @@ public class QuizCreator extends HttpServlet {
 			statement4.close();			
 		}
 		catch(SQLException ex){
-			ex.printStackTrace();
+			System.out.println("Exception in Quiz Creator: " + ex);
 		}finally{
 			dbconn.closeLocalConnection(conn);
 		}
 		try {
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");
 		} catch (IOException e) {
-			 e.printStackTrace();
+			System.out.println("Exception in Quiz Creator: " + e);
 		}
  	}
 }

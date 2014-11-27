@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -125,6 +126,7 @@ public class QuizHelper {
 			dbconn.closeLocalConnection(con);
 		}
 		Global.coursejsonobject.put(courseID, quiz);
+		Global.respondedstudlist.put(courseID, new HashSet<String>());
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(quiz));
 		return quizDetails.toString();
@@ -306,6 +308,7 @@ public class QuizHelper {
 		Global.countrequestjson.put(courseID,"0");
 		Global.quizrecordids.put(courseID, iquizid);
 		Global.countresponsejson.put(courseID, 0);
+		Global.respondedstudlist.put(courseID, new HashSet<String>());
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(quiz));
 		return "" + iquizid;

@@ -32,7 +32,7 @@ try {
 	int i = 0;
 	String query1 = "SELECT instiID FROM institution;";
 	//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-	System.out.println(query1);
+	//System.out.println(query1);
 	ResultSet rs = st1.executeQuery(query1);
 	while (rs.next()) {
 		i++;					
@@ -40,7 +40,7 @@ try {
 	count=i;	
 	if(i==1)
 	{
-		System.out.println("------------>"+i);
+		//System.out.println("------------>"+i);
 		 // window.location.assign("../../jsp/admin/institute.jsp");
 	}
 
@@ -62,19 +62,20 @@ finally
 function check_int()
 {
 	var inst_count=document.getElementById("instcount").value;	
-	if(inst_count=="2")
-		window.location.assign("../../jsp/admin/department.jsp");
+	if(inst_count=="2");
+		//window.location.assign("../../jsp/admin/department.jsp");
 	}
 function trimfield(str) 
 { 
 	 	return str.replace(/^\s+|\s+$/g,''); 
 }
-function validate( )
+function validate_data( )
 {
 	{
 		//alert("in check1");
 		var inst_name = document.getElementById("inst_name").value;
-		var inst_address = document.getElementById("inst_address").value;	
+		var inst_address = document.getElementById("inst_address").value;
+		
 		
 		 if(inst_name == null || trimfield(inst_name) == '')
 		{
@@ -87,7 +88,12 @@ function validate( )
 			alert("City field cannot be empty. Please fill this field");
 			return false;
 		}
+		else if( /[^a-zA-Z\ ]/.test( inst_name ) ) {
+		         alert('Institute Name Contains Only alphabets!!');
+		         return false;
+		     }
 		else
+		     
 			return true;
 	}
 	
@@ -97,7 +103,7 @@ function validate( )
 <body onload="check_int();">
 <%@ include file= "../includes/menuheader.jsp" %>
 <input id="instcount"  style="visibility:hidden; width:220px;  font-size:15px; color:black" type="text" name="centerid" value = '<%=count%>' /> 
-<form class="form-4"  method="post" name = "addinstitute" action="../../AddInstitute" onsubmit = "return validate()">
+<form class="form-4"  method="post" name = "addinstitute" action="../../AddInstitute" onsubmit = "return validate_data();">
 <div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; font-size: 25px;">Add Institute</label></div>
 	<div style="margin-top:30px">
@@ -108,7 +114,7 @@ function validate( )
 				<label style=" color: #e46c0a;font-size:18px">Institute Name</label>
 			</td>
 			<td style="height:20px;width:180px;">
-				<input id="inst_name"  style="width:220px;  font-size:15px; color:black" type="text" name="inst_name" required tabindex="1"  placeholder="Institute Name"/>
+				<input id="inst_name"  style="width:220px;  font-size:15px; color:black" type="text" name="inst_name" tabindex="1"  />
 			</td>
 		</tr>
 		<tr align="left">
@@ -116,7 +122,7 @@ function validate( )
 				<label style=" color: #e46c0a;font-size:18px">Institute Address</label>
 			</td>
 			<td style="height:20px;width:180px;">
-				<input id="inst_address"  style="width:220px;  font-size:15px; color:black" type="text" name="inst_address" required tabindex="2"  placeholder="Enter Address"/>
+				<input id="inst_address"  style="width:220px;  font-size:15px; color:black" type="text" name="inst_address" />
 			</td>
 		</tr>
 		

@@ -19,9 +19,9 @@ USE        : to show the course for the particular department
 	
 	String deptid = request.getParameter("deptid");
 	String oldCourseID = request.getParameter("cid");
-	System.out.println("Dept " + deptid);
+	//System.out.println("Dept " + deptid);
 	session.setAttribute("ocid", oldCourseID);
-	System.out.println("oldCourseID " + session.getAttribute("ocid"));
+	//System.out.println("oldCourseID " + session.getAttribute("ocid"));
 	String cList="SELECT".concat(";");
 	DatabaseConnection dbconn = new DatabaseConnection();
 	Connection conn = dbconn.createDatabaseConnection();
@@ -46,6 +46,6 @@ USE        : to show the course for the particular department
 		dbconn.closeLocalConnection(conn);
 	}
 	
-	System.out.println("Clist "+cList);
+	//System.out.println("Clist "+cList);
     out.print(cList);
 %>

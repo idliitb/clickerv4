@@ -1,3 +1,8 @@
+<!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used as home page for student login procedure.
+ -->
+ <%@page import="clicker.v4.global.Global"%>
+ <%@page import ="java.util.HashSet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -7,12 +12,11 @@
  <script src="../../js/div.js" type="text/javascript"></script>
 <%
 	if (session.getAttribute("StudentID") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("studentexit.jsp");
 		return;
 	}
 	String sid = session.getAttribute("StudentID").toString();
 	String autoSubmitAlert=session.getAttribute("autoSubmitAlert").toString();
-	System.out.println("Value of auto alert from submit::::"+autoSubmitAlert);
 	session.setAttribute("UserSessionID",session.getId());
 	String studcourse = "";
 	if (request.getParameter("StudentCourse") != null) {
@@ -21,6 +25,9 @@
 	} else {
 		studcourse = session.getAttribute("StudentCourse").toString();
 	}
+	Global.loggedstudentlist.put(sid, sid);
+	System.out.println("::::Logged student list ::::"+Global.loggedstudentlist);
+	
 %>
 <title>Home</title>
 <script type="text/javascript">
@@ -161,41 +168,52 @@
 			if(StudentCourse == "No Active Course"){
 				alert("No Active Course");
 				document.getElementById("quizbtn").disabled = true;
-				document.getElementById("quizbtn").className = "disabledmenu";
 				document.getElementById("pollbtn").disabled = true;
-				document.getElementById("pollbtn").className = "disabledmenu";
 				document.getElementById("raisebtn").disabled = true;
-				document.getElementById("raisebtn").className = "disabledmenu";
+				document.getElementById("reportbtn").disabled = false;
+				document.getElementById("reportbtn").className = "homemenu";
+				
 				}else{
 					alert(StudentCourse);
 					document.getElementById("quizbtn").disabled = false;
+					document.getElementById("quizbtn").className = "homemenu";
 					document.getElementById("pollbtn").disabled = false;
+					document.getElementById("pollbtn").className = "homemenu";
 					document.getElementById("raisebtn").disabled = false;
+					document.getElementById("raisebtn").className = "homemenu";
+					document.getElementById("reportbtn").disabled = false;
+					document.getElementById("reportbtn").className = "homemenu";
 					}
 		}else{
 			if(StudentCourse == "No Active Course"){
 				document.getElementById("quizbtn").disabled = true;
-				document.getElementById("quizbtn").className = "disabledmenu";
 				document.getElementById("pollbtn").disabled = true;
-				document.getElementById("pollbtn").className = "disabledmenu";
 				document.getElementById("raisebtn").disabled = true;
-				document.getElementById("raisebtn").className = "disabledmenu";
+				document.getElementById("reportbtn").disabled = false;
+				document.getElementById("reportbtn").className = "homemenu";
 				}else{
 					document.getElementById("quizbtn").disabled = false;
+					document.getElementById("quizbtn").className = "homemenu";
 					document.getElementById("pollbtn").disabled = false;
+					document.getElementById("pollbtn").className = "homemenu";
 					document.getElementById("raisebtn").disabled = false;
+					document.getElementById("raisebtn").className = "homemenu";
+					document.getElementById("reportbtn").disabled = false;
+					document.getElementById("reportbtn").className = "homemenu";
 					}
 			}
 		
 	}
 	
-	function isQuizLaunched(cid){
+	function isQuizLaunched(cid, sid){
 		getXMLhttp();
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var quiz = JSON.parse(xmlhttp.responseText);
 				if(quiz.courseId=="0"){
 					alert("Quiz Not Launched");
+				}else if(quiz.courseId=="-2"){
+					alert("Already Attempted this Quiz");
 				}else if(quiz.quizrecordId==getCookie(quiz.quiztype + "lastattempted")){
 					alert("Already Attempted this Quiz");
 				}else if(quiz.quiztype=="instant"){
@@ -205,7 +223,7 @@
 				}
 			}
 		};	
-		xmlhttp.open("GET", "../../rest/quiz/"+cid+"/local", false);
+		xmlhttp.open("GET", "../../rest/quiz/"+cid+"/local/"+sid, false);
 		xmlhttp.send();
 	}
 	function getCookie(cname) {
@@ -221,7 +239,6 @@
 	function getpollCookie(cname) {
 	    var name = cname + "=";
 	    var ca = document.cookie.split(';');
-	    //alert("::::::: name: " + document.cookie); 
 	    for(var i=0; i<ca.length; i++) {
 	        var c = ca[i];
 	        while (c.charAt(0)==' ') c = c.substring(1);
@@ -246,7 +263,6 @@
 				var courseId=polljson.courseId;
 				var quizTime=polljson.quizTime;
 				
-				//alert(pollquestion+" @ "+launchtime+" @ "+currenttime+" @ "+courseId+" @ "+quizTime);
 				if(pollid==0 && pollquestion=="" && launchtime=="" && currenttime=="" && courseId=="" && quizTime=="")
 				{
 					alert("Poll has not launched");				
@@ -257,12 +273,10 @@
 				else
 				{
 					pollquestion=pollquestion.replace(/'/g, "\\'");
-					//pollquestion1=pollquestion.replace(/"/g, '\\"');
-					//alert(pollquestion1);
 					document.getElementById("pollquestion").value=pollquestion;
 					document.getElementById("polljson").value=launchtime+"@"+currenttime+"@"+courseId+"@"+quizTime+"@"+pollid;
 					document.getElementById("pollform").submit();
-					//window.location = "poll.jsp?pollquestion="+pollquestion+"&polljson="+launchtime+"@"+currenttime+"@"+courseId+"@"+quizTime+"@"+pollid;
+					
 				}
 			}
 		};
@@ -283,7 +297,7 @@ body {
 #main_container {
 	margin: auto;
 	width: 1320px;
-	height: 628px;
+	height: 629px;
 }
 
 .homemenu {
@@ -310,7 +324,7 @@ body {
 
 #homemaintable {
 	width: 1200px;
-	height: 620px;
+	height: 613px;
 	text-align: center;
 	margin-left: 60px;
 }
@@ -354,11 +368,8 @@ body {
 </style>
 </head>
 <body onload="checkCourse('<%=studcourse%>','<%=autoSubmitAlert%>')">
-<form id="pollform" action="poll.jsp" method="post">
-<input type="hidden" id="pollquestion" name="pollquestion"/>
-<input type="hidden" id="polljson" name="polljson"/>
-</form>
-	<div id="main_container">
+<div id="main_container">
+
 		<table id="homemaintable">
 			<tr style="height: 110px;">
 				<td style="width: 300px;"><font size=5px; color="#9bbb59">Course
@@ -370,26 +381,26 @@ body {
 						ID<br><%=sid%></font></td>
 			</tr>
 			<tr style="height: 300px;">
-				<td><button class="homemenu" id="quizbtn"
-						onclick="isQuizLaunched('<%=studcourse%>')">
+				<td><button class="disabledmenu" id="quizbtn"
+						onclick="isQuizLaunched('<%=studcourse%>', '<%=sid%>')">
 						<span>Quiz</span>
 					</button></td>
-				<td><button class="homemenu" id="pollbtn"
+				<td><button class="disabledmenu" id="pollbtn"
 						onclick="checkpoll('<%=studcourse%>','local')">
 						<span>Poll</span>
 					</button></td>
-				<td><button class="homemenu" id="reportbtn"
+				<td><button class="disabledmenu" id="reportbtn"
 						onclick="getCourseList('<%=sid%>')">
 						<span>Report</span>
 					</button></td>
-				<td><button class="homemenu" id="raisebtn"
+				<td><button class="disabledmenu" id="raisebtn"
 						onclick="window.location.href='raisehand.jsp'">
 						<span>Raise</span>
 					</button></td>
 			</tr>
 			<tr>
 				<td colspan="4"><button id="exit" type="submit"
-						class="ui-loginbutton" onclick="window.location.href='login.jsp'">
+						class="ui-loginbutton" onclick="window.location.href='studentexit.jsp'">
 						<span>EXIT</span>
 					</button></td>
 			</tr>
@@ -397,13 +408,17 @@ body {
 				<td></td>
 				<td colspan="2"><font color="#ffffff">Designed and
 						Developed by Clicker Software Team, IIT Bombay.</font></td>
-				<td><div style="float: left; margin-left: 50px;">
-						<input id="refresh-div" type="image" src="../../img/refresh_course.png"
+				<td><div style="float: left;">
+						<input id="refresh-div" type="image" src="../../img/Refresh.png"
 							alt="Submit" onclick="getActiveCourseList('<%=sid%>')">
 					</div>
-					<div style="float: left; margin-left: 50px;">
+					<div style="float: left;">
 						<input id="help-btn" type="image" src="../../img/Queston05.png" alt="Submit"
 							onclick="window.location.href='help.jsp'">
+					</div>
+					<div style="float: left;">
+						<input id="help-btn" type="image" src="../../img/F.png" alt="Submit"
+							onclick="window.location.href='studentpasswdupdate.jsp'">
 					</div></td>
 			</tr>
 		</table>
@@ -416,5 +431,9 @@ body {
 	session.setAttribute("autoSubmitAlert","false");
 }
 %>
+<form id="pollform" action="poll.jsp" method="post">
+<input type="hidden" id="pollquestion" name="pollquestion"/>
+<input type="hidden" id="polljson" name="polljson"/>
+</form>
 </body>
 </html>

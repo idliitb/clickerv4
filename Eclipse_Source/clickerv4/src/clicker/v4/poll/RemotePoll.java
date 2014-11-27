@@ -57,7 +57,7 @@ public void setworkshopid(String workshopId) {
 }
 
 
-public ArrayList getpresponse() {
+public ArrayList<RemoteParticipant> getpresponse() {
 	return presponse;
 }
 

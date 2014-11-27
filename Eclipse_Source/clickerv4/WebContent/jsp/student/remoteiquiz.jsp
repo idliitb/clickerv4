@@ -9,7 +9,7 @@
 <script src="../../js/div.js" type="text/javascript"></script>
 <%
 	if (session.getAttribute("ParticipantId") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("participantexit.jsp");
 		return;
 	}
 	String studentID = session.getAttribute("ParticipantId").toString();
@@ -400,6 +400,8 @@ function isQuizLaunched(cid, sid){
 			var quiz = JSON.parse(xmlhttp.responseText);
 			if(quiz.courseId=="0"){
 				alert("Quiz Not Launched");
+			}else if(quiz.courseId=="-2"){
+				alert("Already Attempted this Quiz");
 			}else if(quiz.quizrecordId==getCookie(quiz.quiztype + "lastattempted")){
 				alert("Already Attempted this Quiz");
 			}else if(quiz.quiztype=="instant"){
@@ -409,7 +411,7 @@ function isQuizLaunched(cid, sid){
 			}
 		}
 	};	
-	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/local", false);
+	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/local/"+sid, false);
 	xmlhttp.send();
 }
 
@@ -420,6 +422,9 @@ function getQuiz(cid, sid){
 			quiz = JSON.parse(xmlhttp.responseText);
 			if(quiz.courseId=="0"){
 				alert("Quiz Not Launched");
+				window.location="remotehome.jsp";
+			}else if(quiz.courseId=="-2"){
+				alert("Already Attempted this Quiz");
 				window.location="remotehome.jsp";
 			}else if(quiz.quizrecordId==getCookie(quiz.quiztype + "lastattempted")){
 				alert("Already Attempted this Quiz");
@@ -440,7 +445,7 @@ function getQuiz(cid, sid){
 			showIQuiz(quiz);
 		}
 	};	
-	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/remote", false);
+	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/remote/"+sid, false);
 	xmlhttp.send();
 }
 function sendCookieResponse() {

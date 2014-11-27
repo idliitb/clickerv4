@@ -128,12 +128,8 @@ var mode="local";
 	}
 	function Decrement()
 	{
-		//alert("decrementing");
 		var seprater="";
 	 	if(secs<10){seprater = " 00 : 0";}else{seprater= " 00 : ";}
-	 	
-			//seconds = document.getElementById("seconds");		
-			//seconds.value = "00:"+getseconds();
 			document.getElementById("seconds").innerHTML = ""+seprater + getseconds();
 		
 		secs=secs-1;

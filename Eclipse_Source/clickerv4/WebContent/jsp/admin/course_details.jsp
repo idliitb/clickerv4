@@ -96,7 +96,7 @@ border-bottom: solid 1px #7f7f7f;
 				int i = 0;
 				String query1 = "SELECT CourseID,CourseName,CourseDesc,DeptID FROM course where CourseID='"+Course_ID+"'";
 				//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-				System.out.println(query1);
+				//System.out.println(query1);
 				ResultSet rs = st.executeQuery(query1);
 				while (rs.next()) {
 					
@@ -116,11 +116,11 @@ border-bottom: solid 1px #7f7f7f;
 
 					<tr>
 						<td>Course ID</td>
-						<td><input type="text" name="course_id" id="course_id" value=<%=CourseID%>></td>
+						<td><input type="text" name="course_id" id="course_id" value=<%=CourseID%> readonly ></td>
 					</tr>
 					<tr>
 						<td>Course Name</td>
-						<td><input type="text" name="course_name" id="course_name" value=<%=CourseName%>></td>
+						<td><textarea name="course_name" id="course_name" style="resize: none;" cols="25" rows="1"><%=CourseName%></textarea></td>
 					</tr>
 					<tr>
 						<td>Course Description</td>

@@ -17,8 +17,9 @@ public class InsertOptions {
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection conn = dbconn.createDatabaseConnection();
 		try {
-			PreparedStatement statement = conn
-					.prepareStatement("Insert into options(OptionValue,OptionDesc,OptionCorrectness,LevelofDifficulty,Archived,Credit,QuestionID) values(?,?,?,?,?,?,?)");
+			PreparedStatement statement = conn.prepareStatement("Insert into options(OptionValue,OptionDesc," +
+																"OptionCorrectness,LevelofDifficulty,Archived,Credit," +
+																"QuestionID) values(?,?,?,?,?,?,?)");
 			// out.println(request.getParameter(options[i]));
 			statement.setString(1, optionValue);
 			statement.setString(2, "Nothing");
@@ -30,7 +31,7 @@ public class InsertOptions {
 			statement.executeUpdate();
 			
 		} catch (Exception e) {
-			System.out.println("Fatal Error!!! Exiting due to-> " + e);
+			System.out.println("Exception in InsertOptions: " + e);
 		}
 		finally
 		{

@@ -34,7 +34,7 @@ public class StudentcoursePreview extends HttpServlet {
 			// String sheetName[] = workbook.getSheetNames();
 			Sheet sheet;
 			Cell xlsCell;
-			Cell[] cell;
+			
 			int selector = 0;
 			// Getting first sheet of xls
 			sheet = workbook.getSheet(0);
@@ -44,7 +44,7 @@ public class StudentcoursePreview extends HttpServlet {
 			for (int i = 1; i < sheet.getRows(); i++) {
 				String studentid = "";
 
-				cell = sheet.getRow(i);
+				 sheet.getRow(i);
 
 				xlsCell = sheet.getCell(0, i);
 				studentid = xlsCell.getContents().toString();
@@ -107,7 +107,7 @@ public class StudentcoursePreview extends HttpServlet {
 			return "Question uploaded  Successfully";
 
 		} catch (NumberFormatException ex) {
-			//System.out.print("Wrong Credit value :" + ex);
+			System.out.print("Wrong Credit value :" + ex);
 			return "Wrong privilege or year of joining value";
 		} catch (Exception exec) {
 			System.out.print("Exception: " + exec);

@@ -49,6 +49,7 @@ import clicker.v4.student.StudentHelper;
 /**
  * 
  * @author rajavel, Dipti
+ * Clicker Team, IDL Lab - IIT Bombay
  * This class provides the RESTFul services to the students 
  */
 public class Restquizresource {
@@ -152,6 +153,55 @@ public class Restquizresource {
 		}
 		return jsontext;
 	}
+	
+	
+	/*
+	 * This is for browser dependent update password for student and partcipant
+	 * 
+	 */
+
+	// Annotation for getting access USING GET METHOD
+	@GET 
+	// URL to update password for student/Participant
+	@Path("/updatepwd/{id}/{cpassword}/{newpassword}/{confirmpassword}")
+	@Produces(MediaType.APPLICATION_JSON)
+	// Method is used for update password for student/participant
+	public String updatepasswordforbrowserlogin(@PathParam("id") String studentid,@PathParam("cpassword") String cpassword,@PathParam("newpassword") String newpassword,@PathParam("confirmpassword") String confirmpassword) throws IOException, org.json.simple.parser.ParseException{
+		String jsontext="WrongPassword";
+		
+		//This is used to check if student or participant
+		flag=remoteDB.checkWhetherStudent(studentid);
+		//System.out.println("Status of remote or local:-- True for local and false for remote..."+flag);
+		if(flag){
+
+			//Check whether password matches or not 
+			boolean flag1=studenthelper.checkStudentPassword(studentid,cpassword);
+			if(flag1){
+				
+				//To update password for student
+					String status= studenthelper.updateStudentPassword(studentid, newpassword);
+					jsontext=status;		
+					return jsontext;
+			}else{
+				jsontext="WrongPassword";
+			}
+		}else{
+			
+			//Check whether password matches or not 
+			boolean flag1=studenthelper.checkParticipantPassword(studentid, cpassword);
+			if(flag1){
+				
+				//To update password for participant
+					String status= studenthelper.updateParticipantPassword(studentid, newpassword);
+					jsontext=status;		
+					return jsontext;
+				
+			}else{
+				jsontext="WrongPassword";
+			}
+		}
+		return jsontext;
+	}
 
 	// Annotation for getting access USING GET METHOD
 	@GET 
@@ -185,11 +235,11 @@ public class Restquizresource {
 	// Annotation for getting access USING GET METHOD 
 	@GET
 	// URL path to get quiz JSon
-	@Path("/{courseid}/{mode}")
+	@Path("/{courseid}/{mode}/{sid}")
 	// It produces quiz object in JSon format
 	@Produces(MediaType.APPLICATION_JSON)
 	// Method is used to get the quiz data in JSon format
-	public String getQuizjson(@PathParam("courseid") String courseid,@PathParam("mode") String mode) throws IOException{
+	public String getQuizjson(@PathParam("courseid") String courseid,@PathParam("mode") String mode,@PathParam("sid") String sid) throws IOException{
 		String Mode="local";
 
 		if(mode.equals(Mode)||mode==Mode){
@@ -217,7 +267,11 @@ public class Restquizresource {
 				long diff = d2.getTime() - d1.getTime();
 				long diffSeconds = diff / 1000; 
 				// Only when quiz is time is not finish he/she is able to access quiz JSon
-				if(diffSeconds < quiztime)
+				if(diffSeconds < quiztime && Global.respondedstudlist.get(courseid).contains(sid))
+				{
+					quiz1.setcourseId("-2");
+				}
+				else if(diffSeconds < quiztime && !Global.respondedstudlist.get(courseid).contains(sid))
 				{        	
 					quiz.setcurrenttime(curr_time);		
 					int count=Integer.parseInt(Global.countrequestjson.get(courseid));
@@ -265,7 +319,12 @@ public class Restquizresource {
 				long diff = d2.getTime() - d1.getTime();
 				long diffSeconds = diff / 1000; 
 				// 	Only when quiz is time is not finish he/she is able to access quiz JSon
-				if(diffSeconds < quiztime)
+				//System.out.println(Global.respondedparticipantlist.get(courseid) + " --  "+ Global.respondedparticipantlist.get(courseid).contains(sid));
+				if(diffSeconds < quiztime && Global.respondedparticipantlist.get(courseid).contains(sid))
+				{
+					quiz1.setcourseId("-2");
+				}
+				else if(diffSeconds < quiztime && !Global.respondedparticipantlist.get(courseid).contains(sid))
 				{        	
 					quiz.setcurrenttime(curr_time);		
 					quiz1 = new Quiz(quiz);
@@ -385,7 +444,7 @@ public class Restquizresource {
 		return "Your doubt is submitted successfully";
 	}
 
-
+	
 	// Annotation for getting access USING GET METHOD
 	@GET 
 	// URL to get doubt reply for a student
@@ -656,7 +715,6 @@ public class Restquizresource {
 			String prepollresponse=Global.responsepollobject.get(course_id);
 			// get all student poll results and split 
 			pollresponse=prepollresponse+pollresponse+"@@";
-			//Global.responseobject.put(stu_id,response); 
 			Global.responsepollobject.replace(course_id,pollresponse); 
 
 			return "Your poll response has been successfully submitted";
@@ -664,7 +722,6 @@ public class Restquizresource {
 		else
 		{
 			JSONObject pollresponseJSon = null;
-			//int pcount = 0;
 			try {
 				pollresponseJSon = new JSONObject(pollresponse);
 				String student_id=pollresponseJSon.get("stuid").toString();
@@ -689,12 +746,9 @@ public class Restquizresource {
 			String prepollresponse=Global.workshopresponsepollobject.get(course_id);
 			// get all student poll results and split 
 			pollresponse=prepollresponse+pollresponse+"@@";
-			//Global.responseobject.put(stu_id,response); 
 			Global.workshopresponsepollobject.replace(course_id,pollresponse);
 			pollcount = Global.remotecountresponsepoll.get(course_id);
 			pollcount++;
-			//pcount = pollcount;
-			//System.out.println("in REST POLL%%%%%%%%%%%%%%%%%%%%%%%%%%% Pcount: " + pcount);
 			Global.remotecountresponsepoll.replace(course_id, pollcount);
 
 			return "Your poll response has been successfully submitted";

@@ -7,8 +7,6 @@ package clicker.v4.admin;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 
@@ -46,16 +44,16 @@ public class AddInstitute extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PreparedStatement ps = null;
-	    ResultSet rs = null;
-	    int cid = 0, check = 0;
+		
+	   // ResultSet rs = null;
+	    //int cid = 0, check = 0;
 		
 		String instname = request.getParameter("inst_name");
 		String instAdd = request.getParameter("inst_address");
 		DatabaseConnection dbcon = new DatabaseConnection();
 		Connection conn = dbcon.createDatabaseConnection();
 		
-		
+		PreparedStatement ps = null;
 		
 		try {
 			ps = conn.prepareStatement("insert into institution values(?,?, ?)");
@@ -63,7 +61,7 @@ public class AddInstitute extends HttpServlet {
 			ps.setString(2, instname);
 			ps.setString(3, instAdd);
 			
-			check = ps.executeUpdate();
+			ps.executeUpdate();
 			
 			response.sendRedirect("jsp/admin/department.jsp");
 		} catch (SQLException e) {

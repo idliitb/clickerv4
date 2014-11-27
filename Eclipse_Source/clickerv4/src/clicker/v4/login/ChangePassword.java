@@ -1,7 +1,6 @@
 package clicker.v4.login;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
-//Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+/*Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+ * This file is used for changing the login password of user in local mode.
+*/
 /**
  * Servlet implementation class ForgotPassword
  */
@@ -38,7 +39,7 @@ public class ChangePassword extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session=request.getSession();
+		
 		// TODO Auto-generated method stub
 	}
 
@@ -49,7 +50,6 @@ public class ChangePassword extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String mode = request.getParameter("mode");
 		System.out.println("mode : "+mode);
-		PrintWriter out = response.getWriter();
 		String currentpd1=null;
 		String newpswd=request.getParameter("newpassword");
 		System.out.println("new : "+newpswd);
@@ -93,10 +93,7 @@ public class ChangePassword extends HttpServlet {
 					
 						if(rs==0)
 						{
-							//HttpSession session=request.getSession(true);
 							System.out.println("in servlet changepswd");			
-							//session.setAttribute("status", "unsuccessfull");
-							//request.getRequestDispatcher("./forgotpassword.jsp").forward(request, response);
 							response.sendRedirect("jsp/admin/changepassword.jsp?status=Unsuccessfull");
 					
 						}
@@ -164,10 +161,7 @@ public class ChangePassword extends HttpServlet {
 			
 				if(rs==0)
 				{
-					//HttpSession session=request.getSession(true);
-					System.out.println("in servlet changepswd");			
-					//session.setAttribute("status", "unsuccessfull");
-					//request.getRequestDispatcher("./forgotpassword.jsp").forward(request, response);
+					System.out.println("in servlet changepswd");
 					response.sendRedirect("jsp/admin/remotechangepassword.jsp?status=Unsuccessfull");
 			
 				}

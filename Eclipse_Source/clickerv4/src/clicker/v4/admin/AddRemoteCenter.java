@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +46,7 @@ public class AddRemoteCenter extends HttpServlet {
 						
 		PreparedStatement ps = null, ps1 = null;
 		ResultSet rs = null;
-		int cid = 0, check = 0;
+		int cid = 0;
 		
 		DatabaseConnection dbcon = new DatabaseConnection();
 		Connection conn = dbcon.createRemoteDatabaseConnection();
@@ -74,7 +72,7 @@ public class AddRemoteCenter extends HttpServlet {
 						ps1.setString(2, centername);
 						ps1.setString(3, state);
 						ps1.setString(4, city);
-						check = ps1.executeUpdate();
+						ps1.executeUpdate();
 						
 						response.sendRedirect("jsp/home/remotehome.jsp");
 					}
@@ -92,7 +90,7 @@ public class AddRemoteCenter extends HttpServlet {
 					ps1.setString(2, storedcentername);
 					ps1.setString(3, storedstate);
 					ps1.setString(4, storedcity);
-					check = ps1.executeUpdate();
+					ps1.executeUpdate();
 					response.sendRedirect("jsp/home/remotehome.jsp");
 				}
 				

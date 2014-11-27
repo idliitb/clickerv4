@@ -51,9 +51,9 @@
 
 <body style="width:700;height:400;">
 
-<table style="width:670px;height:300;margin-left:10px;" border="0">
+<table style="width:670px;height:300;margin-left:10px;border: 0px" >
 	<tr>
-		<td style="width:250px;"><image src="New_Clicker02.png" style="margin-left:20px;"></td>
+		<td style="width:250px;"><img src="New_Clicker02.png" style="margin-left:20px;"></td>
 		
 		<td>
 		<div style="margin-bottom:30px;">

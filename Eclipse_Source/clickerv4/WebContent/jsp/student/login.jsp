@@ -1,12 +1,10 @@
+<!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for login for both local and remote mode of student.
+ -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%
-	if (session.getId().equals(session.getAttribute("UserSessionID"))) {
-		session.invalidate();
-	}
-%>
 <script src="../../js/div.js" type="text/javascript"></script>
 <style type="text/css">
 body {
@@ -86,15 +84,19 @@ body {
 					return false;
 				} else {
 					sendCookieResponse();
-
 					var courselist = xmlhttp1.responseText;
 					var courselistjson = JSON.parse(courselist);
 
 					if (courselistjson.Mode.replace(/</g, "&lt;") == "local") {
-
-						//This is for local login
+						if(courselistjson.loggedIn){
+							if(confirm('You are already Loggedin Or you have not logged out. Do you want to login again ?')){
+								}
+							else {
+								return false;
+							}
+						}
+					
 						var truecount = 0;
-						var courseName = "";
 						for (var i = 0; i < courselistjson.courseIDs.length; i++) {
 							if (courselistjson.isActive[i]) {
 								truecount++;
@@ -162,12 +164,15 @@ body {
 					} else {
 
 						//This is for remote login
+						if(courselistjson.loggedIn){
+							if(confirm('You are already Loggedin Or you have not logged out. Do you want to login again ?')){
+								}
+							else {
+								return false;
+							}
+						}
+						
 						var truecount = 0;
-						if (courselistjson.Validation.replace(/</g, "&lt;") == "No Active Course(s)") {
-							alert(courselistjson.Validation.replace(/</g,
-									"&lt;"));
-							return false;
-						} else {
 							for (var i = 0; i < courselistjson.courseIDs.length; i++) {
 								if (courselistjson.isActive[i]) {
 									truecount++;
@@ -197,7 +202,30 @@ body {
 										+ "&autoSubmitAlert=true");
 								return true;
 
-							} else {
+							} else if (truecount < 1 || truecount == 0) {
+								
+								var xmlhttp2;
+								xmlhttp2 = new XMLHttpRequest();
+								xmlhttp2.onreadystatechange = function() {
+
+									if (xmlhttp2.readyState == 4
+											&& xmlhttp2.status == 200) {
+										window.location.href = "remotehome.jsp";
+									}
+								};
+
+								xmlhttp2.open("POST", "workshopsetter.jsp", false);
+								xmlhttp2.setRequestHeader("Content-type",
+										"application/x-www-form-urlencoded");
+								xmlhttp2.send("WorkshopListForLogin="
+										+ xmlhttp1.responseText
+										+ "&ParticipantId=" + id
+										+ "&autoSubmitAlert=true");
+								return true;
+
+							}
+
+							else {
 
 								var url = "workshopsetter.jsp?WorkshopListForLogin="
 										+ xmlhttp1.responseText
@@ -216,7 +244,7 @@ body {
 								document.getElementById("test").innerHTML = '<object type="text/html" data='+url+'></object>';
 								ShowPopup(divToOpen, popupSetting, "1");
 							}
-						}
+						
 
 					}
 

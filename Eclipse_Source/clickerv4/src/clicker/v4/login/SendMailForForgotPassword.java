@@ -1,5 +1,6 @@
 /*
- * Author  : Dipti  from Clicker Team, IDL LAB -IIT Bombay
+ * Author  : Dipti , Kirti  from Clicker Team, IDL LAB -IIT Bombay
+ * This file used for sending user a random temporary password through gmail.
  */
 
 package clicker.v4.login;
@@ -12,7 +13,7 @@ import javax.mail.internet.*;
 
 
 public class SendMailForForgotPassword {
-
+// This function generates the random temporary password to send it to user if in case user forgets password .
 public static String generatePassword(){
 	
 	char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -27,7 +28,8 @@ public static String generatePassword(){
 	
 }
 	
-	
+// This function is used for sending temporary password to user through Gmail in local mode. 
+//It takes the Gmail username and password of admin from database to send that random password to user's gmail.	
  public void emailmain(String emailto, String instrname) {
 
 loginHelper loginhelp = new loginHelper();
@@ -43,8 +45,7 @@ final String passwordfrom = loginhelp.getPassword();
   props.put("mail.smtp.auth", "true");
   props.put("mail.smtp.port", "465");
  
-  Session session = Session.getDefaultInstance(props,
-   new javax.mail.Authenticator() {
+  Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator() {
    protected PasswordAuthentication getPasswordAuthentication() {
    return new PasswordAuthentication(emailfrom,passwordfrom);//change accordingly
    }
@@ -65,9 +66,13 @@ final String passwordfrom = loginhelp.getPassword();
    		"\n\n We are sending you temporary password for clicker login. You can now login using this password, but you have to change it immediately after login. \n" +
 		   "To change password, go to Admin menu and select Change Password."+
    		"\n\n Thank you !" +"\n\n\n Your temporary password is : \t"+temppswd);
-   
+   System.out.println("message sending");
    //send message
+   try
+   {
    Transport.send(message);
+   }
+   catch (MessagingException e) {throw new RuntimeException(e);}
    System.out.println("message sent successfully");
    loginhelp.updatePassword(username,temppswd);
  
@@ -77,7 +82,8 @@ final String passwordfrom = loginhelp.getPassword();
  }
  
  
- 
+//This function is used for sending temporary password to user through Gmail in remote mode. 
+//It takes the Gmail username and password of admin from database to send that random password to user's gmail.	 
  
  public void remoteemailmain(String emailto, String instrname) {
 

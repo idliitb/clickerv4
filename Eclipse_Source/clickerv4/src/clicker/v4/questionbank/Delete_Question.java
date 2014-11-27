@@ -2,7 +2,6 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +34,7 @@ public class Delete_Question extends HttpServlet {
 		int qid = Integer.parseInt(request.getParameter("qid"));
 		//String question_id[ ] = qid.split(delimiter);
 		//out.println(question);
-		Connection conn=null,conn1 = null;
+		Connection conn=null;
 		DatabaseConnection dbconn = new DatabaseConnection();
 		try{
 		
@@ -45,12 +44,12 @@ public class Delete_Question extends HttpServlet {
 			st.executeUpdate("update question set Archived='1' where QuestionID='"+qid+"'");
 
 		}catch(Exception e){
-			e.getStackTrace();
+			System.out.println("Exception in DeleteQuestion: " + e);
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				e.getStackTrace();
+				System.out.println("Exception in DeleteQuestion: " + e);
 			}finally{
 				response.sendRedirect("jsp/questionbank/questionbank.jsp");
 			}

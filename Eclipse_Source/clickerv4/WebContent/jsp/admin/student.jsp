@@ -16,7 +16,7 @@ USE        : to add student and assign course
 %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 <title>Student Details</title>
 <link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
 <link type="text/css" rel="stylesheet" href="../../css/style.css">
@@ -231,7 +231,7 @@ var rows = document.getElementById(tableName).rows;
 
 for (var i = 3; i < rows.length; i++) {
 
-if (i < from || i > to)
+if ((i < from) || (i > to))
 
 rows[i].style.display = 'none';
 
@@ -241,7 +241,7 @@ rows[i].style.display = '';
 
 }
 
-}
+};
 
 this.showPage = function(pageNumber) {
 
@@ -269,7 +269,7 @@ var to = from + itemsPerPage - 1;
 
 this.showRecords(from, to);
 
-}
+};
 
 this.prev = function() {
 
@@ -277,7 +277,7 @@ if (this.currentPage > 1)
 
 this.showPage(this.currentPage - 1);
 
-}
+};
 
 this.next = function() {
 
@@ -287,7 +287,7 @@ this.showPage(this.currentPage + 1);
 
 }
 
-}
+};
 
 this.init = function() {
 
@@ -299,7 +299,7 @@ this.pages = Math.ceil(records / itemsPerPage);
 
 this.inited = true;
 
-}
+};
 
 this.showPageNav = function(pagerName, positionId) {
 
@@ -326,7 +326,7 @@ pagerHtml += '<br><span onclick="'+pagerName+'.next();" class="pg-normal"> Next 
 
 element.innerHTML = pagerHtml;
 
-}
+};
 
 }
 
@@ -396,13 +396,13 @@ element.innerHTML = pagerHtml;
 	<br>
 	<br>
 	<br>
-	<div style="height: 600px;">
-	<table align=center width="75%">
+	<div style="height: 600px;" align="center">
+	<table>
 	
 	<tr>
 <td width="60%" style="margin-top: 0px;vertical-align:top;" >
 
-<table id="tablepaging" class="yui" align="center">
+<table id="tablepaging" class="yui" >
 				<thead>
 					<tr>
 						<th colspan="3" align="left">
@@ -424,19 +424,19 @@ element.innerHTML = pagerHtml;
 								<div style="float: left;">
 									<img src="plus.png" onclick="add_new_student()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Add" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Add" />&nbsp;&nbsp;&nbsp; <img
 										src="mm.png" onclick="delete_student_details()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Delete" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Delete" />&nbsp;&nbsp;&nbsp; <img
 										src="Files-Edit.png" onclick="edit_student()"
 										style="cursor: pointer;" width="15px" height="15px"
 										alt="button" border="0" title="Edit" />
 								</div>
 								<div style="float: right;">
-									Search By ID &nbsp&nbsp&nbsp <input type="text"
-										name="search_box" id="search_box" />&nbsp&nbsp&nbsp <img
+									Search By ID &nbsp;&nbsp;&nbsp; <input type="text"
+										name="search_box" id="search_box" />&nbsp;&nbsp;&nbsp; <img
 										src="Search-icon-24x24.png" onclick="search_edit_student()"
-										style="cursor: pointer;" 16px" height="16px" alt="button"
+										style="cursor: pointer;" width="16px" height="16px" alt="button"
 										border="0" title="Search" />
 								</div>
 							</div>
@@ -513,8 +513,8 @@ element.innerHTML = pagerHtml;
 							<div id="Course_div"
 								style="visibility: hidden; height: 0px; width: 0px; border-collapse: collapse; border: solid 3px #7f7f7f;">
 								<div id="cou_div" style="visibility: visible;"></div>
-								<div class="btn2" id="close_div" onclick="stu_close()">
-									<center>Close</center>
+								<div align="center" class="btn2" id="close_div" onclick="stu_close()">
+									Close
 								</div>
 							</div>
 
@@ -529,7 +529,7 @@ element.innerHTML = pagerHtml;
 							(by XLS) <br><input id="course_file" type="file" name="xls" disabled /><br>
 							<a href="../../xlstemplates/Student_course_Template.xls">Student
 								Course Template</a>
-							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="pre_btn" type="button" style="margin-left: 5px;"
 								onclick="upload_courseXLS()" disabled>Preview</button>
 						</div>
@@ -582,10 +582,10 @@ pager.showPage(1);
 				<form action="studentxlsupload.jsp" method="get" id="uploadForm">
 					<iframe id="frame"> </iframe>
 					<br /> <br />
-					<center><input type="hidden" name=xls id="xls"> <input
+					<input type="hidden" name=xls id="xls"> <input
 							type="submit" value=" Add Student Information " />&nbsp;&nbsp;&nbsp;&nbsp;<input
 							type="button" value=' Cancel ' onclick="closeDialog();" />
-					</center>
+					
 				</form>
 			</div>
 			<div id="student_course_div" title="Student Course"
@@ -593,18 +593,18 @@ pager.showPage(1);
 				<form action="studentcourseupload.jsp" method="get" id="uploadForm">
 					<iframe id="frame2"> </iframe>
 					<br /> <br />
-					<center>
+					
 						<input type="hidden" name=xls1 id="xls1"> <input
 							type="submit" value=" Add Student Information " />&nbsp;&nbsp;&nbsp;&nbsp;<input
 							type="button" value=' Cancel ' onclick="closeDialog();" />
-					</center>
+					
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
 	<div style="margin-top: -600px;">
-		<center><%@ include file="../../jsp/includes/menufooter.jsp"%></center>
+		<%@ include file="../../jsp/includes/menufooter.jsp"%>
 	</div>
 </body>
 </html>

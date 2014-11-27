@@ -245,7 +245,7 @@ rs22.close();
 <label style="font-size:16px;"> Multiple Choice Correct</label></div>
 <br>
 <textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;" 
-type="text" name="Question"  placeholder="Enter your question here..."> <%=question %> </textarea>
+name="Question"  placeholder="Enter your question here..."> <%=question %> </textarea>
 <br>
 
 <% 
@@ -272,7 +272,7 @@ while(rs.next())
 <input id="check<%=i %>" <%if(rs.getInt("OptionCorrectness")==1){ %> checked="checked" <%} %> type="checkbox" value="<%=i %>" name="option" />
 <span style="margin-left:10px;"></span><input id="txt<%=i %>" type="text" name="<%=i %>" style="width:250px;" value="<%=rs.getString(1) %>"/>
 
-<a class="close-btn" id='remove<%=i %>' href="javascript:removeOption(<%=i %>)" style = "color: #ffffff; text-decoration: none;" >X</a></span>
+<a class="close-btn" id='remove<%=i %>' href="javascript:removeOption(<%=i %>)" style = "color: #ffffff; text-decoration: none;" >X</a>
 
 <% }
 rs.close();
@@ -298,7 +298,7 @@ dbconn.closeLocalConnection(conn);
 	<span style = "margin-left: 20px;">Negative Marks: </span><input id = "negativemarks" name = "negativemarks" type = "text" style = "width: 50px; margin-bottom:20px;margin-left:5px;" value = "<%=negativemarks%>" />
 	<input id = "shuffle" name = "shuffle" type = "checkbox" <%if(shuffle == 0) {%> checked = "checked" <%} %> style = "margin-bottom:20px;margin-left:40px;" />No Shuffling
 
-	<button class="ui-conductquiz-button" style = "margin-left: 30px; height: 38px;" id="multichoicesubmit" type="submit" onclick="getCorrectoptionID();" >
+	<button class="ui-conductquiz-button" style = "margin-left: 30px; height: 38px;" id="multichoicesubmit" type="submit" onclick="getCorrectoptionID();">
 		<span>Save</span>
 	</button>
 <!-- <button class="ui-conductquiz-button" id="multichoicecancel" type="button" onclick = "history.back( );" >

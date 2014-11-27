@@ -26,14 +26,14 @@ USE        : to upload the xls file and it will store in database
 
 StudentcourseXLSimport xls=new StudentcourseXLSimport();
 String path1=request.getParameter("xls1");
-System.out.println("xls: "+path1);
+//System.out.println("xls: "+path1);
 ServletContext context = getServletContext();
 String pathurl = context.getRealPath("/uploads");
 
-System.out.println("url = " + pathurl);
+//System.out.println("url = " + pathurl);
 
 File file = new File(pathurl + "/" + path1);
-System.out.println("Filename: " + file);
+//System.out.println("Filename: " + file);
 String status=xls.readstudentCourseXLSfile(file);
 System.out.println("status: " + status);
 response.sendRedirect("student.jsp?fileUploadStatus="+status);

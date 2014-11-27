@@ -7,17 +7,12 @@
 <%
 
 String mode = request.getParameter("mode");
-
-if(!(session.getAttribute("admin").toString()).equals("2")){
+if(!(session.getAttribute("admin").toString()).equals("4")){
 	request.setAttribute("Error","You are not allow to use this page");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
 	rd.forward(request, response);
 	return;
 }
-
-
-String status = (String) session.getAttribute("status"); 
-System.out.println("status is....."+status);
 %>
 
 <html>
@@ -32,23 +27,14 @@ System.out.println("status is....."+status);
 <title>Setup Email System</title>
 </head>
 
-	<%@ include file="../../jsp/includes/menuheader.jsp"%>
-
-<script type="text/javascript" src="../../js/courses.js"></script>
-<script type="text/javascript" src="../../js/LoginValidation.js"></script>
+<%@ include file="../../jsp/includes/menuheader.jsp"%>
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
 <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
-
-<link href="../../jquery/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="../../jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
 <link href="../../js/jquery-ui.css" rel="stylesheet"	type="text/css" />
-<link rel="stylesheet" media="all" type="text/css"	href="../../jsp/newMenu/dropdown.css" />
-<link type="text/css" rel="stylesheet" href="../../css/login.css">
 <link rel="stylesheet" type="text/css" href="../../css/logininput.css" />
-<link type="text/css" rel="stylesheet" href="../../css/style.css">
+
 
 <body onload="clearall();"  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
-
 
 <script type="text/javascript">
 
@@ -123,9 +109,6 @@ $(document).ready(function(){
 alert("email address does not added");
 <%}%>
 
-<%if(request.getParameter("status1")!=null){%>
-alert("Can not add new Email ID in the Dtabase");
-<%}%>
 
 });
 
@@ -134,14 +117,14 @@ alert("Can not add new Email ID in the Dtabase");
 	
 
 	<form class="form-4"  method="post" action="../../EmailSetUp" onsubmit="return allow()">
-	<input type="hidden" id="mode" name="mode" value="local">
+	<input type="hidden" id="mode" name="mode" value=<%=mode %> >
 	<div style="margin-top:40px;">
-		<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Set up your Email System</label></div>
+		<div><label style="margin:auto;color:#9bbb59; font-size:25px;">Set up your Email System</label></div>
 		<br/>
 		<div id="note" style="margin:auto;color: red;"><label>Note : In this admin has to create Gmail Id for particular institute and should maintain it and later on hand over to next admin.  </label></div>
 	
 		<div style="margin-top:30px">
-			<table  style="height:150px;width:400px; margin:auto; " border="0">
+			<table  style="height:150px;width:400px; margin:auto; border: none; ">
 				<tr>
 					<td >
 						<label style=" color: #e46c0a;font-size:18px" >Gmail ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
@@ -166,9 +149,9 @@ alert("Can not add new Email ID in the Dtabase");
 			<span>Submit</span>
 			</button>
 		</div>
-		</br>	
+		<br />	
 <div style="color:#9bbb59;font-size:18px;text-align:center;margin-right:2px">
-	<a style="color:#e46c0a" href="./emailupdate.jsp">update email</a>
+	<a style="color:#e46c0a" href="./emailupdate.jsp?mode=<%=mode%>">update email</a>
 </div>
 
 	</div>

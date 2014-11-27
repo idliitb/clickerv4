@@ -27,8 +27,8 @@ import org.jfree.chart.ChartUtilities;
 import clicker.v4.databaseconn.DatabaseConnection;
 
 /** 
- * @author rajavel@author rajavel, Clicker Team, IDL Lab - IIT Bombay
- * Servlet implementation class StudentPerformanceLineChart
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ * Servlet implementation class StudentPerformanceLineChart is used to generate the individual student performance chart
  */
 //studentPerformanceChart
 public class StudentPerformanceLineChart extends HttpServlet {
@@ -56,6 +56,7 @@ public class StudentPerformanceLineChart extends HttpServlet {
 		doProcess(request,response);
 	}
 
+	// This is used to generate the individual student performance chart
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response){
 		Connection con=null;
 		PreparedStatement pst = null;
@@ -94,7 +95,7 @@ public class StudentPerformanceLineChart extends HttpServlet {
                }
                line_chart_dataset.addSeries(s);
                // Designing the chart 
-               JFreeChart lineChartObject=ChartFactory.createXYLineChart(sname + " Quiz Preformance","Quizzes","Mark in Percentage", line_chart_dataset,PlotOrientation.VERTICAL,true,true,false);
+               JFreeChart lineChartObject=ChartFactory.createXYLineChart(sname + " Quiz Performance","Quizzes","Mark in Percentage", line_chart_dataset,PlotOrientation.VERTICAL,true,true,false);
                
                // set chart background transparent
                lineChartObject.setBackgroundPaint(new Color(255,255,255,0));
@@ -148,6 +149,7 @@ public class StudentPerformanceLineChart extends HttpServlet {
 		 }
 	}
 	
+	// This method is used to create or delete folder with instructor name
 	public void folderCreateOrDelete(String path, String username){
 		boolean iscreated = (new File(path + username)).mkdir();
 		if (iscreated) {

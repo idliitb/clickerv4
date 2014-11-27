@@ -5,11 +5,9 @@ package clicker.v4.questionbank;
  */
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.sql.*;
 import clicker.v4.databaseconn.*;
 /**
@@ -36,23 +34,23 @@ public class AddMultChoiceDB extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * This function fetches the different parameters of question and adds them in the database
 	 */
+	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
 		Connection conn=null;
 		String instructorid = (String) request.getSession().getAttribute("InstructorID");
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		DatabaseConnection dbconn = new DatabaseConnection();
 		try{
 			
 			conn = dbconn.createDatabaseConnection();
-			System.out.println("Conn here:"+conn);
 			int count=Integer.parseInt((String)request.getParameter("count"));
 			String courseid = (String) request.getSession().getAttribute("courseID");
-			System.out.println("Count: " + count);
 			int questionID;
-			//out.println(request.getParameter("Count"));
 			String Question=(String)request.getParameter("addquest");
 			int LevelOfDifficulty=1;
 			String imageName=(String)request.getParameter("image"), optionvalue = "";
@@ -64,7 +62,6 @@ public class AddMultChoiceDB extends HttpServlet {
 			int shuffle = 1;
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
-			System.out.println("shuffle: " + shuffle);
 			
 			InsertQuestion i_q=new InsertQuestion();
 			questionID=i_q.insertQuestion(conn, Question, LevelOfDifficulty, archived, credits, imageName, questionType, instructorid, shuffle, courseid, negativemark);
@@ -76,17 +73,17 @@ public class AddMultChoiceDB extends HttpServlet {
 			{
 				if(request.getParameter(options[i])!=null)
 				{
-					System.out.println("if: " + (i + 1));
+					//System.out.println("if: " + (i + 1));
 					i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 1, 1, 0, credits, questionID);
 					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
-					System.out.println("if1: " + request.getParameter(""+(i + 1)).toString());
+					//System.out.println("if1: " + request.getParameter(""+(i + 1)).toString());
 				}
 				else
 				{
-					System.out.println("else: " + (i + 1));
+					//System.out.println("else: " + (i + 1));
 					i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 0, 1, 0, credits, questionID);
 					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
-					System.out.println("else1: " + request.getParameter(""+(i +1)).toString());
+					//System.out.println("else1: " + request.getParameter(""+(i +1)).toString());
 				}
 				
 			}
@@ -100,7 +97,7 @@ public class AddMultChoiceDB extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("Exception in AddMultChoiceDB: " + e);
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);}

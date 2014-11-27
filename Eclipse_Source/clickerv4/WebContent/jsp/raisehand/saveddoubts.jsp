@@ -11,8 +11,6 @@ this is used to create a page showing student doubt without filtering raise hand
 
 	String InstructorID = (String) session.getAttribute("InstructorID");
 	String CourseID=(String) session.getAttribute("courseID");
-	//System.out.println("scuhdusgc dc..........."+CourseID);
-	//System.out.println("Instructor ID is.......... : " + InstructorID);
 
 	if (InstructorID == null) {
 		request.setAttribute("Error",
@@ -78,13 +76,15 @@ display:none
 <tr>
 <td>
 <div class="ui-createquiz-text" style="font-weight: bold;font-size: 24px" >
-<lable>Raise hand</lable></div>
+<label>Raise hand</label></div>
 </td>
 </tr>
 <tr>
 <td align="center">
 		<div style="min-height: 500px; margin-bottom: 20px; float: center">
-			<%ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("records"); 
+			<%
+			@SuppressWarnings("unchecked")
+			ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("records"); 
 			RaiseHandHelper rhh=new RaiseHandHelper();
 			ArrayList<String> datelist= rhh.retrieveDate(session.getAttribute("courseID").toString());
 			%>
@@ -104,7 +104,6 @@ display:none
 						<%
 						for(int i=0;i<datelist.size();i++){
 							String[] date=datelist.get(i).split(" ");
-							//System.out.println("timestamp....."+date[0]);
 							%>
 							<option value="<%=date[0]%>"><%=date[0]%></option>
 							<%							

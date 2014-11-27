@@ -218,7 +218,7 @@ rs.close();
 	 <label style="font-size:16px;"> Single choice question</label></div> 
 <br>
 	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
- 	type="text" name="singlechoicequest"  placeholder="Enter your question here..."><%=question %></textarea>
+ 	name="singlechoicequest"  placeholder="Enter your question here..."><%=question %></textarea>
 
 	<br>
 <%

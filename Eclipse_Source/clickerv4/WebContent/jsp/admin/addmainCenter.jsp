@@ -26,7 +26,7 @@ String coordinatorid = (String) session.getAttribute("CoordinatorID");
 	<link type="text/css" rel="stylesheet" href="../../css/style.css">
 		<script src="../../js/jquery-1.9.1.js"></script>
 		<script src="../../js/jquery-ui.js"></script>
-		<script src="add_maincenter.js"></script>
+		<script src="../../js/add_maincenter.js"></script>
 
 <script type="text/javascript">
 
@@ -134,11 +134,12 @@ String coordinatorid = (String) session.getAttribute("CoordinatorID");
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; font-size:24px ">ADD NEW MAINCENTER</label></div>
 	<div style="margin-top: 30px" align="center">
 	
-	<table   border="0" cellpadding="5" width="450">		
+	<table>		
 				
-			<tr height="50px;"><td>Maincenter Name</td><td><input type="text" name="Maincenter_name" id="Maincenter_name" style="outline: none;background: white;box-shadow: 0 0 5px #333;width: 165px;background: white; border: 1px double #DDD; border-radius: 5px;float: left;padding: 5px 10px;"  > </td></tr><br>
+			<tr height="50px;"><td>Maincenter Name</td><td><input type="text" name="Maincenter_name" id="Maincenter_name" style="outline: none;background: white;box-shadow: 0 0 5px #333;width: 165px;background: white; border: 1px double #DDD; border-radius: 5px;float: left;padding: 5px 10px;"  > </td></tr>
 			
-			<tr height="50px;"><td>Maincenter_city </td><td> <textarea name="Maincenter_city" id="Maincenter_city" style="resize:none;outline: none;background: white;box-shadow: 0 0 5px #333;width: 165px;background: white; border: 1px double #DDD; border-radius: 5px;float: left;padding: 5px 10px;" cols="25" rows="1" ></textarea></td></tr>
+			
+			<tr height="50px;"><td>Maincenter_city </td><td> <input name="Maincenter_city" id="Maincenter_city" style="resize:none;outline: none;background: white;box-shadow: 0 0 5px #333;width: 165px;background: white; border: 1px double #DDD; border-radius: 5px;float: left;padding: 5px 10px;"></td></tr>
 			
 			<tr height="50px;"><td>Maincenter_state </td><td><input type="text" name="Maincenter_state" id="Maincenter_state" style="outline: none;background: white;box-shadow: 0 0 5px #333;width: 165px;background: white; border: 1px double #DDD; border-radius: 5px;float: left;padding: 5px 10px;" ></td></tr>
 			
@@ -220,16 +221,16 @@ String coordinatorid = (String) session.getAttribute("CoordinatorID");
 
 
 <div align="center">
-	<table border="1" style="align:center; border: solid 3px #7f7f7f;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 1px #7f7f7f;width: 400px;" >
+	<table style="align:center;border-collapse:collapse;font-size:15px;padding: 2px;border: solid 2px #7f7f7f;width: 400px;" >
 	<thead style="background-color:#9BBB59;font-size: 16;font-weight: bold;">
-	<tr>
+	<tr style="border: solid 1px #7f7f7f;">
 						<th colspan="3" align="left">
 							<div>
 								<div style="float: left;">
-									&nbsp&nbsp <img
+									&nbsp;&nbsp; <img
 										src="mm.png" onclick="Delete_RC();"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Delete" />&nbsp&nbsp&nbsp 
+										alt="button" border="0" title="Delete" />&nbsp;&nbsp;&nbsp; 
 								</div>
 								
 							</div>
@@ -253,7 +254,7 @@ String coordinatorid = (String) session.getAttribute("CoordinatorID");
 		String m_name = rs1.getString(2);
 		String m_url = rs1.getString(3);
 		%>
-		<tr id=<%=m_ID%> onclick="rowSelected(id)" ondblclick="" >
+		<tr style="border: solid 1px #7f7f7f;cursor: pointer;" id=<%=m_ID%> onclick="rowSelected(id)" ondblclick="" >
 	<td><%=m_name %></td>
 	<td><%=m_url %></td>
 	</tr>	

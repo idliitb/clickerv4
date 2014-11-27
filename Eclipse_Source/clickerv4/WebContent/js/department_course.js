@@ -127,7 +127,7 @@ else if (Department_name =="")
 	alert("Enter Department Name");
 else if(hod == "")
 	{
-	alert("Enter HOD Name")
+	alert("Enter HOD Name");
 	}else
 
 
@@ -202,7 +202,29 @@ function update_D()
 	var Dept_name = document.getElementById('U_Depart_name').value;
 	
 	var hod= document.getElementById('U_Dept_hod').value;
-	//alert("gobi");
+	
+     if(Dept_name == "")
+    	 {
+    	 alert("Please Enter Department Name");
+    	 return false;
+    	 }
+     if(hod == "")
+     {
+    	 alert("Please Enter HOD Name");
+    	 return false;
+    	 }     
+     if( /[^a-zA-Z\ ]/.test( Dept_name ) ) {
+         alert('Department Name Contains Only alphabets!!');
+         return false;
+     }
+     
+     if( /[^a-zA-Z\ ]/.test( hod ) ) {
+         alert('HOD Name Contains Only alphabets!!');
+         return false;
+     }
+     
+
+     
 	getXMLhttp();
 	
 	
@@ -222,11 +244,23 @@ function update_D()
 			}
 		}
 			xmlhttp.send();
-			document.getElementById('U_Depart_id').value="";
+			//document.getElementById('U_Depart_id').value="";
 			
-			 document.getElementById('U_Depart_name').value="";
+			// document.getElementById('U_Depart_name').value="";
 			
-			 document.getElementById('U_Dept_hod').value="";
+			// document.getElementById('U_Dept_hod').value="";
+						
+			var where_to = confirm("updated succesfully!! Do You want to Close ?");
+			{
+				if (where_to == true) {
+					close_dept_div();
+				} else {
+					return false;
+				}
+			}
+			
+			
+			 
 }
 
 function delete_course()
@@ -252,11 +286,14 @@ function delete_course()
 					return false;
 				}
 			}
-				xmlhttp.send();
+			
+				xmlhttp.send();			
+				
 				var row = document.getElementById(CourseCurrentSelectedRow);
 				row.parentNode.removeChild(row);
 				CoursepreviousSelectedRow = 0;
 				CourseCurrentSelectedRow = 0;
+				alert("Course Deleted Sucessfully!!");
 		}
 	} else {
 		alert("select ");
@@ -271,6 +308,24 @@ function update_DC()
 	var Course_id=document.getElementById('course_id').value;	
 	var Course_name=document.getElementById('course_name').value;
 	var Course_desc=document.getElementById('course_desc').value;
+	
+	if(Course_name == "")
+		{
+		alert("Enter the Course Name!!");
+		return false;
+		}
+	if(Course_desc == "")
+	{
+	alert("Enter the course Description!! ");
+	return false;
+	}
+	 if( /[^a-zA-Z\ ]/.test( Course_name ) ) {
+         alert('Course Name should Contains Only alphabets!!');
+         return false;
+     }
+	
+	
+	
     getXMLhttp();
     xmlhttp.onreadystatechange = function() {
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -290,9 +345,17 @@ var where_to = confirm("Do you want to Update  Course?");
 }
 
 xmlhttp.send();
-document.getElementById('course_id').value="";	
-document.getElementById('course_name').value="";
-document.getElementById('course_desc').value="";
+
+
+var where_to = confirm("updated succesfully!! Do You want to Close ?");
+{
+	if (where_to == true) {
+		close_course_div();
+	} else {
+		return false;
+	}
+}
+
 		}else
 			alert("Select the Course");
 }
@@ -494,11 +557,15 @@ if(course_desc=="")
 	return false;
 	}
 
-		
+if( /[^a-z0-9A-Z\-]/.test( course_id ) ) {
+    alert('Special character Not Allowed in CourseID!!!');
+    return false;
+}
 
-
-
-
+if( /[^a-zA-Z\ ]/.test( course_name ) ) {
+    alert('Course Name Contains Only alphabets!!');
+    return false;
+}
 
 {
 	xmlhttp.onreadystatechange = function() {

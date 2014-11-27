@@ -5,7 +5,9 @@ This file create a UI to show doubt which are saved in database after search and
  -->
 
 <%@ page import="clicker.v4.raisehand.RaiseHandRowData,java.util.*"%>
-<%ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("records"); %>
+<%
+@SuppressWarnings("unchecked")
+ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("records"); %>
 <%for(RaiseHandRowData rdata:list){%>
 <div class="doubtWrap">
 	<div class="doubtTextDiv">

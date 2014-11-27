@@ -7,7 +7,7 @@
 <title>Instant Report</title>
 <%
 	if (session.getAttribute("ParticipantId") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("participantexit.jsp");
 		return;
 	}
 

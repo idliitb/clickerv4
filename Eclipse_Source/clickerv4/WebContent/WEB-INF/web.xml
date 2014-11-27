@@ -98,7 +98,7 @@
     <servlet-class>clicker.v4.raisehand.RaiseHandDiscussedServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>RaiseHandRepliedServlet</servlet-name>
+    <servlet-name>RaiseHandDiscussedServlet</servlet-name>
     <url-pattern>/raiseHandDiscussed</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -528,5 +528,25 @@
   <servlet-mapping>
     <servlet-name>AddInstitute</servlet-name>
     <url-pattern>/AddInstitute</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DownloadXLS</display-name>
+    <servlet-name>DownloadXLS</servlet-name>
+    <servlet-class>clicker.v4.report.DownloadXLS</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DownloadXLS</servlet-name>
+    <url-pattern>/DownloadXLS</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoteDownloadXLS</display-name>
+    <servlet-name>RemoteDownloadXLS</servlet-name>
+    <servlet-class>clicker.v4.report.RemoteDownloadXLS</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoteDownloadXLS</servlet-name>
+    <url-pattern>/RemoteDownloadXLS</url-pattern>
+  </servlet-mapping>
 </web-app>

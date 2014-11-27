@@ -102,7 +102,7 @@ rs22.close();
 <label style="font-size:16px;"> Numeric Question</label></div>
 <br>
 <textarea id="editnumericquest" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
- type="text" name="editnumericquest"  placeholder="Enter your question here..."><%=question %></textarea>
+ name="editnumericquest"  placeholder="Enter your question here..."><%=question %></textarea>
 <br>
 <%
 String ans="";

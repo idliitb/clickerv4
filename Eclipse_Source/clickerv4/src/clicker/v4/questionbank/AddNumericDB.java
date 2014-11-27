@@ -2,7 +2,6 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,7 +52,7 @@ public class AddNumericDB extends HttpServlet {
 				int question_id=0;
 				String question=request.getParameter("numericaddquest");
 				String option=request.getParameter("numericanswer");
-				String image = request.getParameter("browse");
+				//String image = request.getParameter("browse");
 				float credits = Float.parseFloat(request.getParameter("credits"));
 				float negativemark = Float.parseFloat(request.getParameter("negativemark"));
 				String courseid = (String) request.getSession().getAttribute("courseID");
@@ -88,12 +87,12 @@ public class AddNumericDB extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			out.println(e);
+			System.out.println("Exception in AddNumericDB: " + e);
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				e.getStackTrace();
+				System.out.println("Exception in AddNumericDB: " + e);
 			}
 		}
 	}

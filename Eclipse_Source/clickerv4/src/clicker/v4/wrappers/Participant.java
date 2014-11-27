@@ -1,5 +1,11 @@
 package clicker.v4.wrappers;
 
+/**
+ * Wrapper class for Participant
+ * @author Dipti, Clicker Team, IDL Lab - IIT Bombay
+ *
+ */
+
 import java.util.ArrayList;
 
 public class Participant {

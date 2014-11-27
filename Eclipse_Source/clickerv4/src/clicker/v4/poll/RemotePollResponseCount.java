@@ -1,4 +1,6 @@
-//Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+/*Author : Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+ * this file is used for sending remote response count to remotepoll.jsp page for the purpose of refreshing the response chart as per the responses. 
+ */
 package clicker.v4.poll;
 
 import java.io.IOException;

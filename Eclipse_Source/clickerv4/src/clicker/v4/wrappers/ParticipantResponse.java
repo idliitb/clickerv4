@@ -1,5 +1,9 @@
 package clicker.v4.wrappers;
-
+/**
+ * Wrapper class for ParticipantResponse
+ * @author Dipti, Clicker Team, IDL Lab - IIT Bombay
+ *
+ */
 
 public class ParticipantResponse {
 	private String participantid;

@@ -64,7 +64,7 @@ public class History
 		}
 		catch (Exception ex)
 		{
-			System.out.println ("The error is: " + ex);
+			System.out.println ("Exception in History: " + ex);
 		}
 		finally
 		{

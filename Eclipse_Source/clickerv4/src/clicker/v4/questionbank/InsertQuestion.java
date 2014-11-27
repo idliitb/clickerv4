@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import clicker.v4.databaseconn.DatabaseConnection;
-
 /**
  * 
  * @author Harshavardhan
@@ -22,14 +20,12 @@ public class InsertQuestion {
 	public int insertQuestion(Connection conn, String Question,
 			int LevelOfDifficulty, int Archived, float Credit,
 			String ImageName, int QuestionType, String InstrID, int shuffle, String courseid, float negativemark) {
-		DatabaseConnection db = new DatabaseConnection();
+		
 		int QuestionID = -1;
-		System.out.println("Conn:" + conn);
 		try {
-			PreparedStatement st = conn
-					.prepareStatement(
-							"Insert into question(Question,LevelOfDifficulty,Archived,Credit,ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?,?,?,?,?,?,?,?,?,?)",
-							Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement st = conn.prepareStatement("Insert into question(Question,LevelOfDifficulty,Archived,Credit," +
+														 "ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) " +
+														 "values(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, Question);
 			st.setInt(2, LevelOfDifficulty);
 			st.setInt(3, Archived);
@@ -45,12 +41,11 @@ public class InsertQuestion {
 			if (rs.next()) {
 				QuestionID = rs.getInt(1);
 			} else {
-				throw new RuntimeException(
-						"PIB, can't find most recent insert we just entered");
+				throw new RuntimeException("PIB, can't find most recent insert we just entered");
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Fatal Error!!! Exiting due to->" + e);
+			System.out.println("Exception in InsertQuestion: " + e);
 		} 
 		return QuestionID;	
 	}

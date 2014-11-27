@@ -209,7 +209,7 @@ function validateForm()
 <label style="font-size:17px;"> Single choice question</label></div>
 <br>
 <textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
- type="text" name="singleaddquest"  placeholder="Enter your question here..."></textarea>
+ name="singleaddquest"  placeholder="Enter your question here..."></textarea>
 <br>
 <br>
 <span style="margin-left:120px;">A</span>

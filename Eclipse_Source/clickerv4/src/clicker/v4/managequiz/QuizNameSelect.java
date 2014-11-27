@@ -44,7 +44,7 @@ public class QuizNameSelect
 			ps.close( );					
 		}catch(SQLException e)
 		{
-			e.printStackTrace( );
+			System.out.println("Exception in QuizNameSelect function of Quiz Name Select file: " + e);
 		}finally{
 			dbconn.closeLocalConnection(conn);
 		}
@@ -69,7 +69,7 @@ public class QuizNameSelect
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in getQuizID function of Quiz Name Select file: " + e);
 		}
 
 		return QuizID;
@@ -96,7 +96,7 @@ public class QuizNameSelect
 					Option opt = getOptionDetails(conn, QuestionOptionsIDs[j], QuestionIDs[i]);
 					quest.addOption(opt);
 				} catch (SQLException e) {
-					e.printStackTrace();
+					System.out.println("Exception in getallQuestionDetails function of Quiz Name Select file: " + e);
 				}
 			}
 			QuestionList.addElement(quest);
@@ -107,24 +107,20 @@ public class QuizNameSelect
 	public String[] getQuestionOptionIDs(Connection conn, String QuestionID,
 			String QuizID) {
 		// This needs to be updated in the future to reflect LOD
-		String Query = "select OptionID " + "from options "
-				+ "where OptionID in "
-				+ "(select OptionID from quizquestionoption "
-				+ "where QuestionID='" + QuestionID + "' " + "AND QuizID='"
-				+ QuizID + "')";
+		String Query = "select OptionID " + "from options where OptionID in (select OptionID from quizquestionoption "
+					   + "where QuestionID='" + QuestionID + "' " + "AND QuizID='" + QuizID + "')";
 
 		String[] optionName;
 		ResultSet result;
 		result = runResultSetQuery(conn, Query);
 
 		try {
-			System.out.println("Debugging rows at start" + result.getRow());
+			//System.out.println("Debugging rows at start" + result.getRow());
 			result.last();
-			System.out.println("Debugging rows at last" + result.getRow());
+			//System.out.println("Debugging rows at last" + result.getRow());
 			int n = result.getRow();
 			result.beforeFirst();
-			System.out.println("Debugging rows at beforeFirst"
-					+ result.getRow());
+			//System.out.println("Debugging rows at beforeFirst" + result.getRow());
 			optionName = new String[n];
 
 			int i = 0;
@@ -147,15 +143,14 @@ public class QuizNameSelect
 			}
 
 		} catch (Exception ex) {
-			System.out.println(ex);
+			System.out.println("Exception in runResultSetQuery function of Quiz Name Select file: " + ex);
 		}
 		return result;
 	}
 	
 	public String displayQuestionText(Connection conn, String QuestionID) {
 
-		String Query = "SELECT Question, QuestionType FROM question WHERE QuestionID= '"
-				+ QuestionID + "'";
+		String Query = "SELECT Question, QuestionType FROM question WHERE QuestionID= '" + QuestionID + "'";
 		ResultSet result = null;
 		String ResultArray = null;
 		int questionType = 0;
@@ -171,14 +166,13 @@ public class QuizNameSelect
 				}
 			}
 		} catch (Exception ex) {
-			System.out.println(ex);
+			System.out.println("Exception in displayQuestionText function of Quiz Name Select file: " + ex);
 		}
 		return ResultArray + "@@" + questionType;
 	}
 	
 	public String[] getQuestionIDsinQuiz(Connection conn, String QuizID) {
-		String Query = "SELECT QuestionID FROM quizquestion  WHERE QuizID = '"
-				+ QuizID + "'";
+		String Query = "SELECT QuestionID FROM quizquestion  WHERE QuizID = '" + QuizID + "'";
 		ResultSet result = null;
 		String[] ResultArray = null;
 
@@ -199,7 +193,7 @@ public class QuizNameSelect
 			}
 		} catch (Exception ex) {
 			ResultArray = new String[1];
-			System.out.println(ex);
+			System.out.println("Exception in getQuestionIDsinQuiz function of Quiz Name Select file: " + ex);
 		}
 		return ResultArray;
 	}
@@ -208,8 +202,7 @@ public class QuizNameSelect
 			String questionid) throws SQLException {
 		// String[] details = new String[6];
 		Option op = new Option();
-		String Query = "select * from options where OptionID = '" + optionid
-				+ "'";
+		String Query = "select * from options where OptionID = '" + optionid + "'";
 
 		ResultSet result = runResultSetQuery(conn, Query);
 		result.next();
@@ -226,7 +219,7 @@ public class QuizNameSelect
 	
 	public String[ ] getQuizTimestamp(int QuizID) throws SQLException
 	{
-		System.out.println("In QNS quiz id: " + QuizID);
+		//System.out.println("In QNS quiz id: " + QuizID);
 		DatabaseConnection dbconn = new DatabaseConnection ( );
 		Connection conn = dbconn.createDatabaseConnection();
 		PreparedStatement ps1 = conn.prepareStatement("Select TimeStamp from quizrecord where QuizID = ? ORDER BY Timestamp desc");

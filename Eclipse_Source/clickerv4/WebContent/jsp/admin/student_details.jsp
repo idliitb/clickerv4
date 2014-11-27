@@ -20,30 +20,6 @@ USE        : to update,delete the student
 <script src="../../js/jquery-1.9.1.js"></script>
 <script src="../../js/jquery-ui.js"></script>
 <style type="text/css">
-table.sss {
-font-family:Liberation Serif;
-
-width:450px;
-border: solid 3px #7f7f7f;
-font-size:medium;
- -moz-user-select: -moz-none;
-   -khtml-user-select: none;
-   -webkit-user-select: none;
-
-   /*
-     Introduced in IE 10.
-     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
-   */
-   -ms-user-select: none;
-   user-select: none;
-}
-
-table.sss td {
-padding: 2px;
-border-right: solid 1px #7f7f7f;
-border-bottom: solid 1px #7f7f7f;
-
-}
 
 .btn{
     background:#9bbb59;	
@@ -96,7 +72,7 @@ border-bottom: solid 1px #7f7f7f;
 				String query1 = "SELECT StudentID,StudentRollNo,StudentName,Yearofjoining,Privileges,DeptID,EmailID,MacAddress FROM student where StudentID='"
 						+ StudentID + "'";
 				//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
-				System.out.println(query1);
+				//System.out.println(query1);
 				ResultSet rs = st.executeQuery(query1);
 				while (rs.next()) {
 					String ss;
@@ -116,25 +92,25 @@ border-bottom: solid 1px #7f7f7f;
 		
 		<div id="main_cont" style="top:0px;" >
 			<div id="details" style="text-align: left;">
-				<table id="tablepaging" class="sss" align="center" cellpadding="2">
+				<table id="tablepaging" style="border: solid 3px #7f7f7f;" align="center" cellpadding="3">
 					<tr>
-						<td>Student ID</td>
-						<td><input type="text" name="student_id" id="student_id" value=<%=stud_id%>></td>
+						<td align="right" valign="bottom">Student ID :</td>
+						<td ><input type="text" name="student_id" id="student_id" value=<%=stud_id%>></td>
 					</tr>
 					<tr>
-						<td>Student Name</td>
+						<td align="right" valign="bottom">Student Name :</td>
 						<td><textarea name="student_name" id="student_name" style="resize: none;" cols="25" rows="1"><%=stud_name%></textarea></td>
 					</tr>
 					<tr>
-						<td>Roll No</td>
+						<td align="right" valign="bottom">Roll No :</td>
 						<td><input type="text" name="roll_no" id="roll_no" value=<%=roll_no%>></td>
 					</tr>
 					<tr>
-						<td>Year Of Joining</td>
+						<td align="right" valign="bottom">Year Of Joining :</td>
 						<td><input type="text" name="year_of_join" id="year_of_join" value=<%=Yearofjoining%>></td>
 					</tr>
 					<tr>
-						<td>T A</td>
+						<td align="right" valign="bottom">T A :</td>
 						<td>
 							<%
 								if (Priv == "1") {
@@ -155,15 +131,15 @@ border-bottom: solid 1px #7f7f7f;
 						</td>
 					</tr>
 					<tr>
-						<td>Department ID</td>
+						<td align="right" valign="bottom">Department ID :</td>
 						<td><input type="text" name="depatment_id" id="depatment_id" value=<%=DeptID%> readonly></td>
 					</tr>
 					<tr>
-						<td>Email ID</td>
+						<td align="right" valign="bottom">Email ID :</td>
 						<td><input type="text" name="email_id" id="email_id" value=<%=EmailID%>></td>
 					</tr>
 					<tr>
-						<td>Course</td>
+						<td align="right" >Course :</td>
 						<td>
 							<div id="course_div" style="width: 300px; height: 100px; border: none;">
 								<div id="delete_course" style="float: left;">
@@ -242,7 +218,7 @@ border-bottom: solid 1px #7f7f7f;
 						</td>
 					</tr>
 					<tr>
-						<td>Mac Address</td>
+						<td align="right" valign="bottom">Mac Address :</td>
 						<td><div>
 								<div style="float: left;">
 									<input id="mac_txt" type="text" name="firstname"

@@ -21,7 +21,7 @@ USE        : to update,delete the instructor
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
 
 
-<script type="text/javascript" src="instructor.js"></script>
+<script type="text/javascript" src="../../js/instructor.js"></script>
 <title>Insert title here</title>
 </head>
 
@@ -96,7 +96,7 @@ border-bottom: solid 1px #7f7f7f;
 			Connection conn = dbconn.createDatabaseConnection();
 			Statement st = conn.createStatement();
 			String query1 = "SELECT InstrID,InstrName,DOJ,DeptID,Designation,EmailID,MobileNo,AdminPriviledges FROM instructor where InstrID='"+InstructorID+"'";
-			System.out.println(query1);
+			//System.out.println(query1);
 			ResultSet rs = st.executeQuery(query1);	
 			while (rs.next()) {
 				String ss;
@@ -109,7 +109,7 @@ border-bottom: solid 1px #7f7f7f;
 				String MobileNo = rs.getString(7);
 				String AdminPriviledges = rs.getString(8);
 				
-				System.out.println(InstrID+" "+InstrName+" "+DOJ+" "+DeptID+" "+Designation+" "+EmailID+" "+MobileNo+" "+AdminPriviledges);
+				//System.out.println(InstrID+" "+InstrName+" "+DOJ+" "+DeptID+" "+Designation+" "+EmailID+" "+MobileNo+" "+AdminPriviledges);
 			
 			
 			%>

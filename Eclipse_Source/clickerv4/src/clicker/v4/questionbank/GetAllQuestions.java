@@ -1,8 +1,6 @@
 package clicker.v4.questionbank;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import clicker.v4.databaseconn.*;
 
@@ -141,15 +139,16 @@ public class GetAllQuestions {
 			db.closeLocalConnection(con); 
 			if(!quest.equals(""))
 			{
-				System.out.println("--->" + quest.substring(0, quest.length() - 1));
+				/*System.out.println("--->" + quest.substring(0, quest.length() - 1));
 				System.out.println("--->" + credits.substring(0, credits.length() - 1));
 				System.out.println("--->" + shuffle.substring(0, shuffle.length() - 1));
-				System.out.println("--->" + question_repeated.substring(0, question_repeated.length() - 1));
+				System.out.println("--->" + question_repeated.substring(0, question_repeated.length() - 1));*/
 				
-				quest = quest + "#@" + credits + "!@" + shuffle + "$@" + question_repeated;
+				quest = quest.substring(0, quest.length() - 1) + "#@" + credits.substring(0, credits.length() - 1) + "!@" 
+						+ shuffle.substring(0, shuffle.length() - 1) + "$@" + question_repeated.substring(0, question_repeated.length() - 1);
 			}
 		} catch (Exception e) {
-			System.out.println("Fatal Error on the server side:" + e);
+			System.out.println("Exception in getallquestions in get all questions file: " + e);
 		}
 		return quest.substring(0, quest.length());
 	}
@@ -172,7 +171,7 @@ public class GetAllQuestions {
 				//System.out.println("Question Count: " + question_count);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in getquizquestioncout in get all questions file: " + e);
 		}
 		finally
 		{
@@ -181,7 +180,7 @@ public class GetAllQuestions {
 				ps.close();				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Exception in getquizquestioncout in get all questions file: " + e);
 			}
 		}
 		return question_count;

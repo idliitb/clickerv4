@@ -60,7 +60,7 @@ public class GenerateChartRemote extends HttpServlet {
 	}
 	
 	/**
-	 * This method is used to generate the pie chart based on chart category
+	 * This method is used to generate the pie chart based on chart category and get the necessary chart data
 	 * @param request HttpServletRequest
 	 * @param response HttpServletResponse
 	 * @throws ServletException
@@ -127,7 +127,7 @@ public class GenerateChartRemote extends HttpServlet {
                 		maxval = Integer.parseInt(percentages[i].split("=")[1]);
                     barDataset.setValue(Integer.parseInt(percentages[i].split("=")[1]), "Result", percentages[i].split("=")[0]);                    
                 }
-                String chartInfo[] = {"Quiz Reult", "Percentage", "No. of Student"};
+                String chartInfo[] = {"Quiz Result", "Percentage", "No. of Student"};
                 chartMaker(path, username, chartInfo, maxval, barDataset, "RemoteQuizResult");
                 
                 DefaultCategoryDataset barDataset1 = new DefaultCategoryDataset();
@@ -247,6 +247,7 @@ public class GenerateChartRemote extends HttpServlet {
         }        
 	}
 	
+	// This method is used to create or delete the folder in the name of instructor to keep the chart
 	public void folderCreateOrDelete(String path, String username){
 		boolean iscreated = (new File(path + username)).mkdir();
 		if (iscreated) {
@@ -267,6 +268,7 @@ public class GenerateChartRemote extends HttpServlet {
 		}
 	}
 	
+	// Create the chart with different colors
 	public void chartMaker(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname){
 		try{
 			
@@ -291,7 +293,7 @@ public class GenerateChartRemote extends HttpServlet {
 		}
 	}
 	
-	//Overload for quiz chart with out delete folder
+	//Overload for quiz chart with out delete folder and set the chart color for correct and wrong answer
 	public void responseChart(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname, String answers){
 		try{						
 			GreenRedBarRenderer colorGreenRed = new GreenRedBarRenderer();
@@ -330,6 +332,7 @@ public class GenerateChartRemote extends HttpServlet {
 		}
 	}
 	
+	// Design the chart layout and appearance
 	public void chartLayout(JFreeChart chart, CategoryPlot plot, String path, String username, String chartname, int maxval){
 		try{			
         
@@ -368,6 +371,7 @@ public class GenerateChartRemote extends HttpServlet {
 		}
 	}
 	
+	// Generate the bar chart with correct(green) and wrong answer(red) color
 	class GreenRedBarRenderer extends BarRenderer {
 		private static final long serialVersionUID = 1L;
 		private String correct;
@@ -393,7 +397,8 @@ public class GenerateChartRemote extends HttpServlet {
 		}
 	}
 	
-	 class DifferentColorRenderer extends BarRenderer {
+	// Generate the bar chart with different color 
+	class DifferentColorRenderer extends BarRenderer {
 	        private static final long serialVersionUID = 1L;
 			/** The colors. */
 	        private Paint[] colors;

@@ -4,13 +4,6 @@
 <%@ page import="clicker.v4.login.*" %>
 <%@ page import ="clicker.v4.databaseconn.DatabaseConnection"%>
 <%@page import="java.sql.*"%>
-
-<%String status = (String) session.getAttribute("status"); 
-System.out.println("status is....."+status);
-//String s = request.getParameter("status");
-//System.out.println(s);
-%>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -98,7 +91,7 @@ System.out.println("status is....."+status);
 	
 </script>
 
-<form class="form-4"  method="post" action="./ForgotPassword" onsubmit="return allow()">
+<form class="form-4"  method="post" action="./ForgotPassword" onsubmit="return allow();">
 <div style="margin-top:30px;">
 	<table class="table" >
 		<tr>
@@ -120,16 +113,17 @@ System.out.println("status is....."+status);
 <div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Forgot Password</label></div>
 	<div style="margin-top:30px">
-	<table  style="height:150px;width:400px; margin:auto; " border="0">
-	<tr>
-			<td style="height:20px;width:180px;">
+		<table  style="height:150px;width:400px; margin:auto;">
+		<tr>
+			<td style="height:20px;width:180px;" >
 				<label style=" color: #e46c0a;font-size:18px" >Mode &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
 			</td>
 			<td style="height:20px;width:180px;">
-				<input id="localmode"  style="width:220px; font-size:15px; " type="radio" name="mode" value="Local" autofocus required tabindex="1" />Local
-				<input id="remotemode"  style="width:220px; font-size:15px; " type="radio" name="mode" value="Remote" autofocus required tabindex="1" />Remote
+				<input id="localmode"  type="radio" name="mode" value="Local" autofocus required tabindex="1" />Local
+				<input id="remotemode"  type="radio" name="mode" value="Remote" autofocus required tabindex="1" />Remote
 			</td>
 		</tr>
+		
 		<tr>
 			<td style="height:20px;width:180px;">
 				<label style=" color: #e46c0a;font-size:18px" >Username &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
@@ -146,9 +140,7 @@ System.out.println("status is....."+status);
 				<input id="emailidfp"  style="width:220px;  font-size:15px; " type="text" name="emailidfp" required tabindex="2"  placeholder="email_id"/>
 			</td>
 		</tr>
-		
-				
-	</table>
+		</table>
 	</div>
 </div>	
 	<div style="margin-top:20px">	
@@ -156,7 +148,7 @@ System.out.println("status is....."+status);
 		<span>Submit</span>
 		</button>
 	</div>
-</br>	
+<br>	
 <div style="color:#9bbb59;font-size:18px;text-align:center;margin-right:2px">
 	<a style="color:#e46c0a" href="./login.jsp">Back to Login</a>
 </div>

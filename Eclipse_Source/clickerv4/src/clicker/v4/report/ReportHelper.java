@@ -13,10 +13,11 @@ import clicker.v4.wrappers.QuizMark;
 import clicker.v4.wrappers.QuizMarkList;
 /**
  * 
- * @author rajavel@author rajavel, Clicker Team, IDL Lab - IIT Bombay
+ * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  * This class act as report helper
  */
 public class ReportHelper {
+	// This method is used to get the quiz marklist for a student in a course
 	public QuizMarkList getQuizMarkList(String courseID, String studentID){
 		QuizMarkList quizMarkList = new QuizMarkList();		
 		ArrayList<QuizMark> quizMarks = new ArrayList<QuizMark>();
@@ -65,6 +66,7 @@ public class ReportHelper {
 		return quizMarkList;
 	}
 	
+	// This method is used to get the quiz marklist for a student in a course
 	public QuizMarkList getQuizMarkListRemote(String courseID, String studentID){
 		QuizMarkList quizMarkList = new QuizMarkList();		
 		ArrayList<QuizMark> quizMarks = new ArrayList<QuizMark>();
@@ -113,6 +115,7 @@ public class ReportHelper {
 		return quizMarkList;
 	}
 	
+	// This method is used to get a student details
 	public String getStudentInfo(String sid) {
 		String studinfo = "";
         Connection con = null;
@@ -142,6 +145,7 @@ public class ReportHelper {
         return studinfo;
 	}
 	
+	// This method is used to get the students ids for a course
 	public String getStudentIDs(String courseID){
 		String studentIDs= "";
 		Connection con = null;
@@ -171,6 +175,7 @@ public class ReportHelper {
 		return studentIDs;
 	}
 	
+	// This method is used to get the quiz / poll/ attendance conducted dates
 	public String getCalendarDate(String courseID, String Datefrom, String instructorID){
 		String calendarDate = "";
 		if(Datefrom.equals("quizCondectedDate")){
@@ -190,6 +195,7 @@ public class ReportHelper {
 		return calendarDate;
 	}
 	
+	// This method is used to get the dates as per the request of getCalendarDate method
 	public String getDates(String query, String fieldName){
 		String dates = "", startDate="", endDate = "";
 		Connection con = null;
@@ -235,6 +241,7 @@ public class ReportHelper {
 		return dates +"@"+ startDate +"@"+endDate;
 	}
 	
+	// This method is used to get the quiz names for a course
 	public String getQuizNames(String courseid, String date, String instructorID) {
         String selettquizname = "";
         Connection con = null;
@@ -266,6 +273,7 @@ public class ReportHelper {
         return selettquizname;
     }
 	
+	// This method is used to get the quiz conducted time for a quiz on specific date
 	public String getQuizTime(String quizid, String date) {
         String qts = "";
         Connection con= null;
@@ -297,6 +305,7 @@ public class ReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the quiz conducted time for a quiz on specific date
 	public String getInstantQuizTime(String CID, String instrID, String date) {
         String qts = "";
         Connection con= null;
@@ -328,6 +337,7 @@ public class ReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the poll conducted time for a poll on specific date
 	public String getPollTime(String CID, String date) {
         String qts = "";
         Connection con= null;
@@ -359,6 +369,7 @@ public class ReportHelper {
         return qts;        
     }
 	
+	// This method is used to get the list of question ids for a quiz
 	public String getQuestionIDs(String qid){
 		String questionIDs = "";
         Connection con = null;
@@ -388,6 +399,7 @@ public class ReportHelper {
 		return questionIDs;
 	}
 	
+	// This method is used to get the list of question ids for a instant quiz
 	public String getInstantQuestionIDs(String qid){
 		String questionIDs = "";
         Connection con = null;
@@ -417,6 +429,7 @@ public class ReportHelper {
 		return questionIDs;
 	}
 	
+	// This method is used to get the poll response for a poll
 	public String getPollResponse(String pid){
 		Connection con = null;
         Statement st = null;
@@ -532,7 +545,7 @@ public class ReportHelper {
         return response + "@" + correctAnswer;
 	}
 	
-	
+	// This method is used to the the instant quiz response for a quiz 
 	public String getInstantQuestionResponse(int quizrecordid, String questionid){
 		String response = "";
         Connection con = null;
@@ -752,6 +765,7 @@ public class ReportHelper {
         return attendance;
 	}
 	
+	// This method is used to get the attendance information of a course on specific date
 	public String getAttendanceInfo(String cid, String date){
 		String attendance = "<select name='attendancetimestamp'	id='attendancetimestamp' onchange='attendanceReport(\""+cid+"\", \""+date+"\", this.value)'><option value=''>Time Stamp</option>";
 		Connection con = null;
@@ -782,6 +796,7 @@ public class ReportHelper {
         return attendance + "</select>" ;
 	}
 	
+	// This method is used to get the instant quiz responses for a insant quiz
 	public String getInstantResponse(String qid){
 		Connection con = null;
         Statement st = null;
@@ -814,6 +829,8 @@ public class ReportHelper {
         System.out.println(response + "@" + correctAnswer);
         return response + "@" + correctAnswer;
 	}
+	
+	// This method is used to get the summary of the courses 
 	
 	public String getReportDashboardData(String cid){
 		Connection con = null;
@@ -958,6 +975,7 @@ public class ReportHelper {
         return chartdata + "~$~" +normalQuiz + "@#@" + instantQuiz+ "@#@" + studentquizparticipation + "@#@" + poll;
 	}
 	
+	// This method is used to get the courses details for report dashboard
 	public String getCorusesDashboardData(String instrid){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;
@@ -990,6 +1008,7 @@ public class ReportHelper {
 		return courseData.toString();
 	}
 	
+	// This method is used to get the courses details for a instructor
 	public String getCorusesforInstrDashboardData(String instrid, String currentcourseid){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;
@@ -1023,6 +1042,7 @@ public class ReportHelper {
 		return courseData.toString();
 	}
 	
+	// This method is used to get the courses comparison details
 	public String compareCourses(String[] CourseIDs){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;
@@ -1092,6 +1112,7 @@ public class ReportHelper {
         return courseData.toString();
 	}
 	
+	// This method is used to get the all courses details for a instructor
 	public String getAllCorusesDashboardData(String instrid){
 		StringBuffer courseData = new StringBuffer();
 		Connection con = null;
@@ -1135,6 +1156,7 @@ public class ReportHelper {
 		return courseData.toString();
 	}
 	
+	// This method is used to get the department chart details
 	public String getAllDeptChartData(){
 		Connection con = null;
         PreparedStatement st = null, st1=null, st2=null;

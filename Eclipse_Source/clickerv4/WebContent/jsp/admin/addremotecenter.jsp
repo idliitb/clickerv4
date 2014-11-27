@@ -26,8 +26,8 @@ USE        : to add New remotecenter details
 	{
 		count = Integer.parseInt(storeall.get(0));
 	}
-	System.out.println("Center ID: " + centerid);
-	System.out.println("Count: " + count);
+	//System.out.println("Center ID: " + centerid);
+	//System.out.println("Count: " + count);
 	%>
 <html>
 <head>
@@ -125,7 +125,7 @@ function validate( )
 <div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; font-size: 25px;">Add Remote Center</label></div>
 	<div style="margin-top:30px">
-	<table  style="height:150px;margin:auto; " border='0'>
+	<table  style="height:150px;margin:auto; ">
 		<tr>
 			<td style="height:20px;width:180px;">
 				<label style=" color: #e46c0a;font-size:18px" >Enter Center ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
@@ -168,7 +168,7 @@ function validate( )
 	<div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; font-size: 25px;">Remote Center Information</label></div>
 	<div style="margin-top:30px">
-	<table  style="height:150px;margin:auto; " border='0'>
+	<table  style="height:150px;margin:auto; ">
 		<tr>
 			<td style="height:20px;width:180px;">
 				<label style=" color: #e46c0a;font-size:18px" >Center ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>

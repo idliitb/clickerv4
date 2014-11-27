@@ -7,12 +7,8 @@ package clicker.v4.questionbank;
 
 import java.io.File;
 import java.sql.*;
-
 import clicker.v4.databaseconn.*;
-import clicker.v4.questionbank.History;
 import jxl.*;
-
-
 
 public class XLSimport {
 	int questionID = -1, k = 5, qtype = 0;
@@ -40,7 +36,6 @@ public class XLSimport {
 			credits = Float.parseFloat(cols[i + 1]);
 			qtype = Integer.parseInt(cols[i + 2]);
 			int shuffle = Integer.parseInt(cols[i + 5]);
-			System.out.println("In question insertQuery");
 			st = conn.prepareStatement(query);
 			st.setString(1, cols[i]);
 			st.setFloat(2, credits);
@@ -64,7 +59,7 @@ public class XLSimport {
 			{
 				System.out.println("endcount: ----------------------" + endcount);
 				System.out.println("qtype: ----------------------" + qtype);
-				if(qtype == 1 || qtype == 2)
+				/*if(qtype == 1 || qtype == 2)
 				{
 					if(k <= endcount)
 					{
@@ -89,7 +84,7 @@ public class XLSimport {
 					// Adding entry in the Questions history table
 					History history = new History (questionID, quest, instrid, cols[i]);
 					history.addentry ();
-				}
+				}*/
 				opcorrectness = Integer.parseInt(cols[i + 1]);
 				credits = Float.parseFloat(cols[i + 2]);
 				qid = Integer.parseInt(cols[i + 3]);
@@ -112,7 +107,7 @@ public class XLSimport {
 			
 			return questionID;
 		} catch (SQLException ex) {
-			System.out.println("insert query exception: " + ex);
+			System.out.println("Exception in insert query function of XLSimport file: " + ex);
 			return -1;
 		}
 	}
@@ -127,12 +122,12 @@ public class XLSimport {
 			String sql = "Insert into question(Question, LevelofDifficulty, Archived, Credit, " +
 						 "QuestionType, AnswerOrder, InstrID, Shuffle, CourseID) values(?, 1, 0, ?, ?, ?, ?, ?, ?)";	
 			//System.out.println("Question" + insertQuery(sql, con));
-			System.out.println("Question" + insertQuery(sql, qcolumns, 1, endcount));
+			System.out.println("QuestionID: " + insertQuery(sql, qcolumns, 1, endcount));
 
 			//conn1.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in insertQuestion function of XLSimport file: " + e);
 		}
 	}
 
@@ -149,7 +144,7 @@ public class XLSimport {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception in insertOptions function of XLSimport file: " + e);
 		}
 	}
 
@@ -163,7 +158,6 @@ public class XLSimport {
 			Cell[] cell;
 			// Getting first sheet of xls
 			sheet = workbook.getSheet(0);
-			System.out.println("Sheet name = " + sheet.getName());
 			// i start from 1 because it will avoid first row in xls sheet that
 			// is (Row 1)
 			for (int i = 1; i < sheet.getRows(); i++) {
@@ -185,28 +179,29 @@ public class XLSimport {
 	                			" or m: Multiple Correct Answers or n: Numerical or t: True or False!"; 
 				}
 				// This Token defines the type of questions (g - General, m -
-				// Multiple, n - Numeric, t - True / False and y - Yes / No)
-				String QuestinTypeToken = "gmnty";
-				int QType = QuestinTypeToken.indexOf(Character.toString(
-						cellvalue.charAt(0)).toLowerCase()) + 1;
+				// Multiple, n - Numeric, t - True / False)
+				String QuestinTypeToken = "gmnt";
+				int QType = QuestinTypeToken.indexOf(Character.toString(cellvalue.charAt(0)).toLowerCase()) + 1;
 				System.out.println("Question Type " + QType);
 				
 				xlsCell = sheet.getCell(2, i);
 				cellvalue = xlsCell.getContents().toString();
-				if (cellvalue.equals("")|| cellvalue.equals("^[a-zA-Z]*")) {
-					return "Credit Value field cannot be empty!";
+				if (cellvalue.equals("") || cellvalue.equals("^[a-zA-Z]*") || Float.parseFloat(cellvalue) < 0) {
+					return "Credit Value field cannot be empty or enter only numeric values or enter only positive numbers!";
 				}
 				Credit = Float.parseFloat(cellvalue);
 				
 				xlsCell = sheet.getCell(3, i);
 				cellvalue = xlsCell.getContents().toString();
+				if(cellvalue.equals("^[a-zA-Z]*") || !(cellvalue.equals("0")) || !(cellvalue.equals("1")))
+					return "Please enter only 0 or 1 in the Shuffle field!";
 				if (cellvalue.equals("") || cellvalue == null) {
 					cellvalue = "1";
 				}
 				int shuffle = Integer.parseInt(cellvalue);
 
 				xlsCell = sheet.getCell(4, i);
-				cellvalue = xlsCell.getContents().toString();
+				cellvalue = xlsCell.getContents().toLowerCase();
 				int check = cellvalue.length();
 				System.out.println("check: " + check);
 				if (cellvalue.equals(""))
@@ -217,43 +212,37 @@ public class XLSimport {
                 else if(!(cellvalue.equals("true") || cellvalue.equals("false") || (QType == 3)))
                 {
                 	for(int m = 0; m < check; m++)
-                		if(!(Character.toString(cellvalue.charAt(m)).equals("a") || Character.toString(cellvalue.charAt(m)).equals("b") 
-                			|| Character.toString(cellvalue.charAt(m)).equals("c") || Character.toString(cellvalue.charAt(m)).equals("d")
-                			|| Character.toString(cellvalue.charAt(m)).equals("e") || Character.toString(cellvalue.charAt(m)).equals("f")) || cellvalue == null)
+                		if(cellvalue.charAt(m) < 'a' || cellvalue.charAt(m) > 'f' || cellvalue == null)
                 		{
                 			return ("Enter the correct option between alphabets " +
                 					"a and f corresponding to the correct options");
                 		}
                 }
-				String Ans = cellvalue.toLowerCase();
-				
-				/*xlsCell = sheet.getCell(4, i);
-				instrid = xlsCell.getContents().toString();
-				System.out.println("xls instrid = " + instrid);
-				 
-				if (instrid.equals("")) {
-					break;
-				}*/
+				String Ans = cellvalue;
+								
 				int QuestionID = 0;
-				if((QType == 3) || (QType == 4))
+				/*if((QType == 3) || (QType == 4))
 				{
 					insertQuestion(Question, Credit, shuffle, QType, Ans, instrid, courseid, endcount); //Needs TO BE REVIEWED
 					QuestionID = getQuestionID();
 					System.out.println("question id is " + QuestionID);
-				}
+				}*/
+				
 				// This will Execute for General and Multiple Questions
 				if (QType == 1 || QType == 2) {
+					
+					if(QType == 1 && Ans.length() > 1)
+						return "For Single Choice Correct Questions only one option can be a Correct Answer. Please select" +
+								" only one option as the Correct Answer!";
+					
 					if((cell.length >= 9) && (cell.length <= 11))
 					{
-						insertQuestion(Question, Credit, shuffle, QType, Ans, instrid, courseid, endcount); //Needs TO BE REVIEWED
-						
-						QuestionID = getQuestionID();
+						int z = 0;
 						
 						// This Token define the Options
 						String OptionToken = "abcdef";
 						int OptionCorrectness = 0;
-						// j start from 5 because it will take only options (from
-						// Column F)
+						// j starts from 5 because it will take only options starting from Column F
 						for (int j = 5; j < cell.length; j++) {
 							xlsCell = sheet.getCell(j, i);
 							endcount = (cell.length - 1);
@@ -274,12 +263,18 @@ public class XLSimport {
 							else {
 								for (int k = 0; k < Ans.length(); k++) {
 									OptionCorrectness = 0;
-									if (OptionToken.indexOf(Character.toString(Ans
-											.charAt(k))) + 5 == j) {
+									if (OptionToken.indexOf(Character.toString(Ans.charAt(k))) + 5 == j) 
+									{
 										OptionCorrectness = 1;
 										break;
 									}
 								}
+							}
+							if(z == 0)
+							{								
+								insertQuestion(Question, Credit, shuffle, QType, Ans, instrid, courseid, endcount); //Needs TO BE REVIEWED
+								QuestionID = getQuestionID();
+								z++;
 							}
 							insertOptions(OptionValue, OptionCorrectness, Credit, QuestionID, endcount);
 						}
@@ -292,11 +287,17 @@ public class XLSimport {
 				}
 				// It will Execute for Numeric Questions
 				else if (QType == 3) {
+					insertQuestion(Question, Credit, shuffle, QType, Ans, instrid, courseid, endcount); //Needs TO BE REVIEWED
+					QuestionID = getQuestionID();
 					String OptionValue = Ans;
 					insertOptions(OptionValue, 1, Credit, QuestionID, endcount);
-				} // It will Execute for True / False Questions
-				else if (QType == 4) {
+				} 
+				// It will Execute for True / False Questions
+				else
+				{
 					//char s = Ans.charAt(0);
+					insertQuestion(Question, Credit, shuffle, QType, Ans, instrid, courseid, endcount); //Needs TO BE REVIEWED
+					QuestionID = getQuestionID();
 					String OptionValue = Ans;
 					insertOptions(OptionValue, 1, Credit, QuestionID, endcount);
 					if (Ans.equals("true")) {
@@ -308,7 +309,7 @@ public class XLSimport {
 				}
 
 			}
-			return "Question uploaded  Successfully";
+			return "Questions uploaded  Successfully";
 
 		} catch (NumberFormatException ex) {
 			System.out.print("Wrong Credit value = " + ex);

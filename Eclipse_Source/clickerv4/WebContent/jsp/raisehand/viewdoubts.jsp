@@ -12,7 +12,9 @@ this is used to display doubt text and time stamp of select student ID
 <title>View Doubt</title>
 </head>
 
-<%ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("studentData"); %>
+<%
+@SuppressWarnings("unchecked")
+ArrayList<RaiseHandRowData> list = (ArrayList<RaiseHandRowData>)request.getAttribute("studentData"); %>
 <%for(RaiseHandRowData rdata:list){
 %>
 

@@ -94,7 +94,7 @@ while(rs22.next())
 <label style="font-size:16px;">True or False questions</label></div>
 <br>
 <textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
- type="text" name="edittfquest"  placeholder="Enter your question here..."><%= question %></textarea>
+ name="edittfquest"  placeholder="Enter your question here..."><%= question %></textarea>
 <br>
 <br>
 <%

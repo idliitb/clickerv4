@@ -9,10 +9,8 @@ package clicker.v4.raisehand;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,16 +43,12 @@ public class RetrieveRecordsServlet extends HttpServlet {
 			e1.printStackTrace();
 		}
 		request.setAttribute("records", list);
-		System.out.println("RECORDS:"+list);
 		RequestDispatcher rd=null;
 		if((request.getParameter("text")==null)&&(request.getParameter("date")==null)){
 			rd=request.getRequestDispatcher("./jsp/raisehand/saveddoubts.jsp");
-			//rd.forward( request, response );
-			System.out.println("SaveDoubts...");
 		}
 		else{
 			rd=request.getRequestDispatcher("./jsp/raisehand/filtereddoubts.jsp");
-			System.out.println("Retrieve");
 		}
 		try {
 			rd.forward(request, response);

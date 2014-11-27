@@ -3,7 +3,6 @@ package clicker.v4.questionbank;
 import java.io.*;
 import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -48,24 +47,24 @@ public class FileUploadHelper extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("In servlet");
+		//System.out.println("In servlet");
 		FileItemFactory factory=new DiskFileItemFactory();
 		ServletFileUpload upload=new ServletFileUpload(factory);
 		boolean fileFlag=ServletFileUpload.isMultipartContent(request);
 		List<FileItem> items=null;
-		System.out.println("File Flag:"+fileFlag);
+		//System.out.println("File Flag:"+fileFlag);
 		
 		if(fileFlag){
 			try{
 				items=upload.parseRequest(request);
 			}
 			catch(Exception ex){
-				ex.printStackTrace();
+				System.out.println("Exception in FileUploadHelper: " + ex);
 			}
 			for(FileItem item:items){
 				if(!item.isFormField()&&!item.getName().equals("")){
 					String fileName = new File(item.getName()).getName();
-					System.out.println("The File Name :"+item.getName());
+					//System.out.println("The File Name :"+item.getName());
 					item.getName();
 					ServletContext context = getServletContext();
 					String pathurl = context.getRealPath("/uploads");
@@ -77,7 +76,7 @@ public class FileUploadHelper extends HttpServlet {
 						item.write(file);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Exception in FileUploadHelper: " + e);
 					}
 					System.out.println("File Uploaded.");
 				}

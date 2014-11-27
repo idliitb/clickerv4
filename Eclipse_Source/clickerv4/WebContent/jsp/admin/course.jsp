@@ -184,15 +184,15 @@ jQuery('#course_div_dialog').dialog('close');
 				
 				</tr>
 				 <tr>
-					  	<th colspan="3" align="left">
+					  	<th colspan="3" align="right">
 							<div style="width: 275px">
 								<div style="float: right;">
 									<img src="plus.png" onclick="add_new_course()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Add" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Add" />&nbsp;&nbsp;&nbsp; <img
 										src="mm.png" onclick="delete_course()"
 										style="cursor: pointer;" width="15px" height="15px"
-										alt="button" border="0" title="Delete" />&nbsp&nbsp&nbsp <img
+										alt="button" border="0" title="Delete" />&nbsp;&nbsp;&nbsp; <img
 										src="Files-Edit.png" onclick="edit_course_DC()"
 										style="cursor: pointer;" width="15px" height="15px"
 										alt="button" border="0" title="Edit" />

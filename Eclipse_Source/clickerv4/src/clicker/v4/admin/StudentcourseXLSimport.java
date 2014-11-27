@@ -13,7 +13,7 @@ import jxl.*;
 
 public class StudentcourseXLSimport {
 
-	@SuppressWarnings("null")
+	
 	public int insertQuery(String studentid, int courseyear, String semester,
 			String courseid) {
 
@@ -59,8 +59,8 @@ public class StudentcourseXLSimport {
 			Workbook workbook = Workbook.getWorkbook(xlsfile);
 			Sheet sheet;
 			Cell xlsCell;
-			Cell[] cell;
-			int query = 0;
+			
+			
 			// Getting first sheet of xls
 			sheet = workbook.getSheet(0);
 			//System.out.println("In XLS Import: ");
@@ -69,7 +69,7 @@ public class StudentcourseXLSimport {
 			// is (Row 1)
 			for (int i = 1; i < sheet.getRows(); i++) {
 				String studentid = "";
-				cell = sheet.getRow(i);
+				sheet.getRow(i);
 				xlsCell = sheet.getCell(0, i);
 				studentid = xlsCell.getContents().toString();
 
@@ -89,7 +89,7 @@ public class StudentcourseXLSimport {
 				String courseid = xlsCell.getContents().toString().toUpperCase();
                                
 				//System.out.println("insert into studentcourse values("+courseyear+","+semester+","+courseid+","+studentid+")");
-				query = insertQuery(studentid, courseyear, semester, courseid);
+				insertQuery(studentid, courseyear, semester, courseid);
 				
 			}
 			return "Student information added successfully";

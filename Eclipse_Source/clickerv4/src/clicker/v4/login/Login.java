@@ -25,11 +25,18 @@ import clicker.v4.rest.JSONReadandparse;
  */
 public class Login extends HttpServlet {
 	
+	/*
+	 * Below code is used to check instructor/Coordinator login. Here login name is checked along with password and if match 
+	 * login is approved according to mode (local or remote)
+	 */
+	
 	public boolean checkInstructorLogin(Connection conn, String InstructorID, String Password, HttpServletRequest request) 
 	{
+		//mode -This is used to get mode to which user want to login ie Local(Classroom) or  Remote (Workshop)
 		String mode = request.getParameter("mode");
 		if(mode!=null)
 		{
+				//This is for remote mode. Here coordinator login  is checked
 			try {
 				Statement stmt;
 				stmt = conn.createStatement();
@@ -50,6 +57,8 @@ public class Login extends HttpServlet {
 				return false;
 			}		
 		}else{
+			//This is for Local mode. Here Instructor login is checked along with priviledges
+			
 			Statement stmt=null, stmt1=null;
 			ResultSet rs=null, rs1=null;			
 			try {
@@ -98,8 +107,14 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
+		
+		/*
+		 * This below code is called when course selection dialog is open after login and user select any course from list 
+		 * to be set as course 
+		 */
 		if(request.getParameter("courseID")!=null){
 			session.setAttribute("courseID", request.getParameter("courseID"));
 			try {
@@ -110,6 +125,11 @@ public class Login extends HttpServlet {
 			}
 		}
 		else{
+			/*
+			 * This below code is called when maincenter selection dialog is open after login to remote mode
+			 * Once Maincenter is selected, a list of all workshop comes from maincenter in dialog box to choose from 
+			 * and set that workshop in remote mode after that we are directed to home page 
+			 */
 			if(request.getParameter("maincentername").equals("MainCenter not added")){
 				session.setAttribute("maincentername", "MainCenter not added");
 				try {
@@ -164,6 +184,11 @@ public class Login extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 */
+	
+	/*
+	 * This below code is used to set submit login name and password and check the validation and if succeed then allow login 
+	 * and get list of course in local mode and get list of maincenter in case of remote mode.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");

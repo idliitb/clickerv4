@@ -6,10 +6,6 @@
 <%
 String CoordinatorID = (String) session.getAttribute("CoordinatorID");
 System.out.println("intr id: "+CoordinatorID);
-String status = (String) session.getAttribute("status"); 
-System.out.println("status is....."+status);
-//String s = request.getParameter("status");
-//System.out.println(s);
 %>
 
 <html>
@@ -129,7 +125,7 @@ System.out.println("status is....."+status);
 <div style="margin-top:40px;">
 	<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Change Password</label></div>
 	<div style="margin-top:30px">
-	<table  style="height:200px;width:500px; margin:auto; " border="0">
+	<table  style="height:200px;width:500px; margin:auto; border: none; ">
 		<tr>
 			<td style="height:20px;width:180px;">
 				<label style=" color: #e46c0a;font-size:18px" >Username &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>

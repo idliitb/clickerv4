@@ -32,13 +32,13 @@ public class Delete_Quiz extends HttpServlet
 			ps1 = conn.prepareStatement("Update quiz set Archived = ? where QuizID = ?");
 			ps1.setInt(1, archive);
 			ps1.setInt(2, quizid);			
-			int rs = ps1.executeUpdate( );			
+			ps1.executeUpdate( );			
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");
 		}catch(SQLException e)
 		{
-			e.printStackTrace( );
+			System.out.println("Exception in Delete Quiz: " + e);
 		}catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Exception in Delete Quiz: " + e);
 		}
 		finally{
 			try {
@@ -49,7 +49,7 @@ public class Delete_Quiz extends HttpServlet
 					dbconn.closeLocalConnection(conn);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println("Exception in Delete Quiz: " + e);
 			}
 		}
 		

@@ -30,7 +30,7 @@ function download_link()
 <body onload = "">
 <div id="soft" class="sub-content">
 	<form action="http://www.it.iitb.ac.in/clicker/generateupdatedwar" id = "downloadlink" method = "post">
-				<table id="read_me" border = '0'>
+				<table id="read_me" >
 					<tr>
 						<td colspan="2"><font style="color: red;font-size: x-large;font-weight: bold;">Latest Update is available</font> </td>
 					</tr>

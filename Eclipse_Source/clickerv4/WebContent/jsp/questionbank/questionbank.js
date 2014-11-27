@@ -537,9 +537,10 @@ function showtip(e,Q_count,N_Ques,Marks)
  var x=0;
  var y=0;
  var m;
- var h; 
+ //var h; 
  if(!e)
-   var e=window.event;
+   var e = null;
+ 	e = window.event;
    if(e.pageX||e.pageY)
     {
 	 x=e.pageX;
@@ -611,8 +612,8 @@ function quizname(quizname, quiz_id)
 	xmlhttp.open("GET", "../../jsp/managequiz/deletequizdisplay.jsp?quizid=" + escape(quiz_id), true);
 	xmlhttp.send( );
 	
-	var quiz_info, quiz_info_split;
-	var questions_split, questions, quests_split, opts;
+	var quiz_info;
+	var questions, quests_split, opts;
 	var quiz_info_split;
 	var timestamp;
 	var quest_table, timestamp_table; 

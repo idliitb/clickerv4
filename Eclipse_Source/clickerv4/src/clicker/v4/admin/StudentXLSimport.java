@@ -16,10 +16,10 @@ public class StudentXLSimport {
 	public String insertQuery(String studentid, String studrollno, String studentname, int yoj, int privilege,
 			String deptid, String email, String mac, int courseyear,
 			String semester, String courseid) {
-		int rs = 0, rs1 = 0;
+	
 		String did = "";				
 		Connection conn = null;
-		int selector = 0, count1 = 0; 
+		int count1 = 0; 
 		PreparedStatement ps = null, ps1 = null, ps2 = null, ps3 = null, ps4 = null;
 		ResultSet result1 = null, result2 = null, result3 = null;
 		DatabaseConnection db = new DatabaseConnection();
@@ -66,7 +66,7 @@ public class StudentXLSimport {
 							ps1.setString(2, semester);
 							ps1.setString(3, courseid);
 							ps1.setString(4, studentid);							
-							rs1 = ps1.executeUpdate();
+							ps1.executeUpdate();
 							
 							result1.close();
 							result2.close();
@@ -82,15 +82,16 @@ public class StudentXLSimport {
 				
 				
 					ps = conn.prepareStatement("insert into student(StudentID, StudentRollNo, StudentName, " +
-							"YearofJoining, Privileges, DeptID, EmailID, MacAddress) values(?, ?, ?, ?, ?, ?, ?, ?)");
+							"YearofJoining, Privileges, DeptID,Password, EmailID, MacAddress) values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 					ps.setString(1, studentid);
 					ps.setString(2,	studrollno);
 					ps.setString(3, studentname);
 					ps.setInt(4, yoj);
 					ps.setInt(5, privilege);
 					ps.setString(6, deptid);
-					ps.setString(7, email);
-					ps.setString(8, mac);
+					ps.setString(7, studentid);
+					ps.setString(8, email);
+					ps.setString(9, mac);
 				
 					
 					ps1 = conn.prepareStatement("insert into studentcourse values(?, ?, ?, ?)");
@@ -100,8 +101,8 @@ public class StudentXLSimport {
 					ps1.setString(4, studentid);
 					
 								
-					rs = ps.executeUpdate();
-					rs1 = ps1.executeUpdate();
+					 ps.executeUpdate();
+					 ps1.executeUpdate();
 					
 					result1.close( );
 					result2.close( );
@@ -145,12 +146,12 @@ public class StudentXLSimport {
 				Workbook workbook = Workbook.getWorkbook(xlsfile);
 				Sheet sheet;
 				Cell xlsCell;
-				Cell[] cell;
+				
 				String query = "";			
 				sheet = workbook.getSheet(0);
 				for (int i = 1; i < sheet.getRows(); i++) {
 				String studentid = "";			
-				cell = sheet.getRow(i);				
+				sheet.getRow(i);				
 				xlsCell = sheet.getCell(0, i);
 				studentid = xlsCell.getContents().toString();			
 				if (studentid.equals("") || studentid == null) {
@@ -180,7 +181,7 @@ public class StudentXLSimport {
 				int privilege = Integer.parseInt(privivalue);				
 				xlsCell = sheet.getCell(5, i);
 				String deptid = xlsCell.getContents().toString().toUpperCase().trim();
-				System.out.println("xls department id = " + deptid);
+				//System.out.println("xls department id = " + deptid);
 				if (deptid.equals("")) {
 					return ("Please enter the Department ID for the student with ID " + studentid);
 				}	
@@ -227,7 +228,7 @@ public class StudentXLSimport {
 				}				
 				xlsCell = sheet.getCell(10, i);
 				String courseid = xlsCell.getContents().toString().toUpperCase().trim();
-				System.out.println("xls course id = " + courseid);				
+				//System.out.println("xls course id = " + courseid);				
 				if (courseid.equals("")) {
 					dbconn.closeLocalConnection(conn);
 					return ("Please enter course id of the course for which the student " + studentid + " has enrolled in");
@@ -263,7 +264,7 @@ public class StudentXLSimport {
 			
 	}
 		catch (NumberFormatException ex) {
-			System.out.print("Wrong privilege or year of joining value = " + ex);
+			//System.out.print("Wrong privilege or year of joining value = " + ex);
 			return "Wrong privilege or year of joining value";
 		}
 		catch (Exception exec) {

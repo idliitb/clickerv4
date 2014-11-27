@@ -36,6 +36,7 @@
 
 <script type="text/javascript" src="excanvas.min.js"></script>
 <script type="text/javascript" src="jquery.flot.js"></script>
+<script type="text/javascript" src="canvasjs.min.js"></script>
 
 
 
@@ -128,7 +129,7 @@
 		</tr>
 	</table>
 	<table class="table" style="margin-top: 30px; overflow: auto;"
-		border="1">
+		>
 		<tr>
 			<td>
 				<!-- This is used for dashboard -->
@@ -213,7 +214,7 @@
 				int sam=QuizID.size();
 				//System.out.println("size of QuizID set=>"+sam);
 				float tt[] = new float[sam];
-				Iterator it = QuizID.iterator();
+				Iterator<Integer> it = QuizID.iterator();
 				int k=0;
 				while (it.hasNext()){
 					String nam=it.next().toString();
@@ -223,7 +224,7 @@
 					k++;
 				}
 				int l=0;
-				Iterator it1 = QuizID.iterator();
+				Iterator<Integer> it1 = QuizID.iterator();
 				while (it1.hasNext()){
 					 String nam=it1.next().toString();
 					 int ii=Integer.parseInt(nam);
@@ -276,9 +277,10 @@
       						]
     			});
 			chart.render();
-		}
+		};
    </script>
-	<script type="text/javascript" src="canvasjs.min.js"></script>
+   
+	
 				
 				
 				<li class="widget color-orange">

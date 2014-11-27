@@ -109,7 +109,7 @@ display:block
 					%>
 					
 					<div id="<%=Q_Id %>" class = "Q_div" onmousemove="showtip(event, '<%=tool_tip_content[0]%>','<%=tool_tip_content[1]%>','<%=tool_tip_content[2]%>');" onmouseout="hidetip();" onclick="quizname('<%=Q_name %>', '<%=Q_Id %>')" > 
-						<table class="quiz_select" border="0">
+						<table class="quiz_select">
 							<tr> <td> <%=Q_name %></td></tr>
 							<tr > <td style="vertical-align:bottom;">
 	     							 <div class="meter">

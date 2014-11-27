@@ -15,15 +15,15 @@ USE        : it display the list of participant for the remote center
 <% 
 	int wscount = Integer.parseInt(request.getParameter("wscount"));
 	String workshopid = request.getParameter("workshopid");
-	System.out.println("Workshop ID: " + workshopid);
+	//System.out.println("Workshop ID: " + workshopid);
 	int j = 1, z = 0;
 	List<String> storeall = new ArrayList<String>( );
-	System.out.println("ws count: " + wscount);
+	//System.out.println("ws count: " + wscount);
 	
 	if(wscount > 0)
 	{
 		storeall = new GetParticipantList( ).participantlist(workshopid);
-		System.out.println("store all size: " + storeall.size());
+		//System.out.println("store all size: " + storeall.size());
 	}%>
 <html>
 <head>
@@ -45,7 +45,7 @@ USE        : it display the list of participant for the remote center
 </table>
 
 <div style="width:820px; height : 420px; overflow:auto; margin-left: 220px;">
-<table class="table1" id = "participanttable" style="margin-top:2px; width : 820px;overflow:auto;" border="1">
+<table class="table1" id = "participanttable" style="border:solid 1px; margin-top:2px; width : 820px;overflow:auto;" >
 <tr style  = "font-size : 16px;"> 
 <th> Participant ID </th>
 <th> Participant Name </th>

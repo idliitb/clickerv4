@@ -1,3 +1,6 @@
+<!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for paticipant home page.
+ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <html>
@@ -10,7 +13,7 @@
 <%
 
 	if (session.getAttribute("ParticipantId") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("participantexit.jsp");
 		return;
 	}
 	String pid = session.getAttribute("ParticipantId").toString();
@@ -51,27 +54,31 @@ function getXMLhttp() {
 		if(coursename=="No Active Course(s)"){
 			alert("No Active Course(s)");
 			document.getElementById("quizbtn").disabled = true;
-			document.getElementById("quizbtn").className = "disabledmenu";
 			document.getElementById("pollbtn").disabled = true;
-			document.getElementById("pollbtn").className = "disabledmenu";
 			document.getElementById("reportbtn").disabled = false;
+			document.getElementById("reportbtn").className = "homemenu";
 			}else{
 				alert(coursename);
 				document.getElementById("quizbtn").disabled = false;
+				document.getElementById("quizbtn").className = "homemenu";
 				document.getElementById("pollbtn").disabled = false;
+				document.getElementById("pollbtn").className = "homemenu";
 				document.getElementById("reportbtn").disabled = false;
+				document.getElementById("reportbtn").className = "homemenu";
 				}
 	}else{
 		if(coursename=="No Active Course(s)"){
 			document.getElementById("quizbtn").disabled = true;
-			document.getElementById("quizbtn").className = "disabledmenu";
 			document.getElementById("pollbtn").disabled = true;
-			document.getElementById("pollbtn").className = "disabledmenu";
 			document.getElementById("reportbtn").disabled = false;
+			document.getElementById("reportbtn").className = "homemenu";
 			}else{
 				document.getElementById("quizbtn").disabled = false;
+				document.getElementById("quizbtn").className = "homemenu";
 				document.getElementById("pollbtn").disabled = false;
+				document.getElementById("pollbtn").className = "homemenu";
 				document.getElementById("reportbtn").disabled = false;
+				document.getElementById("reportbtn").className = "homemenu";
 				}
 		}
 		}
@@ -79,7 +86,6 @@ function getXMLhttp() {
 	function getpollCookie(cname) {
 	    var name = cname + "=";
 	    var ca = document.cookie.split(';');
-	    //alert("::::::: name: " + document.cookie); 
 	    for(var i=0; i<ca.length; i++) {
 	        var c = ca[i];
 	        while (c.charAt(0)==' ') c = c.substring(1);
@@ -97,13 +103,11 @@ function getXMLhttp() {
 				var polljson = JSON.parse(xmlhttp1.responseText);
 				var pollid = polljson.pollid;
 				var pollquestion = polljson.pollquestion;
-				//alert(pollquestion);
 				var launchtime = polljson.launchtime;
 				var currenttime = polljson.currenttime;
 				var workshopid = polljson.courseId;
 				var quizTime = polljson.quizTime;
 
-				//alert(pollquestion+" @ "+launchtime+" @ "+currenttime+" @ "+courseId+" @ "+quizTime);
 				if (pollid == 0 && pollquestion == "" && launchtime == "" && currenttime == "" && workshopid == "" && quizTime == "") 
 				{
 					alert("Poll has not launched");
@@ -113,12 +117,9 @@ function getXMLhttp() {
 				}
 				else {
 					pollquestion = pollquestion.replace(/'/g, "\\'");
-					//pollquestion1=pollquestion.replace(/"/g, '\\"');
-					//alert(pollquestion1);
 					document.getElementById("pollquestion").value=pollquestion;
 					document.getElementById("polljson").value=launchtime + "@"+ currenttime + "@" + workshopid + "@" + quizTime+"@"+pollid;
 					document.getElementById("pollform").submit();
-					//window.location = "remotepoll.jsp?pollquestion="+ pollquestion + "&polljson=" + launchtime + "@"+ currenttime + "@" + workshopid + "@" + quizTime+"@"+pollid;
 				}
 			}
 		};
@@ -129,7 +130,7 @@ function getXMLhttp() {
 
 	function getActiveWorkshopList(pid) {
 		var truecount=0;
-		var courseName="";
+	
 		getXMLhttp();
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {	
@@ -197,7 +198,8 @@ function getXMLhttp() {
 				else{
 					document.getElementById("homemaintable").style.pointerEvents = "none";			
 					document.getElementById("homemaintable").style.opacity = 3/10;
-					var url = "workshopsetter.jsp?WorkshopListForLogin="
+				
+					url = "workshopsetter.jsp?WorkshopListForLogin="
 							+ xmlhttp.responseText + "&ParticipantId=" + pid+"&autoSubmitAlert=true";
 					var divToOpen = "activeWorkshopListDiv";
 					var popupSetting = {width : '300',height : '250',title : 'Workshop List',isFixed : true};
@@ -211,13 +213,15 @@ function getXMLhttp() {
 		xmlhttp.send();
 	}
 	
-	function isQuizLaunched(wid){
+	function isQuizLaunched(wid, pid){
 		getXMLhttp();
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				var quiz = JSON.parse(xmlhttp.responseText);
 				if(quiz.courseId=="0"){
 					alert("Quiz Not Launched");
+				}else if(quiz.courseId=="-2"){
+					alert("Already Attempted this Quiz");
 				}else if(quiz.quizrecordId==getCookie(quiz.quiztype + "lastattempted")){
 					alert("Already Attempted this Quiz");
 				}else if(quiz.quiztype=="instant"){
@@ -227,7 +231,7 @@ function getXMLhttp() {
 				}
 			}
 		};	
-		xmlhttp.open("GET", "../../rest/quiz/"+wid+"/remote", false);
+		xmlhttp.open("GET", "../../rest/quiz/"+wid+"/remote/"+pid, false);
 		xmlhttp.send();
 	}
 	function getCookie(cname) {
@@ -256,7 +260,7 @@ function getXMLhttp() {
 			    document.getElementById("homemaintable").style.pointerEvents = "none";			
 				document.getElementById("homemaintable").style.opacity = 3/10;
 				var divToOpen = "rep_courselist";
-				var popupSetting = { width: '310', height: '330', title: 'Coruse List',isFixed:true };
+				var popupSetting = { width: '310', height: '330', title: 'Course List',isFixed:true };
 				
 				ShowPopup(divToOpen, popupSetting,"0");
 				
@@ -329,6 +333,7 @@ body {
 	height: 620px;
 	text-align: center;
 	margin-left: 60px;
+
 }
 
 .ui-loginbutton {
@@ -376,12 +381,8 @@ body {
 </head>
 
 <body onload="activeCourseName('<%=participantworkshop%>','<%=autoSubmitAlert%>');">
-<form id="pollform" action="remotepoll.jsp" method="post">
-<input type="hidden" id="pollquestion" name="pollquestion"/>
-<input type="hidden" id="polljson" name="polljson"/>
-</form>
 	<div id="main_container">
-		<table id="homemaintable" border="0">
+		<table id="homemaintable">
 			<tr style="height: 110px;">
 				<td style="width: 400px;"><font size=5px; color="#9bbb59">Workshop
 						ID<br><%=participantworkshop%>
@@ -391,41 +392,46 @@ body {
 						ID<br><%=pid%></font></td>
 			</tr>
 			<tr style="height: 300px;">
-				<td><button class="homemenu" id="quizbtn" onclick="isQuizLaunched('<%=participantworkshop%>')">
+				<td><button class="disabledmenu" id="quizbtn" onclick="isQuizLaunched('<%=participantworkshop%>', '<%=pid%>')">
 						<span>Quiz</span>
 					</button></td>
-				<td><button class="homemenu" id="pollbtn"
-						onclick="checkpoll('TestWS','remote')">
+				<td><button class="disabledmenu" id="pollbtn"
+						onclick="checkpoll('<%=participantworkshop %>','remote')">
 						<span>Poll</span>
 					</button></td>
-				<td><button class="homemenu" id="reportbtn" onclick="getCourseList('<%=pid%>')">
+				<td><button class="disabledmenu" id="reportbtn" onclick="getCourseList('<%=pid%>')">
 						<span>Report</span>
 					</button></td>
 
 			</tr>
 			<tr>
 				<td colspan="3"><button id="exit" type="submit"
-						class="ui-loginbutton" onclick="window.location.href='login.jsp'">
+						class="ui-loginbutton" onclick="window.location.href='participantexit.jsp'">
 						<span>EXIT</span>
 					</button></td>
 			</tr>
 			<tr>
 				<td colspan="3">
-					<table style="width: 1200px; text-align: center;" border="0">
+					<table style="width: 1200px; text-align: center;" >
 						<tr>
 							<td style="width: 310px;"></td>
 							<td colspan="2"><font color="#ffffff">Designed and
 									Developed by Clicker Software Team, IIT Bombay.</font></td>
 							<td style="width: 310px;"><div
-									style="float: left; margin-left: 30px;">
+									style="float: left;">
 									<input id="refresh-div" type="image"
-										src="../../img/refresh_course.png" alt="Submit"
+										src="../../img/Refresh.png" alt="Submit"
 										onclick="getActiveWorkshopList('<%=pid%>')">
 								</div>
-								<div style="float: left; margin-left: 50px;">
+								<div style="float: left; ">
 									<input id="help-btn" type="image" src="../../img/Queston05.png"
-										alt="Submit" onclick="window.location.href='help.jsp'">
-								</div></td>
+										alt="Submit" onclick="window.location.href='remotehelp.jsp'">
+								</div>
+								<div style="float: left;">
+									<input id="help-btn" type="image" src="../../img/F.png"
+										alt="Submit" onclick="window.location.href='participantpasswdupdate.jsp'">
+								</div>
+								</td>
 						</tr>
 					</table>
 				</td>
@@ -440,7 +446,10 @@ body {
 	session.setAttribute("autoSubmitAlert","false");
 }
 %>
-
+<form id="pollform" action="remotepoll.jsp" method="post">
+<input type="hidden" id="pollquestion" name="pollquestion"/>
+<input type="hidden" id="polljson" name="polljson"/>
+</form> 
 
 </body>
 </html>

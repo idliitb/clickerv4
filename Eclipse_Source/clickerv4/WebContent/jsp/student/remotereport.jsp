@@ -8,7 +8,7 @@
 <title>Student Report</title>
 <%
 	if (session.getAttribute("ParticipantId") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("paticipantexit.jsp");
 		return;
 	}
 	String studentID = session.getAttribute("ParticipantId").toString();	
@@ -131,9 +131,9 @@ function getStudentReport(cid, sid, mode){
 <div id="report-container">
 	<table id="reportheader">
 	<tr>
-		<td style="width:140px;">Student ID</td>
+		<td style="width:140px;">Participant ID</td>
 		<td style="width:310px;" id="td_sid"></td>
-		<td style="width:180px;">Student Name</td>
+		<td style="width:180px;">Participant Name</td>
 		<td style="width:370px;" id="td_sname"></td>
 		<td rowspan="2" style="width:70px;">
 			<img src="../../img/Home05.png" style="width: 70px;height: 70px;" 
@@ -141,9 +141,9 @@ function getStudentReport(cid, sid, mode){
 		</td>
 	</tr>
 	<tr>
-		<td>Course ID</td>
+		<td>Workshop ID</td>
 		<td id="td_cid"></td>
-		<td>Course Name</td>
+		<td>Workshop Name</td>
 		<td id="td_cname"></td>
 	</tr>
 	</table>

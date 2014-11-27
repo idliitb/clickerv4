@@ -41,6 +41,29 @@ display:none
 }
 </style>
 <script type="text/javascript">
+function trimfield(str) 
+{ 
+    return str.replace(/^\s+|\s+$/g,''); 
+}
+
+function validate()
+{ 
+     var obj1 = document.replyForm.content;
+         if(trimfield(obj1.value) == '') 
+         {      
+           alert("Please Enter Reply!");
+           obj1.focus();
+           return false;       
+         }else{
+        	 document.forms["replyForm"].submit();
+        	 return true;
+             }
+
+          
+           return true;
+           $('input[name=checkselect]:checked').unchecked;
+  
+}
 var xmlhttp;
 function selected(){
 $(document).ready(function(){
@@ -76,7 +99,7 @@ $(document).ready(function(){
 								document.getElementById("emailDiv").innerHTML=xmlhttp.responseText;
 								document.getElementById("emailDiv").style.visibility = 'visible';
 								document.getElementById("emailDiv").title ="WRITE REPLY FOR DOUBT";
-								$("#emailDiv").dialog({height: 350, width: 440, modal: true ,
+								$("#emailDiv").dialog({height: 380, width: 500, modal: true ,
 							        close: function(ev, ui) { 
 							        	document.getElementById("raiseques").innerHTML = "";
 							        	location.href="raisehand.jsp";
@@ -162,7 +185,6 @@ String CourseID=session.getAttribute("courseID").toString();
 DatabaseConnection dbconn = new DatabaseConnection();
 Connection conn = dbconn.createDatabaseConnection();
 Statement st =conn.createStatement();	
-//Global.raisehandcounter.put(CourseID,0);
 %>
 <table class="table1" style="margin-top:2px;" border="1" >
 <tr >
@@ -177,7 +199,6 @@ Statement st =conn.createStatement();
 ResultSet rs2=null;
 try{	
 		String query2="SELECT DISTINCT stu.StudentID,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+"AND rh.RepliedDoubt=1 ORDER BY rh.RaiseTimeStamp DESC";
-		//System.out.println("query1==>"+query2);
 		rs2=st.executeQuery(query2);
 
 %>
@@ -192,7 +213,6 @@ try{
 
 <option class= "opt" value="<%=studentID+"@"+TimeStamp+"@"+1+"@"+CourseID%>"><%=studentID %></option>
 <%
-//System.out.println(studentID);
 }
 
 }

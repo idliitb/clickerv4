@@ -129,6 +129,10 @@ System.out.println("Privilege value: " + privilege);*/
 			window.location.href="../../logout.jsp";
 		}
 		
+		function showRemoteHome(){
+			window.location.href="../../jsp/home/remotehome.jsp";
+			}
+		
 		function checkquizlaunch( )
 		{
 			//alert("in check quiz");
@@ -169,7 +173,7 @@ System.out.println("Privilege value: " + privilege);*/
 	<script>checkquizlaunch( );</script>
 		<form >
  			<div>
-				<table class="remote_header" id="remote_header" border=0 >
+				<table class="remote_header" id="remote_header">
 				<tr> 
 				
 				<td rowspan="2" width="120px" >
@@ -180,7 +184,7 @@ System.out.println("Privilege value: " + privilege);*/
 				</td>
 					<td height="50px" >
           			
-						 <table class="banner_inner_table" id="banner_inner_table" border=0>
+						 <table class="banner_inner_table" id="banner_inner_table">
 						 <tr>
 						 <td width="220px" height="70px">
 						 <div id="inst_detail" style="height:60px; width: 220px;color: #fff;font-size: 13px;margin-top: -10px; ">
@@ -188,9 +192,8 @@ System.out.println("Privilege value: " + privilege);*/
 						 <%="Center ID : "+centerID%>
 						</div>	
 						 </td>
-						 <td width="400px" height="70px">
-						 <a style="text-decoration: none;" href="../../jsp/home/remotehome.jsp">
-						 <div id="banner_name">
+						 <td width="400px" height="70px" >
+						 <div id="banner_name" onclick="showRemoteHome();" style="cursor:pointer; ">
 						   <div id=Csquare style="float: left;margin-left: 45px;"> </div>
 						   <div style="margin-top:20px ;"><div style="width: 255; font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
 							<%
@@ -199,7 +202,6 @@ System.out.println("Privilege value: " + privilege);*/
 								<%}%>
 						   <div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>
 						</div>
-						</a>
 						 </td>
 						 <td width="400px">
 					<!-- 	 <div style="vertical-align: top;"><font style="font-size:13px;font-weight: bold;color: #E60000;letter-spacing: 1.7px">Main Center:&nbsp;&nbsp;<span class="blink_me"><%=Maincenter_name %></span></font>
@@ -215,7 +217,7 @@ System.out.println("Privilege value: " + privilege);*/
 					
 					<td rowspan="2" width="120px" >
 				
-    				<table class="banner_inner_table1" id="banner_inner_table2" style="width: 100%;height: 100%;margin-top: -5px;" border="0">
+    				<table class="banner_inner_table1" id="banner_inner_table2" style="width: 100%;height: 100%;margin-top: -5px;">
 			 			  <tr>
 							<td style="vertical-align:top;">
 								<div id="loginout" style="float:right;cursor: pointer; margin-top: -5px;"><img src='../../img/Logout Logo.png' onclick="redirect();"></div>						

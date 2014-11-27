@@ -1,4 +1,6 @@
-//  Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+/*  Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
+ * this java file is used for validating the user's email id and sending him/her a random password. 
+*/
 package clicker.v4.login;
 
 import java.io.IOException;
@@ -53,7 +55,6 @@ public class ForgotPassword extends HttpServlet {
 			
 			String username=request.getParameter("usernamefp");
 			String emailid=request.getParameter("emailidfp");
-			System.out.println("mode is :@@@@@ :"+request.getParameter("mode"));
 			DatabaseConnection dbcon = new DatabaseConnection();
 			
 			//mode is radio button
@@ -71,33 +72,22 @@ public class ForgotPassword extends HttpServlet {
 							while (rs.next()) {
 							  rows = rs.getInt(1);
 							}
-							System.out.println("Number of rows is: "+ rows);
+							System.out.println("Number of rows in instructor is: "+ rows);
 							if(rows>0){
 							
 								String selectquery="SELECT EmailID from instructor where InstrID=?";
 								st = con.prepareStatement(selectquery);
 								st.setString(1,username);
-								System.out.println("In select");
 								ResultSet resultSet = st.executeQuery();
-								System.out.println("result set ");
 								while(resultSet.next())
 								{
-									emailaddrs=resultSet.getString("EmailID");
-									
+									emailaddrs=resultSet.getString("EmailID");	
 								}
 								
 								if(emailaddrs.equals(emailid))
 								{
-								//HttpSession session=request.getSession(true);
-									
-								
-								send.emailmain(emailaddrs,username);
-								
-								System.out.println("emailto sent");
-								response.sendRedirect("./login.jsp");
-								//session.setAttribute("status", "unsuccessfull");
-								//request.getRequestDispatcher("./forgotpassword.jsp").forward(request, response);
-								
+									send.emailmain(emailaddrs,username);
+									response.sendRedirect("./login.jsp");
 								
 								}
 								else
@@ -151,9 +141,7 @@ public class ForgotPassword extends HttpServlet {
 									String selectquery="SELECT email from coordinator where UserName=?";
 									st = con.prepareStatement(selectquery);
 									st.setString(1,username);
-									System.out.println("In select co");
 									ResultSet resultSet = st.executeQuery();
-									System.out.println("result set ");
 									while(resultSet.next())
 									{
 										emailaddrs=resultSet.getString("email");
@@ -162,16 +150,9 @@ public class ForgotPassword extends HttpServlet {
 									
 									if(emailaddrs.equals(emailid))
 									{
-									//HttpSession session=request.getSession(true);
-										
-									
-									send.remoteemailmain(emailaddrs,username);
-									
+									send.remoteemailmain(emailaddrs,username);									
 									System.out.println("emailto sent");
 									response.sendRedirect("./login.jsp");
-									//session.setAttribute("status", "unsuccessfull");
-									//request.getRequestDispatcher("./forgotpassword.jsp").forward(request, response);
-									
 									
 									}
 									else

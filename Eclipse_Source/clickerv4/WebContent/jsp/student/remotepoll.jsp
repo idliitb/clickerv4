@@ -12,8 +12,6 @@
 <title>Poll</title>
 <%
 String pid = session.getAttribute("ParticipantId").toString();
-//String sid="T65";
-//String studcourse  = session.getAttribute("StudentCourse").toString();
 String pollquestion=request.getParameter("pollquestion");
 String polljson = request.getParameter("polljson");
 
@@ -130,12 +128,8 @@ var mode="remote";
 	}
 	function Decrement()
 	{
-		//alert("decrementing");
 		var seprater="";
 	 	if(secs<10){seprater = " 00 : 0";}else{seprater= " 00 : ";}
-	 	
-			//seconds = document.getElementById("seconds");		
-			//seconds.value = "00:"+getseconds();
 			document.getElementById("seconds").innerHTML = ""+seprater + getseconds();
 		
 		secs=secs-1;

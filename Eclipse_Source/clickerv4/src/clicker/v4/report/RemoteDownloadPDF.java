@@ -20,7 +20,7 @@ import clicker.v4.databaseconn.DatabaseConnection;
 /**
  * 
  * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
- * Servlet implementation class RemoteDownloadPDF
+ * Servlet implementation class RemoteDownloadPDF is to download the report as PDF
  */
 public class RemoteDownloadPDF extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,6 +50,7 @@ public class RemoteDownloadPDF extends HttpServlet {
 		doProcess(request, response);
 	}
 	
+	// This method is to download the report as PDF based on requests (student, quiz or course) 
 	protected void doProcess(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String reportname = request.getParameter("repname");

@@ -87,7 +87,7 @@ public class AddMainCenter extends HttpServlet {
 		Statement st1;
 		try {
 			st1 = con.createStatement();
-			int rs1 = st1.executeUpdate(query4);
+			st1.executeUpdate(query4);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,9 +102,9 @@ public class AddMainCenter extends HttpServlet {
 		try {
 
 			Statement st2 = con.createStatement();
-			System.out.println("update maincenter set MainCName='"+MainCentername+"',URL='"+mainurl+"' where MainCenterID='"+MainCenterID+"'");
+			//System.out.println("update maincenter set MainCName='"+MainCentername+"',URL='"+mainurl+"' where MainCenterID='"+MainCenterID+"'");
 			String query3 = "update maincenter set MainCName='"+MainCentername+"',URL='"+mainurl+"' where MainCenterID='"+MainCenterID+"'";
-			int rs3 = st2.executeUpdate(query3);
+			st2.executeUpdate(query3);
 			
 			dbcon.closeRemoteConnection(con);	
 

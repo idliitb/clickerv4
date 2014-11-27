@@ -4,9 +4,6 @@
 package clicker.v4.login;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import clicker.v4.databaseconn.DatabaseConnection;
 
@@ -16,7 +13,9 @@ public class loginHelper {
 	PreparedStatement st;
 	
 	
-	
+	/*
+	 * This is used to get the list of course which particular instructor takes.
+	 */
 	public String[] getInstructorIDCourseID(Connection conn, String InstrID) {
 		String Query = "SELECT ic.CourseID from instructorcourse ic where ic.InstrID=?";		
 		ResultSet resultSet =null;
@@ -53,32 +52,10 @@ public class loginHelper {
 		return ResultArray;
 	}	
 	
-public String[] getInstructorIDWorkshopID(Connection conn, String coordinatorID) {
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar cal = Calendar.getInstance();
-		String todaysDate = dateFormat.format(cal.getTime());
-		System.out.println("tadays date is : "+todaysDate);
-		
-		
-		
-		
-		String Query = "SELECT WorkshopID from workshop  where Username=? and  EndDate >= ?";		
-		ResultSet resultSet =null;
-		try {
-			if (conn != null) {
-				PreparedStatement st1 = conn.prepareStatement(Query);
-				st1.setString(1,coordinatorID);
-				st1.setString(2,todaysDate);
-				resultSet = st1.executeQuery();				
-			}
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-		String[] result = runStringArrayQuery(conn, resultSet);
-		return result;
-	}
 
+/*
+ * This is used to get the maincenter name list for fetching workshop
+ */
 	public String[] getMainCenterName(Connection conn) {
 	
 		String Query = "SELECT MainCName from maincenter";		
@@ -94,6 +71,10 @@ public String[] getInstructorIDWorkshopID(Connection conn, String coordinatorID)
 		String[] result = runStringArrayQuery(conn, resultSet);
 		return result;
 }
+	
+	/*
+	 * This is used to get the URL of particular selected maincenter
+	 */
 	public String getMainCenterURL(String MainCenterName) {
 		DatabaseConnection dbcon = new DatabaseConnection();
 		con=dbcon.createRemoteDatabaseConnection();
@@ -230,7 +211,7 @@ public String[] getInstructorIDWorkshopID(Connection conn, String coordinatorID)
 					
 				st.executeUpdate();
 				
-				System.out.println("password updated to@@@@@@@@@ : "+password);
+				System.out.println("password updated to : "+password);
 				
 			}
 		} catch(Exception e)
@@ -351,7 +332,7 @@ public String[] getInstructorIDWorkshopID(Connection conn, String coordinatorID)
 					
 				st.executeUpdate();
 				
-				System.out.println("password updated to@@@@@@@@@ : "+password);
+				System.out.println("password updated to : "+password);
 				
 			}
 		} catch(Exception e)

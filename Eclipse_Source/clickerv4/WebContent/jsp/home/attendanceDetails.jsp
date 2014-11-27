@@ -44,7 +44,7 @@ USE        : to display present and absent list
 	if(no_of_student !=0)
 	{
 	Student_List = Att_helper.studentlist(course);
-	Iterator it = Student_List.iterator();
+	Iterator<String> it = Student_List.iterator();
 	String[] Present_Sid = new String[Student_List.size()];
 	try {
 		DatabaseConnection dbconn1 = new DatabaseConnection();

@@ -42,7 +42,6 @@ String D_ID=session.getAttribute("D_ID").toString();
 				width:101px;height:21px;line-height:21px;
 			}	
 			#banner_name{
-		
 			height:55px;
 			width: 95%;
 			border: solid;
@@ -55,6 +54,9 @@ String D_ID=session.getAttribute("D_ID").toString();
 			height: 100%;
 			width: 50px;			
 			background:url('../../img/Clicker50x50.png') no-repeat center;		
+			}
+			#show:hover{
+    			background-color:#e46c0a;
 			}
 		</style>
 		<script src="../../js/jquery-1.9.1.js"></script>
@@ -71,6 +73,8 @@ String D_ID=session.getAttribute("D_ID").toString();
                 				$('#show').text("");
                     			}else{
 		                    		document.getElementById("show").style.backgroundColor='#e46c0a';
+		                    		document.getElementById("show").style.width="22px";
+		                    		document.getElementById("show").style.height="22px";
                     				$('#show').text(response);
                         			}		
             			}, "json");
@@ -144,6 +148,22 @@ String D_ID=session.getAttribute("D_ID").toString();
 		}
 
 		setInterval(blinker, 1000);
+
+		function openMHRD(){
+			window.open("http://mhrd.gov.in/");
+			}
+		function openDepartment(){
+			window.location.href="../../jsp/admin/department.jsp";
+			}
+		function openHome(){
+			window.location.href="../../jsp/home/home.jsp";
+			}
+		function showIITB(){
+			window.open("http://www.iitb.ac.in");
+			}
+		function openRaisehand(){
+			window.location.href="../../jsp/raisehand/raisehand.jsp";
+			}
 		</script>
 	</head>	
 	<body  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
@@ -151,9 +171,9 @@ String D_ID=session.getAttribute("D_ID").toString();
  		<div>
  			<script>raiseHandCounter();</script>
  			<table class="table" style="border: none;" >				
-				<tr> <td rowspan="2">
-					<a href="http://mhrd.gov.in" target="_blank" style="text-decoration: none;"><div class="ui-square" style="text-align: center;"></div></a>
-					<a href="http://mhrd.gov.in" target="_blank" style="text-decoration: none;"><div style="font-size:20px;  margin-left: 13px; color: #e46c0a;font-weight: bold; letter-spacing: 7px;">MHRD</div></a>									
+				<tr> <td rowspan="2" onclick="openMHRD();" style="cursor:pointer;">
+					<div class="ui-square" style="text-align: center;"></div>
+					<div style="font-size:22px;  margin-left: 16px; color: #e46c0a;font-weight: bold; letter-spacing: 7px;">MHRD</div>									
 				</td>	
 				</tr><tr><td>
 				<table id="sample" style="width: 100%;height: 100%; border:none;border-color: green;"  >
@@ -166,29 +186,36 @@ String D_ID=session.getAttribute("D_ID").toString();
 											<%="Instructor ID :  " + headerinstrid %><br><br><%="Department ID : " + D_ID%><br><br><%="Course ID : " + headercid%>
 										</div>
 										</td>
-										<td align="left">			
-											<div id="banner_name">
+										<!-- <td align="left">	 -->		
+											<!-- <div id="banner_name"> -->
 											<%if(session.getAttribute("admin").toString().equals("4")){	 %>
-				     							<a style="text-decoration: none;" href="../../jsp/admin/department.jsp">
-						   						<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
-						   						<div style="margin-top:20px;"><div style="font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
-						   						</a>
+				     						<td align="left"  style="cursor: pointer;" onclick="openDepartment();">			
+											<div id="banner_name">
+						   						<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"></div>
+						   						<div style="margin-top:20px;"><div style="font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
+						   						
 						   					<%if(v_id.equals("update available")){%>
 						   						<span class="blink_me" onclick="show_update();" style="margin-right: -40px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
-						   						<%}
+						   						<%}%>
+						   						</div>
+											</td>
+						   						<% 
 						   					}else {%>
-						   					
-												<a style="text-decoration: none;" href="../../jsp/home/home.jsp">
-												<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"> </div>
-						   						<div style="margin-top:20px ;"><div style="width: 240px;font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
-						   						</a>
+						   					<td align="left" style="cursor: pointer;" onclick="openHome();">			
+											<div id="banner_name">
+												<div id=Csquare style="text-align: center;float: left;margin-left: 30px; " > </div>
+						   						<div style="margin-top:20px ;"><div style="width: 240px;font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
+						   						
 											<%
 											if(v_id.equals("update available")){%>
 												<span class="blink_me" onclick="show_update();" style="margin-right: -68px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
-											<%}
-											} %>
+											<%}%>
 											</div>
-										</td>
+											</td>
+											<%} %>
+											<!-- </div>
+										</td> -->
+											
 										<td width="150px">
 											<%if((session.getAttribute("admin").toString().equals("1")) || (session.getAttribute("admin").toString().equals("2"))||session.getAttribute("admin").toString().equals("3")){
 											%>
@@ -225,9 +252,9 @@ String D_ID=session.getAttribute("D_ID").toString();
 							</ul></li>
 							<li class="topmenu" ><a href="../../jsp/poll/poll.jsp" style="width:131px;height:21px;line-height:21px;">Poll</a>
 							</li>
-							<li class="topmenu"><a href="../../jsp/raisehand/raisehand.jsp" style="width:131px;height:21px;line-height:21px;">Raise hand
-							<div id="show" style="width:22px ;height:22px  ; left: 120px; top:-30px; text-align:center ; font-size:12px ;font-weight: bold; position:relative;"></div></a></li>
-							<li class="topmenu" >
+							<li class="topmenu" style="width:152px;height:28px;line-height:21px;"><a href="../../jsp/raisehand/raisehand.jsp" style="width:131px;height:21px;line-height:21px;">Raise hand</a>
+							<div id="show" style="left: 131px; top:-39px; text-align:center ; color:white ; font-size:12px ;font-weight: bolder; position:relative; cursor: pointer;" onclick="openRaisehand();"></div></li>
+							<li class="topmenu">
 								<%if(session.getAttribute("admin").toString().equals("2")){%>
 									<a href="../../jsp/dashboard/hodreport.jsp" style="width:131px;height:21px;line-height:21px;">Report</a>
 								<%}else if(session.getAttribute("admin").toString().equals("3")){ %>
@@ -254,6 +281,8 @@ String D_ID=session.getAttribute("D_ID").toString();
 							</a></li>
 							<li class="topmenu"><a href="../../jsp/admin/changepassword.jsp" style="width:131px;height:21px;line-height:21px;">Change Password
 							</a></li>
+							<li class="topmenu"><a href="../../jsp/admin/emailsetup.jsp?mode=Local" style="width:131px;height:21px;line-height:21px;">Email Setup
+							</a></li>
 					    	<li class="toplast" onclick="openWin()"><a href="" style="width:131px;height:21px;line-height:21px;">About Clicker
 							</a></li>						
 							</ul>
@@ -262,16 +291,14 @@ String D_ID=session.getAttribute("D_ID").toString();
 					</td></tr>					
 				</table>
 				</td><td>
-			    <table style="width: 100%;height: 100%;margin-top: -5px;" border="0">
+			    <table style="width: 100%;height: 100%;margin-top: -5px;">
 			 		<tr><td style="vertical-align:top;">
 						<div id="loginout" style="float:right;cursor: pointer; margin-top: -5px;"><img src='../../img/Logout Logo.png' onclick="redirect();"></div>						
 					</td></tr>
-					<tr align="center">	<td>
-						<a href="http://www.iitb.ac.in" target="_blank" style="text-decoration: none;">
+					<tr align="center">	<td style="cursor: pointer;" onclick="showIITB();">
 							<div id="iit_logo" style="height: 80px;width: 80%;border: none;background-color:#9bbb59;background:url('../../img/iitb01 copy.png') no-repeat center">						
 							</div>
 							<font style="color:#e46c0a;font-weight: bold; ">IIT BOMBAY</font>
-						</a>
 					</td></tr>
 				</table>
 				</tr>

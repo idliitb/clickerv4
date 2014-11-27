@@ -9,7 +9,7 @@
 <script src="../../js/div.js" type="text/javascript"></script>
 <%
 	if (session.getAttribute("ParticipantId") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("participantexit.jsp");
 		return;
 	}
 	String studentID = session.getAttribute("ParticipantId").toString();
@@ -398,6 +398,9 @@ function getQuiz(cid, sid){
 			if(quiz.courseId=="0"){
 				alert("Quiz Not Launched");
 				window.location="remotehome.jsp";
+			}else if(quiz.courseId=="-2"){
+				alert("Already Attempted this Quiz");
+				window.location="remotehome.jsp";
 			}else if(quiz.quizrecordId==getCookie(quiz.quiztype + "lastattempted")){
 				alert("Already Attempted this Quiz");
 				window.location="remotehome.jsp";
@@ -417,7 +420,7 @@ function getQuiz(cid, sid){
 			showQuiz(quiz);
 		}
 	};	
-	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/remote", false);
+	xmlhttp.open("GET", "../../rest/quiz/"+cid+"/remote/"+sid, false);
 	xmlhttp.send();
 }
 

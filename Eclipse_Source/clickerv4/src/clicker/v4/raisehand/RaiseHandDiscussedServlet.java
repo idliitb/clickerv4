@@ -9,9 +9,7 @@ package clicker.v4.raisehand;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,7 @@ public class RaiseHandDiscussedServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubz
 	}
 
 	/**
@@ -45,7 +43,6 @@ public class RaiseHandDiscussedServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String TimeStamp=request.getParameter("timeStamp");
 		String StudentID=request.getParameter("StudentID");
-		System.out.println("this is discussed raise hand");
 		RaiseHandHelper rdb = new RaiseHandHelper();
 		try {
 			rdb.updateRaiseHandStatus(StudentID, TimeStamp);

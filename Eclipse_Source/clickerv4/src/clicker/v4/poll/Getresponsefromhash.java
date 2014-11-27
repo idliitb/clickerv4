@@ -10,7 +10,7 @@ import clicker.v4.global.*;
 public class Getresponsefromhash {
 	
 	/*
-	 * getpollcount function is used  to get the poll responses from students from hashmap to 
+	 * getpollcount function is used  to get the poll responses from students from hash-map to 
 	 * store in database
 	 */
 public void getpollcount(String courseId,int a[],int b[])
@@ -18,7 +18,7 @@ public void getpollcount(String courseId,int a[],int b[])
 	 // accessing the poll responses from global hashmap 
 	String allstudentpollresponsejson=Global.responsepollobject.get(courseId);
 	System.out.println("allstudentpollresponsejson"+allstudentpollresponsejson);
-	// split function is used to split the individual resposes
+	// split function is used to split the individual responses
    	String parts[]=allstudentpollresponsejson.split("@@");
    	int len=parts.length;
    
@@ -48,7 +48,7 @@ public void remotegetpollcount(String WorkshopID,int a[],int b[])
 	 // accessing the poll responses from global hashmap 
 	String allstudentpollresponsejson=Global.workshopresponsepollobject.get(WorkshopID);
 	System.out.println("allstudentpollresponsejson"+allstudentpollresponsejson);
-	// split function is used to split the individual resposes
+	// split function is used to split the individual responses
  	String parts[]=allstudentpollresponsejson.split("@@");
  	int len=parts.length;
  
@@ -67,9 +67,7 @@ public void remotegetpollcount(String WorkshopID,int a[],int b[])
  		individualstudentpolljson=parts[i];
  		//calling function to store the responses
       IndividualStudentpollRecord(a,individualstudentpolljson);
-  }
- 	// after storing the responses remove the entry in hashmap
- 	Global.responseobject.remove(WorkshopID);  	
+  }	
 }
 
 
@@ -77,12 +75,12 @@ public void  IndividualStudentpollRecord(int a[], String studentjsonresponse)
 {
     //parse student optionsresponse json to array of string..String[] studentResposne,take quizid,question no(as array index of options),courseId
 	JSONObject json=null;
-	String current_sid=null;
+	//String current_sid=null;
 	String optionvalue=null;
 
 	try {
 			json = new JSONObject(studentjsonresponse);
-			current_sid=json.get("stuid").toString();
+			//current_sid=json.get("stuid").toString();
 			optionvalue=json.get("option").toString();
 
 	 

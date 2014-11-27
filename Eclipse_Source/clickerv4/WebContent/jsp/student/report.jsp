@@ -8,7 +8,7 @@
 <title>Student Report</title>
 <%
 	if (session.getAttribute("StudentID") == null) {
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("studentexit.jsp");
 		return;
 	}
 	String studentID = session.getAttribute("StudentID").toString();	

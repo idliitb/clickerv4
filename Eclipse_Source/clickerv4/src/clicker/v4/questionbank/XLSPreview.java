@@ -24,7 +24,6 @@ public class XLSPreview extends HttpServlet {
 	 public String readQuestionXLSFile(PrintWriter out, File xlsfile) {
 	        try {
 	        	//PrintWriter out = new PrintWriter(xlsfile);
-	        	System.out.println("XLS Preview Filename: " + xlsfile.getPath());
 	            Workbook workbook = Workbook.getWorkbook(xlsfile);
 	            //String sheetName[] = workbook.getSheetNames();
 	            Sheet sheet;
@@ -35,7 +34,7 @@ public class XLSPreview extends HttpServlet {
 	            // i starts from 1 because it will avoid first row in xls sheet that is (Row 1)
 	            for (int i = 1; i < sheet.getRows(); i++) {
 	                String Question = "";
-	                String instrid = "";
+	                
 	                float Credit = 0.0f;
 	                cell = sheet.getRow(i);
 	                System.out.println("Cell: " + cell.length);
@@ -49,8 +48,9 @@ public class XLSPreview extends HttpServlet {
 	                xlsCell = sheet.getCell(1, i);
 	                String cellvalue = xlsCell.getContents().toString();
 	                System.out.println("qtype: " + cellvalue);
-	                if (cellvalue.equals("") || !(cellvalue.equals("g") || cellvalue.equals("m") 
-	                		|| cellvalue.equals("n") || cellvalue.equals("t"))) {
+	                if (cellvalue.equals("") || !(cellvalue.equals("g") || cellvalue.equals("m") || cellvalue.equals("n") 
+	                	|| cellvalue.equals("t"))) 
+	                {
 	                	out.print("<p style='color: red'><b>Enter the value for Question Type as either g: Single Correct Answer" +
 	                			" or m: Multiple Correct Answers or n: Numerical or t: True or False!</b></>");
 	                	break;
@@ -63,8 +63,9 @@ public class XLSPreview extends HttpServlet {
 	                
 	                xlsCell = sheet.getCell(2, i);
 	                cellvalue = xlsCell.getContents().toString();
-	                if (cellvalue.equals("")) {
-	                	out.print("<p style='color: red'><b>Credit Value field cannot be empty!</b></p>");
+	                if (cellvalue.equals("") || cellvalue.equals("^[a-zA-Z]*") || Float.parseFloat(cellvalue) < 0) {
+	                	out.print("<p style='color: red'><b>Credit Value field cannot be empty or enter only numeric " +
+	                			"values or enter only positive numbers!</b></p>");
 	                    break;
 	                }
 	                Credit = Float.parseFloat(cellvalue);
@@ -72,6 +73,11 @@ public class XLSPreview extends HttpServlet {
 	                
 	                xlsCell = sheet.getCell(3, i);
 					cellvalue = xlsCell.getContents().toString();
+					if(cellvalue.equals("^[a-zA-Z]*") || !(cellvalue.equals("0")) || !(cellvalue.equals("1")))
+					{
+						out.print("<p style='color: red'><b>Please enter only 0 or 1 in the Shuffle field!</b></p>");
+						break;
+					}
 					if (cellvalue.equals("") || cellvalue == null) {
 						cellvalue = "1";
 					}
@@ -79,8 +85,7 @@ public class XLSPreview extends HttpServlet {
 					System.out.println("shuffle: " + shuffle);
 	                
 					xlsCell = sheet.getCell(4, i);
-	                cellvalue = xlsCell.getContents().toString();
-	                System.out.println("Answer0: " + cellvalue);
+	                cellvalue = xlsCell.getContents().toLowerCase();
 	                int check = cellvalue.length();
 					System.out.println("check: " + check);
 					String Ans = "";
@@ -92,9 +97,7 @@ public class XLSPreview extends HttpServlet {
 	                else if(!(cellvalue.equals("true") || cellvalue.equals("false") || (QType == 3)))
 	                {
 	                	for(int m = 0; m < check; m++)
-	                		if(!(Character.toString(cellvalue.charAt(m)).equals("a") || Character.toString(cellvalue.charAt(m)).equals("b") 
-	                			|| Character.toString(cellvalue.charAt(m)).equals("c") || Character.toString(cellvalue.charAt(m)).equals("d")
-	                			|| Character.toString(cellvalue.charAt(m)).equals("e") || Character.toString(cellvalue.charAt(m)).equals("f")) || cellvalue == null)
+	                		if(cellvalue.charAt(m) < 'a' || cellvalue.charAt(m) > 'f' || cellvalue == null)
 	                		{
 	                			out.print("<p style='color: red'><b>Enter the correct option between alphabets " +
 	                					"a and f corresponding to the correct options </b> </p>");
@@ -102,7 +105,7 @@ public class XLSPreview extends HttpServlet {
 	                		}
 	                }
 	                                               	
-	                Ans = cellvalue.toLowerCase();
+	                Ans = cellvalue;
 	                System.out.println("Answer1: " + Ans);
 	                
 	                out.print("<br><br><b>"+(i) +".</b> "+Question+"<br>");
@@ -110,6 +113,14 @@ public class XLSPreview extends HttpServlet {
 	                
 	                // This will Execute for General and Multiple Questions
 	                if (QType == 1 || QType == 2) {
+	                	
+	                	if(QType == 1 && Ans.length() > 1)
+	                	{
+	                		out.print("<p style='color: red'><b>For Single Choice Correct Questions only one option can be" +
+	                				" a Correct Answer. Please select only one option as the Correct Answer! </b> </p>");
+	                		break;
+	                	}
+	                	
 	                	if((cell.length >= 9) && (cell.length <= 11))
 	                	{
 		                    // This Token define the Options
@@ -173,15 +184,7 @@ public class XLSPreview extends HttpServlet {
 	                        out.println("<br><label style='color: green'>Correct Answer</label> : False");
 	                    }
 
-	                }// It will Execute for Yes / No Questions
-	                /*else if (QType == 5) {
-		                    if (Ans.equals("yes")) {
-		                       out.println("<br><label style='color: green'>Correct Answer</label> : Yes");
-		                    } else {
-		                       out.println("<br><label style='color: green'>Correct Answer</label> : No");
-		                    }
-
-	                }*/
+	                }
 	                if(shuffle == 1)
 	                	out.print("<br><br><b>Shuffle&nbsp&nbsp</b>: Yes");
 	                else
@@ -197,13 +200,11 @@ public class XLSPreview extends HttpServlet {
 	                	break;
 	                case 4:out.println("True/False");
 	                	break;
-	                /*case 5:out.println("Yes or No");
-	                	break;*/
 	                }
 	                out.printf("<br><b>Question Credit</b> : %.2f\n",Credit);
 	                System.out.println("--------------------------------");
 	            }
-	            return "Question uploaded  Successfully";
+	            return "Questions uploaded  Successfully";
 
 	        } catch (NumberFormatException ex) {
 	            System.out.print("Wrong Credit value :" + ex);

@@ -1,6 +1,6 @@
 /*
  * Author : Dipti, Rajavel
- * 
+ * Clicker Team, IDL Lab - IIT Bombay
  * This class contain database query for remote center mode.
  */
 
@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 
 import com.google.gson.Gson;
 
@@ -40,7 +41,9 @@ public class RemoteDBHelper {
 	{
 		return pollid;
 	}
-	
+	/*
+	 * This is used to check whether login id is of student or participant.
+	 */
 	public boolean checkWhetherStudent(String StudentID){
 		String StudID=null;
 		boolean Flag=false; 
@@ -75,7 +78,10 @@ public class RemoteDBHelper {
 		return Flag;
 	}
 
-
+/*
+ * This below function is used to insert remote quiz detail in database as quiz is received in form of json from maincenter
+ * It has to be save in db for report, chart and results.
+ */
 	public void insertRemoteQuizDetails(Quiz quiz,String WorkshopID) throws SQLException{		
 		Connection conn = null;
 		DatabaseConnection dbcon = new DatabaseConnection();	
@@ -268,7 +274,9 @@ public class RemoteDBHelper {
 			}
 		}
 	}
-
+/*
+ * This is used to insert instant quiz detail in database
+ */
 	public void insertRemoteInstantQuizDetails(Quiz quiz,String WorkshopID, String coordinatorID) throws SQLException{
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection con = dbconn.createRemoteDatabaseConnection();		
@@ -316,6 +324,8 @@ public class RemoteDBHelper {
 				Global.remotequizrecordids.put(WorkshopID, iquizid);
 				Global.remotemcquizrecordids.put(WorkshopID, mcquizid);	
 				Global.remotecountresponsejson.put(WorkshopID, 0);	
+				Global.respondedparticipantlist.put(WorkshopID, new HashSet<String>());
+			
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -331,7 +341,9 @@ public class RemoteDBHelper {
 		}		
 	}
 
-
+/*
+ * This is used to set remote quiz record id and insert detail of time and quizrecord of that quiz in db
+ */
 	public int setRemoteQuizLaunchTime(String workshopID, int sec, int mcquizrecordid) throws SQLException{
 		int quizrecordid =0;
 		DatabaseConnection dbconn = new DatabaseConnection();
@@ -372,6 +384,8 @@ public class RemoteDBHelper {
 				Global.remotemcquizrecordids.put(workshopID, mcquizrecordid);
 				Global.remotecountresponsejson.put(workshopID, 0);	
 				Global.responsereceivedparticipants.put(workshopID, "");
+				Global.respondedparticipantlist.put(workshopID, new HashSet<String>());
+				
 			}else{
 				quizrecordid=rsSelect.getInt(1);
 			}
@@ -484,7 +498,9 @@ public class RemoteDBHelper {
 			dbcon.closeRemoteConnection(conn);
 		}
 	}
-	//taking centerid
+			
+	//This is used to get the Remote center Id from database which will be used 
+	//while sending response json to maincenter
 	public String getRemoteCenterID(String workshopID,String coordinatorID ){
 		String centerid = null;
 		Connection conn = null;
@@ -520,7 +536,9 @@ public class RemoteDBHelper {
 
 	}
 
-
+/*
+ * This is use dto get instant question's Question ID which will be used in response chart
+ */
 	public String getInstantQuestionIDs(int quizrecordid){
 		String questionIDs = "";
 		Connection con = null;
@@ -546,7 +564,10 @@ public class RemoteDBHelper {
 		}
 		return questionIDs;
 	}
-
+/*
+ * This is used to get the instant question detail like which type of queestion, how many option 
+ * and response of participant for same question and get count of correct and response
+ */
 	public String getInstantQuestionResponse(int quizrecordid, String questionid){
 		String response = "";
 		Connection con = null;

@@ -53,7 +53,7 @@ public class AddRemoteCoordinator extends HttpServlet {
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");		
 		PreparedStatement ps1 = null;
-		int rs = 0;
+		
 		PreparedStatement ps = null;
 		ResultSet rs1 = null;
 		int cid = 0;
@@ -90,7 +90,7 @@ public class AddRemoteCoordinator extends HttpServlet {
 				ps.setInt(4, centerid);
 				ps.setString(5, email);
 				ps.setInt(6, privilege);
-				rs = ps.executeUpdate();
+				ps.executeUpdate();
 				response.sendRedirect("jsp/admin/addremotecoordinator.jsp?status=Coordinator added successfully");
 				}//else
 				{

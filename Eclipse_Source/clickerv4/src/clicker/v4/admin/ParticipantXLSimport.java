@@ -13,7 +13,7 @@ import jxl.*;
 
 public class ParticipantXLSimport {
 	public String insertQuery(String participantid, String participantname, String workshopid) {
-		int rs = 0, pid = 0;
+		int  pid = 0;
 						
 		Connection conn = null;
 		ResultSet resultset = null;
@@ -33,7 +33,7 @@ public class ParticipantXLSimport {
 					pid = resultset.getInt("pid");
 				resultset.close();
 				if(pid == 0)
-				{	System.out.println("hi");
+				{	//System.out.println("hi");
 					ps = conn.prepareStatement("insert into participant(ParticipantID, MACAddress,ParticipantName, WorkshopID,Password) values(?,?, ?, ?,?)");
 					ps.setString(1, participantid);
 					ps.setString(2, "");
@@ -41,7 +41,7 @@ public class ParticipantXLSimport {
 					ps.setString(4, workshopid);
 					ps.setString(5, participantid);
 				
-					rs = ps.executeUpdate();
+					ps.executeUpdate();
 					
 					return "Successfull";
 				}
@@ -50,7 +50,7 @@ public class ParticipantXLSimport {
 			}
 		catch(SQLException e)
 		{
-			System.out.println("in insertquery");
+			//System.out.println("in insertquery");
 			e.printStackTrace( );
 			return "Unsuccessfull";
 		}
@@ -68,23 +68,23 @@ public class ParticipantXLSimport {
 			
 			Sheet sheet;
 			Cell xlsCell;
-			Cell[] cell;
+			
 			String query = "";
 			// Getting first sheet of xls
 			sheet = workbook.getSheet(0);
-			System.out.println("In XLS Import: ");
-			System.out.println("Sheet name = " + sheet.getName());
+			//System.out.println("In XLS Import: ");
+			//System.out.println("Sheet name = " + sheet.getName());
 			// i start from 1 because it will avoid first row in xls sheet that
 			// is (Row 1)
 			
 			for (int i = 1; i < sheet.getRows(); i++) {
 				String participantid = "";
 				
-				cell = sheet.getRow(i);
+				sheet.getRow(i);
 				
 				xlsCell = sheet.getCell(0, i);
 				participantid = xlsCell.getContents().toString().trim();
-				System.out.println("xls participant id = " + participantid);
+				//System.out.println("xls participant id = " + participantid);
 				if (participantid.equals("") || participantid == null) {
 					return ("Participant ID field entry with Sr.No." + i + " cannot be empty!");
 					
@@ -92,7 +92,7 @@ public class ParticipantXLSimport {
 
 				xlsCell = sheet.getCell(1, i);
 				String participantname = xlsCell.getContents().toString();
-				System.out.println("xls Participant Name = " + participantname);
+				//System.out.println("xls Participant Name = " + participantname);
 				if (participantname.equals("")) {
 					return ("Name of the Participant with Participant ID " + participantid + " cannot be empty!");
 				}
@@ -114,7 +114,7 @@ public class ParticipantXLSimport {
 			return "Please enter Center ID in Integers only";
 		}
 		catch (Exception exec) {
-			System.out.print("Exception import = " + exec);
+			//System.out.print("Exception import = " + exec);
 			exec.printStackTrace();
 			return "Wrong File Format";
 		}

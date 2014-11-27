@@ -11,9 +11,9 @@ function showtip(e,Q_count,N_Ques,Marks)
  var x=0;
  var y=0;
  var m;
- var h; 
+
  if(!e)
-   var e=window.event;
+    e=window.event;
    if(e.pageX||e.pageY)
     {
 	 x=e.pageX;
@@ -100,19 +100,24 @@ function showOptions(check){
 }
 
 function launchQuiz(courseID){
-	document.getElementById("isShowAns").disabled=true;
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim(); 	
  	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
  		var isactive = document.getElementById("tempdata").innerHTML.trim(); 
+ 		if(sec==""){sec="0";document.getElementById("seconds").value=0;}
  		if(isactive=="inactive"){
  			alert("Kindly active the course before launching Quiz");
  		 	return false;
  		}
- 		if(min==""){min=0;}if(sec==""){sec=0;}
- 	 	if(min==0 && sec==0){
- 		 	alert("Kindly give quiz time");
- 		 	return false;
+ 		if(min==""){
+ 			alert("Enter value for minute");
+ 			return false; 			
+ 		}else if(parseInt(min)==0 && parseInt(sec)==0){
+ 			alert("Enter the Quiz Time");
+ 			return false;
+ 		}else if(sec>59){
+ 			alert("Enter value for seconds in the range (0 to 59)");
+ 			return false;
  		}else if(isNaN(min) || isNaN(sec)){
  	 		alert("Enter Valid Quiz Time");
  	 		return false;
@@ -120,13 +125,14 @@ function launchQuiz(courseID){
  	 		alert("Negative Value is not allowed");
  	 		return false;
  	 	}else if(min.indexOf(".")!=-1 || sec.indexOf(".")!=-1){
- 	 		alert("Floating is not allowed");
+ 	 		alert("Decimal value is not allowed");
  	 		return false;
  	 	}
- 	 	var isnegativemarking = 0;
+ 		var isnegativemarking = 0;
  	 	if(document.getElementById("negativemarking").checked){
  	 		isnegativemarking = 1;
  	 	}
+ 	 	document.getElementById("isShowAns").disabled=true; 		
  	 	var isShowAns = document.getElementById("isShowAns").checked;
  		$('#quizrecordid').load("../../jsp/quiz/quizhelper.jsp?helpContent=setQuizLaunchTime&courseID="+encodeURIComponent(courseID) + "&min="+min + "&sec="+sec + "&isnegativemarking="+ isnegativemarking + "&isShowAns="+isShowAns);
  		$("#quizLauncher").css("display","none");
@@ -142,8 +148,8 @@ function startTimer(isShowAns) {
 }
 
 function countDown(isShowAns) {	
-	var min=document.getElementById("minutes").value.trim();
- 	var sec=document.getElementById("seconds").value.trim();
+	var min=parseInt(document.getElementById("minutes").value.trim());
+ 	var sec=parseInt(document.getElementById("seconds").value.trim());
  	if(min==""){min=0;}if(sec==""){sec=0;};
  	var seprater="";
  	if(sec<10){seprater = " : 0";}else{seprater= " : ";}
@@ -160,7 +166,8 @@ function countDown(isShowAns) {
 		clearInterval(down);
 		$("#quizLauncher").css("display","block");
 		document.getElementById("launcher").innerHTML = "<button class='ui-conductquiz-button'  id='pre' type='button' onclick='showResponse("+isShowAns+")' style='margin-left:460px;'>" +
-			"<span>Show Response</span>	</button>";		
+			"<span>Show Response</span>	</button>";	
+		$("#endquiz_div").css("display","none");
 	}
 	if(sec%5==0){
 		$('#quizresponsestatus').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquizresponsestatus");
@@ -189,7 +196,7 @@ function endQuiz(quiztype) {
 }
 
 function showResponse(isShowAns){
-	window.location = "../../jsp/quiz/newresponsechart.jsp?isShowAns="+isShowAns;
+	window.location.href= "../../jsp/quiz/newresponsechart.jsp?isShowAns="+isShowAns;;
 }
 
 function displayOptions(optionNmbr){

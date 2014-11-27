@@ -1,5 +1,5 @@
 <!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
-* This page is used for setting course.
+* This page is used for setting workshop.
  -->
  <%@page import="clicker.v4.wrappers.*"%>
  <%@page import= "com.google.gson.Gson"%>
@@ -61,15 +61,9 @@ if(courselist.size()==1){
 							%>
 									<option><%=courselist.get(i)%></option>
 							
-							<%	} if(!flag && courselist.size()==1){
-								%>
-								<option><%=courselist.get(i)%></option>
-						
-						<%	
-								
+							<%	}
 							}
-							}
-						
+							
 							%>
 								
 							

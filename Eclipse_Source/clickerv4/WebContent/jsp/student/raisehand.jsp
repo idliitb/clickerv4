@@ -1,6 +1,13 @@
+<!-- Author : Dipti, Clicker Team, IDL LAB ,IIT Bombay
+* This page is used for submitting raisehand for student.
+ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+if (session.getAttribute("StudentID") == null) {
+	response.sendRedirect("studentexit.jsp");
+	return;
+}
 	String StudentID = session.getAttribute("StudentID").toString();
 	String CourseID = session.getAttribute("StudentCourse").toString();
 %>

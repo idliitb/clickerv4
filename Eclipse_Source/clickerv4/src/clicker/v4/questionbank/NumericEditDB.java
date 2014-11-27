@@ -2,7 +2,6 @@ package clicker.v4.questionbank;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +41,7 @@ public class NumericEditDB extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		Connection conn=null;
-		String instructorid = (String) request.getSession().getAttribute("InstructorID");
+		
 		PrintWriter out = response.getWriter();
 		DatabaseConnection dbconn = new DatabaseConnection();
 		try{
@@ -57,7 +56,7 @@ public class NumericEditDB extends HttpServlet {
 				float credits = Float.parseFloat(request.getParameter("credits"));
 				float negativemarks = Float.parseFloat(request.getParameter("negativemarks"));
 				String option=request.getParameter("numericanswer");
-				String image = request.getParameter("browse");
+				
 				int qid = -1;
 				qid = Integer.parseInt(request.getParameter("qid"));
 				st.setString(1,question);
@@ -66,7 +65,7 @@ public class NumericEditDB extends HttpServlet {
 				st.setInt(4,qid);
 				
 				int rs=st.executeUpdate();
-				ResultSet res = st.getGeneratedKeys();
+				st.getGeneratedKeys();
 				
 				PreparedStatement st1 = conn.prepareStatement(query2,Statement.RETURN_GENERATED_KEYS);
 				st1.setString(1,option);
@@ -89,12 +88,12 @@ public class NumericEditDB extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			out.println(e);
+			System.out.println("Exception in NumericEditDB: " + e);
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				e.getStackTrace();
+				System.out.println("Exception in NumericEditDB: " + e);
 			}
 		}	
 

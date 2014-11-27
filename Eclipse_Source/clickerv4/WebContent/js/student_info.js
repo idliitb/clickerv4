@@ -21,6 +21,24 @@ function getXMLhttp() {
 	}
 }
 
+
+function checkforspecial(t) {
+
+	if (t.value.match(/\s/g) || t.value.match(/@/g)
+			|| t.value.match(/#/g) || t.value.match(/$/g) || t.value.match(/%/g)
+			|| t.value.match(/^/g) || t.value.match(/&/g))
+		 {
+		t.value = t.value.replace(/\s/g, '');
+		t.value = t.value.replace(/@/g, '');
+		t.value = t.value.replace(/#/g, '');
+		t.value = t.value.replace(/$/g, '');
+		t.value = t.value.replace(/%/g, '');
+		t.value = t.value.replace(/^/g, '');
+	}
+	t.value = t.value.toUpperCase();
+
+}
+
 function rowSelected(SelectedRow) {
 
 	CurrentSelectedRow = SelectedRow;
@@ -135,6 +153,7 @@ if (CurrentSelectedRow != "0")
 			}
 
 			xmlhttp.send();
+			alert("Student Deleted Successfully!!");
 		}
 	
 		
@@ -530,7 +549,7 @@ function add_new_student() {
 
 			document.getElementById("student_dialog").innerHTML = xmlhttp.responseText;
 			$("#student_dialog").dialog({
-				height : 500,
+				height : 550,
 				width : 500,
 				draggable : false,
 				modal : true
@@ -596,8 +615,15 @@ function add_student() {
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
+			if(xmlhttp.responseText == "1")
+				{
+				alert("Duplicate Entry!!");
+				return false;
+				}
 			}
 		};
+		
+		
 		var student_id = document.getElementById('student_id').value;
 		document.getElementById('mac_txt').value = "";
 		var where_to = confirm("Do you really want to add Student?");
@@ -630,6 +656,8 @@ function add_student() {
 		}
 
 		xmlhttp.send();
+		
+		
 	}
 
 }
@@ -965,7 +993,7 @@ function previewXLS() {
 		modal:true,
 		height:530,
 		position:"absolute",
-	    width:800,
+	    width:900,
 	    autoOpen:false
 	});
 	var url=getXlsUrl();
