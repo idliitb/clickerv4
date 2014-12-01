@@ -794,51 +794,46 @@ import clicker.v4.wrappers.Quiz;
 			ps = con.prepareStatement("Select CenterID from remotecenter");
 			
 			centerid = ps.executeQuery();
-			centerid.next();
-			remoteCenterID = centerid.getString("CenterID");
-			
-			
-			ps1=con.prepareStatement("SELECT Distinct(IQuizID) from instantquizresponsenew where ResponseSend=0");
-			instantquizID=ps1.executeQuery();
-			if(instantquizID!=null){
-				
-				while(instantquizID.next()){
-					IquizID=instantquizID.getInt("IQuizID");
-					ps2=con.prepareStatement("SELECT WorkshopID,MCQuizID FROM instantquiznew where IQuizID=?");
-					ps2.setInt(1,IquizID );
-					instantquizDetail=ps2.executeQuery();
-					instantquizDetail.next();
-					mcQuizRecordID=instantquizDetail.getInt("MCQuizID");
-					workshopID=instantquizDetail.getString("WorkshopID");
-					quizResponse.setCenterid(remoteCenterID);
-					quizResponse.setQuizrecordid(mcQuizRecordID);
-					quizResponse.setWorkshopid(workshopID);
-					
-					ArrayList<ParticipantResponse> participantresponses = new ArrayList<ParticipantResponse>();
-					
-					String sql = "select ParticipantID, IQuestionID, Response from instantquizresponsenew where IQuizID=? and ResponseSend=0";
-					ps3 = con.prepareStatement(sql);
-					ps3.setInt(1,IquizID );
-					responses = ps3.executeQuery();
-					while(responses.next()){
-						ParticipantResponse participant = new ParticipantResponse();
-						participant.setParticipantid(responses.getString("ParticipantID"));
-						participant.setQuestionid(responses.getInt("IQuestionID"));
-						participant.setResponse(responses.getString("Response"));
-						participantresponses.add(participant);
+			if(centerid.next()){
+				remoteCenterID = centerid.getString("CenterID");
+				ps1=con.prepareStatement("SELECT Distinct(IQuizID) from instantquizresponsenew where ResponseSend=0");
+				instantquizID=ps1.executeQuery();
+				if(instantquizID!=null){					
+					while(instantquizID.next()){
+						IquizID=instantquizID.getInt("IQuizID");
+						ps2=con.prepareStatement("SELECT WorkshopID,MCQuizID FROM instantquiznew where IQuizID=?");
+						ps2.setInt(1,IquizID );
+						instantquizDetail=ps2.executeQuery();
+						instantquizDetail.next();
+						mcQuizRecordID=instantquizDetail.getInt("MCQuizID");
+						workshopID=instantquizDetail.getString("WorkshopID");
+						quizResponse.setCenterid(remoteCenterID);
+						quizResponse.setQuizrecordid(mcQuizRecordID);
+						quizResponse.setWorkshopid(workshopID);
+						
+						ArrayList<ParticipantResponse> participantresponses = new ArrayList<ParticipantResponse>();
+						
+						String sql = "select ParticipantID, IQuestionID, Response from instantquizresponsenew where IQuizID=? and ResponseSend=0";
+						ps3 = con.prepareStatement(sql);
+						ps3.setInt(1,IquizID );
+						responses = ps3.executeQuery();
+						while(responses.next()){
+							ParticipantResponse participant = new ParticipantResponse();
+							participant.setParticipantid(responses.getString("ParticipantID"));
+							participant.setQuestionid(responses.getInt("IQuestionID"));
+							participant.setResponse(responses.getString("Response"));
+							participantresponses.add(participant);
+						}
+						quizResponse.setParticipantResponse(participantresponses);
+						Gson gson = new Gson();
+						String responseJSON = gson.toJson(quizResponse);
+						JSONReadandparse sendJson=new JSONReadandparse();
+						sendJson.resendInstantQuizResponceJSON(responseJSON,MainCenterURL);
 					}
-					quizResponse.setParticipantResponse(participantresponses);
-					Gson gson = new Gson();
-				    String responseJSON = gson.toJson(quizResponse);
-				    JSONReadandparse sendJson=new JSONReadandparse();
-				    sendJson.resendInstantQuizResponceJSON(responseJSON,MainCenterURL);
+				}else{
+					System.out.println("Response for all instant quiz is already send to main center");
 				}
-				
-			}else{
-				System.out.println("Response for all instant quiz is already send to main center");
 			}
-			
-	
 			}catch(SQLException ex){
 				ex.printStackTrace();
 			}finally{

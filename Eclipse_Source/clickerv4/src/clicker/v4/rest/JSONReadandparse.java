@@ -733,7 +733,7 @@ public class JSONReadandparse {
 				
 		try {
 						
-			url = new URL("http://localhost:8080/clicker/rest/quiz/war_version/" + war_version + "/" + db_version);
+			url = new URL("http://www.it.iitb.ac.in/clicker/rest/quiz/war_version/" + war_version + "/" + db_version);
 			is = url.openStream();
 										
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));

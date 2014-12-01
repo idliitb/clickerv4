@@ -45,24 +45,11 @@ USE        : to add New Course
 			</tr>
 			<tr>
 				<td>Department ID</td>
-				<td>						<%
-							DatabaseConnection dbconn = new DatabaseConnection();
-							Connection conn = dbconn.createDatabaseConnection();
-							Statement st = conn.createStatement();
-							String query1 = "SELECT DeptName,DeptID FROM department where DeptID='"+Dept_ID+"'";
-							ResultSet rs = st.executeQuery(query1);
-							while (rs.next()) {
-								String DepartmentName = rs.getString(1);
-								String DepartmentID = rs.getString(2);
-								dpt_id=DepartmentID;
-						%>
-						<input type="text" name="dep_nam" id=<%=DepartmentID %> value=<%=DepartmentName%> readonly>
+				<td>						
+						<input type="text" name="dep_nam" id=<%=Dept_ID %> value=<%=Dept_ID %> readonly>
 						
 						
-						<%
-							}
-							 dbconn.closeLocalConnection(conn);
-						%>
+						
 						
 						</td>
 				

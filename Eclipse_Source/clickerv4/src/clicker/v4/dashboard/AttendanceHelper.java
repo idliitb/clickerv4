@@ -8,13 +8,12 @@ package clicker.v4.dashboard;
 
 import java.util.HashSet;
 
-import java.util.concurrent.ConcurrentHashMap;
 
 import clicker.v4.global.Global;
 import clicker.v4.databaseconn.*;
 
 import java.sql.*;
-import java.util.*;
+
 
 
 
@@ -35,42 +34,11 @@ public class AttendanceHelper {
 		{
 			return 0;
 		}
-					
-			/*HashSet<String> studentlist = new HashSet<String>();			
-			studentlist.add("1");
-			studentlist.add("2");
-			studentlist.add("20");
-			studentlist.add("7");
-			studentlist.add("8");
-			studentlist.add("8");
-			studentlist.add("8");
-			studentlist.add("8");
-			studentlist.add("12");
-			studentlist.add("13");
-			studentlist.add("25");
-			studentlist.add("15");
-			studentlist.add("16");
-			studentlist.add("17");
-			studentlist.add("18");
-			studentlist.add("19");
-			studentlist.add("21");
-			studentlist.add("22");
-			studentlist.add("23");
-			studentlist.add("24");
-			studentlist.add("26");
-			studentlist.add("27");
-
-			ConcurrentHashMap<String, HashSet<String>> myMap = new ConcurrentHashMap<String, HashSet<String>>();
-			myMap.put("CSE101", studentlist);
-
-			Global.activestudentlist = myMap;*/
-
 			HashSet<String> student_list = new HashSet<String>();
 			student_list = Global.activestudentlist.get(courseID);
 			if (Global.activestudentlist.get(courseID) == null) {
 				return 0;
 			} else {
-				// System.out.println("size of mymap=======>"+sam.size());
 				return student_list.size();
 			}
 		

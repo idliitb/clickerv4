@@ -69,11 +69,11 @@ public class EmailSetUp extends HttpServlet {
 						if(rows==0){
 							
 							//insert query
-							String insertquery="insert into emailsetup (EmailAddress , Password , id) values(?, ? , ?)";
+							String insertquery="insert into emailsetup (EmailAddress , Password) values(?, ?)";
 							st = con.prepareStatement(insertquery);
 							st.setString(1,gmailid);
 							st.setString(2,password);
-							st.setInt(3,1);
+							//st.setInt(3,1);
 
 							
 							int rs = st.executeUpdate();				
@@ -102,7 +102,7 @@ public class EmailSetUp extends HttpServlet {
 				}
 			else if(mode.equals("Remote"))
 			{
-					//System.out.println("in remote mode emailsetup");
+					System.out.println("in remote mode emailsetup");
 					DatabaseConnection dbcon = new DatabaseConnection();
 					con=dbcon.createRemoteDatabaseConnection();
 					
@@ -119,11 +119,11 @@ public class EmailSetUp extends HttpServlet {
 						if(rows==0){
 							
 							//insert query
-							String insertquery="insert into emailsetup (EmailAddress , Password , id) values(?, ?, ?)";
+							String insertquery="insert into emailsetup (EmailAddress , Password) values(?, ?)";
 							st = con.prepareStatement(insertquery);
 							st.setString(1,gmailid);
 							st.setString(2,password);
-							st.setInt(3,1);
+							//st.setInt(3,1);
 							
 							int rs = st.executeUpdate();				
 							//System.out.println("rows affected : "+rs);

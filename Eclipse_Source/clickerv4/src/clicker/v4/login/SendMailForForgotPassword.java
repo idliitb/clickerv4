@@ -38,12 +38,10 @@ final String passwordfrom = loginhelp.getPassword();
 
  String to =emailto;//change accordingly
  Properties props = new Properties();
-  props.put("mail.smtp.host", "smtp.gmail.com");
-  props.put("mail.smtp.socketFactory.port", "465");
-  props.put("mail.smtp.socketFactory.class",
-        	"javax.net.ssl.SSLSocketFactory");
-  props.put("mail.smtp.auth", "true");
-  props.put("mail.smtp.port", "465");
+ props.put("mail.smtp.auth", "true");
+ props.put("mail.smtp.starttls.enable", "true");
+ props.put("mail.smtp.host", "smtp.gmail.com");
+ props.put("mail.smtp.port", "587");
  
   Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator() {
    protected PasswordAuthentication getPasswordAuthentication() {
@@ -57,6 +55,7 @@ final String passwordfrom = loginhelp.getPassword();
    String username = instrname;
       
    System.out.println("sending email from: b "+emailfrom);
+   System.out.println("sending password from: b "+passwordfrom);
    message.setFrom(new InternetAddress(emailfrom));//change accordingly
    message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
    message.setSubject("Reg:Clickerv4admin : Update your password ");
@@ -91,14 +90,12 @@ loginHelper loginhelp = new loginHelper();
 final String emailfrom = loginhelp.remotegetEmail();
 final String passwordfrom = loginhelp.remotegetPassword();
 
- String to =emailto;//change accordingly
- Properties props = new Properties();
-  props.put("mail.smtp.host", "smtp.gmail.com");
-  props.put("mail.smtp.socketFactory.port", "465");
-  props.put("mail.smtp.socketFactory.class",
-        	"javax.net.ssl.SSLSocketFactory");
-  props.put("mail.smtp.auth", "true");
-  props.put("mail.smtp.port", "465");
+String to =emailto;//change accordingly
+Properties props = new Properties();
+props.put("mail.smtp.auth", "true");
+props.put("mail.smtp.starttls.enable", "true");
+props.put("mail.smtp.host", "smtp.gmail.com");
+props.put("mail.smtp.port", "587");
  
   Session session = Session.getDefaultInstance(props,
    new javax.mail.Authenticator() {

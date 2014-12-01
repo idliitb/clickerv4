@@ -408,7 +408,7 @@ jQuery('html').bind('click',function(e){
 							</tr>
 							<tr>
 								<th>Instructor ID</th>
-								<th>Student Name</th>
+								<th>Instructor Name</th>
 								<th>Department</th>
 
 							</tr>

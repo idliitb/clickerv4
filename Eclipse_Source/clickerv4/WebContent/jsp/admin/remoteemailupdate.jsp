@@ -16,18 +16,11 @@
 
 <%@ include file="../../jsp/includes/remotemenuheader.jsp"%>
 
-<script type="text/javascript" src="../../js/courses.js"></script>
-<script type="text/javascript" src="../../js/LoginValidation.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
 <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
-
-<link href="../../jquery/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="../../jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
 <link href="../../js/jquery-ui.css" rel="stylesheet"	type="text/css" />
-<link rel="stylesheet" media="all" type="text/css"	href="../../jsp/newMenu/dropdown.css" />
-<link type="text/css" rel="stylesheet" href="../../css/login.css">
 <link rel="stylesheet" type="text/css" href="../../css/logininput.css" />
-<link type="text/css" rel="stylesheet" href="../../css/style.css">
+
 
 <body onload="clearalltext()"  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 
@@ -38,10 +31,6 @@ if(!session.getAttribute("admin").toString().equals("2")){
 	rd.forward(request, response);
 	return;
 }
-
-
-String status = (String) session.getAttribute("status"); 
-System.out.println("status at emailupdate is....."+status);
 %>
 <script type="text/javascript">
 
@@ -119,12 +108,10 @@ alert("email address does not updated ");
 });
 
 </script>
-	
-
-	<form class="form-4"  method="post" action="../../EmailUpdate" onsubmit="return validate();">
-	<input type="hidden" id="mode" name="mode" value="remote">
+<form class="form-4"  method="post" action="../../EmailUpdate" onsubmit="return validate();">
+	<input type="hidden" id="mode" name="mode" value="Remote">
 	<div style="margin-top:40px;">
-		<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Update up your Email System</label></div>
+		<div><label style="margin:auto;color:#9bbb59; font-size:25px; ">Update up your Email System</label></div>
 		<br/>
 		<div id="note" style="margin:auto;color: red;"><label>Note : Only admin can update this email address and password.  </label></div>
 	

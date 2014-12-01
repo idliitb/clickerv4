@@ -27,7 +27,7 @@
 <body onload="clearalltext()"  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 
 <%
-String mode = request.getParameter("mode");
+//String mode = request.getParameter("mode");
 if(!session.getAttribute("admin").toString().equals("4")){
 	request.setAttribute("Error","You are not allow to use this page");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
@@ -119,11 +119,11 @@ alert("Can not add new Email ID in the Dtabase.");
 	
 
 	<form class="form-4"  method="post" action="../../EmailUpdate" onsubmit="return validate();">
-	<input type="hidden" id="mode" name="mode" value=<%=mode%>>
+	<input type="hidden" id="mode" name="mode" value="Local">
 	<div style="margin-top:40px;">
-		<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Update your Email System</label></div>
+		<div><label style="margin:auto;color:#9bbb59; font-size:25px;">Update your Email System</label></div>
 		<br/>
-		<div id="note" style="margin:auto;color: red;"><label>Note : Only admin can update this email address and password.  </label></div>
+		<div id="note" style="margin:auto;color: red;"><label>Note : Here you can update the email address and password.  </label></div>
 	
 		<div style="margin-top:30px">
 			<table  style="height:150px;width:400px; margin:auto; border: none; ">

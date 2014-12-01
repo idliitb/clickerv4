@@ -1,9 +1,7 @@
 package clicker.v4.dashboard;
 import java.util.HashSet;
 
-import java.util.concurrent.ConcurrentHashMap;
 
-import clicker.v4.global.Global;
 import clicker.v4.databaseconn.*;
 
 import java.sql.*;
@@ -100,7 +98,7 @@ public class graphhelper {
 		//System.out.println(CourseID+"------>"+quizid );
 	    HashSet<String> studenid= new HashSet<String>();
 		String Query1 = "select StudentID from studentcourse where CourseID='"+ CourseID +"'";		
-		String name = null;
+		
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection conn = dbconn.createDatabaseConnection();
 		Statement st = null;
@@ -121,7 +119,7 @@ public class graphhelper {
 		}
 		finally{dbconn.closeLocalConnection(conn);}		
 		
-		Iterator it = studenid.iterator();
+		Iterator<String> it = studenid.iterator();
 		DatabaseConnection dbconn1 = new DatabaseConnection();
 		Connection conn1 = dbconn1.createDatabaseConnection();
 		Statement st1;

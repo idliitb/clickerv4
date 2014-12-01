@@ -67,10 +67,8 @@ public class EmailUpdate extends HttpServlet {
 					  rows = resultSet.getInt("cnt");
 					}
 					resultSet.close();
-					System.out.println("@@@@@@@@@@@@@@@@@@@@@@Number of rows in local is: "+ rows);
+					System.out.println("Number of rows in local is: "+ rows);
 					
-					
-						
 						String updatequery="update emailsetup set Password=? , EmailAddress=?";
 						st = con.prepareStatement(updatequery);				
 						st.setString(1, newpassword.trim());
@@ -106,8 +104,7 @@ public class EmailUpdate extends HttpServlet {
 			try
 			{	
 				String selectquery="SELECT COUNT(*) as cnt FROM emailsetup";
-				st = con.prepareStatement(selectquery);
-				
+				st = con.prepareStatement(selectquery);				
 				ResultSet resultSet = st.executeQuery();
 				
 				while (resultSet.next()) {
@@ -116,31 +113,24 @@ public class EmailUpdate extends HttpServlet {
 				resultSet.close();
 			//	System.out.println("Number of rows in remote is: "+ rows);
 				
-				if(rows==1)
-				{
-					String updatequery="update emailsetup set Password=? , EmailAddress=? where id ="+1 ;
+					String updatequery="update emailsetup set Password=? , EmailAddress=? ";
 					st = con.prepareStatement(updatequery);				
 					st.setString(1, newpassword.trim());
 					st.setString(2,newgmailid.trim());
 					int rs=st.executeUpdate();
-				//	System.out.println(st.executeUpdate()+ " ........");
-					
+							
 					System.out.println("rows affected : "+rs);
 					
 					if(rs==0)
-					{
-						
-						response.sendRedirect("jsp/admin/emailupdate.jsp?status=Unsuccessfull");
+					{						
+						response.sendRedirect("jsp/admin/remoteemailupdate.jsp?status=Unsuccessfull");
 				
 					}
-					else
+					{	
+						System.out.println(" rows updated ");
 						response.sendRedirect("jsp/home/remotehome.jsp");
-	
-					
-				}
-				else{
-					response.sendRedirect("jsp/admin/remoteemailsetup.jsp");
-				}
+					}
+				
 			}
 			catch (Exception e) 
 			{

@@ -281,7 +281,7 @@ String D_ID=session.getAttribute("D_ID").toString();
 							</a></li>
 							<li class="topmenu"><a href="../../jsp/admin/changepassword.jsp" style="width:131px;height:21px;line-height:21px;">Change Password
 							</a></li>
-							<li class="topmenu"><a href="../../jsp/admin/emailsetup.jsp?mode=Local" style="width:131px;height:21px;line-height:21px;">Email Setup
+							<li class="topmenu"><a href="../../jsp/admin/emailsetup.jsp" style="width:131px;height:21px;line-height:21px;">Email Setup
 							</a></li>
 					    	<li class="toplast" onclick="openWin()"><a href="" style="width:131px;height:21px;line-height:21px;">About Clicker
 							</a></li>						

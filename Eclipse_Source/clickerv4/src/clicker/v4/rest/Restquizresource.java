@@ -684,6 +684,7 @@ public class Restquizresource {
 		String pollresponse=personParams.getFirst("poll_res");
 		String course_id=personParams.getFirst("courseId");
 		String mode=personParams.getFirst("mode");
+		String pollid=personParams.getFirst("pollId");
 
 		//Checking mode is local or remote
 		if(mode.equals(Mode)||mode==Mode)
@@ -691,6 +692,7 @@ public class Restquizresource {
 			System.out.println("courseID:"+course_id);
 			System.out.println("pollresponse json:   "+pollresponse);
 			System.out.println("mode json:   "+mode);
+			System.out.println("pollid json:   "+pollid);
 			JSONObject pollresponseJSon = null;
 			try {
 				pollresponseJSon = new JSONObject(pollresponse);

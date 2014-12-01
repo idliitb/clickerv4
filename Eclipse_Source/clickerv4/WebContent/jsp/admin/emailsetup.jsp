@@ -6,13 +6,49 @@
 
 <%
 
-String mode = request.getParameter("mode");
+//String mode = request.getParameter("mode");
 if(!(session.getAttribute("admin").toString()).equals("4")){
 	request.setAttribute("Error","You are not allow to use this page");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
 	rd.forward(request, response);
 	return;
 }
+Connection con = null;
+PreparedStatement st = null;
+ResultSet rs = null;
+int rows=0;
+int showflag=0;
+DatabaseConnection dbcon = new DatabaseConnection();
+try{	
+	con = dbcon.createDatabaseConnection();
+	String selectquery="SELECT COUNT(*) FROM emailsetup";
+	st = con.prepareStatement(selectquery);
+
+	ResultSet resultSet = st.executeQuery();
+
+	while (resultSet.next()) {
+  		rows = resultSet.getInt(1);
+	}
+	System.out.println("Number of rows is: "+ rows);
+}
+catch (SQLException e) {
+	e.printStackTrace();
+}finally{
+	try {
+		if(rs!=null)rs.close();
+		if(st!=null)st.close();
+		if(con!=null)dbcon.closeLocalConnection(con);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+}
+if(rows==0)
+	showflag=0;
+else
+	showflag=1;
+
+
 %>
 
 <html>
@@ -42,6 +78,10 @@ function clearall()
 {
 	document.getElementById("gmailid").value="";
 	document.getElementById("password").value="";
+	
+	if(document.getElementById("showflaghidden").value!=0)
+		window.location.href="./emailupdate.jsp?mode="+document.getElementById("mode").value;
+	
 	
 	
 }
@@ -117,13 +157,13 @@ alert("email address does not added");
 	
 
 	<form class="form-4"  method="post" action="../../EmailSetUp" onsubmit="return allow()">
-	<input type="hidden" id="mode" name="mode" value=<%=mode %> >
-	<div style="margin-top:40px;">
+	<input type="hidden" id="mode" name="mode" value="Local" >
+	<div style="margin-top:30px;">
 		<div><label style="margin:auto;color:#9bbb59; font-size:25px;">Set up your Email System</label></div>
 		<br/>
-		<div id="note" style="margin:auto;color: red;"><label>Note : In this admin has to create Gmail Id for particular institute and should maintain it and later on hand over to next admin.  </label></div>
-	
-		<div style="margin-top:30px">
+		<div id="note" style="margin:auto;color: red;"><label>Note : For this set-up admin has to create Gmail Id for particular institute and should maintain it and later on hand over to next admin.  </label></div>
+		<br><div id="note" style="margin:auto;color:  red;font-weight: bold"><label>Imp Note : If Clicker server is configured within firewall, Please make sure  port 587 is open in your firewall.<br>(Contact your System Administrator)<br></label></div>
+		<div style="margin-top:20px">
 			<table  style="height:150px;width:400px; margin:auto; border: none; ">
 				<tr>
 					<td >
@@ -149,15 +189,11 @@ alert("email address does not added");
 			<span>Submit</span>
 			</button>
 		</div>
-		<br />	
-<div style="color:#9bbb59;font-size:18px;text-align:center;margin-right:2px">
-	<a style="color:#e46c0a" href="./emailupdate.jsp?mode=<%=mode%>">update email</a>
-</div>
-
 	</div>
 	</form>
 	<div style="margin-top:-550px;">
 <%@ include file= "../../jsp/includes/menufooter.jsp" %>
 </div>
+<input type="hidden" value="<%=showflag%>" id="showflaghidden"/>
 </body>
 </html>

@@ -309,7 +309,7 @@ jQuery('html').bind('click', function(e){
 						 {
 							Statement st = conn.createStatement();
 							int i = 0;
-							String query1 = "SELECT DeptID,DeptName,HOD FROM department";
+							String query1 = "SELECT DeptID,DeptName,HOD FROM department where DeptID <> 'temp001'";
 							//Original 11.20//String query1 = "select s.StudentID,StudentRollNo,StudentName,YearofJoining,Privileges,s.DeptID,EmailID, CourseID from student s, studentcourse c where c.StudentID = s.StudentID";
 							ResultSet rs = st.executeQuery(query1);
 							while (rs.next()) {		

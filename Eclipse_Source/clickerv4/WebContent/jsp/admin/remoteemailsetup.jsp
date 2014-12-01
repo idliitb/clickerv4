@@ -3,18 +3,48 @@
 <%@page import="java.sql.*"%>
 
 <%
-System.out.println("ad priv in remote :"+(String) session.getAttribute("admin"));
-
 if(!((String) session.getAttribute("admin")).equals("2")){
 	request.setAttribute("Error","You are not allow to use this page");
 	RequestDispatcher rd = request.getRequestDispatcher("../../error.jsp");
 	rd.forward(request, response);
 	return;
 }
+Connection con = null;
+PreparedStatement st1 = null;
+ResultSet rs1 = null;
+int rows=0;
+int showflag=0;
+DatabaseConnection dbcon = new DatabaseConnection();
+try{	
+	con=dbcon.createRemoteDatabaseConnection();
+	String selectquery="SELECT COUNT(*) FROM emailsetup";
+	st1 = con.prepareStatement(selectquery);
+
+	ResultSet resultSet = st1.executeQuery();
+
+	while (resultSet.next()) {
+  		rows = resultSet.getInt(1);
+	}
+	System.out.println("Number of rows is: "+ rows);
+}
+catch (SQLException e) {
+	e.printStackTrace();
+}finally{
+	try {
+		if(rs1!=null)rs1.close();
+		if(st1!=null)st1.close();
+		if(con!=null)dbcon.closeRemoteConnection(con);
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+}
+if(rows==0)
+	showflag=0;
+else
+	showflag=1;
 
 
-String status = (String) session.getAttribute("status"); 
-System.out.println("status is....."+status);
 %>
 
 <html>
@@ -29,21 +59,13 @@ System.out.println("status is....."+status);
 <title>Setup Email System</title>
 </head>
 
-	<%@ include file="../../jsp/includes/remotemenuheader.jsp"%>
 
-<script type="text/javascript" src="../../js/courses.js"></script>
-<script type="text/javascript" src="../../js/LoginValidation.js"></script>
+
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
 <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
-
-<link href="../../jquery/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="../../jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
 <link href="../../js/jquery-ui.css" rel="stylesheet"	type="text/css" />
-<link rel="stylesheet" media="all" type="text/css"	href="../../jsp/newMenu/dropdown.css" />
-<link type="text/css" rel="stylesheet" href="../../css/login.css">
 <link rel="stylesheet" type="text/css" href="../../css/logininput.css" />
-<link type="text/css" rel="stylesheet" href="../../css/style.css">
-<link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
+
 
 <body onload="clearall();"  class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 
@@ -54,7 +76,8 @@ function clearall()
 {
 	document.getElementById("gmailid").value="";
 	document.getElementById("password").value="";
-	
+	if(document.getElementById("showflaghidden").value!=0)
+		window.location.href="./remoteemailupdate.jsp?mode="+document.getElementById("mode").value;
 	
 }
 // this function is used for email id validation 
@@ -130,14 +153,14 @@ alert("Can not add new Email ID in the Dtabase");
 
 </script>
 	
-
+<%@ include file="../../jsp/includes/remotemenuheader.jsp"%>
 	<form class="form-4"  method="post" action="../../EmailSetUp" onsubmit="return allow()">
-	<input type="hidden" id="mode" name="mode" value="remote">
-	<div style="margin-top:40px;">
-		<div><label class="ui-text" style="margin:auto;color:#9bbb59; ">Set up your Email System</label></div>
+	<input type="hidden" id="mode" name="mode" value="Remote">
+	<div style="margin-top:30px;">
+		<div><label style="margin:auto;color:#9bbb59; font-size:25px; ">Set up your Email System</label></div>
 		<br/>
 		<div id="note" style="margin:auto;color: red;"><label>Note : In this admin has to create Gmail Id for particular institute and should maintain it and later on hand over to next admin.  </label></div>
-	
+		<br><div id="note" style="margin:auto;color:  red;font-weight: bold"><label>Imp Note : If Clicker server is configured within firewall, Please make sure  port 587 is open in your firewall.<br>(Contact your System Administrator)<br></label></div>
 		<div style="margin-top:30px">
 			<table  style="height:150px;width:400px; margin:auto; border: none; " >
 				<tr>
@@ -164,15 +187,11 @@ alert("Can not add new Email ID in the Dtabase");
 			<span>Submit</span>
 			</button>
 		</div>
-		<br/>	
-<div style="color:#9bbb59;font-size:18px;text-align:center;margin-right:2px">
-	<a style="color:#e46c0a" href="./remoteemailupdate.jsp">update email</a>
-</div>
-
-	</div>
+		</div>
 	</form>
 	<div style="margin-top:-550px;">
 <%@ include file= "../../jsp/includes/menufooter.jsp" %>
 </div>
+<input type="hidden" value="<%=showflag%>" id="showflaghidden"/>
 </body>
 </html>
