@@ -11,9 +11,17 @@ if(helpContent.equals("quizdata")){
 	System.out.println(WorkshopID);	
 	out.print(reportHelper.getReportDashboardData(WorkshopID));
 }else if(helpContent.equals("atteninfo")){
-	String cid = request.getParameter("cid");
+	String cid = request.getParameter("wid");
 	String date = request.getParameter("date");
     String atteninfo = reportHelper.getAttendanceInfo(cid, date);
     out.print(atteninfo);
+}else if(helpContent.equals("workshopsdata")){
+	out.print(reportHelper.getWorkshopsDashboardData());
+}else if(helpContent.equals("getCalendarDate")){
+	String wid = request.getParameter("wid");
+	String coordinatorID = session.getAttribute("CoordinatorID").toString();
+	String dateType = request.getParameter("dateType");
+	String calendarDate=  reportHelper.getCalendarDate(wid, dateType, coordinatorID);
+	out.print(calendarDate);
 }
 %>

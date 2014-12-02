@@ -919,4 +919,37 @@ public class RemoteReportHelper {
         //System.out.println(chartdata + "~$~" +normalQuiz + "@#@" + instantQuiz + "@#@" + studentquizparticipation);
         return chartdata + "~$~" +normalQuiz + "@#@" + instantQuiz+ "@#@" + studentquizparticipation + "@#@" + poll;
 	}
+	
+	// This method is used to get the courses details for report dashboard
+		public String getWorkshopsDashboardData(){
+			StringBuffer courseData = new StringBuffer();
+			Connection con = null;
+	        PreparedStatement st = null;
+	        ResultSet rs = null;      
+	        DatabaseConnection dbcon = new DatabaseConnection();
+	        try {        	
+	            con = dbcon.createRemoteDatabaseConnection();
+	            String query = "SELECT distinct(WorkshopID) FROM quizrecord union select distinct(WorkshopID) from instantquiznew;";
+	            st = con.prepareStatement(query);
+	            rs = st.executeQuery();    
+	            String cid="";
+	            while (rs.next()) {
+	            	cid = rs.getString(1);
+	            	courseData.append( cid + "~^~"+ getReportDashboardData(cid) + "~&~");
+		        }			           
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        } finally{
+	        	try {
+	        		 rs.close();
+	                 st.close();                
+	                 dbcon.closeLocalConnection(con);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}           
+	        }       
+	        //System.out.println(courseData.toString());
+			return courseData.toString();
+		}
+	
 }

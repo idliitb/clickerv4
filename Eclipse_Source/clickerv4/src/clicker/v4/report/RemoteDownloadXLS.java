@@ -605,10 +605,10 @@ public class RemoteDownloadXLS extends HttpServlet {
 					participantCount = request.getParameter("studCount");
 					System.out.println(wID + " " + InstrID + " " +QTS);
 					PreparedStatement pst = con.prepareStatement("select WorkshopID, QuizDate from instantquiznew where WorkshopID = ? " +
-							"and InstrID = ? and QuizDate = ?");
+							"and QuizDate = ?");
 					pst.setString(1, wID);
-					pst.setString(2, InstrID);
-					pst.setString(3, QTS);
+					//pst.setString(2, InstrID);
+					pst.setString(2, QTS);
 					ResultSet rs = pst.executeQuery();
 					if(rs.next()){
 						System.out.println("QN -"+ rs.getString(2));

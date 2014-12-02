@@ -83,7 +83,13 @@ public class GenerateChartRemote extends HttpServlet {
             	RemoteReportHelper reportHelper = new RemoteReportHelper();
             	String qid = request.getParameter("qid");
             	String qts = request.getParameter("qts");
-            	String wid =  session.getAttribute("WorkshopID").toString();
+            	String wid = "";
+            	if(request.getParameter("wid")!=null){
+            		wid=request.getParameter("wid");
+            	}else{
+            		wid = session.getAttribute("WorkshopID").toString();
+            	}
+            	
             	String questionIDpatten = reportHelper.getQuestionIDs(qid, wid);
             	System.out.println(questionIDpatten);
             	String questionIDs[] = questionIDpatten.split("@");
@@ -115,7 +121,12 @@ public class GenerateChartRemote extends HttpServlet {
             }
             else if (chartType.equals("QuizResultChart")){
             	RemoteReportHelper reportHelper = new RemoteReportHelper();
-            	String cid = session.getAttribute("WorkshopID").toString();
+            	String cid = "";
+            	if(request.getParameter("wid")!=null){
+            		cid=request.getParameter("wid");
+            	}else{
+            		cid = session.getAttribute("WorkshopID").toString();
+            	}
             	String qid = request.getParameter("qid");
             	String qts = request.getParameter("qts");
             	System.out.println("ResultChart   -  " + cid + qid + qts);

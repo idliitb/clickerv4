@@ -74,7 +74,12 @@ public class ParticipantPerformanceLineChart extends HttpServlet {
         	  }else{
         		  pst = con.prepareStatement("select sq.ParticipantName, Round(sum(sq.correct) / count(sq.correct) *100) as Percentage from (select distinct q.QuizDate, qrq.IQuizID, p.ParticipantName, qst.IQuestionID, if(qrq.Response=qst.CorrectAns,1,0) as correct from instantquiznew q, instantquizresponsenew qrq, participant p, instantquestion qst where q.WorkshopID=? and qrq.IQuizID = q.IQuizID and qrq.ParticipantID=p.ParticipantID and qrq.ParticipantID=? and qst.IQuestionID = qrq.IQuestionID group by p.ParticipantID, qst.IQuestionID, qrq.QTimeStamp) as sq group by sq.IQuizID");
         	  }              
-              String wid = session.getAttribute("WorkshopID").toString();
+        	  String wid = "";
+        	  if(request.getParameter("wid")!=null){
+        		  wid=request.getParameter("wid");
+          	  }else{
+          		  wid = session.getAttribute("WorkshopID").toString();
+          	  }
               String instid = session.getAttribute("CoordinatorID").toString();
               String pid = request.getParameter("pid");
               pst.setString(1, wid);

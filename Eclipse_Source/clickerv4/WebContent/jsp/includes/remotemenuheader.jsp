@@ -242,8 +242,12 @@ System.out.println("Privilege value: " + privilege);*/
 				<tr>
 				<td height="30px">
 					<ul id="css3menu1" class="topmenu" style="margin:0% 0 0 0%;">
-						
+						<%if(session.getAttribute("admin").toString().equals("2"))
+						{%>
+						<li class="topfirst"><a href="../../jsp/dashboard/rcreportadmin.jsp" style="width:131px;height:21px;line-height:21px;"><span>Report</span></a>
+						<%}else{ %>
 						<li class="topfirst"><a href="../../jsp/dashboard/rcreport.jsp" style="width:131px;height:21px;line-height:21px;"><span>Report</span></a>
+						<%} %>
 						<%-- <ul>
 							<li><a href="../../jsp/remotereport/workshopreport.jsp">
 							Workshop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -18,6 +18,31 @@ USE `aakashclicker`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `autotestresponse`
+--
+
+DROP TABLE IF EXISTS `autotestresponse`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `autotestresponse` (
+  `ParticipantID` varchar(25) NOT NULL,
+  `IQuestionID` int(5) NOT NULL,
+  `Response` char(8) DEFAULT NULL,
+  `QTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `IQuizID` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `autotestresponse`
+--
+
+LOCK TABLES `autotestresponse` WRITE;
+/*!40000 ALTER TABLE `autotestresponse` DISABLE KEYS */;
+/*!40000 ALTER TABLE `autotestresponse` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `instantquizresponsenew`
 --
 
@@ -713,7 +738,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-28 17:33:37
+-- Dump completed on 2014-12-01 13:09:38
 CREATE DATABASE  IF NOT EXISTS `remoteaakashclicker` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `remoteaakashclicker`;
 -- MySQL dump 10.13  Distrib 5.5.40, for debian-linux-gnu (x86_64)
@@ -743,9 +768,11 @@ DROP TABLE IF EXISTS `autotestresponse`;
 CREATE TABLE `autotestresponse` (
   `ParticipantID` varchar(25) NOT NULL,
   `IQuestionID` int(5) NOT NULL,
-  `Response` char(8) DEFAULT NULL,
+  `Response` char(8) NOT NULL,
   `QTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `IQuizID` int(5) NOT NULL
+  `IQuizID` int(5) NOT NULL,
+  KEY `fk_autotestresponse_1` (`ParticipantID`),
+  CONSTRAINT `fk_autotestresponse_1` FOREIGN KEY (`ParticipantID`) REFERENCES `participant` (`ParticipantID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -916,6 +943,8 @@ CREATE TABLE `poll` (
   `PollID` int(11) NOT NULL,
   PRIMARY KEY (`ParticipantID`,`Response`,`PollID`),
   KEY `fk_poll_1` (`PollID`),
+  KEY `fk_poll_2` (`ParticipantID`),
+  CONSTRAINT `fk_poll_2` FOREIGN KEY (`ParticipantID`) REFERENCES `participant` (`ParticipantID`),
   CONSTRAINT `fk_poll_1` FOREIGN KEY (`PollID`) REFERENCES `pollquestion` (`PollID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1295,4 +1324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-28 17:33:37
+-- Dump completed on 2014-12-01 13:09:38

@@ -56,7 +56,12 @@ public class RemoteReportGenerator extends HttpServlet {
 			e.printStackTrace();
 		}		
 		double topScore = 1.0;
-		String workshopID = session.getAttribute("WorkshopID").toString();
+		String workshopID = "";
+    	if(request.getParameter("wid")!=null){
+    		workshopID=request.getParameter("wid");
+    	}else{
+    		workshopID = session.getAttribute("WorkshopID").toString();
+    	}
 		String coordinatorID = session.getAttribute("CoordinatorID").toString();
 		String ReportType = request.getParameter("report");
 		System.out.println(ReportType);
@@ -384,7 +389,7 @@ public class RemoteReportGenerator extends HttpServlet {
 	// This method is set the instant quiz details to export the report as HTML for instant quiz report
 	private String instantQuizReport(String Cid, String iQID, String InstrID, String QTS, String reportname, String path, double topScore) {
 		// TODO Auto-generated method stub
-		System.out.println("Inside instant quizreport header");
+		System.out.println("Inside instant quizreport header" + Cid);
 		DatabaseConnection dbcon = new DatabaseConnection();
         Connection con = dbcon.createRemoteDatabaseConnection();
 		StringBuffer file = new StringBuffer();
@@ -398,12 +403,11 @@ public class RemoteReportGenerator extends HttpServlet {
 					+ "jasperreport/" + reportname + ".jrxml");
 			if (reportname.equals("RemoteInstantQuizResponseHeader")) {
 				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery("select count(distinct ir.ParticipantID) as studCount from instantquizresponsenew ir, instantquiznew iq where iq.WorkshopID = '"+Cid+"' and iq.InstrID = '"+InstrID+"' and iq.QuizDate = '"+QTS+"' and ir.IQuizID = iq.IQuizID ");
+				ResultSet rs = st.executeQuery("select count(distinct ir.ParticipantID) as studCount from instantquizresponsenew ir, instantquiznew iq where iq.WorkshopID = '"+Cid+"' and iq.QuizDate = '"+QTS+"' and ir.IQuizID = iq.IQuizID ");
 				if(rs.next()){
 					studentCount = rs.getString("studCount");
 				}
 				hmapParam.put("Cid", Cid);
-				hmapParam.put("InstrID", InstrID);
 				hmapParam.put("QTS", QTS);
 				hmapParam.put("studCount", studentCount);	
 			}

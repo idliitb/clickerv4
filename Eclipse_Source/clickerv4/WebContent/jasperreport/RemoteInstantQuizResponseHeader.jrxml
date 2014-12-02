@@ -15,11 +15,10 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="Cid" class="java.lang.String"/>
-	<parameter name="InstrID" class="java.lang.String"/>
 	<parameter name="QTS" class="java.lang.String"/>
 	<parameter name="studCount" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select WorkshopID, QuizDate from instantquiznew where WorkshopID = $P{Cid} and InstrID = $P{InstrID} and QuizDate = $P{QTS}]]>
+		<![CDATA[select WorkshopID, QuizDate from instantquiznew where WorkshopID = $P{Cid} and QuizDate = $P{QTS}]]>
 	</queryString>
 	<field name="WorkshopID" class="java.lang.String"/>
 	<field name="QuizDate" class="java.sql.Timestamp"/>
