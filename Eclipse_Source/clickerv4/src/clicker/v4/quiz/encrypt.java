@@ -3,8 +3,9 @@ package clicker.v4.quiz;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.binary.Base64;
+
 /**
- * 
+ * This class is used to encrypt and decrypt the msg as 64 bit
  * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
  *
  */
@@ -14,13 +15,14 @@ public class encrypt {
 	 * @param args
 	 */
 	
-	
+	// This method Produce random integer value
 	static int randomDigit(){
 		double random = Math.random();
 		return (int)(random * 10);
 	}
 	  
-	public  String encrypt1(String msg){
+	// This method generate the 64encode encrypted text for a message  
+	public String encrypt1(String msg){
 		StringBuffer cipher = new StringBuffer();
 		int len = msg.length();		
 		double random = Math.random();
@@ -36,7 +38,8 @@ public class encrypt {
 		return encryptedText;
 	}
 	
-  public   String decrypt(String cipher){
+	// This method produces the message from 64 encoded text to original message
+	public String decrypt(String cipher){
 		byte[] cipherText = Base64.decodeBase64(cipher.getBytes());
 		String decodedbase64 = "";
 		try {

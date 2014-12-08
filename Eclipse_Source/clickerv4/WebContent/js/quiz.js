@@ -4,7 +4,7 @@
  */
 
 
-
+// This method is used to show tip window on mouse hover to the quiz box in conduct quiz
 function showtip(e,Q_count,N_Ques,Marks)
 {
 
@@ -47,7 +47,9 @@ function showtip(e,Q_count,N_Ques,Marks)
 	}
   
   	
-
+/**
+ * Hid the tip on mouse out
+ */
 function hidetip()
 {
   var m;
@@ -55,7 +57,9 @@ function hidetip()
   m.style.display="none";
 }
 
-
+/*
+ * Redirect the page to quiz 
+ */
 function conduct_quiz(quizid,q_name)
 {
 	
@@ -65,14 +69,23 @@ function conduct_quiz(quizid,q_name)
 
 }
 
+/*
+ * Trim the string
+ */
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 };
 
+/*
+ * Get the lust of quiz for an instructor
+ */
 function getQuizList(courseID, instructorID){
 	$('#quizList').load("../../jsp/quiz/quizhelper.jsp?helpContent=quizList&courseID="+encodeURIComponent(courseID) + "&instructorID="+instructorID);
 }
 
+/*
+ * Checks whether the quiz available or not  
+ */
 function isValidCourse(){
 	var elt = document.getElementById("quizname");
 	if(elt.options[elt.selectedIndex].text == "No Quiz Available"){
@@ -83,6 +96,9 @@ function isValidCourse(){
     }
 }
 
+/*
+ * show the quiz preview
+ */
 function quizPreview(quizID, courseID){
 	$('#quizPreview').load("../../jsp/quiz/quizhelper.jsp?helpContent=quizPreview&courseID="+encodeURIComponent(courseID) + "&quizID="+quizID);
 	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquiztime&quizID="+quizID + "&courseID="+encodeURIComponent(courseID), function (){
@@ -92,6 +108,9 @@ function quizPreview(quizID, courseID){
 	});
 }
 
+/*
+ * show or not show the options for a question
+ */
 function showOptions(check){
 	if(check.checked)
 		$(".optns").css("display","block");
@@ -99,6 +118,9 @@ function showOptions(check){
 		$(".optns").css("display","none");
 }
 
+/*
+ * Launch the quiz with timer start and send request to store quiz record details 
+ */
 function launchQuiz(courseID){
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim(); 	
@@ -142,11 +164,16 @@ function launchQuiz(courseID){
  		startTimer(isShowAns);
  	}); 	
 }
-
+/*
+ * Start quiz timer with 1 sec interval
+ */
 function startTimer(isShowAns) {  	
  	down=setInterval(function(){countDown(isShowAns);},1000);
 }
 
+/*
+ * Count down the quiz timer
+ */
 function countDown(isShowAns) {	
 	var min=parseInt(document.getElementById("minutes").value.trim());
  	var sec=parseInt(document.getElementById("seconds").value.trim());
@@ -174,6 +201,9 @@ function countDown(isShowAns) {
 	}
 }
 
+/*
+ * End the quiz on clicke of endquiz button and send request to stop quiz in rest service
+ */
 function endQuiz(quiztype) {
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim();

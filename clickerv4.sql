@@ -144,7 +144,7 @@ CREATE TABLE `quizrecord` (
   PRIMARY KEY (`QuizRecordID`),
   KEY `QuizID` (`QuizID`),
   CONSTRAINT `FK_quizrecord_1` FOREIGN KEY (`QuizID`) REFERENCES `quiz` (`QuizID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +435,7 @@ CREATE TABLE `question` (
   `CourseID` varchar(20) NOT NULL,
   `NegativeMark` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,7 +496,7 @@ CREATE TABLE `quiz` (
   PRIMARY KEY (`QuizID`),
   KEY `CourseID` (`CourseID`),
   CONSTRAINT `FK_quiz_1` FOREIGN KEY (`CourseID`) REFERENCES `course` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -716,7 +716,7 @@ CREATE TABLE `options` (
   PRIMARY KEY (`OptionID`),
   KEY `QuestionID` (`QuestionID`),
   CONSTRAINT `options_ibfk_1` FOREIGN KEY (`QuestionID`) REFERENCES `question` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -860,7 +860,7 @@ CREATE TABLE `quizrecord` (
   PRIMARY KEY (`QuizRecordID`) USING BTREE,
   KEY `QuizID` (`QuizID`),
   CONSTRAINT `FK_quizrecord_1` FOREIGN KEY (`QuizID`) REFERENCES `quiz` (`QuizID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -888,7 +888,7 @@ CREATE TABLE `coordinator` (
   `AdminPriviledges` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`CoordID`),
   KEY `CenterID` (`CenterID`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1302,7 +1302,7 @@ CREATE TABLE `maincenter` (
   `State` varchar(100) NOT NULL,
   `URL` text NOT NULL,
   PRIMARY KEY (`MainCenterID`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

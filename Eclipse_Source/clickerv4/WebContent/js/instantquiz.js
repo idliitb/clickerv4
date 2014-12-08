@@ -2,6 +2,10 @@
  * Author : rajavel, Clicker Team, IDL Lab - IIT Bombay  
  * This Java Script file is used for report information for HOD
  */
+
+/*
+ * Display the list of question with options and answer to select
+ */
 function displayQuestion(noofquestions){
 	var questionoptions ="";
 	for(var i=0;i<noofquestions;i++){
@@ -28,6 +32,9 @@ function displayQuestion(noofquestions){
 	document.getElementById("questionoptions").innerHTML = questionoptions;
 }
 
+/*
+ * Display the options for a question based on question type
+ */
 function displayOptions(questiontype, questionindex){
 	if(questiontype=="3" || questiontype=="4"){
 		document.getElementById("optionsdiv"+questionindex).style.display = "none";			
@@ -37,6 +44,9 @@ function displayOptions(questiontype, questionindex){
 	loadoptions(questiontype,questionindex);
 }
 
+/*
+ * Load the options based on question type
+ */
 function loadoptions(questiontype,questionindex){
 	if(questiontype=="4"){
 		var truefalse = " Correct Ans : <select name='ans"+questionindex+"' id='ans"+questionindex+"'>" ;
@@ -50,7 +60,9 @@ function loadoptions(questiontype,questionindex){
 		displayAns(document.getElementById("noofoptions"+questionindex).value, questionindex);
 	}
 }
-
+/*
+ * Display the answer choice based on question type and options selected
+ */
 function displayAns(noofoptions, questionindex){
 	var questiontype =document.getElementById("qtype"+questionindex).value;
 	if(questiontype=="1"){
@@ -70,10 +82,16 @@ function displayAns(noofoptions, questionindex){
 	}
 }
 
+/*
+ *Trim the string
+ */
 String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g,"");
 };
 
+/*
+ * Launch The instant quiz and start tomer and send the request to insert instant quiz record
+ */
 function launchInstantQuiz(courseID, instrID){
 	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=iscourseactive&courseID="+encodeURIComponent(courseID), function(){
  		var isactive = document.getElementById("tempdata").innerHTML.trim(); 
@@ -178,10 +196,16 @@ function launchInstantQuiz(courseID, instrID){
 	});
 }
 
+/*
+ * Start the quiz timer
+ */
 function startTimer(isShowAns) {  	
  	down=setInterval(function(){countDown(isShowAns);},1000);
 }
 
+/*
+ * count down the quiz timer
+ */
 function countDown(isShowAns) {	
 	var min=parseInt(document.getElementById("minutes").value.trim());
  	var sec=parseInt(document.getElementById("seconds").value.trim());
@@ -208,6 +232,9 @@ function countDown(isShowAns) {
 	}
 }
 
+/*
+ * End the quiz, if the instructor press the end quiz button before time finish and send request to Restful service about quiz end
+ */
 function endQuiz(quiztype) {
 	var min=document.getElementById("minutes").value.trim();
  	var sec=document.getElementById("seconds").value.trim();

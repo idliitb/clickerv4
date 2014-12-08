@@ -139,7 +139,7 @@ function getHighChart(instrid, questionID, ChartType){
 			var images="";
 			var questiondetail="";
 			
-			questiondetail += "<div style='width: 560px; height: 230px; background-color:white;'>Question : "+(qid+1)+"<br/><br/> "+quizJson.questions[qid].text.replace(/</g,"&lt;") +"<ol>";
+			questiondetail += "<div style='width: 560px; height: 230px; background-color:white;overflow:auto;'>Question : "+(qid+1)+"<br/><br/> "+quizJson.questions[qid].text.replace(/</g,"&lt;") +"<ol>";
 				for(var j=0;j<quizJson.questions[qid].options.length;j++){
 					questiondetail += "<li>" +quizJson.questions[qid].options[j].optiontext.replace(/</g,"&lt;")+ "</li>";
 				}

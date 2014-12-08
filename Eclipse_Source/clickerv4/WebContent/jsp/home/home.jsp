@@ -143,7 +143,7 @@
 									DatabaseConnection dbconn1 = new DatabaseConnection();
 									Connection conn1 = dbconn1.createDatabaseConnection();
 									Statement st1 = conn1.createStatement();
-									String query2 = "SELECT DISTINCT StudentID FROM raisehand where CourseID='"+CourseID+"'";
+									String query2 = "SELECT DISTINCT StudentID FROM raisehand where CourseID='"+CourseID+"' and (RepliedDoubt=0 or RepliedDoubt=1)";
 									// System.out.println("Raise Hand =====>"+query2);
 									ResultSet rs2 = st1.executeQuery(query2);
 							%>

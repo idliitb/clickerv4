@@ -319,7 +319,11 @@ public class Restquizresource {
 				long diff = d2.getTime() - d1.getTime();
 				long diffSeconds = diff / 1000; 
 				// 	Only when quiz is time is not finish he/she is able to access quiz JSon
-				//System.out.println(Global.respondedparticipantlist.get(courseid) + " --  "+ Global.respondedparticipantlist.get(courseid).contains(sid));
+				System.out.println("courseid" + courseid);
+				System.out.println("sid" + sid);
+				System.out.println(Global.respondedparticipantlist.get(courseid) );
+				System.out.println(Global.respondedparticipantlist.get(courseid).contains(sid));
+				System.out.println(diffSeconds + "     --    " + quiztime);
 				if(diffSeconds < quiztime && Global.respondedparticipantlist.get(courseid).contains(sid))
 				{
 					quiz1.setcourseId("-2");

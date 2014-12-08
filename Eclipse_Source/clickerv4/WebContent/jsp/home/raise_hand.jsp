@@ -38,7 +38,7 @@ String Student_name=null;
 
 <% 
 
-String Query = "SELECT CourseID,RaiseTimeStamp,Comments FROM raisehand where StudentID='"+StudentID+"' and RepliedDoubt=1";
+String Query = "SELECT CourseID,RaiseTimeStamp,Comments FROM raisehand where StudentID='"+StudentID+"' and (RepliedDoubt=0 or RepliedDoubt=1)";
 String query_sname="SELECT StudentName from student where StudentID='"+StudentID+"'";
 //System.out.println(Query);
 Statement st1 = conn.createStatement();
@@ -50,14 +50,14 @@ Statement st = conn.createStatement();
 ResultSet rs = st.executeQuery(Query);
 String table_data;
 table_data="<H3>Name :"+Student_name+"</H3><H3>Student ID :"+StudentID +"</br></H3>";
-table_data=table_data+"<table id='restbl' border='1' style='width: 580px;'><tr><td>Course ID</td> <td>Time Stamp</td> <td>Query</td> </tr><tr>";
+table_data=table_data+"<table id='restbl' border='1' style='width: 580px;border-collapse: collapse;'><tr><td>Course ID</td> <td>Time Stamp</td> <td>Query</td> </tr><tr>";
 
 try {
 	while(rs.next())
 	{
 		table_data=table_data+"<td>"+ rs.getString(1)+"</td>";
 		table_data=table_data+"<td>"+rs.getString(2)+"</td>";
-		table_data=table_data+"<td>"+rs.getString(3)+"</td><td><!--<button type="+"button"+">Delete!</button> --> </td> </tr>";
+		table_data=table_data+"<td>"+rs.getString(3)+"</td><!--<td><button type="+"button"+">Delete!</button>  </td>--> </tr>";
 	}
 } catch (SQLException e) {
 	e.printStackTrace();

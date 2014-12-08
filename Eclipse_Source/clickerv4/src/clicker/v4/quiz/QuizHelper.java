@@ -28,7 +28,13 @@ import clicker.v4.wrappers.Quiz;
  * This class file act as helper for conducting quiz
  */
 public class QuizHelper {
-
+	
+	/**
+	 * Get the list quiz id and name for a course with instructor
+	 * @param courseID
+	 * @param instructorID
+	 * @return
+	 */
 	public String getQuizList(String courseID, String instructorID){
 		String quizList = "";
 		DatabaseConnection dbconn = new DatabaseConnection();
@@ -52,6 +58,7 @@ public class QuizHelper {
 		return quizList;
 	}
 	
+	// Get the quiz details for quiz in a course
 	public String getQuizDetail(int quizID, String courseID) {
 		String encryptedans=null;
 		StringBuffer quizDetails = new StringBuffer(); 
@@ -109,10 +116,10 @@ public class QuizHelper {
 						}
 					}
 				}
-				System.out.println("==============***********========> correct ans is : "+correctAns);
+				System.out.println("Correct ans is : "+correctAns);
 				encrypt en=new encrypt();
 				encryptedans=en.encrypt1(correctAns);
-				System.out.println("=============*********=========>encrypted correct ans is : "+encryptedans);
+				System.out.println("Encrypted correct ans is : "+encryptedans);
 				quizDetails.append("</div>");
 				question.setOptions(options);
 				question.setCorrectAns(encryptedans);
@@ -132,6 +139,7 @@ public class QuizHelper {
 		return quizDetails.toString();
 	}
 	
+	// Get the quiz duration
 	public int getQuizTime(int quizID, String courseID) {
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection con = dbconn.createDatabaseConnection();
@@ -152,6 +160,7 @@ public class QuizHelper {
 		return duration;
 	}
 	
+	// Set the quiz launch time and insert the quiz details in quizrecord
 	public String setQuizLaunchTime(String courseID, int sec, int isnegativemarking, boolean isShowAns){
 		int quizrecordid =0;
 		Quiz quiz = new Quiz();
@@ -191,7 +200,7 @@ public class QuizHelper {
 		return ""+quizrecordid;
 	}
 	
-	
+	// Set the instant quiz details and insert the instant quiz details in instant questions
 	public String setInstantQuizDetailNew(String courseID, String instrID, String IQuiz, int sec, boolean isShowAns) {
 		String encryptedans=null;
 		Quiz quiz = new Quiz();
@@ -314,6 +323,7 @@ public class QuizHelper {
 		return "" + iquizid;
 	}	
 	
+	// Get the student count for a course
 	public int getNoofStudent (String courseID){
 		int noofStudents = 0;
 		DatabaseConnection dbconn = new DatabaseConnection();
@@ -335,7 +345,7 @@ public class QuizHelper {
 	}
 	
 	
-	
+	// Get the summary of quiz like number of question and credit 
 	public String get_quizsumm(String QuizID)
 	{
 		DatabaseConnection dbconn = new DatabaseConnection();
@@ -372,7 +382,7 @@ public class QuizHelper {
 		}		
 		return (count+"~"+No_of_question+"~"+Credit);
 	}
-	
+	// Get the quiz performance in percentage
 	public String get_quiz_per(String quiz_id)
 	{
 	

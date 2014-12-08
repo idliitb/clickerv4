@@ -15,6 +15,7 @@ import clicker.v4.global.Global;
  * This class is used as a helper for quiz response 
  */
 public class QuizResponseHelper {
+	// Get the list of question ids for a quiz
 	public String getQuestionIDs(int quizrecordid){
 		String questionIDs = "";
         Connection con = null;
@@ -43,6 +44,7 @@ public class QuizResponseHelper {
 		return questionIDs;
 	}
 	
+	// Get the list of instant question ids for a quiz
 	public String getInstantQuestionIDs(int quizrecordid){
 		String questionIDs = "";
         Connection con = null;
@@ -71,6 +73,7 @@ public class QuizResponseHelper {
 		return questionIDs;
 	}
 	
+	// Get the student response for a question in a quiz
 	public String getQuestionResponse(int quizrecordid, String questionid){
 		String response = "";
         Connection con = null;
@@ -148,6 +151,7 @@ public class QuizResponseHelper {
         return response + "@" + correctAnswer;
 	}
 	
+	// Get the students instant quiz response 
 	public String getInstantQuizResponse(int quizrecoredid){
 		String response = "";
         DatabaseConnection dbcon = new DatabaseConnection();
@@ -187,6 +191,7 @@ public class QuizResponseHelper {
         return response + "@" + correctAnswer;
 	}
 	
+	// get the student's question response in a instant quiz
 	public String getInstantQuestionResponse(int quizrecordid, String questionid){
 		String response = "";
         Connection con = null;
@@ -258,6 +263,7 @@ public class QuizResponseHelper {
         return response + "@" + correctAnswer;
 	}
 	
+	// get the student question responses as html table format
 	public String getResponseTable(String questionid, String courseID){
 		int quizrecoredid = Global.quizrecordids.get(courseID);
 		String Query = "SELECT qrq.StudentID, s.StudentName, GROUP_CONCAT(Response) as Response from quizrecordquestion qrq, student s where QuizRecordID = "+quizrecoredid+" AND QuestionID= "+questionid+" and s.StudentID = qrq.StudentID GROUP BY qrq.StudentID";
@@ -291,6 +297,7 @@ public class QuizResponseHelper {
 		return responseTable.toString();
 	}
 	
+	// Get the student question responses as html table format
 	public String getInstantResponseTable(String questionid, String courseID){
 		int quizrecoredid = Global.quizrecordids.get(courseID);
 		String Query = "SELECT s.StudentID, s.StudentName, i.Response FROM instantquizresponsenew i, student s where IQuizID = '"+quizrecoredid+"' and IQuestionID = '"+questionid+"' and s.StudentID = i.StudentID";
@@ -324,6 +331,7 @@ public class QuizResponseHelper {
 		return responseTable.toString();
 	}
 	
+	// get the student responses as html table format
 	public String getResponseTable(String courseID){
 		int quizrecoredid = Global.quizrecordids.get(courseID);
 		String Query = "SELECT iqr.StudentID, s.StudentName, iqr.Response from instantquizresponse iqr, student s where IQuizID = "+quizrecoredid+" and s.StudentID = iqr.StudentID GROUP BY iqr.StudentID";

@@ -456,7 +456,7 @@ function fillAttenDetail(courseID, atdates, date) {
 	};
 	var dateArray = date.split("/");
 	date = dateArray[2] + "-" + dateArray[0] +"-"+ dateArray[1];
-	xmlhttp.open("GET",	"../../jsp/dashboard/rcreportdashboardhelper.jsp?helpcontent=atteninfo&cid="+ encodeURIComponent(courseID) + "&date="+date, true);	
+	xmlhttp.open("GET",	"../../jsp/dashboard/rcreportdashboardhelper.jsp?helpcontent=atteninfo&wid="+ encodeURIComponent(courseID) + "&date="+date, true);	
 	xmlhttp.send();	
 }
 

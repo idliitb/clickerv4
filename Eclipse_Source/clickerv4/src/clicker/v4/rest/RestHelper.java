@@ -1,9 +1,3 @@
-/*
- * Author Dipti and Rajavel  
- * 		Clicker Team, IDL Lab - IIT Bombay
- * 
- */
-
 package clicker.v4.rest;
 
 import java.sql.Connection;
@@ -27,7 +21,16 @@ import clicker.v4.wrappers.Option;
 import clicker.v4.wrappers.Question;
 import clicker.v4.wrappers.Quiz;
 
+/**
+ * This class is used as helper of Restful activities 
+ * @author rajavel, dipti Clicker Team, IDL Lab - IIT Bombay
+ *
+ */
 public class RestHelper {
+	
+	/* This method is used take the student response and 
+	 check the response is from normal quiz are instant quiz as will as 
+	 check whether the response is from current quiz or previous quiz */
 	public void localModeResponse(String response, String course_id){
 		System.out.println("Response from student " + response);		
 		JSONObject responseJSon = null;
@@ -73,8 +76,8 @@ public class RestHelper {
 	}
 	
 	/*
-	 * This is used when late response is received from tablet it will be checked for quiz record id for noraml Quiz
-	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id
+	 * Student Response of normal quiz is stored based on current quiz are previous quiz  
+	 * before insert delete the previous response stored for the same student to avoid duplication 
 	 */
 	public void localNormalQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
@@ -177,7 +180,7 @@ public class RestHelper {
 	}
 	
 	/*
-	 * This is used to get quiz details like questions, options and all for particular quiz of normal quiz type whose quizrecordid and courseid we know.
+	 * This method is used to get the quiz details for quiz record id 
 	 */
 	public Quiz getQuizDetails(int quizrecordid, String courseID){
 		int quizID = getQuizID(quizrecordid);
@@ -249,7 +252,7 @@ public class RestHelper {
 	}
 	
 	/*
-	 * This is used to get the quizid of quiz having particular quizrecordID
+	 * This is used to get the quizid for a quizrecordID
 	 */
 	public int getQuizID(int quizrecordid){
 		int quizid=0;
@@ -279,8 +282,8 @@ public class RestHelper {
 	}
 	
 	/*
-	 * This is used when late response is received from tablet it will be checked for quiz record id of the instant quiz
-	 * and then student response will be saved accordingly to quiz detail received according to quizrecord id
+	 * Student Response of instant quiz is stored based on current quiz are previous quiz  
+	 * before insert delete the previous response stored for the same student to avoid duplication 
 	 */
 	public void localInstantQuizResponse(JSONObject responseJSon, String course_id, int quizrecordid, boolean isCurrentResponse){
 		Quiz quiz = null;
@@ -327,7 +330,7 @@ public class RestHelper {
 	}
 	
 	/*
-	 * This is used to get quiz details like questions, options and all for particular quiz of Instant quiz typewhoes quizrecordid and courseid we know.
+	 * Used to get the instat quiz details for quiz record id
 	 */
 	public Quiz getInstantQuizDetails(int quizrecordid, String course_id, String mode){
 		Quiz quiz = new Quiz();
@@ -370,6 +373,9 @@ public class RestHelper {
 		return quiz;
 	}
 	
+	/* This method is used take the participant response and 
+	 check the response is from normal quiz are instant quiz as will as 
+	 check whether the response is from current quiz or previous quiz */
 	public void remoteModeResponse(String response, String course_id){
 		System.out.println("Response from participant " + response);		
 		JSONObject responseJSon = null;
@@ -412,6 +418,9 @@ public class RestHelper {
 		}		
 	}
 	
+	/*
+	 * Insert the auto test quiz's participant responses
+	 */
 	public void autoTest(JSONObject responseJSon, String course_id){
 		Quiz quiz = Global.workshopjsonobject.get(course_id);
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -833,6 +842,9 @@ public class RestHelper {
 		return classroomresponse;
 	}
 	
+	/*
+	 * Updates the classroom quiz record status whether response sent to main-center or not  
+	 */
 	public void updateClassroomQuizrecord(String qrids){
 		Connection con = null;
 		PreparedStatement ps = null, ps1=null;

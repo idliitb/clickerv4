@@ -3,7 +3,7 @@
 DESCREPTION: This JSP Page will display when you Press Department menu in admin
 			 in local mode
 			 
-USE        : to add department,course
+USE        : to add department,course by the instructor
 
 --%>
 <%@page import="clicker.v4.databaseconn.DatabaseConnection"%>

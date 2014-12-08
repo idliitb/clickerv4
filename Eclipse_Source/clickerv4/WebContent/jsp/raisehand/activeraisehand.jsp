@@ -27,7 +27,7 @@ Global.raisehandcounter.put(CourseID,0);
 ResultSet rs1=null;
 try{
 		
-		String query1="SELECT DISTINCT stu.StudentID,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+"AND rh.RepliedDoubt=0 ORDER BY rh.RaiseTimeStamp DESC";
+		String query1="SELECT DISTINCT stu.StudentID,rh.RaiseTimeStamp FROM student as stu,studentcourse as stuCou,raisehand as rh WHERE rh.StudentID=stu.StudentID AND rh.StudentID=stuCou.StudentID AND rh.CourseID='"+CourseID+"'"+"AND rh.RepliedDoubt=0 ORDER BY rh.RaiseTimeStamp ASC";
 		rs1=st.executeQuery(query1);
 
 %>

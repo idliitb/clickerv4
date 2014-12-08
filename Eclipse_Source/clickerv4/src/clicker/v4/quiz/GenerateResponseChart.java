@@ -66,6 +66,7 @@ public class GenerateResponseChart extends HttpServlet {
 		doProcess(request,response);
 	}
 	
+	// This method is used to send request to generate the bar chart  
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		response.setContentType("image/png");            
@@ -93,6 +94,7 @@ public class GenerateResponseChart extends HttpServlet {
         out.print(json);
 	}
 	
+	// This method get chart data for normal quiz to generate chart
 	public void normalQuiz(int quizrecordid, String path, String username, String charttype){
 		int maxval=0;
 		try {        	
@@ -129,6 +131,7 @@ public class GenerateResponseChart extends HttpServlet {
         }
 	}
 	
+	// This method get chart data for instant quiz to generate chart
 	public void instantQuiz(int quizrecordid, String path, String username, String charttype){
 		int maxval=0;
 		try {        	
@@ -156,6 +159,7 @@ public class GenerateResponseChart extends HttpServlet {
         }
 	}
 	
+	// This method get chart data for normal quiz with multiple question to generate chart
 	public void instantQuizMQ(int quizrecordid, String path, String username, String charttype){
 		int maxval=0;
 		try {        	
@@ -192,7 +196,7 @@ public class GenerateResponseChart extends HttpServlet {
         }
 	}
 	
-	
+	// Create a folder for a instructor to keep the images
 	public void folderCreateOrDelete(String path, String username){
 		boolean iscreated = (new File(path + username)).mkdir();
 		if (iscreated) {
@@ -213,6 +217,7 @@ public class GenerateResponseChart extends HttpServlet {
 		}
 	}
 	
+	// This method is used for generate the chart with different colors
 	public void chartMaker(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname){
 		try{
 			
@@ -237,6 +242,7 @@ public class GenerateResponseChart extends HttpServlet {
 		}
 	}
 	
+	// Generate the response chart with green for correct and red color for wrong answer
 	public void responseChart(String path, String username, String[] chartInfo, int maxval, DefaultCategoryDataset barDataset, String chartname, String answers, String charttype){
 		try{						
 			GreenRedBarRenderer colorGreenRed = new GreenRedBarRenderer();
@@ -276,6 +282,7 @@ public class GenerateResponseChart extends HttpServlet {
 		}
 	}
 	
+	// Design the layout for a chart and formats
 	public void chartLayout(JFreeChart chart, CategoryPlot plot, String path, String username, String chartname, int maxval){
 		try{			
         
@@ -314,6 +321,7 @@ public class GenerateResponseChart extends HttpServlet {
 		}
 	}
 	
+	// Renderer for correct and incorrect chart
 	class GreenRedBarRenderer extends BarRenderer {
 		private static final long serialVersionUID = 1L;
 		private String correct;
@@ -339,7 +347,8 @@ public class GenerateResponseChart extends HttpServlet {
 		}
 	}
 	
-	 class DifferentColorRenderer extends BarRenderer {
+	// Renderer for different color bar chart
+	class DifferentColorRenderer extends BarRenderer {
 	        private static final long serialVersionUID = 1L;
 			/** The colors. */
 	        private Paint[] colors;

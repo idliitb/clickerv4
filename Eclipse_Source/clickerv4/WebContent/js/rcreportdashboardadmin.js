@@ -122,7 +122,7 @@ function checkboxlimit(){
 }
 
 var arrowcontainer="", contentcontainer="";
-// This method is used to load the courses report data in report page
+// This method is used to load the all workshops report data in report page
 function loadDOMWorkshopData(insid){
 	getXMLhttp();
 	xmlhttp.onreadystatechange = function() {

@@ -85,8 +85,11 @@
 	
 	$(document).ready(function(){
 		<%if(request.getParameter("status")!=null){%>
+		<%if(request.getParameter("status").equals("wrongemailorusername")){%>
 	alert("InstructorID or EmailID invalid");
-	<%}%>
+	<%}else{%>
+	alert("Sending mail failed.\nCheck your internet connection and Please make sure port 587 is open in your firewall,If Clicker server is configured within firewall.");
+	<% } }%>
 	});
 	
 </script>

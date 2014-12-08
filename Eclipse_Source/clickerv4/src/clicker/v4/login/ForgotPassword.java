@@ -86,18 +86,25 @@ public class ForgotPassword extends HttpServlet {
 								
 								if(emailaddrs.equals(emailid))
 								{
-									send.emailmain(emailaddrs,username);
-									response.sendRedirect("./login.jsp");
+									String Status=send.emailmain(emailaddrs,username);
+									if(Status.equals("Send")){
+										response.sendRedirect("./login.jsp");
+									}else{
+										response.sendRedirect("./forgotpassword.jsp?status=unsuccessfull");
+									}
 								
 								}
 								else
 								{	
 									System.out.println("wrong emailid or username");	
-									response.sendRedirect("./forgotpassword.jsp?status=Unsuccessfull");
+									response.sendRedirect("./forgotpassword.jsp?status=wrongemailorusername");
 								}
 							}
-							else{System.out.println("wrong emailid or username");	
-							response.sendRedirect("./forgotpassword.jsp?status=Unsuccessfull");}
+							else{
+								System.out.println("wrong emailid or username");	
+								response.sendRedirect("./forgotpassword.jsp?status=wrongemailorusername");
+							   
+							}
 				 }	
 							
 							catch(Exception e)
@@ -150,21 +157,24 @@ public class ForgotPassword extends HttpServlet {
 									
 									if(emailaddrs.equals(emailid))
 									{
-									send.remoteemailmain(emailaddrs,username);									
-									System.out.println("emailto sent");
-									response.sendRedirect("./login.jsp");
+									String Status=send.remoteemailmain(emailaddrs,username);									
+									if(Status.equals("Send")){
+										response.sendRedirect("./login.jsp");
+									}else{
+										response.sendRedirect("./forgotpassword.jsp?status=unsuccessfull");
+									}
 									
 									}
 									else
 									{	
 										System.out.println("wrong emailid or username");	
-										response.sendRedirect("./forgotpassword.jsp?status=Unsuccessfull");
+										response.sendRedirect("./forgotpassword.jsp?status=wrongemailorusername");
 									}
 							}
 							else
 							{
 								System.out.println("wrong emailid or username");	
-								response.sendRedirect("./forgotpassword.jsp?status=Unsuccessfull");
+								response.sendRedirect("./forgotpassword.jsp?status=wrongemailorusername");
 							}
 							
 							

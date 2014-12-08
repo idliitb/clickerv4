@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 public class JSONReadandparse {
 
@@ -593,7 +594,9 @@ public class JSONReadandparse {
 	
 	
 	
-	
+	/*
+	 * Send the autotest response to main center
+	 */
 	public String sendAutoTestResponceJSON(int quizrecordid, String MainCenterIP, String workshopID, String coordinatorID){
 		System.out.println("Inside send instant quiz json");
 		URL url = null;
@@ -627,7 +630,10 @@ public class JSONReadandparse {
 		}
 		return output;
 	}
-
+	
+	/*
+	 * Read the autotest quiz details from main center
+	 */
 	public  Quiz readAutoTestQuizJsonFromUrl(String MainCenterIP, String centerID, String workshopid,String warversion,String dbversion) throws IOException, ParseException {
 		System.out.println("http://"+MainCenterIP+"/clicker/rest/quiz/autotest/"+ workshopid+"/"+centerID+"/"+warversion+"/"+dbversion);
 		String url="http://"+MainCenterIP+"/clicker/rest/quiz/autotest/"+ workshopid+"/"+centerID+"/"+warversion+"/"+dbversion;
@@ -669,6 +675,8 @@ public class JSONReadandparse {
 					obj.setlaunchtime(rclaunchtime);
 					obj.setcurrenttime(currenttime);			
 					Global.workshopjsonobject.put("autotest", obj);
+					//Global.responsereceivedparticipants.put("autotest", "");
+					Global.respondedparticipantlist.put("autotest", new HashSet<String>());
 					System.out.println(gson.toJson(obj));			
 					PreparedStatement ps = con.prepareStatement("truncate autotestresponse");
 					ps.execute();				
@@ -689,6 +697,9 @@ public class JSONReadandparse {
 		return obj;		
 	}
 	
+	/*
+	 * Send the class-romm quiz conduction summary to iitb server
+	 */
 	public void sendClassroomQuizResponseJSON(){
 		URL url = null;
 		String output = "";
@@ -722,7 +733,9 @@ public class JSONReadandparse {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
+	 * Get the maincenter current version for update the clickerv4 application 
+	 */
 	public String version_id(String war_version, String db_version )
 	{
 		//System.out.println("=========>version ID");

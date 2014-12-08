@@ -8,6 +8,7 @@ package clicker.v4.login;
 
 import java.util.Properties;
 import java.util.Random;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -30,8 +31,8 @@ public static String generatePassword(){
 	
 // This function is used for sending temporary password to user through Gmail in local mode. 
 //It takes the Gmail username and password of admin from database to send that random password to user's gmail.	
- public void emailmain(String emailto, String instrname) {
-
+ public String emailmain(String emailto, String instrname) {
+	 String sendStatus="NotSend";
 loginHelper loginhelp = new loginHelper();
 final String emailfrom = loginhelp.getEmail();
 final String passwordfrom = loginhelp.getPassword();
@@ -67,25 +68,35 @@ final String passwordfrom = loginhelp.getPassword();
    		"\n\n Thank you !" +"\n\n\n Your temporary password is : \t"+temppswd);
    System.out.println("message sending");
    //send message
-   try
-   {
-   Transport.send(message);
-   }
-   catch (MessagingException e) {throw new RuntimeException(e);}
-   System.out.println("message sent successfully");
-   loginhelp.updatePassword(username,temppswd);
- 
- 
-  } catch (MessagingException e) {throw new RuntimeException(e);}
- 
+	try
+	{
+		
+		Transport.send(message);
+		sendStatus="Send";
+		System.out.println("message sent successfully");
+		loginhelp.updatePassword(username,temppswd);
+	}
+	catch (MessagingException e){
+		
+			sendStatus="NotSend";
+			System.out.print("Could not connect to SMTP host: smtp.gmail.com, port: 587;");
+			
+		}
+
+} catch (MessagingException e) {
+	sendStatus="NotSend";
+	System.out.print("Could not connect to SMTP host: smtp.gmail.com, port: 587; OR Network problem");
+	
+	}
+		return sendStatus;
  }
  
  
 //This function is used for sending temporary password to user through Gmail in remote mode. 
 //It takes the Gmail username and password of admin from database to send that random password to user's gmail.	 
  
- public void remoteemailmain(String emailto, String instrname) {
-
+ public String remoteemailmain(String emailto, String instrname) {
+String sendStatus="NotSend";
 loginHelper loginhelp = new loginHelper();
 final String emailfrom = loginhelp.remotegetEmail();
 final String passwordfrom = loginhelp.remotegetPassword();
@@ -120,15 +131,28 @@ props.put("mail.smtp.port", "587");
 		   "To change password, go to Admin menu and select Change Password."+
    		"\n\n Thank you !" +"\n\n\n Your temporary password is : \t"+temppswd);
    
-   //send message
-   Transport.send(message);
-   System.out.println("message sent successfully");
-   loginhelp.remoteupdatePassword(username,temppswd);
- 
- 
-  } catch (MessagingException e) {throw new RuntimeException(e);}
- 
+ //send message
+ 	try
+ 	{
+ 		
+ 		Transport.send(message);
+ 		sendStatus="Send";
+ 		System.out.println("message sent successfully");
+ 		loginhelp.updatePassword(username,temppswd);
+ 	}
+ 	catch (MessagingException e){
+ 		
+ 			sendStatus="NotSend";
+ 			System.out.print("Could not connect to SMTP host: smtp.gmail.com, port: 587;");
+ 			
+ 		}
+
+ } catch (MessagingException e) {
+ 	sendStatus="NotSend";
+ 	System.out.print("Could not connect to SMTP host: smtp.gmail.com, port: 587; OR Network problem");
+ 	
+ 	}
+ 		return sendStatus;
  }
- 
 }
 
