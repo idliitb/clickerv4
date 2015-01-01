@@ -59,7 +59,7 @@ public class XLSimport {
 			{
 				System.out.println("endcount: ----------------------" + endcount);
 				System.out.println("qtype: ----------------------" + qtype);
-				/*if(qtype == 1 || qtype == 2)
+				if(qtype == 1 || qtype == 2)
 				{
 					if(k <= endcount)
 					{
@@ -84,7 +84,7 @@ public class XLSimport {
 					// Adding entry in the Questions history table
 					History history = new History (questionID, quest, instrid, cols[i]);
 					history.addentry ();
-				}*/
+				}
 				opcorrectness = Integer.parseInt(cols[i + 1]);
 				credits = Float.parseFloat(cols[i + 2]);
 				qid = Integer.parseInt(cols[i + 3]);
@@ -107,7 +107,8 @@ public class XLSimport {
 			
 			return questionID;
 		} catch (SQLException ex) {
-			System.out.println("Exception in insert query function of XLSimport file: " + ex);
+			System.out.print("Exception in insert query function of XLSimport file: ");
+			ex.printStackTrace();
 			return -1;
 		}
 	}
@@ -127,7 +128,8 @@ public class XLSimport {
 			//conn1.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in insertQuestion function of XLSimport file: " + e);
+			System.out.print("Exception in insertQuestion function of XLSimport file: ");
+			e.printStackTrace();
 		}
 	}
 
@@ -144,7 +146,8 @@ public class XLSimport {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in insertOptions function of XLSimport file: " + e);
+			System.out.print("Exception in insertOptions function of XLSimport file: ");
+			e.printStackTrace();
 		}
 	}
 
@@ -193,8 +196,12 @@ public class XLSimport {
 				
 				xlsCell = sheet.getCell(3, i);
 				cellvalue = xlsCell.getContents().toString();
-				if(cellvalue.equals("^[a-zA-Z]*") || !(cellvalue.equals("0")) || !(cellvalue.equals("1")))
+				if((cellvalue.equals("0") || cellvalue.equals("1") || cellvalue.equals("")))
+				{
+					System.out.println("Isshuffled - " + cellvalue);						
+				}else{
 					return "Please enter only 0 or 1 in the Shuffle field!";
+				}
 				if (cellvalue.equals("") || cellvalue == null) {
 					cellvalue = "1";
 				}

@@ -21,7 +21,7 @@ USE        : to add New Course
 <body>
 <%
 			String Dept_ID = (String) request.getParameter("Dept_ID");
-            //System.out.println("=================>"+Dept_ID);
+            System.out.println("=================>"+Dept_ID);
 			//Dept_ID="dept001";
 			String dpt_id=null;
 			
@@ -46,10 +46,8 @@ USE        : to add New Course
 			<tr>
 				<td>Department ID</td>
 				<td>						
-						<input type="text" name="dep_nam" id=<%=Dept_ID %> value=<%=Dept_ID %> readonly>
-						
-						
-						
+						<input type="text" name="dep_id" id="dep_id" value=<%=Dept_ID %> readonly>			
+										
 						
 						</td>
 				

@@ -36,13 +36,12 @@ public class SingleChoice_editDB extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
 		Connection conn = null;
 		PreparedStatement st =null, st1 = null, st2 = null, st3 = null, st4=null, st5=null;
-		
+		String instructorid = (String) request.getSession().getAttribute("InstructorID");
 		int option_count=-1, old_option_count=-1;
 		String question = null, optionvalue = "";
 		
@@ -147,16 +146,16 @@ public class SingleChoice_editDB extends HttpServlet {
 			}	
 			dbcon.closeLocalConnection(conn);
 			
-			/*//Adding entry in the history table
+			//Adding entry in the history table
 			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (qid, question, instructorid, optionvalue);
-			history.addentry ();*/
+			history.addentry ();
 			
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");
 		}	
 		catch(Exception ex)
 		{
-			System.out.println("Exception in SingleChoice_editDB: " + ex);
+			System.out.print("Exception in SingleChoice_editDB: " + ex);
 		}
 	}
 

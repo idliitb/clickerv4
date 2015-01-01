@@ -44,7 +44,8 @@ public class QuizNameSelect
 			ps.close( );					
 		}catch(SQLException e)
 		{
-			System.out.println("Exception in QuizNameSelect function of Quiz Name Select file: " + e);
+			System.out.print("Exception in QuizNameSelect function of Quiz Name Select file: ");
+			e.printStackTrace();
 		}finally{
 			dbconn.closeLocalConnection(conn);
 		}
@@ -69,7 +70,8 @@ public class QuizNameSelect
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in getQuizID function of Quiz Name Select file: " + e);
+			System.out.print("Exception in getQuizID function of Quiz Name Select file: ");
+			e.printStackTrace();
 		}
 
 		return QuizID;
@@ -96,7 +98,8 @@ public class QuizNameSelect
 					Option opt = getOptionDetails(conn, QuestionOptionsIDs[j], QuestionIDs[i]);
 					quest.addOption(opt);
 				} catch (SQLException e) {
-					System.out.println("Exception in getallQuestionDetails function of Quiz Name Select file: " + e);
+					System.out.print("Exception in getallQuestionDetails function of Quiz Name Select file: ");
+					e.printStackTrace();
 				}
 			}
 			QuestionList.addElement(quest);
@@ -143,7 +146,8 @@ public class QuizNameSelect
 			}
 
 		} catch (Exception ex) {
-			System.out.println("Exception in runResultSetQuery function of Quiz Name Select file: " + ex);
+			System.out.print("Exception in runResultSetQuery function of Quiz Name Select file: ");
+			ex.printStackTrace();
 		}
 		return result;
 	}
@@ -166,7 +170,8 @@ public class QuizNameSelect
 				}
 			}
 		} catch (Exception ex) {
-			System.out.println("Exception in displayQuestionText function of Quiz Name Select file: " + ex);
+			System.out.print("Exception in displayQuestionText function of Quiz Name Select file: ");
+			ex.printStackTrace();
 		}
 		return ResultArray + "@@" + questionType;
 	}
@@ -193,7 +198,8 @@ public class QuizNameSelect
 			}
 		} catch (Exception ex) {
 			ResultArray = new String[1];
-			System.out.println("Exception in getQuestionIDsinQuiz function of Quiz Name Select file: " + ex);
+			System.out.print("Exception in getQuestionIDsinQuiz function of Quiz Name Select file: ");
+			ex.printStackTrace();
 		}
 		return ResultArray;
 	}

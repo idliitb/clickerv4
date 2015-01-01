@@ -116,7 +116,9 @@ public class loginHelper {
 		
 	}	
 	
-	
+	/*
+	 * This is to get the email id of user in case of change password and forgot password
+	 */
 	
 	public String getEmail() {
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -157,6 +159,9 @@ public class loginHelper {
 		
 		
 	}	
+	/*
+	 * This is to get the password of user in case of change password and forgot password
+	 */
 	
 	public String getPassword() {
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -197,7 +202,10 @@ public class loginHelper {
 		
 		
 	}	
-	
+	/*
+	 * This is to update the password of user after change password
+	 */
+		
 	public String updatePassword(String username , String password) {
 		DatabaseConnection dbcon = new DatabaseConnection();
 		con=dbcon.createDatabaseConnection();
@@ -236,10 +244,12 @@ public class loginHelper {
 	}	
 	
 	
-//remote code
+
+	/* Remote code
+	 * This is to get the email id of user in case of change password and forgot password in remote mode
+	 */
 	
-	
-	public String remotegetEmail() {
+		public String remotegetEmail() {
 		DatabaseConnection rmdbcon = new DatabaseConnection();
 		con=rmdbcon.createRemoteDatabaseConnection();
 		
@@ -278,7 +288,9 @@ public class loginHelper {
 		
 		
 	}	
-	
+		/* Remote code
+		 * This is to get the password of user in case of change password and forgot password in remote mode
+		 */
 	public String remotegetPassword() {
 		DatabaseConnection rmdbcon = new DatabaseConnection();
 		con=rmdbcon.createRemoteDatabaseConnection();
@@ -318,7 +330,10 @@ public class loginHelper {
 		
 		
 	}	
-	
+	/*
+	 * This is to update the password of user after change password in remote mode
+	 */
+		
 	public String remoteupdatePassword(String username , String password) {
 		DatabaseConnection rmdbcon = new DatabaseConnection();
 		con=rmdbcon.createRemoteDatabaseConnection();

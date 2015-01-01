@@ -31,7 +31,8 @@ public class InsertOptions {
 			statement.executeUpdate();
 			
 		} catch (Exception e) {
-			System.out.println("Exception in InsertOptions: " + e);
+			System.out.print("Exception in InsertOptions: ");
+			e.printStackTrace();
 		}
 		finally
 		{

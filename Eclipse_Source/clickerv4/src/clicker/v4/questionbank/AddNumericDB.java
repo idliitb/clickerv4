@@ -81,18 +81,20 @@ public class AddNumericDB extends HttpServlet {
 				else
 					out.println(" Not Successful");
 				
-				/*// Adding entry in the Questions history table
+				// Adding entry in the Questions history table
 				History history = new History (question_id, question, instructorid, option);
-				history.addentry ();*/
+				history.addentry ();
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in AddNumericDB: " + e);
+			System.out.print("Exception in AddNumericDB: ");
+			e.printStackTrace();
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				System.out.println("Exception in AddNumericDB: " + e);
+				System.out.print("Exception in AddNumericDB: ");
+				e.printStackTrace();
 			}
 		}
 	}

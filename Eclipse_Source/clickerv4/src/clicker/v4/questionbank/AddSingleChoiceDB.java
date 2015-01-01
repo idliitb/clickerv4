@@ -35,7 +35,6 @@ public class AddSingleChoiceDB extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -102,13 +101,15 @@ public class AddSingleChoiceDB extends HttpServlet {
 			}
 			catch(Exception ex)
 			{
-				System.out.println("Exception in AddSingleChoiceDB: " + ex);
+				System.out.print("Exception in QuizCreator: ");
+				ex.printStackTrace();
+				
 			}
 			
-			/*// Adding entry to history table
+			// Adding entry to history table
 			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (qid, question, instructorid, optionvalue);
-			history.addentry ();*/
+			history.addentry ();
 			
 			try
 			{		
@@ -130,7 +131,8 @@ public class AddSingleChoiceDB extends HttpServlet {
 			}
 				catch(Exception ex)
 				{
-					//ex.printStackTrace();
+					System.out.print("Exception in AddSingleChoiceDB: ");
+					ex.printStackTrace();
 				}
 			
 		try
@@ -141,7 +143,8 @@ public class AddSingleChoiceDB extends HttpServlet {
 		}
 		catch(Exception ex)
 		{
-			System.out.println("Exception in AddSingleChoiceDB: " + ex);
+			System.out.print("Exception in AddSingleChoiceDB: ");
+			ex.printStackTrace();
 		}
 
 

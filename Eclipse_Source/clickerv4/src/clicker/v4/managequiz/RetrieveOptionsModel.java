@@ -48,7 +48,8 @@ public class RetrieveOptionsModel {
 			statement.close();
 		}
 		catch(SQLException ex){
-			System.out.println("Exception in getOptions function of Retrieve Options Mode: " + ex);
+			System.out.print("Exception in getOptions function of Retrieve Options Mode: ");
+			ex.printStackTrace();
 			
 		}finally{
 			dbcon.closeLocalConnection(conn);

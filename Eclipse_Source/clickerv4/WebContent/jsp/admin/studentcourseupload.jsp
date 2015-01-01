@@ -29,10 +29,10 @@ String path1=request.getParameter("xls1");
 //System.out.println("xls: "+path1);
 ServletContext context = getServletContext();
 String pathurl = context.getRealPath("/uploads");
-
+String instructorid = (String) session.getAttribute("InstructorID");
 //System.out.println("url = " + pathurl);
 
-File file = new File(pathurl + "/" + path1);
+File file = new File(pathurl + "/"+instructorid+ path1);
 //System.out.println("Filename: " + file);
 String status=xls.readstudentCourseXLSfile(file);
 System.out.println("status: " + status);

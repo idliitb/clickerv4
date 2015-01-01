@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -174,11 +175,15 @@ public class StudentXLSPreview extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) {
+		 HttpSession session=request.getSession();
 		response.setContentType("text/html");
 		String url = request.getParameter("xls");
 		ServletContext context = getServletContext();
 		String pathurl = context.getRealPath("/uploads");
-		File file = new File(pathurl + "/" + url);		
+		String InstID=(String)session.getAttribute("InstructorID");
+		
+		File file = new File(pathurl + "/"+InstID+ url);	
+		
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();

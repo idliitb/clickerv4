@@ -37,7 +37,6 @@ public class AddMultChoiceDB extends HttpServlet {
 	 * 
 	 * This function fetches the different parameters of question and adds them in the database
 	 */
-	@SuppressWarnings("unused")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -88,21 +87,23 @@ public class AddMultChoiceDB extends HttpServlet {
 				
 			}
 			
-			/*// Adding entry in the Questions history table
+			// Adding entry in the Questions history table
 			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (questionID, Question, instructorid, optionvalue);
-			history.addentry ();*/
+			history.addentry ();
 			
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");	
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in AddMultChoiceDB: " + e);
+			System.out.print("Exception in Add multchoice DB: ");
+			e.printStackTrace();
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);}
 			catch(Exception ex){
-				System.out.println("Exception in AddMultChoiceDB: " + ex);
+				System.out.print("Exception in Add multchoice Db: ");
+				ex.printStackTrace();
 			}
 		}
 	}

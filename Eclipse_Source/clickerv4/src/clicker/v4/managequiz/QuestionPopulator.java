@@ -29,6 +29,7 @@ public class QuestionPopulator extends HttpServlet {
 			out = response.getWriter();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.print("Exception in Question Populator: ");
 			e.printStackTrace();
 		}
 		//System.out.println("QP search: " + request.getParameter("question") + " search1: ");
@@ -40,7 +41,8 @@ public class QuestionPopulator extends HttpServlet {
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in Question Populator: " + e);
+			System.out.print("Exception in Question Populator: " + e);
+			e.printStackTrace();
 		}
 		ArrayList<QuestionSave> allQuestions=rom.getQuestions();
 		for(QuestionSave q:allQuestions){

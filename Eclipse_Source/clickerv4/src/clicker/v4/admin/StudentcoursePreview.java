@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -29,7 +31,7 @@ public class StudentcoursePreview extends HttpServlet {
 		//System.out.println("Enter to the servelet");
 		try {
 			// PrintWriter out = new PrintWriter(xlsfile);
-			System.out.println("XLS Preview Filename: " + xlsfile.getPath());
+			System.out.println("XLS Preview Filename: " + xlsfile);
 			Workbook workbook = Workbook.getWorkbook(xlsfile);
 			// String sheetName[] = workbook.getSheetNames();
 			Sheet sheet;
@@ -131,13 +133,16 @@ public class StudentcoursePreview extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		 HttpSession session=request.getSession();
 		response.setContentType("text/html");
 		String url = request.getParameter("xls");
 		ServletContext context = getServletContext();
 		//System.out.println("Servlet config: " + context);
 		String pathurl = context.getRealPath("/uploads");
-		File file = new File(pathurl + "/" + url);
-		System.out.println("Filename: " + file.getPath());
+		String InstID=(String)session.getAttribute("InstructorID");
+		File file = new File(pathurl + "/"+InstID+ url);
+		
+		System.out.println("Filename:========================================================================= " + file.getPath());
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();

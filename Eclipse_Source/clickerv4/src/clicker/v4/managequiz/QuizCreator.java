@@ -104,14 +104,16 @@ public class QuizCreator extends HttpServlet {
 			statement4.close();			
 		}
 		catch(SQLException ex){
-			System.out.println("Exception in Quiz Creator: " + ex);
+			System.out.print("Exception in Quiz Creator: ");
+			ex.printStackTrace();
 		}finally{
 			dbconn.closeLocalConnection(conn);
 		}
 		try {
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");
 		} catch (IOException e) {
-			System.out.println("Exception in Quiz Creator: " + e);
+			System.out.print("Exception in Quiz Creator: ");
+			e.printStackTrace();
 		}
  	}
 }

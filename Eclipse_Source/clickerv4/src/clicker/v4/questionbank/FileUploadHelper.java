@@ -76,7 +76,8 @@ public class FileUploadHelper extends HttpServlet {
 						item.write(file);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
-						System.out.println("Exception in FileUploadHelper: " + e);
+						System.out.print("Exception in FileUploadHelper: ");
+						e.printStackTrace();
 					}
 					System.out.println("File Uploaded.");
 				}

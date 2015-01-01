@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -48,6 +49,7 @@ public class ParticipantFileUploadHelper extends HttpServlet {
 	private File file;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		HttpSession session=request.getSession();
 		
 	//	System.out.println("In file upload helper servlet");
 		FileItemFactory factory=new DiskFileItemFactory();
@@ -70,8 +72,10 @@ public class ParticipantFileUploadHelper extends HttpServlet {
 					item.getName();
 					ServletContext context = getServletContext();
 					String pathurl = context.getRealPath("/uploads");
+					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+session.getAttribute("CoordinatorID"));
 					//System.out.println("Pathurl: " + pathurl);
-					file=new File(pathurl + "/" + fileName);
+					String CID=(String)session.getAttribute("CoordinatorID");
+					file=new File(pathurl + "/" +CID+fileName);
 					
 					//System.out.println("FilePath: " + file.getPath());
 					//System.out.println("File: " + new File(item.getName()).getAbsolutePath());

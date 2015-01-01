@@ -547,7 +547,7 @@ public class Restquizresource {
 	}
 
 
-	// get method used for poll module
+	// get method used for poll. Student/participants will fetch the poll details from this URL.
 	@GET
 	// path url used to access poll module
 	@Path("/poll/{courseid}/{mode}")

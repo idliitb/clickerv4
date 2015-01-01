@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import clicker.v4.databaseconn.DatabaseConnection;
 
 /*Author: Kirti, Clicker Team, IDL LAB ,IIT Bombay.
- * This file is used for changing the login password of user in local mode.
+ * This file is used for changing the login password of user in local and remote mode.
 */
 /**
  * Servlet implementation class ForgotPassword

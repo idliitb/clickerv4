@@ -97,7 +97,7 @@ select {
 								DatabaseConnection dbconn = new DatabaseConnection();
 								Connection conn = dbconn.createDatabaseConnection();
 								Statement st = conn.createStatement();
-								String query1 = "SELECT DeptName,DeptID FROM department";
+								String query1 = "SELECT DeptName,DeptID FROM department where DeptID <> 'temp001'";
 								ResultSet rs = st.executeQuery(query1);
 								while (rs.next()) {
 

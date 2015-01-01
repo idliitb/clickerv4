@@ -40,10 +40,10 @@ function getXMLhttp() {
 	}
 }
 
-function uploadXLS() {
-	
+function uploadPXLS() {
+//alert("uploadXLS()");	
 var WS=document.getElementById("WS_id").value;
-	
+//alert("uploadXLS()==="+WS);
 if((WS == "No workshop Available"))
 {
 alert("No workshop Available!! you Cant Add!!");
@@ -77,10 +77,10 @@ function getXlsUrl(){
 
 function previewXLS() {
 	//var ws = (document.getElementById("wsselect").options[document.getElementById("wsselect").selectedIndex].value);
-	//alert(document.getElementById("WS_id").value);
+	 //alert(document.getElementById("WS_id").value);
 	var ws=document.getElementById("WS_id").value;
 	document.getElementById("workshopid").value = ws;
-	//alert("in preview");
+	//alert("in preview"+ws);
 	$("#dialog").dialog({
 		modal:true,
 		height:530,

@@ -69,15 +69,20 @@ public class ParticipantDetails extends HttpServlet {
 				} 
 		} else if(flag.equalsIgnoreCase("DELETE"))
 		{
+			String query4="delete from attendance where ParticipantID='"+participantid+"' and WorkshopID='"+workshopid+"'";
 			
 			String query3="delete from participant where ParticipantID='"+participantid+"' and WorkshopID='"+workshopid+"'";
-			int rs2;
+			int rs2,rs12;
 			try {
 				Statement st = conn.createStatement();
+				rs12=st.executeUpdate(query4);
+				String QINST="delete from instantquizresponsenew where ParticipantID='"+participantid+"'";	
+				rs12=st.executeUpdate(QINST);				
+				String QRQ="delete from quizrecordquestion where ParticipantID='"+participantid+"'";	
+				rs12=st.executeUpdate(QRQ);	
 				rs2 = st.executeUpdate(query3);
 				if(rs2!=0)
 					System.out.println("Delete Participant record deleted");
-								
 				else
 					System.out.println(" Participant record not deleted");
 					
@@ -91,10 +96,16 @@ public class ParticipantDetails extends HttpServlet {
 			}
 		}else if(flag.equalsIgnoreCase("DELETE_ALL"))
 		{
+			String delete_ATT="delete FROM attendance where WorkshopID='"+workshopid+"'";
 			String query3="delete from participant where WorkshopID='"+workshopid+"'";
-			int rs2;
+			String QINST="delete from instantquizresponsenew";
+			String IQR="delete from quizrecordquestion";
+			int rs2,rs12;
 			try {
 				Statement st = conn.createStatement();
+				rs12=st.executeUpdate(delete_ATT);
+				rs12=st.executeUpdate(QINST);
+				rs12=st.executeUpdate(IQR);
 				rs2 = st.executeUpdate(query3);
 				if(rs2!=0)
 					System.out.println("Delete Participant record deleted");

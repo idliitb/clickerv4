@@ -2,6 +2,7 @@
 
 var questions = null;
 
+//This function Previews the Questions and then adds the Questions in the Database
 function uploadXLS() {
 	setTimeout("previewXLS()",1000);
 	//alert("In Upload");
@@ -24,6 +25,7 @@ function getXlsUrl(){
 	return url;
 }
 
+//Previews the Questions
 function previewXLS() {
 	//alert("in preview");
 	$("#dialog").dialog({
@@ -55,6 +57,7 @@ function closeDialog(){
 	$('#dialog').dialog("close");
 }
 
+//Extracts the Questions from the Question Bank
 function loadQuestion(InstrID, courseid)
 {
 	/*
@@ -112,7 +115,9 @@ function loadQuestion(InstrID, courseid)
 			}
 	};
 }
+
 var totalquestions = 0;
+//Used to Search the Questions or Display the Questions in the Question bank
 function filterQuestions(flag)
 {	
 	var header = null;
@@ -297,6 +302,7 @@ function filterQuestions(flag)
 	});*/
 }
 
+//Displays the Options of the corresponding Questions in the Question Bank
 function loadOptions(qid)
 {
 	//alert("in load options!" + qid);
@@ -322,6 +328,7 @@ function loadOptions(qid)
 
 }
 
+//Enables to select the Questions to Create the Quiz
 function createquiz( )
 {//alert("in create quiz");
 	
@@ -352,6 +359,7 @@ function createquiz( )
 					if(document.getElementById("count").value > 0)
 					{
 						document.getElementById("count").value = 0;		
+						counter = 0;
 						
 						$('.quiz_questions').remove( );
 						//alert("Count: " + document.getElementsByClassName("quiz_questions").length);					
@@ -371,6 +379,7 @@ function createquiz( )
 }
 
 var counter = 0;
+//Keeps track of the Questions that are selected to create Quiz
 function selectquizQuestions(qid)
 {	
 	parent_div = document.getElementById("quiz");
@@ -402,6 +411,7 @@ function getQuestions(instructor_id, course_id)
 	loadQuestion(instructor_id, course_id);
 }
 
+//Displays the dialog box to Add Questions
 function displayAddbox( )
 {
 	$("#addquestions").dialog({
@@ -423,6 +433,7 @@ function displayAddbox( )
     addQuestions( );
 }
 
+//Creates and adds a Question in the Database
 function addQuestions( )
 {
 	var qtype = (document.getElementById("qtypeselect").options[document.getElementById("qtypeselect").selectedIndex].value);
@@ -471,6 +482,7 @@ function editQuestion(qid)
     });    
 }
 
+//Deletes a Question
 function deleteQuestion(qid)
 {
 	var answer = confirm('Are you sure, you want to delete this question.');
@@ -480,6 +492,7 @@ function deleteQuestion(qid)
 	}
 }
 
+//Displays a dialog box containing Quizzes to Delete
 function deleteQuiz( )
 {
 	$("#deletequiz").dialog({
@@ -502,6 +515,7 @@ function deleteQuiz( )
     });
 }
 
+//Validates all the fields that are necessary to Create a Quiz
 function validateQuiz(InstrID) {
 	
 	var x = document.forms["createquizform"].elements["quizName"].value;	
@@ -531,6 +545,7 @@ function validateQuiz(InstrID) {
 	
 }
 
+//Shows tooltip for the Quiz
 function showtip(e,Q_count,N_Ques,Marks)
 {
 
@@ -575,6 +590,7 @@ function showtip(e,Q_count,N_Ques,Marks)
 	m.style.zIndex=203;
 }
 
+//Hides the tooltip
 function hidetip()
 {
   var m;
@@ -582,6 +598,7 @@ function hidetip()
   m.style.display="none";
 }
 
+//Changes the color of the Quiz depending on the selection or deselection displayed in the Delete Quiz dialog box
 function quizname(quizname, quiz_id)
 {	
 	var quiz_div_color = document.getElementsByClassName('Q_div');

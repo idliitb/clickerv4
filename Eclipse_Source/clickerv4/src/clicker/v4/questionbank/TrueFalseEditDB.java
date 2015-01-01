@@ -44,7 +44,7 @@ public class TrueFalseEditDB extends HttpServlet {
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection conn = dbconn.createDatabaseConnection();
 		PrintWriter out = response.getWriter();
-		String option=request.getParameter("option");
+		String option=request.getParameter("option"), instructorid = (String) request.getSession().getAttribute("InstructorID");
 		System.out.println("OValue: " + option);
 		try
 		{		
@@ -69,9 +69,9 @@ public class TrueFalseEditDB extends HttpServlet {
 		st.setFloat(4, negativemarks);
 		st.setInt(5, qid);	
 		
-		/*// Adding entry into the history table
+		// Adding entry into the history table
 		History history = new History (qid, question, instructorid, option);
-		history.addentry ();*/	
+		history.addentry ();
 		
 		int rs=st.executeUpdate();
 		String query3 = "", query4 = "";
@@ -101,7 +101,8 @@ public class TrueFalseEditDB extends HttpServlet {
 	}
 	catch(Exception e)
 	{
-		System.out.println("Exception in TrueFalseeditDB: " + e);
+		System.out.print("Exception in TrueFalseedit Db: ");
+		e.printStackTrace();
 	}
 		finally
 		{

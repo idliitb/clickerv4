@@ -160,7 +160,7 @@ if(WS_ID.equalsIgnoreCase(" Wrong URL") || WS_ID.equalsIgnoreCase("No Workshop, 
 					<input id="file" type="file" name="xls" />
 					<br><br>
 				 	<a href="../../xlstemplates/RemoteParticipantInfo_Template.xls" style = "margin-left: -15px;">Add Participant Template</a>
-					<button id="preview" type="button" style="" onclick = "uploadXLS();">
+					<button id="preview" type="button" style="" onclick = "uploadPXLS();">
 					<span>Preview</span>
 					</button>
 				</div>

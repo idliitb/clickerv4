@@ -148,7 +148,8 @@ public class GetAllQuestions {
 						+ shuffle.substring(0, shuffle.length() - 1) + "$@" + question_repeated.substring(0, question_repeated.length() - 1);
 			}
 		} catch (Exception e) {
-			System.out.println("Exception in getallquestions in get all questions file: " + e);
+			System.out.print("Exception in getallquestions in get all questions file: ");
+			e.printStackTrace();
 		}
 		return quest.substring(0, quest.length());
 	}
@@ -171,7 +172,8 @@ public class GetAllQuestions {
 				//System.out.println("Question Count: " + question_count);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in getquizquestioncout in get all questions file: " + e);
+			System.out.print("Exception in getquizquestioncout in get all questions file: ");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -180,7 +182,8 @@ public class GetAllQuestions {
 				ps.close();				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Exception in getquizquestioncout in get all questions file: " + e);
+				System.out.print("Exception in getquizquestioncout in get all questions file: " + e);
+				e.printStackTrace();
 			}
 		}
 		return question_count;

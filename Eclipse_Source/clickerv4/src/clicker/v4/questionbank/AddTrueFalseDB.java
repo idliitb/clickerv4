@@ -75,9 +75,9 @@ public class AddTrueFalseDB extends HttpServlet {
 				question_id  = res.getInt(1);
 			}
 			
-			/*// Adding entry in the Questions history table
+			// Adding entry in the Questions history table
 			History history = new History (question_id, question, instructorid, option);
-			history.addentry ();*/
+			history.addentry ();
 			
 			if(option.equals("true")){
 			query3="insert into options(OptionValue,OptionCorrectness,QuestionID, Credit) values('true',1,'"+question_id+"'," + credits + ")";
@@ -100,12 +100,14 @@ public class AddTrueFalseDB extends HttpServlet {
 			}
 			catch(Exception e)
 			{
-				System.out.println("Exception in AddTrueFalseDB: " + e);
+				System.out.print("Exception in AddTrueFalseDB: ");
+				e.printStackTrace();
 			}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				System.out.println("Exception in AddTrueFalseDB: " + e);
+				System.out.print("Exception in AddTrueFalseDB: ");
+				e.printStackTrace();
 			}
 		}
 	}

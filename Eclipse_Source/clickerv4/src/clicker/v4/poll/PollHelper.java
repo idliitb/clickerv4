@@ -134,7 +134,7 @@ public class PollHelper
 		}
 
 	}
-	
+// for getting poll-id from database
 	public int getpollidnew(String launchtime, String courseid) throws SQLException
 	{
 		

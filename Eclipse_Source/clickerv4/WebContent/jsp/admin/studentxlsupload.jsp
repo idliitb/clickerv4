@@ -24,10 +24,11 @@ USE        : to upload the xls file and it will store in database
 	String pathurl = context.getRealPath("/uploads");
 	
 	//System.out.println("url = " + pathurl);
+	String instructorid = (String) session.getAttribute("InstructorID");
 	
-	File file = new File(pathurl + "/" + path1);
+	File file = new File(pathurl + "/"+instructorid+ path1);
 	//System.out.println("Filename: " + file);
-	//String instructorid = (String) session.getAttribute("InstructorID");
+	
 	String status=xls.readStudentXLSFile(file);
 	System.out.println("status: " + status);
 	response.sendRedirect("student.jsp?fileUploadStatus="+status);

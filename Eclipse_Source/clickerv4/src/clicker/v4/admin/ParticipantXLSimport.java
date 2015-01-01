@@ -60,7 +60,7 @@ public class ParticipantXLSimport {
 		}
 	}
 
-	public String readQuestionXLSFile(File xlsfile, String workshopid) {
+	public String readParticipantxlsFile(File xlsfile, String workshopid) {
 		
 		try {
 			

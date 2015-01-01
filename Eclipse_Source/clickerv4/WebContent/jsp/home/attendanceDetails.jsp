@@ -13,6 +13,8 @@ USE        : to display present and absent list
 <%@page import="java.sql.*"%>
 <%@page import="clicker.v4.dashboard.*"%>
 <%@page import="java.util.*"%>
+<%@page import="java.util.Arrays"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -45,7 +47,12 @@ USE        : to display present and absent list
 	{
 	Student_List = Att_helper.studentlist(course);
 	Iterator<String> it = Student_List.iterator();
-	String[] Present_Sid = new String[Student_List.size()];
+	String[] Present_Sid = new String[Student_List.size()];	
+		
+	
+	
+	String[] APresent_Sid = new String[Student_List.size()];
+	
 	try {
 		DatabaseConnection dbconn1 = new DatabaseConnection();
 		Connection conn1 = dbconn1.createDatabaseConnection();
@@ -111,32 +118,62 @@ USE        : to display present and absent list
 				</tr>
 				<%
 				int j=0;
-					while (it.hasNext()) {
+				
+				 int pp=0;
+				while(it.hasNext()){
+					String value = (String) it.next();
+					APresent_Sid[pp]=value;
+					pp++;
+				}			
+						
+						/*for(int jj=0; jj<APresent_Sid.length;jj++)
+						 {
+						     for (int ii=j+1 ; ii<APresent_Sid.length; ii++)
+						     {
+						         if(APresent_Sid[ii].compareTo(APresent_Sid[jj])<0)
+						         {
+						             String temp= APresent_Sid[jj];
+						             APresent_Sid[jj]= APresent_Sid[ii]; 
+						             APresent_Sid[ii]=temp;
 
-						String value = (String) it.next();						
-						Present_Sid[j]=value;
-						j++;
-						DatabaseConnection dbconn1 = new DatabaseConnection();
-						Connection conn1 = dbconn1.createDatabaseConnection();
-						Statement st1 = conn1.createStatement();
-						String query1 = "SELECT StudentName from student where StudentID='"
-								+ value + "'";
-						ResultSet rs = st1.executeQuery(query1);
-						if (rs.next()) {							
-							name = rs.getString(1);
-						}
-				%>
-				<tr>
-					<td><%=value%></td>
+
+						         }
+						     }
+						 }*/
+						Arrays.sort(APresent_Sid);						
+						/*for(int nt=0;nt<APresent_Sid.length;nt++)
+						{
+							System.out.println("=====================>"+APresent_Sid[nt]);
+						}*/
+						
+						for (int ap=0;ap<APresent_Sid.length;ap++)
+						{
+							//System.out.println("=====================>"+APresent_Sid[ap]);
+							
+							DatabaseConnection dbconn1 = new DatabaseConnection();
+							Connection conn1 = dbconn1.createDatabaseConnection();
+							Statement st1 = conn1.createStatement();
+							String query1 = "SELECT StudentName from student where StudentID='"
+									+ APresent_Sid[ap] + "'";
+							ResultSet rs = st1.executeQuery(query1);
+							if (rs.next()) {							
+								name = rs.getString(1);
+							}
+							%>
+							
+							<tr>
+					<td><%=APresent_Sid[ap]%></td>
 					<td><%=name%></td>
 				</tr>
-				<%
-				dbconn1.closeLocalConnection(conn1);
-						st1.close();
-						rs.close();
-						//System.out.println("Present Student id :" + value);
-					}
-				%>
+						<%	dbconn1.closeLocalConnection(conn1);
+							st1.close();
+							rs.close();					
+							
+						}
+						%>
+				
+				
+				
 			</table>
 
 
@@ -156,7 +193,7 @@ USE        : to display present and absent list
 					Connection conn1 = dbconn1.createDatabaseConnection();
 					Statement st1 = conn1.createStatement();
 					String query1 = "SELECT StudentID from studentcourse where CourseID='"
-							+ course + "'";
+							+ course + "' ORDER BY StudentID ASC";
 					
 					ResultSet rs = st1.executeQuery(query1);
 					int pre = 0;
@@ -177,9 +214,9 @@ USE        : to display present and absent list
 					String[] Absent_student = new String[size];
 					for(int i=0;i <Sid.length;i++)
 					{
-						for(int k=0;k <Present_Sid.length;k++)
+						for(int k=0;k <APresent_Sid.length;k++)
 						{
-							if(Sid[i].equalsIgnoreCase(Present_Sid[k]))
+							if(Sid[i].equalsIgnoreCase(APresent_Sid[k]))
 									{
 								      s=true;
 								      break;
@@ -237,7 +274,7 @@ USE        : to display present and absent list
 		Connection conn1 = dbconn1.createDatabaseConnection();
 		Statement st1 = conn1.createStatement();
 		String query1 = "SELECT StudentID from studentcourse where CourseID='"
-				+ course + "'";
+				+ course + "' ORDER BY StudentID ASC";
 		
 		ResultSet rs = st1.executeQuery(query1);
 		int pre = 0;
@@ -270,6 +307,8 @@ USE        : to display present and absent list
 		Connection conn4 = dbconn4.createDatabaseConnection();
 		Statement st4 = conn4.createStatement();
 		ResultSet rs4;
+		
+		
 		
 	for(int l=0;l<pre;l++)
 		{

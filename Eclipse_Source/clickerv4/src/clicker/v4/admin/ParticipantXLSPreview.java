@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jxl.Cell;
 import jxl.Sheet;
@@ -20,10 +21,9 @@ import jxl.Workbook;
 @SuppressWarnings("serial")
 public class ParticipantXLSPreview extends HttpServlet {
 	 
-	 public String readQuestionXLSFile(PrintWriter out, File xlsfile, String workshopid) {
+	 public String readParticpantXLSFile(PrintWriter out, File xlsfile, String workshopid) {
 	        try {
-	        	//PrintWriter out = new PrintWriter(xlsfile);
-	        	//System.out.println("XLS Preview Filename: " + xlsfile.getPath());
+	        	         	
 	            Workbook workbook = Workbook.getWorkbook(xlsfile);
 	            //String sheetName[] = workbook.getSheetNames();
 	            Sheet sheet;
@@ -76,24 +76,28 @@ public class ParticipantXLSPreview extends HttpServlet {
 	        }
 	 }
 	 protected void doGet(HttpServletRequest request,HttpServletResponse response){
+		 HttpSession session=request.getSession();
+		 System.out.println("=============================>participant xlx preview servlet");
 		 response.setContentType("text/html");
 		 String url = request.getParameter("xls");
 		 String workshopid = request.getParameter("workshop");
 		 ServletContext context = getServletContext();
 		 //System.out.println("Servlet config: " + context);
 		String pathurl = context.getRealPath("/uploads");
+		String CID=(String)session.getAttribute("CoordinatorID");
 		
-		File file = new File(pathurl + "/" + url);
-		//System.out.println("Filename: " + file.getPath());
+		File file = new File(pathurl + "/" + CID+url);
+		System.out.println("Filename: " + file.getPath());
 		 PrintWriter out = null;
 		try {
 			out = response.getWriter();
+			System.out.println("==========================>"+out);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//System.out.println("---------------------------- " + getServletContext().getInitParameter("file"));
-		 readQuestionXLSFile(out, file, workshopid);
+		readParticpantXLSFile(out, file, workshopid);
 		 out.close();
 	 }
 	    

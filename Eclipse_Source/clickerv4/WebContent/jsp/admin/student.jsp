@@ -396,7 +396,7 @@ element.innerHTML = pagerHtml;
 	<br>
 	<br>
 	<br>
-	<div style="height: 600px;" align="center">
+	<div style="height: auto;" align="center">
 	<table>
 	
 	<tr>
@@ -410,7 +410,7 @@ element.innerHTML = pagerHtml;
 								<label><b>Upload </b></label> <input id="file" type="file"
 									name="xls" />
 								<button id="pre" type="button" style="margin-left: 5px;"
-									onclick="uploadXLS();">
+									onclick="uploadStudentXLS();">
 									<span>Preview</span>
 								</button>
 								<br> <a href="../../xlstemplates/StudentInfo_Template.xls">Student

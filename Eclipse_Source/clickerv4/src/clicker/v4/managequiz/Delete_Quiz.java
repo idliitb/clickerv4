@@ -36,9 +36,11 @@ public class Delete_Quiz extends HttpServlet
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");
 		}catch(SQLException e)
 		{
-			System.out.println("Exception in Delete Quiz: " + e);
+			System.out.print("Exception in Delete Quiz: ");
+			e.printStackTrace();
 		}catch (IOException e) {
-			System.out.println("Exception in Delete Quiz: " + e);
+			System.out.print("Exception in Delete Quiz: ");
+			e.printStackTrace();
 		}
 		finally{
 			try {
@@ -49,7 +51,8 @@ public class Delete_Quiz extends HttpServlet
 					dbconn.closeLocalConnection(conn);
 				}
 			} catch (SQLException e) {
-				System.out.println("Exception in Delete Quiz: " + e);
+				System.out.print("Exception in Delete Quiz: ");
+				e.printStackTrace();
 			}
 		}
 		

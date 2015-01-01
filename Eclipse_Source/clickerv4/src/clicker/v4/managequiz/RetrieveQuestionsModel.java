@@ -34,7 +34,8 @@ public class RetrieveQuestionsModel {
 			this.selector = selector;
 		}
 		catch(Exception ex){
-			System.out.println("Exception in RetriveQuestionsModel funtion of Retrieve Questions Model:" + ex);			
+			System.out.print("Exception in RetriveQuestionsModel funtion of Retrieve Questions Model:");
+			ex.printStackTrace();
 		}
 		finally
 		{
@@ -74,14 +75,16 @@ public class RetrieveQuestionsModel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + e);
+			System.out.print("Exception in getQuestions funtion of Retrieve Questions Model: ");
+			e.printStackTrace();
 		}
 		ResultSet rs=null;
 		try {
 			rs=(ResultSet) statement.getResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + e);
+			System.out.print("Exception in getQuestions funtion of Retrieve Questions Model: ");
+			e.printStackTrace();
 		}
 		try {
 			while(rs.next()){
@@ -95,7 +98,8 @@ public class RetrieveQuestionsModel {
 			dbcon.closeLocalConnection(conn);
 		}
 		catch(Exception ex){
-			System.out.println("Exception in getQuestions funtion of Retrieve Questions Model:" + ex);
+			System.out.print("Exception in getQuestions funtion of Retrieve Questions Model: ");
+			ex.printStackTrace();
 		}
 		return list;
 	}

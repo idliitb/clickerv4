@@ -41,7 +41,7 @@ public class NumericEditDB extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		Connection conn=null;
-		
+		String instructorid = (String) request.getSession().getAttribute("InstructorID");
 		PrintWriter out = response.getWriter();
 		DatabaseConnection dbconn = new DatabaseConnection();
 		try{
@@ -74,9 +74,9 @@ public class NumericEditDB extends HttpServlet {
 				
 				int rs2=st1.executeUpdate();
 				
-				/*// Adding entry in the Questions history table
+				// Adding entry in the Questions history table
 				History history = new History (qid, question, instructorid, option);
-				history.addentry ();*/
+				history.addentry ();
 				
 				if((rs!=0)||(rs2!=0))
 				{
@@ -88,12 +88,14 @@ public class NumericEditDB extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Exception in NumericEditDB: " + e);
+			System.out.print("Exception in NumericEditDB: ");
+			e.printStackTrace();
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				System.out.println("Exception in NumericEditDB: " + e);
+				System.out.print("Exception in NumericEditDB: ");
+				e.printStackTrace();
 			}
 		}	
 

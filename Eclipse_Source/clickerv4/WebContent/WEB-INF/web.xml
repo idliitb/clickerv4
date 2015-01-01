@@ -549,4 +549,14 @@
     <servlet-name>RemoteDownloadXLS</servlet-name>
     <url-pattern>/RemoteDownloadXLS</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CourseFileUploadHelper</display-name>
+    <servlet-name>CourseFileUploadHelper</servlet-name>
+    <servlet-class>clicker.v4.admin.CourseFileUploadHelper</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CourseFileUploadHelper</servlet-name>
+    <url-pattern>/CourseFileUploadHelper</url-pattern>
+  </servlet-mapping>
 </web-app>

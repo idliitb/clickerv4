@@ -52,7 +52,7 @@ public class StudentcourseXLSimport {
 	}
 
 	public String readstudentCourseXLSfile(File xlsfile) {
-		//System.out.println("========>readstudentCourseXLSfile   :"+xlsfile);
+		System.out.println("========>readstudentCourseXLSfile   :"+xlsfile);
 		
 		try {
 

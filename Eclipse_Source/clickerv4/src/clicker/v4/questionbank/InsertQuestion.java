@@ -45,7 +45,8 @@ public class InsertQuestion {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Exception in InsertQuestion: " + e);
+			System.out.print("Exception in InsertQuestion: ");
+			e.printStackTrace();
 		} 
 		return QuestionID;	
 	}

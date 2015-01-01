@@ -85,7 +85,7 @@ public class Admindata {
         try {
         	
             con = dbcon.createDatabaseConnection();
-            pst = con.prepareStatement("SELECT DeptID FROM department");
+            pst = con.prepareStatement("SELECT DeptID FROM department where DeptID <> 'temp001'");
             
             rs = pst.executeQuery();
             while (rs.next()) {					

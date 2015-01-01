@@ -186,6 +186,7 @@ public class DepartmentCourse extends HttpServlet {
 		}
 
 		else if (flag.equalsIgnoreCase("Course_Add")) {
+			
 			String query2 = "insert into course(CourseID,CourseName,CourseDesc,DeptID,Status) values('"
 					+ courseID
 					+ "','"
@@ -193,6 +194,8 @@ public class DepartmentCourse extends HttpServlet {
 					+ "','"
 					+ Coursedesc
 					+ "','" + dept_id + "',0)";
+			
+			System.out.println("=========================================================>"+query2);
 
 			
 			try {

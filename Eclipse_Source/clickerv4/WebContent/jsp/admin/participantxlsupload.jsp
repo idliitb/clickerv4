@@ -36,11 +36,12 @@ else
 	String pathurl = context.getRealPath("/uploads");
 	
 	//System.out.println("url = " + pathurl);
+	String CID=(String)session.getAttribute("CoordinatorID");
 	
-	File file = new File(pathurl + "/" + path1);
+	File file = new File(pathurl + "/"+CID+ path1);
 	//System.out.println("Filename: " + file);
-	//String instructorid = (String) session.getAttribute("InstructorID");
-     status=xls.readQuestionXLSFile(file, workshopid);
+	 
+     status=xls.readParticipantxlsFile(file, workshopid);
 }
 	System.out.println("status: " + status);
 	

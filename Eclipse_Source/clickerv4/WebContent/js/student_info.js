@@ -931,7 +931,7 @@ function upload_courseXLS() {
 	var formdata = new FormData();
 	formdata.append("file", xlsFile);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "../../fileuploader", true);
+	xhr.open("POST", "../../studentfileuploader", true);
 	xhr.send(formdata);
 
 }
@@ -973,9 +973,9 @@ function get_courseXlsUrl() {
 }
 
 
-function uploadXLS() {
+function uploadStudentXLS() {
 	
-	setTimeout("previewXLS()",1000);
+	setTimeout("previewStudentXLS()",1000);
 	//alert("In Upload");
     var xlsFile = document.getElementById("file").files[0];
     //alert("xlsfile: " + xlsFile);
@@ -987,7 +987,7 @@ function uploadXLS() {
     //window.location.href="../../jsp/QuestionBank/questionbank.jsp";
 }
 
-function previewXLS() {
+function previewStudentXLS() {
 	//alert("in preview");
 	$("#dialog").dialog({
 		modal:true,

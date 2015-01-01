@@ -73,8 +73,10 @@ public class XLSPreview extends HttpServlet {
 	                
 	                xlsCell = sheet.getCell(3, i);
 					cellvalue = xlsCell.getContents().toString();
-					if(cellvalue.equals("^[a-zA-Z]*") || !(cellvalue.equals("0")) || !(cellvalue.equals("1")))
+					if((cellvalue.equals("0") || cellvalue.equals("1") || cellvalue.equals("")))
 					{
+						System.out.println("Isshuffled - " + cellvalue);						
+					}else{
 						out.print("<p style='color: red'><b>Please enter only 0 or 1 in the Shuffle field!</b></p>");
 						break;
 					}

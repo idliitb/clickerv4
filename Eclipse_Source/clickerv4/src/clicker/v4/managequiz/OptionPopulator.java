@@ -52,7 +52,8 @@ public class OptionPopulator extends HttpServlet{
 				out.print("<p class='options'>Numeric Answer : "+options.get(0)+"</p>");
 			}
 		}catch(Exception ex){
-			System.out.println("Exception in Option Populator: " + ex);
+			System.out.print("Exception in Option Populator: ");
+			ex.printStackTrace();
 		}
 	}
 

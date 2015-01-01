@@ -44,12 +44,14 @@ public class Delete_Question extends HttpServlet {
 			st.executeUpdate("update question set Archived='1' where QuestionID='"+qid+"'");
 
 		}catch(Exception e){
-			System.out.println("Exception in DeleteQuestion: " + e);
+			System.out.print("Exception in DeleteQuestion: ");
+			e.printStackTrace();
 		}finally{
 			try{
 				dbconn.closeLocalConnection(conn);
 			}catch(Exception e){
-				System.out.println("Exception in DeleteQuestion: " + e);
+				System.out.print("Exception in DeleteQuestion: ");
+				e.printStackTrace();
 			}finally{
 				response.sendRedirect("jsp/questionbank/questionbank.jsp");
 			}
