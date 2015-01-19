@@ -739,22 +739,30 @@ public class JSONReadandparse {
 	public String version_id(String war_version, String db_version )
 	{
 		//System.out.println("=========>version ID");
-		String server_output = null;
+		String server_output = "", temp = null;
 		URL url=null;
-	
-		InputStream is;		
+		HttpURLConnection httpurlconnection = null;
+		InputStream is = null;		
 				
 		try {
 						
 			url = new URL("http://www.it.iitb.ac.in/clicker/rest/quiz/war_version/" + war_version + "/" + db_version);
-			is = url.openStream();
-										
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-			server_output = rd.readLine();		
-						
-			System.out.println("======================> Version Server Output: " + server_output);
-			is.close();
+			httpurlconnection = (HttpURLConnection) url.openConnection();
+			System.out.println("In Version ID function-----------> Response Code: " + httpurlconnection.getResponseCode());
 			
+			if(httpurlconnection.getResponseCode() == 200)
+			{				
+				is = httpurlconnection.getInputStream();
+											
+				BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+				while((temp = rd.readLine()) != null)
+					server_output = temp;
+				
+				System.out.println("======================> Version Server Output: " + server_output);
+				
+			}
+			else
+				server_output = "main server down";
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -767,7 +775,19 @@ public class JSONReadandparse {
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}finally
+		{
+			try {
+				if(is != null)
+					is.close();
+				if(httpurlconnection != null)
+					httpurlconnection.disconnect( );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Error in closing Input Stream");
+				e.printStackTrace();
+			}
+		}
 		
 	return server_output;
 		

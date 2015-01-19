@@ -48,7 +48,7 @@ body {
 
 	function sendRaiseHand(StudentID, CourseID) {
 
-		var question = document.getElementById("raisedquestion").value.trim();
+		var question = encodeURIComponent(document.getElementById("raisedquestion").value.trim());
 		if (question == "" || question == " ") {
 			alert("Please, enter your question.");
 			document.getElementById("raisedquestion").value = "";

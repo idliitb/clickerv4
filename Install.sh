@@ -260,7 +260,7 @@ echo "Number of tables in AakashClicker is :" $table
 
 echo "Number of tables in RemoteAakashClicker is :" $table1
 
-if ( dpkg -s tomcat6 ) && ( dpkg -S `which mysql` ) && ( java -version ) && [ $table -eq 24 ] && [ $table1 -eq 19 ]
+if ( dpkg -s tomcat6 ) && ( dpkg -S `which mysql` ) && ( java -version ) && [ $table -eq 23 ] && [ $table1 -eq 19 ]
 
 then
 

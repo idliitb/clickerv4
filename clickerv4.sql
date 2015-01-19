@@ -18,31 +18,6 @@ USE `aakashclicker`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `autotestresponse`
---
-
-DROP TABLE IF EXISTS `autotestresponse`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `autotestresponse` (
-  `ParticipantID` varchar(25) NOT NULL,
-  `IQuestionID` int(5) NOT NULL,
-  `Response` char(8) DEFAULT NULL,
-  `QTimeStamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `IQuizID` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `autotestresponse`
---
-
-LOCK TABLES `autotestresponse` WRITE;
-/*!40000 ALTER TABLE `autotestresponse` DISABLE KEYS */;
-/*!40000 ALTER TABLE `autotestresponse` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `instantquizresponsenew`
 --
 
