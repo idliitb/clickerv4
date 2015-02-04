@@ -396,7 +396,7 @@ element.innerHTML = pagerHtml;
 	<br>
 	<br>
 	<br>
-	<div style="height: auto;" align="center">
+	<div style="height: auto;overflow: auto;" align="center">
 	<table>
 	
 	<tr>
@@ -603,7 +603,7 @@ pager.showPage(1);
 		</div>
 	</div>
 </div>
-	<div style="margin-top: -600px;">
+	<div style="margin-top: -200px;">
 		<%@ include file="../../jsp/includes/menufooter.jsp"%>
 	</div>
 </body>

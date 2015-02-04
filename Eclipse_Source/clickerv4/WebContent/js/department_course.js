@@ -562,8 +562,8 @@ if( /[^a-z0-9A-Z\-]/.test( course_id ) ) {
     return false;
 }
 
-if( /[^a-zA-Z\ ]/.test( course_name ) ) {
-    alert('Course Name Contains Only alphabets!!');
+if( /[^a-z0-9A-Z\ ]/.test( course_name ) ) {
+    alert('Special character Not Allowed in Course Name !!');
     return false;
 }
 

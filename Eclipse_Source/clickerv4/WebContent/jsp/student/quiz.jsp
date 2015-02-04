@@ -521,7 +521,7 @@ function showQuiz(quiz){
 			qtabdiv = createDOMElementIDClassEvent("div", 'q'+question.id, 'qtab '+qtabColor, "showQuestion('q"+question.id+"')");
 			qtabdiv.innerHTML= "Q" + (i+1);
 			var questiondiv =  createDOMElementClass("div", 'q_div');
-			questiondiv.innerHTML = "Q"+(i+1)+ ". "+ question.text;
+			questiondiv.innerHTML = "Q"+(i+1)+ ". "+ question.text.replace(/\n/g, "<br />");
 			var optionsdiv =  createDOMElementClass("div", 'option_div');		
 			var a = new Array();
 			for(var k=0;k<question.options.length;k++){				
@@ -653,7 +653,7 @@ function showQuiz(quiz){
 				qc = createDOMElementIDClassStyle("div", 'q'+question.id+"q", 'question_div', 'display:block');					
 			}
 			var questiondiv =  createDOMElementClass("div", 'q_div');
-			questiondiv.innerHTML = "Q"+(i+1)+ ". "+ question.text;
+			questiondiv.innerHTML = "Q"+(i+1)+ ". "+ question.text.replace(/\n/g, "<br />");
 			var optionsdiv =  createDOMElementClass("div", 'option_div');		
 			var a = new Array();
 			for(var k=0;k<question.options.length;k++){				

@@ -222,9 +222,10 @@ public class XLSPreview extends HttpServlet {
 		 response.setContentType("text/html");
 		 String url = request.getParameter("xls");
 		 ServletContext context = getServletContext();
-		String pathurl = context.getRealPath("/uploads");
+		String pathurl = context.getRealPath("/uploads"), 
+				instructor_id = (String) request.getSession().getAttribute("InstructorID");
 		
-		File file = new File(pathurl + "/" + url);
+		File file = new File(pathurl + "/" + instructor_id + "_" + url);
 		System.out.println("Filename: " + file.getPath());
 		 PrintWriter out = null;
 		try {

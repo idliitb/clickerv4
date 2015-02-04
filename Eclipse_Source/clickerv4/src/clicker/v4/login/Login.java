@@ -213,6 +213,11 @@ public class Login extends HttpServlet {
 				}
 				else 
 				{
+					JSONReadandparse version_reader = new JSONReadandparse();
+					String v_id = version_reader.version_id(getServletContext().getInitParameter("war_version"), 
+														    getServletContext().getInitParameter("db_version"));
+					getServletContext().setAttribute("version_check", v_id);
+					
 					HttpSession session = request.getSession(true);
 					session.setAttribute("CoordinatorID", LoginName);
 					String[] maincenterlist=loginhelp.getMainCenterName(conn);
@@ -238,7 +243,13 @@ public class Login extends HttpServlet {
 					System.out.println("wrong username and password");
 				}
 				else {
-					HttpSession session = request.getSession(true);
+					JSONReadandparse version_reader = new JSONReadandparse();
+					String v_id = version_reader.version_id(getServletContext().getInitParameter("war_version"), 
+														    getServletContext().getInitParameter("db_version"));
+					getServletContext().setAttribute("version_check", v_id);
+					
+					HttpSession session = request.getSession(true);	
+					
 					session.setAttribute("InstructorID", LoginName);
 					String[] Courses =loginhelp.getInstructorIDCourseID(conn,LoginName);
 					session.setAttribute("courseList", Courses);

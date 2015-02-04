@@ -17,12 +17,13 @@
 	
 	ServletContext context = getServletContext();
 	String pathurl = context.getRealPath("/uploads");
+	String instructorid = (String) session.getAttribute("InstructorID");
 	
 	System.out.println("url = " + pathurl);
 	
-	File file = new File(pathurl + "/" + path1);
+	File file = new File(pathurl + "/" + instructorid + "_" + path1);
 	System.out.println("Filename: " + new File(path1).getAbsolutePath());
-	String instructorid = (String) session.getAttribute("InstructorID");
+	
 	String courseid = (String) session.getAttribute("courseID");
 	String status=xls.readQuestionXLSFile(instructorid, file, courseid);
 	

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 
@@ -681,18 +682,20 @@ public class Restquizresource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getpolljson(MultivaluedMap<String, String> personParams){
-		System.out.println("catch pollresponse..."); 
-		String Mode="local";
+	System.out.println("catch pollresponse..."); 
+	String Mode="local";
+	String student_id = null , response=null , launchtime=null , flag="new";
+	PollHelper ph=new PollHelper();
+	int current_pid=ph.getPollid();
 
-
-		String pollresponse=personParams.getFirst("poll_res");
-		String course_id=personParams.getFirst("courseId");
-		String mode=personParams.getFirst("mode");
-		String pollid=personParams.getFirst("pollId");
-
-		//Checking mode is local or remote
-		if(mode.equals(Mode)||mode==Mode)
-		{
+	String pollresponse=personParams.getFirst("poll_res");
+	String course_id=personParams.getFirst("courseId");
+	String mode=personParams.getFirst("mode");
+	String pollid=personParams.getFirst("pollId");
+	int p_id=Integer.parseInt(pollid);
+	//Checking mode is local or remote
+	if(mode.equals(Mode)||mode==Mode)
+	{
 			System.out.println("courseID:"+course_id);
 			System.out.println("pollresponse json:   "+pollresponse);
 			System.out.println("mode json:   "+mode);
@@ -700,41 +703,71 @@ public class Restquizresource {
 			JSONObject pollresponseJSon = null;
 			try {
 				pollresponseJSon = new JSONObject(pollresponse);
-				String student_id=pollresponseJSon.get("stuid").toString();
-				String response = pollresponseJSon.get("option").toString();
-				String launchtime=Global.polljsonobject.get(course_id).getlaunchtime();
-				System.out.println("stuid launchtime in rest :"+launchtime);
-				System.out.println("stuid in rest :"+pollresponseJSon.get("stuid").toString());
+				 student_id=pollresponseJSon.get("stuid").toString();
+				 response = pollresponseJSon.get("option").toString();
+				 launchtime=Global.polljsonobject.get(course_id).getlaunchtime();
+			} catch (JSONException e) {			
+				e.printStackTrace();
+			}
+			
+			//checking if this is previous poll response or not.....
+			if(current_pid==p_id)
+			{
+				//checking  if student already gave response from other device or not...
+				List<String> check_duplicate_student_response =  Global.respondedpollstudlist.get(course_id);
+			
+				if(!check_duplicate_student_response.contains(student_id))
+				{	
+					System.out.println("%%%%%%%%%%%%%%%%%%%%% ==--> new entry");
+					try {
+						ph.savepollresponse(student_id, response, launchtime, course_id , p_id,flag);
+					} catch (SQLException e) {
+					// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+					check_duplicate_student_response.add(student_id);
+					Global.respondedpollstudlist.replace(course_id, check_duplicate_student_response);
+					System.out.println(" --> -->  --> --> --> --> after replace  --> -->"+Global.respondedpollstudlist.get(course_id));
+				
+				
+					String prepollresponse=Global.responsepollobject.get(course_id);
+					//System.out.println("&&&&&&&&&&&&&& pre_response --> "+Global.responsepollobject.get(course_id));
+					// get all student poll results and split 
+					pollresponse=prepollresponse+pollresponse+"@@";
+					Global.responsepollobject.replace(course_id,pollresponse); 
 
-				PollHelper phelp=new PollHelper();
+				
+				}
+				else
+				{
+					System.out.println("%%%%%%%%%%%%%%%%%%%%% already present");
+				
+				}
+			}
+			else
+			{
+				System.out.println("previous poll response------- storing in database------------will not dispaly in chart");
 				try {
-					phelp.savepollresponse(student_id, response, launchtime, course_id);
+					flag="old";
+					ph.savepollresponse(student_id, response, launchtime, course_id , p_id , flag);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-			} catch (JSONException e) {			
-				e.printStackTrace();
 			}
-
-			String prepollresponse=Global.responsepollobject.get(course_id);
-			// get all student poll results and split 
-			pollresponse=prepollresponse+pollresponse+"@@";
-			Global.responsepollobject.replace(course_id,pollresponse); 
-
 			return "Your poll response has been successfully submitted";
-		}
-		else
-		{
-			JSONObject pollresponseJSon = null;
-			try {
-				pollresponseJSon = new JSONObject(pollresponse);
-				String student_id=pollresponseJSon.get("stuid").toString();
-				String response = pollresponseJSon.get("option").toString();
-				String launchtime=Global.workshoppolljsonobject.get(course_id).getlaunchtime();
+	}
+	else
+	{
+		JSONObject pollresponseJSon = null;
+		try {
+			pollresponseJSon = new JSONObject(pollresponse);
+			student_id=pollresponseJSon.get("stuid").toString();
+			response = pollresponseJSon.get("option").toString();
+			launchtime=Global.workshoppolljsonobject.get(course_id).getlaunchtime();
 
-				System.out.println("stuid in rest :"+pollresponseJSon.get("stuid").toString());
+			System.out.println("stuid in rest :"+pollresponseJSon.get("stuid").toString());
 
 				RemoteDBHelper rdh= new RemoteDBHelper();
 				try {

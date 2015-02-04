@@ -765,15 +765,21 @@ public class JSONReadandparse {
 				server_output = "main server down";
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
+			
+			server_output = "main server down";
+			System.out.println("In JSONReadandParse, catch(MalformedURLException) block of version_id( )");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			
 			server_output = "main server down";
-			//System.out.println("In JSONReadandParse, catch block of version_id( )");
+			System.out.println("In JSONReadandParse, catch(IOException) block of version_id( )");
 			e.printStackTrace();
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
+			
+			server_output = "main server down";
+			System.out.println("In JSONReadandParse, catch(NumberFormatException) block of version_id( )");
 			e.printStackTrace();
 		}finally
 		{
@@ -784,7 +790,9 @@ public class JSONReadandparse {
 					httpurlconnection.disconnect( );
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Error in closing Input Stream");
+				
+				server_output = "main server down";
+				System.out.println("In JSONReadandParse, version_id( ), Error in closing Input Stream");
 				e.printStackTrace();
 			}
 		}

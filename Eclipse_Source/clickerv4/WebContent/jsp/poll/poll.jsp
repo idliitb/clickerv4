@@ -8,7 +8,6 @@ This page is used for launching the poll.
 String isactive = "inactive";
 if(session.getAttribute("isactive")!=null)
 isactive = "active";
-
 %>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

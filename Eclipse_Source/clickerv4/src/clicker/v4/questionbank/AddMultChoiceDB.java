@@ -48,8 +48,9 @@ public class AddMultChoiceDB extends HttpServlet {
 			
 			conn = dbconn.createDatabaseConnection();
 			int count=Integer.parseInt((String)request.getParameter("count"));
-			String courseid = (String) request.getSession().getAttribute("courseID");
-			int questionID;
+			String courseid = (String) request.getSession().getAttribute("courseID"), 
+					math_select = request.getParameter("math_option"), whitespace = " \\\\/(\\\\/\\\\/\\\\/)";
+			int questionID = 0;
 			String Question=(String)request.getParameter("addquest");
 			int LevelOfDifficulty=1;
 			String imageName=(String)request.getParameter("image"), optionvalue = "";
@@ -62,35 +63,66 @@ public class AddMultChoiceDB extends HttpServlet {
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
 			
-			InsertQuestion i_q=new InsertQuestion();
-			questionID=i_q.insertQuestion(conn, Question, LevelOfDifficulty, archived, credits, imageName, questionType, instructorid, shuffle, courseid, negativemark);
-			System.out.println(questionID);
+			InsertQuestion i_q=new InsertQuestion();			
 			InsertOptions i_o=new InsertOptions();
 					
-			
-			for(int i=0;i<count;i++)
-			{
-				if(request.getParameter(options[i])!=null)
-				{
-					//System.out.println("if: " + (i + 1));
-					i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 1, 1, 0, credits, questionID);
-					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
-					//System.out.println("if1: " + request.getParameter(""+(i + 1)).toString());
-				}
-				else
-				{
-					//System.out.println("else: " + (i + 1));
-					i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 0, 1, 0, credits, questionID);
-					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
-					//System.out.println("else1: " + request.getParameter(""+(i +1)).toString());
-				}
+			if(math_select != null)
+			{			
+				for(int i=0, ch = 65;i<count;i++)
+					Question += whitespace + " Option " + ((char) ch++) + ": " + request.getParameter(""+(i+1));
 				
+				questionID=i_q.insertQuestion(conn, Question, LevelOfDifficulty, archived, credits, imageName, 
+											  questionType, instructorid, shuffle, courseid, negativemark);
+				System.out.println(questionID);
+				
+				for(int i = 0, ch = 65; i < count; i++, ch++)
+				{					
+					if(request.getParameter(options[i])!=null)
+					{
+						//System.out.println("if: " + (i + 1));
+						i_o.insertOption(Character.toString((char) ch), "nothing", 1, 1, 0, credits, questionID);
+						optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
+						//System.out.println("if1: " + request.getParameter(""+(i + 1)).toString());
+					}
+					else
+					{
+						//System.out.println("else: " + (i + 1));
+						i_o.insertOption(Character.toString((char) ch), "nothing", 0, 1, 0, credits, questionID);
+						optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
+						//System.out.println("else1: " + request.getParameter(""+(i +1)).toString());
+					}
+					
+				}				
+			}
+			else
+			{
+				questionID=i_q.insertQuestion(conn, Question, LevelOfDifficulty, archived, credits, imageName, questionType, instructorid, shuffle, courseid, negativemark);
+				System.out.println(questionID);
+				
+				for(int i=0;i<count;i++)
+				{					
+					if(request.getParameter(options[i])!=null)
+					{
+						//System.out.println("if: " + (i + 1));
+						i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 1, 1, 0, credits, questionID);
+						optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
+						//System.out.println("if1: " + request.getParameter(""+(i + 1)).toString());
+					}
+					else
+					{
+						//System.out.println("else: " + (i + 1));
+						i_o.insertOption(request.getParameter(""+ (i + 1)).toString(), "nothing", 0, 1, 0, credits, questionID);
+						optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
+						//System.out.println("else1: " + request.getParameter(""+(i +1)).toString());
+					}
+					
+				}
 			}
 			
 			// Adding entry in the Questions history table
-			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
+			/*optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (questionID, Question, instructorid, optionvalue);
-			history.addentry ();
+			history.addentry ();*/
 			
 			response.sendRedirect("jsp/questionbank/questionbank.jsp");	
 		}

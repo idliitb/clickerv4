@@ -44,7 +44,8 @@ public class AddSingleChoiceDB extends HttpServlet {
 		String instructorid = (String) request.getSession().getAttribute("InstructorID");
 		float credits = Float.parseFloat(request.getParameter("credits"));
 		float negativemark = Float.parseFloat(request.getParameter("negativemark"));
-		String courseid = (String) request.getSession().getAttribute("courseID");
+		String courseid = (String) request.getSession().getAttribute("courseID"),
+			   math_select = request.getParameter("math_option");
 		int shuffle = 1;
 		if(request.getParameter("shuffle") != null)
 			shuffle = 0;
@@ -63,19 +64,25 @@ public class AddSingleChoiceDB extends HttpServlet {
 		}
 
 
-		int correctOption=0, ctr=-1;
+		int correctOption=0, ctr=-1, ch = 65;
 			ctr = Integer.parseInt(request.getParameter("count"));
 			String[] options= new String[ctr];
 			question = request.getParameter("singleaddquest");
+			String whitespace = " \\\\/(\\\\/\\\\/\\\\/)";
 			
 			for(int i=0;i<ctr;i++)
 			{
-				options[i] = request.getParameter(""+(i+1));
-				optionvalue += options[i] + ",";
+				if(math_select != null)
+					question += whitespace + " Option " + ((char) ch++) + ": " + request.getParameter(""+(i+1));
+				else
+				{
+					options[i] = request.getParameter(""+(i+1));
+					optionvalue += options[i] + ",";
+				}
 			}
 			correctOption = Integer.parseInt(request.getParameter("option"))-1;
 			int qid = -1;
-			
+			System.out.println("Question: " + question + "math_select: " + math_select);
 			try
 			{
 			st.setString(1,question);
@@ -107,16 +114,19 @@ public class AddSingleChoiceDB extends HttpServlet {
 			}
 			
 			// Adding entry to history table
-			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
+			/*optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (qid, question, instructorid, optionvalue);
-			history.addentry ();
+			history.addentry ();*/
 			
 			try
-			{		
+			{
+				ch = 65;
 			for(int i=0;i<ctr;i++)
 			{
-			
-					st2.setString(1,options[i]);
+					if(math_select != null)					
+						st2.setString(1, Character.toString((char) ch++));
+					else
+						st2.setString(1,options[i]);
 					if(i==correctOption)
 						st2.setInt(2,1);
 					else

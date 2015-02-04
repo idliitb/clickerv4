@@ -162,18 +162,19 @@ $(document).ready(function(){
 <div id = "addquestions" style = "display: none;">
 	<div style = "width: 1035; margin-top: 10px; height: 35px; border: 2px solid orange; border-radius: 10px;">		
 		<div style = "text-align: left; margin-top: 3px;">
-			Select the Question Type <select id="qtypeselect" name="cd-dropdown" class="cd-select" onchange = "addQuestions( );">
+			Select a Question Type <select id="qtypeselect" name="cd-dropdown" class="cd-select" onchange = "addQuestions( );">
 										<option value="1" >Single Choice correct</option>
 										<option value="2" >Multiple Choice correct</option>
 										<option value="3" >Numerical Answer</option>
 										<option value="4" >True or False</option>
 									</select>
+			
 		</div>
 		<div style="margin: -33px 0px 0px 400px; text-align: right; width: 640px; height: 38px;">
-			<span style = "font-weight: bold;">Upload Questions:</span> <a href="../../xlstemplates/Question_Template.xls">Question Template</a>
+			<span style = "margin-left: 0px; font-weight: bold;">Upload Questions:</span> <a href="../../xlstemplates/Question_Template.xls">Question Template</a>
 			<input id="file" type="file" name="xls"  />		
 			
-			<button class="ui-conductquiz-button" style = "height: 30px; margin-top: 5px; margin-left: -20px" id="pre" type="button" onclick = "uploadXLS();">
+			<button class="ui-conductquiz-button" style = "height: 30px; margin-top: 5px; margin-left: -25px" id="pre" type="button" onclick = "uploadXLS();">
 				<span>Preview</span>
 			</button>
 			
@@ -188,6 +189,9 @@ $(document).ready(function(){
 				</form>
 			</div>
 		</div>
+		<div id = "math_select">
+				<input type = "checkbox" id = "math_select_value" onclick = "addQuestions( );"> Math Select
+			</div>
 	</div>
 	<div id = "addquestframe" style = "margin-top: 15px;">
 	</div>

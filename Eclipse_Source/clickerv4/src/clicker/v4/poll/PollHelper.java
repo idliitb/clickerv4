@@ -180,29 +180,62 @@ public class PollHelper
 		
 	}
 //saving responses	
-	public void savepollresponse(String studentid, String response , String launchtime, String courseid) throws SQLException{
+	public void savepollresponse(String studentid, String response , String launchtime, String courseid , int pollid , String flag) throws SQLException{
 		System.out.println("in poll response saving...");
-		int p=getpollidnew(launchtime,courseid);
+		//int p=getpollidnew(launchtime,courseid);
 		DatabaseConnection dbcon = new DatabaseConnection();
 		try{
 
-			
-			con=dbcon.createDatabaseConnection();
-			/*
-			 * querry to insert the raise question into database wrt student id ,courseid
-			 */
 			java.util.Date date= new java.util.Date();
 			new Timestamp(date.getTime());
 			int option=Integer.parseInt(response);
+			con=dbcon.createDatabaseConnection();
+			/*
+			 * querry to check whether we have duplicate record or not
+			 */
+			if(flag=="new"){
+				/*
+				 * querry to insert the raise question into database wrt student id ,courseid
+				 */				
+				st = con.prepareStatement("INSERT INTO poll (StudentID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
+				st.setString(1,studentid);
+				st.setInt(2,option);
+				st.setString(3,launchtime);
+				
+				st.setInt(4,pollid);
+				
+				st.executeUpdate();
+				
+			}
+			else
+			{
+				System.out.println("in poll response saving...saving old response");
+				st = con.prepareStatement("select StudentID , Response from poll where StudentID=? and PollID=?");
+				st.setString(1,studentid);
+				st.setInt(2,pollid);
+				ResultSet resultSet = st.executeQuery();
+
+				if(resultSet.next())
+				{
+					System.out.println("response already present in the database :--> "+resultSet.getInt("StudentID")+""+resultSet.getInt("Response")); 
+					
+				}
+				else
+				{
+					st = con.prepareStatement("INSERT INTO poll (StudentID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
+					st.setString(1,studentid);
+					st.setInt(2,option);
+					st.setString(3,launchtime);
+					
+					st.setInt(4,pollid);
+					
+					st.executeUpdate();
+					
+				}
+				resultSet.close();
+			}
 			
-			st = con.prepareStatement("INSERT INTO poll (StudentID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
-			st.setString(1,studentid);
-			st.setInt(2,option);
-			st.setString(3,launchtime);
-			
-			st.setInt(4,p);
-			
-			st.executeUpdate();		
+					
 		}
 		catch (SQLException e2) {
 			// Exception when executing java.sql related commands, print error message to the console

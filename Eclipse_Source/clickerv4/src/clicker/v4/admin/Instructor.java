@@ -38,6 +38,9 @@ public class Instructor extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		DatabaseConnection dbconn = new DatabaseConnection();
+		Connection conn = dbconn.createDatabaseConnection();
+		
 		String Instructor_id=request.getParameter("InstructorID");
 		//System.out.println("====>"+Instructor_id );
 		
@@ -70,8 +73,7 @@ public class Instructor extends HttpServlet {
 		String flag=request.getParameter("Flag");
 		// String course_id=request.getParameter("CourseID");
 		
-		DatabaseConnection dbconn = new DatabaseConnection();
-		Connection conn = dbconn.createDatabaseConnection();
+		
 		Calendar cal=Calendar.getInstance();
 		  int curect_year=cal.get(Calendar.YEAR);
 		  

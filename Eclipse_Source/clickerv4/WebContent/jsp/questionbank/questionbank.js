@@ -417,8 +417,8 @@ function displayAddbox( )
 	$("#addquestions").dialog({
 		title:"Add Questions",
 		modal:true,		
-		height:535,
-		position: {my: "center", at: "center", of: window},
+		height:700,
+		position: {my: "center", at: "top", of: window},
 	    width:1060,
 	    autoOpen:false
 	});
@@ -438,18 +438,38 @@ function addQuestions( )
 {
 	var qtype = (document.getElementById("qtypeselect").options[document.getElementById("qtypeselect").selectedIndex].value);
 	var url = null;
+	var math_select_value = "";
 	
 	try
 	{
+		if(qtype == 3)
+			document.getElementById("math_select").style.display = "none";
+		else
+		{
+			document.getElementById("math_select").style.display = "block";
+			
+			if(qtype == 1)
+				document.getElementById("math_select_value").value = 5;
+			else if(qtype == 2)
+				document.getElementById("math_select_value").value = 6;
+			else 
+				document.getElementById("math_select_value").value = 7;
+		
+			if(document.getElementById("math_select_value").checked)
+				math_select_value = document.getElementById("math_select_value").value;
+			else
+				math_select_value = "none";
+		}
+		
 		switch(qtype)
 		{
-			case '1': url = "singlechoice.jsp";
+			case '1': url = "singlechoice.jsp?math_select_value=" + math_select_value;
 			break;
-			case '2': url = "multichoice.jsp";
+			case '2': url = "multichoice.jsp?math_select_value=" + math_select_value;
 			break;
 			case '3': url = "numeric.jsp";
 			break;
-			case '4': url = "truefalse.jsp";
+			case '4': url = "truefalse.jsp?math_select_value=" + math_select_value;
 			break;
 		}
 	}

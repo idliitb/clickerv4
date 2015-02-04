@@ -133,6 +133,23 @@ var mode="local";
 			document.getElementById("seconds").innerHTML = ""+seprater + getseconds();
 		
 		secs=secs-1;
+		
+		
+
+		if (document.getElementById('yes').checked) {
+			  ans = document.getElementById('yes').value;
+			}
+		else if(document.getElementById('no').checked){
+			 ans = document.getElementById('no').value;
+		}
+		else{
+			ans=2;
+		}
+		var response='poll_res={"stuid":'+studentid+',"option":'+ans+'}&courseId='+courseid+'&mode='+mode+'&pollId='+pollid;
+		setPollResopnseCookie("previouspollresponse",response,7);
+		
+		
+		
 		if(secs<0)
 		{
 			sendans();
@@ -158,17 +175,17 @@ var mode="local";
 			if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) {
 				var ack = xmlhttp1.responseText;
 				alert(ack);
+				removeCookie("previouspollresponse");
 				setCookie("polllastattempted",pollid, 7);
 				window.location = "home.jsp";
 				
 			}
 		};
 
-		xmlhttp1.open("POST", "../../rest/quiz/poll", false);
+		xmlhttp1.open("POST", "../../rest/quiz/poll",false);
 		xmlhttp1.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		
-		xmlhttp1.send('poll_res={"stuid":'+studentid+',"option":'+ans+'}&courseId='+courseid+'&mode='+mode);
+				"application/x-www-form-urlencoded");		
+		xmlhttp1.send('poll_res={"stuid":'+studentid+',"option":'+ans+'}&courseId='+courseid+'&mode='+mode+'&pollId='+pollid);
 		
 		
 	}
@@ -187,6 +204,18 @@ var mode="local";
 	    var expires = "expires="+d.toUTCString();
 	    document.cookie = cname + "=" + cvalue + "; " + expires;
 	}
+	
+	function setPollResopnseCookie(cname, cvalue, exdays) {
+	    var d = new Date();
+	    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	    var expires = "expires="+d.toUTCString();
+	    document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+	
+	function removeCookie(cname) {
+		document.cookie = cname+ "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	}
+	
 </script>
 </head>
 <body onload="showpollquestion('<%=pollquestion%>','<%=newpolldetails%>')">

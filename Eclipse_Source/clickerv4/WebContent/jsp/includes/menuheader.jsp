@@ -12,9 +12,8 @@ This file is used as header for clicker application
 <%
 String headerinstrid = (String) session.getAttribute("InstructorID");
 
-JSONReadandparse version_reader = new JSONReadandparse();
-String v_id=version_reader.version_id(getServletContext().getInitParameter("war_version"), getServletContext().getInitParameter("db_version"));
-System.out.println("version from main center===>"+v_id);
+String version_check = (String) application.getAttribute("version_check");
+System.out.println("version from main center===>"+version_check);
 				
 if (headerinstrid == null) {
 	request.setAttribute("Error","Your session has expired. Login again");
@@ -137,7 +136,7 @@ String D_ID=session.getAttribute("D_ID").toString();
 		}
 		function show_update()
 		{
-			var myWindow = window.open("../../jsp/admin/update.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=600,height=300,top=200, left=300");
+			var myWindow = window.open("../admin/update.jsp","","status=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,directories=no,titlebar=no,personalbar=no, width=600,height=300,top=200, left=300");
 			myWindow.document.title = 'Update';
 			self.close();
 			
@@ -189,25 +188,25 @@ String D_ID=session.getAttribute("D_ID").toString();
 										<!-- <td align="left">	 -->		
 											<!-- <div id="banner_name"> -->
 											<%if(session.getAttribute("admin").toString().equals("4")){	 %>
-				     						<td align="left"  style="cursor: pointer;" onclick="openDepartment();">			
+				     						<td align="left">			
 											<div id="banner_name">
-						   						<div id=Csquare style="text-align: center;float: left;margin-left: 30px;"></div>
-						   						<div style="margin-top:20px;"><div style="font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
+						   						<div id=Csquare style="cursor: pointer;text-align: center;float: left;margin-left: 30px;" onclick="openDepartment();"></div>
+						   						<div style="cursor: pointer;margin-top:20px;" onclick="openDepartment();"><div style="font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
 						   						
-						   					<%if(v_id.equals("update available")){%>
+						   					<%if(version_check.equals("update available")){%>
 						   						<span class="blink_me" onclick="show_update();" style="margin-right: -40px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
 						   						<%}%>
 						   						</div>
 											</td>
 						   						<% 
 						   					}else {%>
-						   					<td align="left" style="cursor: pointer;" onclick="openHome();">			
+						   					<td align="left">			
 											<div id="banner_name">
-												<div id=Csquare style="text-align: center;float: left;margin-left: 30px; " > </div>
-						   						<div style="margin-top:20px ;"><div style="width: 240px;font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
+												<div id=Csquare style="cursor: pointer; text-align: center;float: left;margin-left: 30px; " onclick="openHome();"> </div>
+						   						<div style="cursor: pointer;margin-top:20px ;" onclick="openHome();"><div style="width: 240px;font-size:35px; color: white;letter-spacing: 2px;" >LICKER</div></div>
 						   						
 											<%
-											if(v_id.equals("update available")){%>
+											if(version_check.equals("update available")){%>
 												<span class="blink_me" onclick="show_update();" style="margin-right: -68px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
 											<%}%>
 											</div>

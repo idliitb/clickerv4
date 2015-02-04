@@ -2,6 +2,7 @@ package clicker.v4.global;
 import clicker.v4.poll.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import clicker.v4.wrappers.Quiz;
@@ -64,4 +65,6 @@ public class Global {
 	public static ConcurrentHashMap<String, String> loggedstudentlist =  new ConcurrentHashMap<String, String>();
 	// No of partcipant Currently logged in for the workshop EX: 1@2@43@D123
 	public static ConcurrentHashMap<String, String> loggedparticipantlist =  new ConcurrentHashMap<String, String>();
+	// Responded poll  students list
+	public static ConcurrentHashMap<String, List<String>> respondedpollstudlist = new ConcurrentHashMap<String, List<String>>();
 }

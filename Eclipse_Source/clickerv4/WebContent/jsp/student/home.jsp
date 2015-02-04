@@ -203,7 +203,34 @@
 					}
 			}
 		
-	}
+		///**************************************** 
+		
+		var previouspollresponse = getpollresponseCookie("previouspollresponse");
+		//alert("previouspollresponse : "+previouspollresponse);
+
+		if (previouspollresponse!="") {
+			//alert("in prev if");
+			getXMLhttp();
+				xmlhttp.onreadystatechange = function() {
+					if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+					{
+						//alert( xmlhttp.status );
+						var ack = xmlhttp.responseText;
+						//alert("in if alert"+ack);
+					}
+				};
+				xmlhttp.open("POST", "../../rest/quiz/poll",false);
+				xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+				xmlhttp.send(previouspollresponse);
+				
+			
+		}
+		removeCookie("previouspollresponse");
+	}	
+		
+	
+	
 	
 	function isQuizLaunched(cid, sid){
 		getXMLhttp();
@@ -247,6 +274,19 @@
 	    return "";
 	}
 	
+	function getpollresponseCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+	    }
+	    return "";
+	}
+	function removeCookie(cname) {
+		document.cookie = cname+ "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	}
 	function checkpoll(studcourse,mode){
 		var xmlhttp1;
 	  	xmlhttp1=new XMLHttpRequest();

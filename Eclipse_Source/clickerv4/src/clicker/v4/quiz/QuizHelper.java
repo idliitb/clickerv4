@@ -86,7 +86,7 @@ public class QuizHelper {
 				if(rs.getInt("Shuffle")==0){
 					notshuffle.add(rs.getInt("QuestionID"));
 				}
-				quizDetails.append("<br/><br/><div class='question'>"+ qindex + ". " + rs.getString("Question").replace("<", "&lt;")+"</div>");
+				quizDetails.append("<br/><br/><div class='question'>"+ qindex + ". " + rs.getString("Question").replace("<", "&lt;").replace("\n","<br />")+"</div>");
 				int questionType = rs.getInt("QuestionType");
 				question.setType(questionType);
 				sql = "SELECT OptionID, OptionValue, OptionCorrectness FROM options where QuestionID = ?";

@@ -10,7 +10,7 @@
     <%@ page import="clicker.v4.global.Global" %>
     <%@ page import="clicker.v4.poll.*" %>
     <%@ page import="java.text.SimpleDateFormat" %>
-	<%@ page import="java.util.Calendar" %>
+	<%@ page import="java.util.*" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,7 +24,7 @@
 <% 
 String courseId=(String)session.getAttribute("courseID");
 String pollquestion= request.getParameter("pollquestion");
-Global.responsepollobject.put(courseId,"@@");
+
 PollHelper phelp = new PollHelper();
 int count=phelp.studentcount(courseId);
 Calendar cal = Calendar.getInstance();
@@ -39,6 +39,12 @@ phelp.savepollquestion(pollquestion,courseId,launchtime1);
 int pollid=phelp.getpollidnew(launchtime1, courseId);
 session.setAttribute("pollid", pollid);
 System.out.println("pollquestion saved in local databse--------->>>"+session.getAttribute("pollid").toString());
+
+Global.respondedpollstudlist.clear();
+
+List<String> check_duplicate_student = new ArrayList<String>( );
+Global.responsepollobject.put(courseId,"@@");
+Global.respondedpollstudlist.put(courseId, check_duplicate_student);
 
 Callpolljson ob=new Callpolljson();
 ob.callpolljson(pollid,courseId,pollquestion,launchtime,currenttime,quizTime);
@@ -225,7 +231,7 @@ function showC(){
 	};
 	xmlhttp.open("GET","pollresponseshow.jsp?pollquestion="+encodeURIComponent(document.getElementById("pollquestionhidden").value)+"&rep="+rep,true);
 	xmlhttp.send();
-	if(rep==3)
+	if(rep>=3)
 	{
 		clearInterval(down1);
 		 $('#container').highcharts({
@@ -363,8 +369,8 @@ function showPollResponsesDialog(rflag,charttype) {
 
 <div id="container" style="margin-top:100px; width: 250px; height: 250px; margin: auto; float:right;"></div>
 
-<button class="ui-createquiz-button" style="float:right; margin-top:100px;margin-right:80px; width:80px; visibility:hidden ;" id="reset" type="button" onclick="reset1();">
-	<span><font size="4px" >Reset</font></span>
+<button class="ui-createquiz-button" style="float:right; margin-top:100px;margin-right:80px; width:80px; visibility:hidden ;" id="reset" type="button" onclick="showC();">
+	<span><font size="4px" >Refresh</font></span>
 </button>
 <input type="hidden" value="<%=count%>" id="totalcounthidden"/>
 <input type="hidden" value="<%=launchtime%>" id="launchtimehidden"/>

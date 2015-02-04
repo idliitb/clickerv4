@@ -11,9 +11,9 @@ This file is used as header for remote clicker application
 String headerinstrid = (String) session.getAttribute("CoordinatorID");
 String Maincenter_name=(String) session.getAttribute("maincentername");
 
-JSONReadandparse version_reader = new JSONReadandparse();
-String v_id=version_reader.version_id(getServletContext().getInitParameter("war_version"), getServletContext().getInitParameter("db_version"));
-System.out.println("version from main center===>"+v_id);
+String version_check = (String) application.getAttribute("version_check");
+System.out.println("version from main center===>"+version_check);
+
 System.out.println("WorkshopID>>>>>>>>>"+session.getAttribute("WorkshopID"));
 
 if (headerinstrid == null) {
@@ -193,11 +193,11 @@ System.out.println("Privilege value: " + privilege);*/
 						</div>	
 						 </td>
 						 <td width="400px" height="70px" >
-						 <div id="banner_name" onclick="showRemoteHome();" style="cursor:pointer; ">
-						   <div id=Csquare style="float: left;margin-left: 45px;"> </div>
-						   <div style="margin-top:20px ;"><div style="width: 255; font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
+						 <div id="banner_name">
+						   <div id=Csquare style="cursor:pointer; float: left;margin-left: 45px;" onclick="showRemoteHome();"> </div>
+						   <div style="margin-top:20px;cursor:pointer;" onclick="showRemoteHome();"><div style="width: 255; font-size:35px; color: white;letter-spacing: 2px;">LICKER</div></div>
 							<%
-								if(v_id.equals("update available")){%>
+								if(version_check.equals("update available")){%>
 									<span class="blink_me" onclick="show_update();" style="margin-right: -46px; margin-top: -30px; float: right;font-size: 20px; font-weight: bolder; color: #ff3333;cursor:pointer;">UPDATE!</span>
 								<%}%>
 						   <div style="margin-left: 30px;"><font style="font-size:15px;font-weight: bold;color: #e46c0a;letter-spacing: 1.7px">Student Response System</font></div>

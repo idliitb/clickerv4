@@ -68,7 +68,7 @@ public class FileUploadHelper extends HttpServlet {
 					item.getName();
 					ServletContext context = getServletContext();
 					String pathurl = context.getRealPath("/uploads");
-					file=new File(pathurl + "/" + fileName);
+					file=new File(pathurl + "/" + (String) request.getSession().getAttribute("InstructorID") + "_" + fileName);
 					
 					System.out.println("FilePath: " + file.getPath());
 					//System.out.println("File: " + new File(item.getName()).getAbsolutePath());
