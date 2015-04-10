@@ -62,6 +62,37 @@ function validateForm()
 		return true;
 	}
 }
+
+function toggleTextPreview(id, option_text)
+{
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	//alert(id);
+	if(id == "quest_div")
+	{
+		var option_data = document.getElementById(option_text);
+		document.getElementById(id).style.display = "block";
+		document.getElementById(id).innerHTML = option_data.value;
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+	}
+	else
+	{
+		document.getElementById("quest_div").innerHTML = "";
+		document.getElementById("quest_div").style.display = "none";
+	}
+}
+
+function showPreviewText(id, option_text)
+{
+	//alert(id);
+	//var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	//if(selected_div == "quest_div")
+		document.getElementById(id).innerHTML = option_data.value;
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+}
 </script>
 
 </head>
@@ -84,27 +115,38 @@ String qid=request.getParameter("qid");
 <tr >
 <td >
 <div class="ui-createquiz-text" style="margin-left:auto;" >
+	<label style="font-size:16px;"> Numeric Question</label></div>
+<br>
 <% 
 PrintWriter pw = response.getWriter();
 
-String query1 = "SELECT Question, NegativeMark FROM question WHERE QuestionID='"+qid+"'";
+String query1 = "SELECT Question, MathSelect, NegativeMark FROM question WHERE QuestionID='"+qid+"'";
 String question = null;
 float negativemarks = 0;
+int question_type = Integer.parseInt(request.getParameter("question_type")), math_select = 1;
 ResultSet rs22 = st.executeQuery(query1);
 while(rs22.next())
 {
+	math_select = rs22.getInt("MathSelect");
 	question = rs22.getString("Question");
 	negativemarks = rs22.getFloat("NegativeMark");
 }
 rs22.close();
-%>
+if(math_select == 1)
+{%>
+	<textarea id="editnumericquest" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
+ 	name="editnumericquest"  placeholder="Enter your question here..."><%=question %></textarea>
+<br>
+<%}
+else
+{%>
+	<div id = quest_div  class = "preview_div" style = "margin-left: 0px; border: 1px solid black; width: 800px; height: 100px; overflow: auto;"> </div>
+	<br>
+	<textarea id="editnumericquest" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
+ 	name="editnumericquest"  placeholder="Enter your question here..." onclick = "toggleTextPreview('quest_div', 'editnumericquest')" onkeyup="showPreviewText('quest_div', 'editnumericquest');"> <%=question %> </textarea>
+	<br>
+<%}
 
-<label style="font-size:16px;"> Numeric Question</label></div>
-<br>
-<textarea id="editnumericquest" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
- name="editnumericquest"  placeholder="Enter your question here..."><%=question %></textarea>
-<br>
-<%
 String ans="";
 String query = "select OptionValue, Credit from options where QuestionID="+qid+"";
 ResultSet rs=st.executeQuery(query);

@@ -17,25 +17,25 @@ public class InsertQuestion {
 	 * Finally returns it the questionID so that the options can be inserted as
 	 * well.
 	 */
-	public int insertQuestion(Connection conn, String Question,
-			int LevelOfDifficulty, int Archived, float Credit,
-			String ImageName, int QuestionType, String InstrID, int shuffle, String courseid, float negativemark) {
+	public int insertQuestion(Connection conn, String Question, int LevelOfDifficulty, int Archived, float Credit,
+			int math_select, String ImageName, int QuestionType, String InstrID, int shuffle, String courseid, float negativemark) {
 		
 		int QuestionID = -1;
 		try {
 			PreparedStatement st = conn.prepareStatement("Insert into question(Question,LevelOfDifficulty,Archived,Credit," +
-														 "ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) " +
-														 "values(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+														 "MathSelect, ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) " +
+														 "values(?, ?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, Question);
 			st.setInt(2, LevelOfDifficulty);
 			st.setInt(3, Archived);
 			st.setFloat(4, Credit);
-			st.setString(5, ImageName);
-			st.setInt(6, QuestionType);
-			st.setString(7,InstrID);
-			st.setInt(8, shuffle);
-			st.setString(9, courseid);
-			st.setFloat(10, negativemark);
+			st.setInt(5, math_select);
+			st.setString(6, ImageName);
+			st.setInt(7, QuestionType);
+			st.setString(8,InstrID);
+			st.setInt(9, shuffle);
+			st.setString(10, courseid);
+			st.setFloat(11, negativemark);
 			st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
 			if (rs.next()) {

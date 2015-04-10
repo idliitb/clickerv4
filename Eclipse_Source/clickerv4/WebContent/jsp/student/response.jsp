@@ -17,7 +17,20 @@
 	System.out.println("quiz - " + quiz_json);
 	System.out.println("responseJSON - " + student_response_json);
 %>
-
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
+		<script>
+		$(document).ready(function(){
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"quizreport"]);
+		});
+     
+    </script>
 <style type="text/css">
 body{
 	position:relative;

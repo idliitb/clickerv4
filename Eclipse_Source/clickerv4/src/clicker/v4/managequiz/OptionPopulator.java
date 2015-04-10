@@ -26,7 +26,8 @@ public class OptionPopulator extends HttpServlet{
 			int ctr=0, i = 0;
 			for(String opt:options){
 				i = i + 1;
-				if(retrieved.getQuestionType()==1||retrieved.getQuestionType()==2)
+				if(retrieved.getQuestionType()==1||retrieved.getQuestionType()==2 
+						|| retrieved.getQuestionType()== 5 || retrieved.getQuestionType()== 6)
 				{					
 					if(i % 2 != 0)
 					{	
@@ -38,7 +39,7 @@ public class OptionPopulator extends HttpServlet{
 					else
 						out.print("<div style = 'float: right; width: 360px;'>"+Character.toString((char)(65+(ctr++)))+". "+opt+"</div><br>");
 				}	                                        
-				else if(retrieved.getQuestionType()==4)
+				else if(retrieved.getQuestionType()==4 || retrieved.getQuestionType()== 8)
 				{
 					
 					if(i % 2 != 0)
@@ -48,7 +49,7 @@ public class OptionPopulator extends HttpServlet{
 				}
 			}
 			
-			 if(retrieved.getQuestionType()==3){
+			 if(retrieved.getQuestionType()==3 || retrieved.getQuestionType()== 7){
 				out.print("<p class='options'>Numeric Answer : "+options.get(0)+"</p>");
 			}
 		}catch(Exception ex){

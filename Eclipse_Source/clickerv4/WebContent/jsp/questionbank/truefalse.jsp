@@ -9,13 +9,16 @@ if (instructorID == null) {
 	return;
 }
 
+int math_check = Integer.parseInt(request.getParameter("math_select_value"));
+System.out.println("Math_check: " + math_check);
+
 %>
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
 <link type="text/css" rel="stylesheet" href="../../css/style.css">
 
 <style type="text/css">
@@ -23,7 +26,13 @@ if (instructorID == null) {
 display:none
 }
 </style>
-
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
 <script>
 function validateform()
 {
@@ -54,6 +63,38 @@ function validateform()
 		return true;
 	}
 }
+
+function toggleTextPreview(id, option_text)
+{
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	
+	//alert(id);
+	if(id == "quest_div")
+	{
+		var option_data = document.getElementById(option_text);
+		document.getElementById(id).style.display = "block";
+		document.getElementById(id).innerHTML = option_data.value;
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+	}
+	else
+	{
+		document.getElementById("quest_div").innerHTML = "";
+		document.getElementById("quest_div").style.display = "none";
+	}
+}
+
+function showPreviewText(id, option_text)
+{
+	//alert(id);
+	//var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	//if(selected_div == "quest_div")
+		document.getElementById(id).innerHTML = option_data.value;
+		MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+}
 </script>
 </head>
 <body class="ui-Mainbody" style="width:100%; height:100%;margin-top:20px; text-align: center;">
@@ -67,19 +108,35 @@ function validateform()
 <div class="ui-createquiz-text">
 <label style="font-size:17px;">True or False questions</label></div>
 <br>
-<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
- name="tfaddquest"  placeholder="Enter your question here..."></textarea>
-<br>
-<br>
+<% if(math_check == 1) 
+{%>
+	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
+	 name="tfaddquest"  placeholder="Enter your question here..."></textarea>
+	<br>
+	<br>
+<%}
+else
+{%>
+	<div id = "quest_div" style = "margin-left: 120px; width: 800px; height: 100px; overflow: auto; border: 1px solid black;"> </div>
+	<br>
+	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
+		 name="tfaddquest"  placeholder="Make Sure Latex code is paste between \( paste code here  \) and check preview of latex symbol" 
+		 onclick = "toggleTextPreview('quest_div', 'addques')" onkeyup="showPreviewText('quest_div', 'addques')">
+	 </textarea>
+	 
+	<br>
+	<br>
+<%} %>
+<input type = "hidden" name = "math_option" value = "<%= math_check %>" />
 <span style="margin-left:100px;"></span>
-<span style="margin-left:15px;"></span><input id="true" type="radio" value="true" name="option" />
+<span style="margin-left:15px;"></span><input id="true" type="radio" value="true" name="option" onclick = "toggleTextPreview('true', 'nodiv')"/>
 <span style="margin-left:15px;"></span><label>True</label>
 
 
 <br>
 <br>
 <span style="margin-left:100px;"></span>
-<span style="margin-left:15px;"></span><input id="false" type="radio" value="false" name="option"/>
+<span style="margin-left:15px;"></span><input id="false" type="radio" value="false" name="option" onclick = "toggleTextPreview('false', 'nodiv')"/>
 <span style="margin-left:15px;"></span><label>False</label><br>
 
 <div style="margin:0px 0 0 0px">

@@ -34,6 +34,7 @@ ResultSet rs = pstmt.executeQuery(query);
 while(rs.next())
 {
 	qtype = rs.getInt("QuestionType");
+	System.out.println("Question Type: " + qtype);
 }
 }catch(Exception e){
 	e.getStackTrace();
@@ -45,13 +46,17 @@ while(rs.next())
 	}finally{
 		switch(qtype)
 		{
-		case 1:	response.sendRedirect("editsingleques.jsp?qid="+qid);
+		case 1:	
+		case 5: response.sendRedirect("editsingleques.jsp?qid="+qid + "&question_type=" + qtype);
 				break;
-		case 2:	response.sendRedirect("editmultiques.jsp?qid="+qid);
+		case 2:	
+		case 6: response.sendRedirect("editmultiques.jsp?qid="+qid + "&question_type=" + qtype);
 				break;
-		case 3:	response.sendRedirect("editnumeric.jsp?qid="+qid);
+		case 3:	
+		case 7: response.sendRedirect("editnumeric.jsp?qid="+qid + "&question_type=" + qtype);
 				break;
-		case 4:	response.sendRedirect("editTF.jsp?qid="+qid);
+		case 4:	
+		case 8: response.sendRedirect("editTF.jsp?qid="+qid + "&question_type=" + qtype);
 				break;
 		}
 	}

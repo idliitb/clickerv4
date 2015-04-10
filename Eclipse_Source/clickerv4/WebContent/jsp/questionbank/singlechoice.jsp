@@ -9,7 +9,7 @@ if (instructorID == null) {
 	return;
 }
 
-String math_check = request.getParameter("math_select_value");
+int math_check = Integer.parseInt(request.getParameter("math_select_value"));
 System.out.println("Math_check: " + math_check);
 
 %>
@@ -20,6 +20,7 @@ System.out.println("Math_check: " + math_check);
 <title>Insert title here</title>
 <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
 <link type="text/css" rel="stylesheet" href="../../css/style.css">
 
 <style type="text/css">
@@ -27,7 +28,13 @@ System.out.println("Math_check: " + math_check);
 display:none
 }
 </style>
-
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
 <script>
 var ctr = 4;
 function addOption(maths)
@@ -67,11 +74,17 @@ function addOption(maths)
 				var preview_div = document.createElement("div");
 				var outer_div = document.createElement("div");
 
-				label.setAttribute("style", "margin-left:85px;");
-				removeButton.setAttribute("href", "javascript:removeOption("+(ctr)+"5)");
+				label.setAttribute("style", "margin-left:85px;");				
+				removeButton.setAttribute("href", "javascript:removeOption(" + (ctr)  + ", "+ (ctr)+"5)");
 				
-				preview_div.setAttribute("id", "option" + (String.fromCharCode(64+ctr)) + "preview");
-				preview_div.setAttribute("style", "overflow: auto; border: 1px solid black; margin-left: 140px; width: 250px; height: 50px;");
+				preview_div.setAttribute("id", "option" + (String.fromCharCode(64+ctr)) + "_preview");
+				preview_div.setAttribute("style", "overflow: auto; margin-left: 140px; width: 250px; height: 50px;");
+				preview_div.setAttribute("class", "preview_div");
+
+				textbox.setAttribute("onclick", "toggleTextPreview('option" + (String.fromCharCode(64+ctr)) + 
+									"_preview', 'txt" + ctr + "');");
+				textbox.setAttribute("onkeyup", "showPreviewText('option" + (String.fromCharCode(64+ctr)) +
+									"_preview', 'txt" + ctr + "');");
 
 				outer_div.setAttribute("id", "outer_div" + ctr);
 				outer_div.setAttribute("style", "float: left; width: 435px; margin-left: 30px;");
@@ -144,7 +157,7 @@ function addOption(maths)
 		alert("Options not more than 6!");
 	}
 }
-function removeOption(opt)
+function removeOption(opt, qtype_option_number)
 {
 	var i=0;
 	//alert(ctr);
@@ -160,7 +173,7 @@ function removeOption(opt)
 		//	alert("Assigning!");
 			var parent=document.getElementById("content_in");
 			
-			if(opt >= 15)
+			if(qtype_option_number >= 15)
 			{
 				var child1=document.getElementById("outer_div"+ctr);
 				parent.removeChild(child1);
@@ -252,9 +265,60 @@ function validateForm()
 	
 }
 
-function checkMath( )
+function toggleTextPreview(id, option_text)
 {
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	for(var i = 0; i < preview_div.length; i++){
+		
+		if(document.getElementById(preview_div[i].id) != selected_div)
+			if(preview_div[i].id == "quest_div")
+			{
+				document.getElementById(preview_div[i].id).innerHTML = "";
+				document.getElementById(preview_div[i].id).style.display = "none";
+			}	
+			else
+			{
+				document.getElementById(preview_div[i].id).innerHTML = "";
+				document.getElementById(preview_div[i].id).style.border = "";
+			}
+		else
+			if(id == "quest_div")
+			{	
+				document.getElementById(id).style.display = "block";
+				document.getElementById(id).innerHTML = option_data.value;
+				MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+				
+			}
+			else
+			{
+				document.getElementById(id).style.border = "1px solid black";
+				document.getElementById(id).innerHTML = option_data.value;
+				MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+				
+			}
 	}
+}
+
+ function showPreviewText(id, option_text)
+{
+	//alert(id);
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	for(var i = 0; i < preview_div.length; i++)
+		if(document.getElementById(preview_div[i].id) == selected_div){
+			document.getElementById(preview_div[i].id).innerHTML = option_data.value;
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,preview_div[i].id]);
+			
+		}else{
+			if(preview_div[i].id == "quest_div")
+				document.getElementById(preview_div[i].id).innerHTML = "";
+		}
+}
 </script>
 </head>
 <body class="ui-Mainbody" style="width:100%; height:100%;margin-top:20px; text-align: center;" >
@@ -269,12 +333,13 @@ function checkMath( )
 <div class="ui-createquiz-text">
 <label style="font-size:17px;"> Single choice question</label></div>
 <br>
-<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
- name="singleaddquest"  placeholder="Enter your question here..."></textarea>
-<br>
-<br>
-<%if(math_check.equals("none")) 
+
+<%if(math_check == 1) 
 {%>
+	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
+ 	name="singleaddquest"  placeholder="Enter your question here..."></textarea>
+	<br>
+	<br>
 	<span style="margin-left:120px;">A</span>
 	<span style="margin-left:10px;"></span><input id="radio1" type="radio" value="1" name="option" />
 	<span style="margin-left:10px;"></span><input id="txt1" type="text" name="1" style="width:250px;"/>
@@ -325,46 +390,57 @@ function checkMath( )
 <%}
 else
 {%>
+	<div id = quest_div  class = "preview_div" style = "margin-left: 120px; border: 1px solid black; width: 800px; height: 100px; overflow: auto;"> </div>
+	<br>
+	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 120px"
+ 	name="singleaddquest"  placeholder="Make Sure Latex code is paste between \( paste code here  \) and check preview of latex symbol" onclick = "toggleTextPreview('quest_div', 'addques')"
+ 	onkeyup="showPreviewText('quest_div', 'addques');"></textarea>
+	<br>
+	<br>
 	
-		<div id = "outer_div1" style="float:left; width:435px; margin-left:30px;">
-			<div id = "optionA_preview" style = "overflow: auto; margin-left:140px;border: 1px solid black; width: 250px;  height: 50px; "></div> 
+		<div id = "outer_div1" style="margin-top: -5px; float:left; width:435px; margin-left:30px;">
+			<div id = "optionA_preview" class = "preview_div" style = "overflow: auto; margin-left:140px; width: 250px;  height: 50px; "></div> 
 			<span style="margin-left:80px;">A</span>
 			<span style="margin-left:10px;"></span><input id="radio1" type="radio" value="1" name="option" /> 
-			<span style="margin-left:10px;"></span><input id="txt1" type="text" name="1" style="width:250px;"/>
+			<span style="margin-left:10px;"></span><input id="txt1" type="text" name="1" style="width:250px;" onclick = "toggleTextPreview('optionA_preview', 'txt1');"
+														onkeyup="showPreviewText('optionA_preview', 'txt1');"/>
 			<span style="margin-left:10px;"></span>
-			<span class="close-btn"><a id = "remove1" href="javascript:removeOption(15)">X</a></span>
+			<span class="close-btn"><a id = "remove1" href="javascript:removeOption(1, 15)">X</a></span>
 		
 		</div>
 		<div id = "outer_div2" style="float:left; width:435px; margin-left:30px;">
-			<div id = "optionB_preview" style = "overflow: auto; margin-left:140px;border: 1px solid black; width: 250px;  height: 50px ;"> </div>
+			<div id = "optionB_preview" class = "preview_div" style = "overflow: auto; margin-left:140px; width: 250px;  height: 50px ;"> </div>
 			<span style="margin-left:80px;">B</span>
 	 		<span style="margin-left:10px;"></span><input id="radio2" type="radio" value="2" name="option"/> 
-			<span style="margin-left:10px;"></span><input id="txt2" type="text" name="2" style="width:250px;"/>
+			<span style="margin-left:10px;"></span><input id="txt2" type="text" name="2" style="width:250px;" onclick = "toggleTextPreview('optionB_preview', 'txt2');"
+														onkeyup="showPreviewText('optionB_preview', 'txt2');"/>
 			<span style="margin-left:10px;"></span>
-			<span class="close-btn"><a id = "remove2" href="javascript:removeOption(25)">X</a></span>
+			<span class="close-btn"><a id = "remove2" href="javascript:removeOption(2, 25)">X</a></span>
 		</div>
 		
 		<br><br><br>
-		<div id = "outer_div3" style="float:left; width:435px;margin-left:30px;">
-			<div id = "optionC_preview" style = "overflow: auto; margin-left:140px;border: 1px solid black; width: 250px;  height: 50px; "></div> 
+		<div id = "outer_div3" style="margin-top: -3px; float:left; width:435px;margin-left:30px;">
+			<div id = "optionC_preview" class = "preview_div" style = "overflow: auto; margin-left:140px; width: 250px;  height: 50px; "></div> 
 			<span style="margin-left:80px;">C</span>
 			<span style="margin-left:10px;"></span><input id="radio3" type="radio" value="3" name="option"/> 
-			<span style="margin-left:10px;"></span><input id="txt3" type="text" name="3" style="width:250px;"/>
+			<span style="margin-left:10px;"></span><input id="txt3" type="text" name="3" style="width:250px;" onclick = "toggleTextPreview('optionC_preview', 'txt3');"
+														onkeyup="showPreviewText('optionC_preview', 'txt3');"/>
 			<span style="margin-left:10px;"></span>
-			<span class="close-btn"><a id = "remove3" href="javascript:removeOption(35)">X</a></span>
+			<span class="close-btn"><a id = "remove3" href="javascript:removeOption(3, 35)">X</a></span>
 		
 		</div>
 		<div id = "outer_div4" style="float:left; width:435px; margin-left:30px;">
-			<div id = "optionD_preview" style = "overflow: auto; margin-left:140px;border: 1px solid black; width: 250px;  height: 50px ; "> </div>			
+			<div id = "optionD_preview" class = "preview_div" style = "overflow: auto; margin-left:140px; width: 250px;  height: 50px ; "> </div>			
 	 		<span style="margin-left:80px;">D</span>
 			<span style="margin-left:10px;"></span><input id="radio4" type="radio" value="4" name="option"/> 
-			<span style="margin-left:10px;"></span><input id="txt4" type="text" name="4" style="width:250px;"/>
+			<span style="margin-left:10px;"></span><input id="txt4" type="text" name="4" style="width:250px;" onclick = "toggleTextPreview('optionD_preview', 'txt4');"
+														onkeyup="showPreviewText('optionD_preview', 'txt4');"/>
 			<span style="margin-left:10px;"></span>
-			<span class="close-btn"><a id = "remove4" href="javascript:removeOption(45)">X</a></span>
+			<span class="close-btn"><a id = "remove4" href="javascript:removeOption(4, 45)">X</a></span>
 		</div>			
 
 	<input type	="hidden" name="count" value="4"/>
-	<input type = "hidden" name = "math_option" value = "<%= math_check %>" />
+	
 	
 	<br>	
 <div id = "singlesubmit" style="height:100px; float:left;">
@@ -388,6 +464,7 @@ else
 </div>
 	
 <%} %>
+<input type = "hidden" name = "math_option" value = "<%= math_check %>" />
 </div>
 </td>
 </tr>

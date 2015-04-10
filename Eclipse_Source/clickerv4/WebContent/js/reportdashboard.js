@@ -620,6 +620,7 @@ function generateQuizReport(quizid, qts, reportname,cid){
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			var response = xmlhttp.responseText;
 			document.getElementById("dlg_body").innerHTML = response;
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"dlg_body"]);
 			document.getElementById("quizreport").style.visibility = 'visible';
 			$("#quizreport").dialog({
 				title : "Normal Quiz Report",
@@ -770,6 +771,13 @@ Date.prototype.formatYYYYMMDD=function(){
     }
   return String(yyyy + "-" + mm + "-" + dd);
  };
+
+
+ MathJax.Hub.Config({
+   tex2jax: {
+     inlineMath: [["$","$"],["\\(","\\)"]]
+   }
+ });
 
 // This is used to create the date picker for query with query raise date as highlighted 
 function queryList(cid){

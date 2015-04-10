@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 //Below statement means that class "Quiz.java" is the root-element of our example
 
 @XmlRootElement(namespace = "quiz.Quiz")
-@XmlType(propOrder = { "id", "text","type","options","correctans"})
+@XmlType(propOrder = { "id", "text","type","mathSelect","options","correctans"})
 /**
  * Wrapper class for Question 
  * @author rajavel, Clicker Team, IDL Lab - IIT Bombay
@@ -20,8 +20,10 @@ public class Question {
 	private int id;
 	private String text;
 	private int type;
+	private int mathSelect;
 	private String correctAns;
     private ArrayList<Option> options = new ArrayList<Option>();
+   
    	
     public Question() {
 		
@@ -31,7 +33,8 @@ public class Question {
     	text=q.text;
     	type=q.type;
     	correctAns=q.correctAns;
-    	options=q.options;		
+    	options=q.options;
+    	mathSelect=q.mathSelect;
    	}
 	
     public int getId() {
@@ -64,6 +67,16 @@ public class Question {
 		this.type =type;
 	}
 	
+	public int getMathSelect() {
+		return mathSelect;
+	}
+
+	//@XmlElement
+
+	public void setMathSelect(int mathSelect) {
+		this.mathSelect =mathSelect;
+	}
+
 
 // XmLElementWrapper generates a wrapper element around XML representation
 //@XmlElementWrapper(name = "options")

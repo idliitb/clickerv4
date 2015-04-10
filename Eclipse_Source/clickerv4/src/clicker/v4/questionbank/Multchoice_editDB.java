@@ -1,11 +1,14 @@
 package clicker.v4.questionbank;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.sql.*;
+
 import clicker.v4.databaseconn.*;
 
 /**
@@ -56,16 +59,24 @@ public class Multchoice_editDB extends HttpServlet {
 			System.out.println( request.getParameter("optionIDs"));
 			String[] optionIDs = request.getParameter("optionIDs").split(";");
 			String[] correctIDs = request.getParameter("correctcount").split(";");
-			System.out.println("correctids: " + correctIDs.length);
+			System.out.println("correctids: " + correctIDs);
 			float credits = Float.parseFloat(request.getParameter("credits"));
 			float negativemarks = Float.parseFloat(request.getParameter("negativemarks"));
-			int shuffle = 1;
+			int shuffle = 1, math_select = Integer.parseInt(request.getParameter("math_select"));
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
 			question=request.getParameter("Question");
 			int qid = -1;
 			qid = Integer.parseInt(request.getParameter("qid"));
-
+			//String whitespace = "\r\n";
+			
+			if(math_select != 1)			
+			{
+				//for(int i = 0, ch = 65; i < option_count; i++)
+					//question += whitespace + " Option " + ((char) ch++) + ": "  + request.getParameter(""+(i+1));
+				shuffle = 0;
+			}
+			
 			st = conn.prepareStatement("update question set Question= ?, Credit = ?, Shuffle = ?, NegativeMark = ? " +
 									   "where QuestionID= ? ");
 			st.setString(1,question);
@@ -79,7 +90,10 @@ public class Multchoice_editDB extends HttpServlet {
 			if(old_option_count<=option_count){
 				for(int i=0;i<old_option_count;i++)
 				{
-					st1.setString(1,request.getParameter(""+(i+1)));
+					//if(question_type == 2)
+						st1.setString(1,request.getParameter(""+(i+1)));
+					//else
+						//st1.setString(1,Character.toString((char) ch++));
 					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
 					for(int p=0;p<correctIDs.length;p++){
 						
@@ -104,7 +118,11 @@ public class Multchoice_editDB extends HttpServlet {
 				for(int i=old_option_count;i<option_count;i++)
 				{
 					
+					//if(question_type == 2)
 						st2.setString(1,request.getParameter(""+(i+1)));
+					//else
+						//st2.setString(1,Character.toString((char) ch++));
+					
 						optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
 						for(int p=0;p<correctIDs.length;p++){
 							if(!((Integer.parseInt(correctIDs[p])-1)==(i))){
@@ -143,7 +161,11 @@ public class Multchoice_editDB extends HttpServlet {
 			else if(old_option_count>option_count){
 				for(int i=0;i<option_count;i++)
 				{
-					st1.setString(1,request.getParameter(""+(i+1)));
+					//if(question_type == 2)
+						st1.setString(1,request.getParameter(""+(i+1)));
+					//else
+						//st1.setString(1,Character.toString((char) ch++));
+					
 					optionvalue += request.getParameter(""+(i + 1)).toString() + ",";
 					for(int p=0;p<correctIDs.length;p++){
 						

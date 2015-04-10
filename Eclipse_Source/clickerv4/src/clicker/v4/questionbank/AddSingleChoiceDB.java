@@ -44,9 +44,8 @@ public class AddSingleChoiceDB extends HttpServlet {
 		String instructorid = (String) request.getSession().getAttribute("InstructorID");
 		float credits = Float.parseFloat(request.getParameter("credits"));
 		float negativemark = Float.parseFloat(request.getParameter("negativemark"));
-		String courseid = (String) request.getSession().getAttribute("courseID"),
-			   math_select = request.getParameter("math_option");
-		int shuffle = 1;
+		String courseid = (String) request.getSession().getAttribute("courseID");			   
+		int shuffle = 1, math_select = Integer.parseInt(request.getParameter("math_option"));
 		if(request.getParameter("shuffle") != null)
 			shuffle = 0;
 		//System.out.println("shuffle: " + shuffle);
@@ -55,7 +54,7 @@ public class AddSingleChoiceDB extends HttpServlet {
 		{
 				
 			conn = dbcon.createDatabaseConnection();
-			st = conn.prepareStatement("Insert into question(Question,LevelOfDifficulty,Archived,Credit,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS );
+			st = conn.prepareStatement("Insert into question(Question,LevelOfDifficulty,Archived,Credit, MathSelect, QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?, ?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS );
 			st2 = conn.prepareStatement("Insert into options(OptionValue,OptionCorrectness,LevelofDifficulty,Archived,Credit,QuestionID) values(?,?,?,?,?,?)");		 
 		}
 		catch(Exception ex)
@@ -64,21 +63,31 @@ public class AddSingleChoiceDB extends HttpServlet {
 		}
 
 
-		int correctOption=0, ctr=-1, ch = 65;
+		int correctOption=0, ctr=-1, question_type = 1;
 			ctr = Integer.parseInt(request.getParameter("count"));
 			String[] options= new String[ctr];
 			question = request.getParameter("singleaddquest");
-			String whitespace = " \\\\/(\\\\/\\\\/\\\\/)";
+			//String whitespace = "\r\n";
 			
+			if(math_select != 1)
+			{
+				//question_type = 5;
+				shuffle = 0;
+			}
+			//else
+				//question_type = 1;
 			for(int i=0;i<ctr;i++)
 			{
-				if(math_select != null)
-					question += whitespace + " Option " + ((char) ch++) + ": " + request.getParameter(""+(i+1));
+				
+				options[i] = request.getParameter(""+(i+1));
+				optionvalue += options[i] + ",";
+				/*if(math_select != 1)
+					question += whitespace + "Option " + ((char) ch++) + ": " + request.getParameter(""+(i+1));
 				else
 				{
 					options[i] = request.getParameter(""+(i+1));
 					optionvalue += options[i] + ",";
-				}
+				}*/
 			}
 			correctOption = Integer.parseInt(request.getParameter("option"))-1;
 			int qid = -1;
@@ -89,22 +98,23 @@ public class AddSingleChoiceDB extends HttpServlet {
 			st.setInt(2,1);
 			st.setInt(3,0);
 			st.setFloat(4,credits);
-			st.setInt(5,1);
-			st.setString(6,instructorid);
-			st.setInt(7, shuffle);
-			st.setString(8, courseid);
-			st.setFloat(9,negativemark);
+			st.setInt(5,math_select);
+			st.setInt(6,question_type);
+			st.setString(7,instructorid);
+			st.setInt(8, shuffle);
+			st.setString(9, courseid);
+			st.setFloat(10,negativemark);
 			
-				st.executeUpdate();
-				ResultSet rs=st.getGeneratedKeys();
-				if (rs.next()) 
-				{
-		    	   	qid = rs.getInt(1);
-		    	} 
-				else 
-				{
-		        	throw new RuntimeException("PIB, can't find most recent insert we just entered");
-		    	}
+			st.executeUpdate();
+			ResultSet rs=st.getGeneratedKeys();
+			if (rs.next()) 
+			{
+				qid = rs.getInt(1);
+			} 
+			else 
+			{
+				throw new RuntimeException("PIB, can't find most recent insert we just entered");
+			}
 			}
 			catch(Exception ex)
 			{
@@ -114,19 +124,19 @@ public class AddSingleChoiceDB extends HttpServlet {
 			}
 			
 			// Adding entry to history table
-			/*optionvalue = optionvalue.substring(0, optionvalue.length()-1);
+			optionvalue = optionvalue.substring(0, optionvalue.length()-1);
 			History history = new History (qid, question, instructorid, optionvalue);
-			history.addentry ();*/
+			history.addentry ();
 			
 			try
 			{
-				ch = 65;
+				//ch = 65;
 			for(int i=0;i<ctr;i++)
 			{
-					if(math_select != null)					
+					/*if(math_select != 1)					
 						st2.setString(1, Character.toString((char) ch++));
-					else
-						st2.setString(1,options[i]);
+					else*/
+					st2.setString(1,options[i]);
 					if(i==correctOption)
 						st2.setInt(2,1);
 					else

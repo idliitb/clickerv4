@@ -45,6 +45,15 @@ ol {
 	list-style-type: upper-alpha;
 }
 </style>
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full">
+</script>
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
 </head>
 <body
 	onload="overallGraph('<%=questionids %>','<%=rightvalue%>','<%=wrongvalue%>','<%=noreponsevalue%>','<%=InstructorID%>',<%=isShowAns%>)"

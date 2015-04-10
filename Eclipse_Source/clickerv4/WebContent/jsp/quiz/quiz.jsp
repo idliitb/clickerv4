@@ -29,6 +29,7 @@ QuizHelper quizHelper = new QuizHelper();
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Quiz</title>
 		<link type="text/css" rel="stylesheet" href="../../css/menuheader.css">
+		<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
 		<link type="text/css" rel="stylesheet" href="../../css/style.css">
 		<script src="../../js/quiz.js"></script>
 		<script src="../../js/jquery-1.9.1.js"></script>		
@@ -44,8 +45,22 @@ QuizHelper quizHelper = new QuizHelper();
 				display: none;
 			}
 			
-		</style>		
+		</style>	
+		 <script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
+		<script>
+		$(document).ready(function(){
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"quizPreview"]);
+		});
+     
+    </script>			
 	</head>
+	
 	<body onload="quizPreview('<%=quizid%>', '<%=courseID%>')" class="ui-Mainbody" style="width:100%; height:100%; text-align: center;">
 		<%@ include file= "../../jsp/includes/menuheader.jsp" %>
 		<table class="table1">

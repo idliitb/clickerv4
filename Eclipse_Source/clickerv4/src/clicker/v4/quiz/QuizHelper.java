@@ -71,7 +71,7 @@ public class QuizHelper {
 		DatabaseConnection dbconn = new DatabaseConnection();
 		Connection con = dbconn.createDatabaseConnection();
 		ArrayList<Integer> notshuffle = new ArrayList<Integer>();
-		String sql = "SELECT q.QuestionID, q.Question, q.QuestionType, q.Shuffle from question q, quizquestion qq where qq.QuizID = ? and q.QuestionID = qq.QuestionID";
+		String sql = "SELECT q.QuestionID, q.Question, q.QuestionType, q.Shuffle,q.MathSelect from question q, quizquestion qq where qq.QuizID = ? and q.QuestionID = qq.QuestionID";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1,quizID);			
@@ -121,6 +121,7 @@ public class QuizHelper {
 				encryptedans=en.encrypt1(correctAns);
 				System.out.println("Encrypted correct ans is : "+encryptedans);
 				quizDetails.append("</div>");
+				question.setMathSelect(rs.getInt("MathSelect"));
 				question.setOptions(options);
 				question.setCorrectAns(encryptedans);
 				questionList.add(question);

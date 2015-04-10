@@ -46,26 +46,34 @@ public class AddNumericDB extends HttpServlet {
 		try{
 			
 			conn = dbconn.createDatabaseConnection();
-			String query1="insert into question(Question,LevelOfDifficulty,Archived,Credit,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?,?,?,?,?,?,?,?, ?)";
+			String query1="insert into question(Question,LevelOfDifficulty,Archived,Credit, MathSelect,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?, ?,?,?,?,?,?,?,?, ?)";
 			
 				PreparedStatement st =conn.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
-				int question_id=0;
+				int question_id=0, question_type;
 				String question=request.getParameter("numericaddquest");
 				String option=request.getParameter("numericanswer");
+				int math_select = Integer.parseInt(request.getParameter("math_option"));
 				//String image = request.getParameter("browse");
 				float credits = Float.parseFloat(request.getParameter("credits"));
 				float negativemark = Float.parseFloat(request.getParameter("negativemark"));
 				String courseid = (String) request.getSession().getAttribute("courseID");
 				int shuffle = 0;
+				
+				//if(math_select != null)
+				//	question_type = 7;
+				//else
+					question_type = 3;
+				
 				st.setString(1, question);
 				st.setInt(2, 1);
 				st.setInt(3, 0);
 				st.setFloat(4, credits);
-				st.setInt(5, 3);
-				st.setString(6,instructorid);
-				st.setInt(7, shuffle);
-				st.setString(8, courseid);
-				st.setFloat(9, negativemark);
+				st.setInt(5, math_select);
+				st.setInt(6, question_type);
+				st.setString(7,instructorid);
+				st.setInt(8, shuffle);
+				st.setString(9, courseid);
+				st.setFloat(10, negativemark);
 				int rs=st.executeUpdate();
 				ResultSet res = st.getGeneratedKeys();
 				if(res.next()){

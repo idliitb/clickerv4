@@ -365,9 +365,19 @@ public class JSONReadandparse {
 	//to ceate main center json pollresponse
 	public  void newPollJsonForMain(String workshopID ,String Coordinator ,String centerID, String pollquestion, String MainCenterURL) throws IOException, ParseException {
 		String mainjson=null;
+		int pollid =0;
+		
 		//Poll poll= new Poll();
 		String launchtime=Global.workshoppolljsonobject.get(workshopID).getlaunchtime();
-			
+		
+		RemoteDBHelper dbh=new RemoteDBHelper();
+		try {
+			pollid = dbh.getpollidnew(launchtime, workshopID);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		//1. set wid in RemoteParticipant.java
 		RemotePoll rpoll = new RemotePoll();
 		rpoll.setworkshopid(workshopID);
@@ -389,22 +399,53 @@ public class JSONReadandparse {
 		PreparedStatement st1 =null;
 		ResultSet resultSet=null;
 		ArrayList<RemoteParticipant> pollal = new ArrayList<RemoteParticipant>();
-	    
 		DatabaseConnection dbcon = new DatabaseConnection();
 		conn=dbcon.createRemoteDatabaseConnection();
 		try{
-				String selectquery="SELECT ParticipantID , Response from poll p, pollquestion pq where p.TimeStamp=? and pq.PollID=p.PollID and pq.WorkshopID=?";
+				String selectquery="SELECT ParticipantID , Response , Sentflag  from poll p, pollquestion pq where p.TimeStamp=? and pq.PollID=p.PollID and pq.WorkshopID=? and pq.PollID = ?";
 				st1 = conn.prepareStatement(selectquery);
 				st1.setString(1, launchtime);
-				st1.setString(2, workshopID);				
+				st1.setString(2, workshopID);	
+				st1.setInt(3, pollid);
 				resultSet = st1.executeQuery();				
 				while (resultSet.next())
 				{
+					int sentflag = resultSet.getInt("Sentflag");	
+					System.out.println("*********************************** sentflag"+sentflag);
+					if(sentflag == 1)
+					{
+						System.out.println(")))))))))))))))))))))))))))))))))))response already sent");
+					}
+					else
+					{
 					RemoteParticipant rp=new RemoteParticipant();
 					rp.setpid(resultSet.getString("ParticipantID"))  ;
 					rp.setresponse(resultSet.getString("Response"));
-					pollal.add(rp);					
+					pollal.add(rp);		
+					}
 				}
+				
+				//6.add arraylist pollal to RemoteParticipant.java
+				rpoll.setpresponse(pollal);		
+				//7.create json
+				Gson gson = new Gson();
+				mainjson = gson.toJson(rpoll);
+				System.out.println("main centre json: "+mainjson);		
+				String status = sendJsonToUrl(mainjson , workshopID , Coordinator,MainCenterURL);
+				System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%% status : "+ status);
+				if(status.equals("Your iitb poll response has been successfully submitted"))
+				{
+					String updatequer = "UPDATE poll p, pollquestion pq set Sentflag=? where p.TimeStamp=? and pq.PollID=p.PollID and pq.WorkshopID=? and pq.PollID = ?";
+					st1 = conn.prepareStatement(updatequer);
+					st1.setInt(1,1);
+					st1.setString(2, launchtime);
+					st1.setString(3, workshopID);
+					st1.setInt(4, pollid);
+					st1.executeUpdate();
+					
+				}
+				
+				
 			}
 		catch(SQLException e)
 		{
@@ -422,20 +463,14 @@ public class JSONReadandparse {
 			}
 		}
 		
-		//6.add arraylist pollal to RemoteParticipant.java
-		rpoll.setpresponse(pollal);		
-		//7.create json
-		Gson gson = new Gson();
-		mainjson = gson.toJson(rpoll);
-		System.out.println("main centre json: "+mainjson);		
-		sendJsonToUrl(mainjson , workshopID , Coordinator,MainCenterURL);
+		
 	}
 
 	//sending json to main url
 
-	public void sendJsonToUrl(String mainjson , String workshopID ,String Coordinator ,String MainCenterURL) throws IOException, ParseException {
-		System.out.println("******main center url for sendung response url is ----"+MainCenterURL);
-
+	public String sendJsonToUrl(String mainjson , String workshopID ,String Coordinator ,String MainCenterURL) throws IOException, ParseException {
+		System.out.println("******main center url for sending response url is ----"+MainCenterURL);
+		String output = null, op = null;
 		URL url = null;
 		try {
 			url = new URL("http://"+MainCenterURL+"/clicker/rest/quiz/poll");
@@ -460,13 +495,15 @@ public class JSONReadandparse {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					(conn.getInputStream())));
 	 
-			String output;
+			 
 			System.out.println("Output from Server .... \n");
 			while ((output = br.readLine()) != null) {
 				System.out.println("status in remote  center: " + output);
+				op = output;
 			}
-	 
+			
 			conn.disconnect();
+			//return output;
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -475,6 +512,8 @@ public class JSONReadandparse {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return op;
 		
 		
 		

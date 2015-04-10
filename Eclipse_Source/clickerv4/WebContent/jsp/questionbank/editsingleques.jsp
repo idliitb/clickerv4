@@ -27,13 +27,16 @@ if (instructorID == null) {
 
 <script type="text/javascript">
 var ctr = 4;
-function addOption()
+function addOption( )
 {
+	var math_select = document.getElementById("maths_select").value;
 	if(ctr<6)
-		{//alert("in add: ");
+		{//alert("in add: " + document.getElementById("maths_select").value);
 		try
 		{
 			ctr++;
+			var before=document.getElementById("singlesubmit");
+			var par=before.parentNode;
 			var label = document.createElement("span");
 			var radioButton = document.createElement("input");
 			var textbox = document.createElement("input");
@@ -51,13 +54,60 @@ function addOption()
 			radioButton.style.marginLeft = "11px";
 			radioButton.setAttribute("id", "radio"+ctr);
 			label.setAttribute("id", "label"+ctr);
-			label.setAttribute("style", "margin-left:41px;");
+			
+			removeButton.setAttribute("id","remove"+(ctr));
+			removeButton.setAttribute("class","close-btn");
+			removeButton.setAttribute("style","color: white; text-decoration: none; margin-left: 6px;");
+			
+			if(math_select != 1)
+			{
+				//alert("add option" + maths);
+				var preview_div = document.createElement("div");
+				var outer_div = document.createElement("div");
+
+				label.setAttribute("style", "margin-left:41px;");				
+				removeButton.setAttribute("href", "javascript:removeOption(" + (ctr)  + ", "+ (ctr)+"5)");
+				
+				preview_div.setAttribute("id", "option" + (String.fromCharCode(64+ctr)) + "_preview");
+				preview_div.setAttribute("style", "overflow: auto; margin-left: 90px; width: 250px; height: 50px;");
+				preview_div.setAttribute("class", "preview_div");
+
+				textbox.setAttribute("onclick", "toggleTextPreview('option" + (String.fromCharCode(64+ctr)) + 
+									"_preview', 'txt" + ctr + "');");
+				textbox.setAttribute("onkeyup", "showPreviewText('option" + (String.fromCharCode(64+ctr)) +
+									"_preview', 'txt" + ctr + "');");
+
+				outer_div.setAttribute("id", "outer_div" + ctr);
+				outer_div.setAttribute("style", "float: left; width: 380px; margin-left: 0px;");
+				outer_div.appendChild(preview_div);
+				outer_div.appendChild(label);
+				outer_div.appendChild(radioButton);
+				outer_div.appendChild(textbox);
+				outer_div.appendChild(removeButton);
+
+				par.insertBefore(outer_div, before);
+				
+			}			
+			else
+			{
+				removeButton.setAttribute("href", "javascript:removeOption("+(ctr)+")");
+				label.setAttribute("style", "margin-left:41px;");
+				
+				par.insertBefore(label,before);
+				par.insertBefore(radioButton,before);				
+				par.insertBefore(textbox,before);				
+				par.insertBefore(removeButton, before);
+			}
+			
+			label.innerHTML=(String.fromCharCode(64+ctr));
+			removeButton.innerHTML = 'X';
+			document.forms["singleform"].elements["count"].value=ctr;
 		}
 		catch(err)
 		{
 			alert(err.message);
 		}
-		try
+		/*try
 		{
 	
 			removeButton.setAttribute("href", "javascript:removeOption("+(ctr)+")");
@@ -89,14 +139,14 @@ function addOption()
 		catch(err)
 		{
 			alert(err.message);
-		}
+		}*/
 	}
 	else
 	{
 		alert("Options not more than 6!");
 	}
 }
-function removeOption(opt)
+function removeOption(opt, qtype_option_number)
 {
 	var i=0;
 	//alert("option: " + opt);
@@ -110,16 +160,25 @@ function removeOption(opt)
 		}
 		try
 		{
-			var child1=document.getElementById("txt"+ctr);
-			var child2=document.getElementById("radio"+ctr);
-			var child3=document.getElementById("label"+ctr);			
-			var child5=document.getElementById("remove"+ctr);
 			var parent=document.getElementById("content_in");
 			
- 			parent.removeChild(child1);
-			parent.removeChild(child2);
-			parent.removeChild(child3);			
-			parent.removeChild(child5);			
+			if(qtype_option_number >= 15)
+			{
+				var child1=document.getElementById("outer_div"+ctr);
+				parent.removeChild(child1);
+			}
+			else
+			{
+				var child1=document.getElementById("txt"+ctr);
+				var child2=document.getElementById("radio"+ctr);
+				var child3=document.getElementById("label"+ctr);			
+				var child5=document.getElementById("remove"+ctr);				
+				
+	 			parent.removeChild(child1);
+				parent.removeChild(child2);
+				parent.removeChild(child3);			
+				parent.removeChild(child5);
+			}			
 		}
 		catch(err)
 		{
@@ -177,6 +236,61 @@ function validateForm()
 	    
 	}
 }
+
+function toggleTextPreview(id, option_text)
+{
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	for(var i = 0; i < preview_div.length; i++){
+		
+		if(document.getElementById(preview_div[i].id) != selected_div)
+			if(preview_div[i].id == "quest_div")
+			{
+				document.getElementById(preview_div[i].id).innerHTML = "";
+				document.getElementById(preview_div[i].id).style.display = "none";
+			}	
+			else
+			{
+				document.getElementById(preview_div[i].id).innerHTML = "";
+				document.getElementById(preview_div[i].id).style.border = "";
+			}
+		else
+			if(id == "quest_div")
+			{	
+				document.getElementById(id).style.display = "block";
+				document.getElementById(id).innerHTML = option_data.value;
+				MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+				
+			}
+			else
+			{
+				document.getElementById(id).style.border = "1px solid black";
+				document.getElementById(id).innerHTML = option_data.value;
+				MathJax.Hub.Queue(["Typeset",MathJax.Hub,id]);
+				
+			}
+	}
+}
+
+function showPreviewText(id, option_text)
+{
+	//alert(id);
+	var preview_div = document.getElementsByClassName('preview_div');
+	var selected_div = document.getElementById(id);
+	var option_data = document.getElementById(option_text);
+	
+	for(var i = 0; i < preview_div.length; i++)
+		if(document.getElementById(preview_div[i].id) == selected_div){
+			document.getElementById(preview_div[i].id).innerHTML = option_data.value;
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,preview_div[i].id]);
+			
+		}else{
+			if(preview_div[i].id == "quest_div")
+				document.getElementById(preview_div[i].id).innerHTML = "";
+		}
+}
 </script>
 
 <title>Single Choice Correct</title>
@@ -198,30 +312,50 @@ Statement st = conn.createStatement();
 <td >
 <div id="content_in" >
 <div class="ui-createquiz-text" style = "margin-left:auto;">
+<label style="font-size:16px;"> Single choice question</label></div> 
+<br>
 <% 
 PrintWriter pw = response.getWriter();
 String qid=request.getParameter("qid");
-String query = "SELECT Question, NegativeMark, Shuffle FROM question WHERE QuestionID='"+qid+"'";
+String query = "SELECT Question, MathSelect, NegativeMark, Shuffle FROM question WHERE QuestionID='"+qid+"'";
 String question = null;
-int shuffle = 1;
+int shuffle = 1, question_type = Integer.parseInt(request.getParameter("question_type")), math_select = 1;
+System.out.println("QTYPE: " + question_type);
 float negativemarks = 0;
+//String question_split[ ] = null;
 ResultSet rs = st.executeQuery(query);
+
 if(rs.next())
 {
-	question = rs.getString("Question");
+	math_select = rs.getInt("MathSelect");
+	//if(question_type == 1)
+		question = rs.getString("Question");
+	/*else
+	{
+		question = rs.getString("Question").replace("\r\n", "!@");
+		//System.out.println("{{{{{{{{{{{: " + question);
+		question_split = question.split("!@");
+	}*/
 	shuffle = rs.getInt("Shuffle");
 	negativemarks = rs.getFloat("NegativeMark");
-	
+	//System.out.println(question_split[0]);
 }
 rs.close();
-%>
-	 <label style="font-size:16px;"> Single choice question</label></div> 
-<br>
+System.out.println("math select: " + math_select);
+if(math_select == 1)
+{%>
 	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
  	name="singlechoicequest"  placeholder="Enter your question here..."><%=question %></textarea>
-
 	<br>
-<%
+<%}
+else
+{%>
+	<div id = quest_div  class = "preview_div" style = "margin-left: 0px; border: 1px solid black; width: 800px; height: 100px; overflow: auto;"> </div>
+	<br>
+	<textarea id="addques" cols="25" rows="5" style="width:800px; font-size:14px;margin:0px 0 0 0px"
+ 	name="singlechoicequest"  placeholder="Enter your question here..." onclick = "toggleTextPreview('quest_div', 'addques')" onkeyup="showPreviewText('quest_div', 'addques');"><%=question %></textarea>
+	<br>
+<%}
 int i=0;
 char label = 'A';
 float credits = 0;
@@ -238,16 +372,42 @@ while(rs1.next())
 	{
 %>
 	<br>
-	<%} %>
+  <%} 
+  if(math_select == 1)
+  {%>
+  	
 <span style="margin-left:41px;" id="label<%=i %>"><%=(label++) %></span>
 <input id="radio<%=i %>" <%if(rs1.getInt("OptionCorrectness")==1){ %> checked="checked" <%} %> type="radio" value="<%=i %>" name="option" />
-<input id="txt<%=i %>" type="text" name="<%=i %>" style="width:250px; margin-left:10px;" value="<%=rs1.getString(1) %>"/>
+<input id="txt<%=i %>" type="text" name="<%=i %>" style="width:250px; margin-left:10px;" value="<%=rs1.getString("OptionValue") %>"/>
  
 <a id='remove<%=i %>' class="close-btn" href="javascript:removeOption(<%=i %>)" style = "color: #ffffff; text-decoration: none;">X</a>
 
 
 <% }
-
+  else
+  {
+  	//String option_strip = question_split[i].replace("Option " + (char) (64 + i) + ": ", "");
+  	//System.out.println(option_strip);%>
+  	
+	<div id = "outer_div<%= i %>" style="margin-top: 0px; float:left; width:380px; margin-left:0px;">
+		<div id = "option<%= (char) (64 + i) %>_preview" class = "preview_div" style = "overflow: auto; 
+	  		margin-left:90px; width: 250px;  height: 50px;"></div>
+	  	<span style="margin-left:41px;" id="label<%=i %>"><%=(label++) %></span>
+	  	<input id="radio<%=i %>" <%if(rs1.getInt("OptionCorrectness")==1){ %> checked="checked" <%} %> type="radio" value="<%=i %>" name="option" />
+	  	<input id="txt<%=i %>" type="text" name="<%=i %>" style="width:250px; margin-left:10px;" value="<%=rs1.getString("OptionValue") %>" onclick = "toggleTextPreview('option<%= (char) (64 + i) %>_preview', 'txt<%= i %>');" onkeyup="showPreviewText('option<%= (char) (64 + i) %>_preview', 'txt<%= i%>');"/>
+	  	<a id='remove<%=i %>' class="close-btn" href="javascript:removeOption(<%=i %>, '<%=i %>5')" style = "color: #ffffff; text-decoration: none;">X</a>
+	</div>
+	
+  <%if(i == 1 || i == 3)
+	{%>
+		<script> if(<%= i%> == 1)
+					document.getElementById("outer_div1").style.height = "95px";
+				 else
+					 document.getElementById("outer_div3").style.height = "95px";
+		 </script>
+	<%}
+  }
+}
 rs1.close();
 st.close();
 dbconn.closeLocalConnection(conn); %>
@@ -256,9 +416,10 @@ dbconn.closeLocalConnection(conn); %>
 	<input type	="hidden" name="old_count" value="<%=i%>"/>
 	<input type	="hidden" name="optionIDs" value="<%=optionIDs%>"/>
 	<input type = "hidden" name="qid" value="<%=qid%>" />
+	<input type = "hidden" id = "maths_select" name = "math_select" value = "<%=math_select%>" />
 	
 
-<div id = "singlesubmit" style="margin:0px 0 0 0px;margin-bottom:5px;">
+<div id = "singlesubmit" style="float: left; margin:0px 0 0 0px;margin-bottom:5px;">
 	
 	<button style="margin-bottom:20px;margin-left:120px;" class="ui-add-button" id="singleadd" type="button" onclick = "addOption( );">
 		<span  style = "font-size: 30px;  margin-top:-50px; font-weight: bold;">+</span>

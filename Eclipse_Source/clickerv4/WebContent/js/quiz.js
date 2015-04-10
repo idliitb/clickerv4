@@ -100,7 +100,12 @@ function isValidCourse(){
  * show the quiz preview
  */
 function quizPreview(quizID, courseID){
-	$('#quizPreview').load("../../jsp/quiz/quizhelper.jsp?helpContent=quizPreview&courseID="+encodeURIComponent(courseID) + "&quizID="+quizID);
+	
+	$('#quizPreview').load("../../jsp/quiz/quizhelper.jsp?helpContent=quizPreview&courseID="+encodeURIComponent(courseID) + "&quizID="+quizID,
+			function () {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "quizPreview"]);
+      }
+	);
 	$('#tempdata').load("../../jsp/quiz/quizhelper.jsp?helpContent=getquiztime&quizID="+quizID + "&courseID="+encodeURIComponent(courseID), function (){
 		var quizsec = document.getElementById("tempdata").innerHTML.trim();
 		document.getElementById('minutes').value = parseInt(quizsec/60);

@@ -685,14 +685,15 @@ public class Restquizresource {
 	System.out.println("catch pollresponse..."); 
 	String Mode="local";
 	String student_id = null , response=null , launchtime=null , flag="new";
-	PollHelper ph=new PollHelper();
-	int current_pid=ph.getPollid();
-
+	int current_pid =0;
+	PollHelper ph=new PollHelper();	
 	String pollresponse=personParams.getFirst("poll_res");
 	String course_id=personParams.getFirst("courseId");
 	String mode=personParams.getFirst("mode");
 	String pollid=personParams.getFirst("pollId");
 	int p_id=Integer.parseInt(pollid);
+	
+	
 	//Checking mode is local or remote
 	if(mode.equals(Mode)||mode==Mode)
 	{
@@ -706,7 +707,11 @@ public class Restquizresource {
 				 student_id=pollresponseJSon.get("stuid").toString();
 				 response = pollresponseJSon.get("option").toString();
 				 launchtime=Global.polljsonobject.get(course_id).getlaunchtime();
+				 current_pid=ph.getpollidnew(launchtime, course_id);
 			} catch (JSONException e) {			
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -718,7 +723,7 @@ public class Restquizresource {
 			
 				if(!check_duplicate_student_response.contains(student_id))
 				{	
-					System.out.println("%%%%%%%%%%%%%%%%%%%%% ==--> new entry");
+					System.out.println("==--> new entry");
 					try {
 						ph.savepollresponse(student_id, response, launchtime, course_id , p_id,flag);
 					} catch (SQLException e) {
@@ -728,7 +733,7 @@ public class Restquizresource {
 				
 					check_duplicate_student_response.add(student_id);
 					Global.respondedpollstudlist.replace(course_id, check_duplicate_student_response);
-					System.out.println(" --> -->  --> --> --> --> after replace  --> -->"+Global.respondedpollstudlist.get(course_id));
+					System.out.println(" --> --> after replace  --> -->"+Global.respondedpollstudlist.get(course_id));
 				
 				
 					String prepollresponse=Global.responsepollobject.get(course_id);
@@ -741,7 +746,7 @@ public class Restquizresource {
 				}
 				else
 				{
-					System.out.println("%%%%%%%%%%%%%%%%%%%%% already present");
+					System.out.println("% already present");
 				
 				}
 			}
@@ -760,39 +765,77 @@ public class Restquizresource {
 	}
 	else
 	{
+		
+		RemoteDBHelper rdh= new RemoteDBHelper();
 		JSONObject pollresponseJSon = null;
 		try {
 			pollresponseJSon = new JSONObject(pollresponse);
 			student_id=pollresponseJSon.get("stuid").toString();
 			response = pollresponseJSon.get("option").toString();
 			launchtime=Global.workshoppolljsonobject.get(course_id).getlaunchtime();
-
+			current_pid=rdh.getpollidnew(launchtime, course_id);
 			System.out.println("stuid in rest :"+pollresponseJSon.get("stuid").toString());
+		}
+		 catch (JSONException e) {			
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		//**************************************************************************************************************
+			
+			
+			//checking if this is previous poll response or not.....
+			if(current_pid==p_id)
+			{
+				//checking  if student already gave response from other device or not...
+				List<String> check_duplicate_student_response =  Global.remoterespondedpollstudlist.get(course_id);
+				//System.out.println("%%%%%%%%%%%%%%%%%%%%% ==--> checking list entry : "+Global.remoterespondedpollstudlist.get(course_id));
+				if(!check_duplicate_student_response.contains(student_id))
+				{	
+					System.out.println(" ==--> new entry");
+					try {
+						rdh.saveremotepollresponse(student_id, response, launchtime,course_id, p_id , flag);
+					} catch (SQLException e) {
+					// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+					check_duplicate_student_response.add(student_id);
+					Global.remoterespondedpollstudlist.replace(course_id, check_duplicate_student_response);
+					System.out.println(" --> --> after replace  --> -->"+Global.remoterespondedpollstudlist.get(course_id));
+				
+				
+					String prepollresponse=Global.workshopresponsepollobject.get(course_id);
+					// get all student poll results and split 
+					pollresponse=prepollresponse+pollresponse+"@@";
+					Global.workshopresponsepollobject.replace(course_id,pollresponse);
+					pollcount = Global.remotecountresponsepoll.get(course_id);
+					pollcount++;
+					Global.remotecountresponsepoll.replace(course_id, pollcount);
 
-				RemoteDBHelper rdh= new RemoteDBHelper();
+				
+				}
+				else
+				{
+					System.out.println("%% already present");
+				
+				}
+			}
+			else
+			{
+				System.out.println("previous poll response------- storing in database------------will not dispaly in chart");
 				try {
-
-					rdh.saveremotepollresponse(student_id, response, launchtime,course_id);
+					flag="old";
+					rdh.saveremotepollresponse(student_id, response, launchtime,course_id,  p_id , flag);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-			} catch (JSONException e) {			
-				e.printStackTrace();
 			}
-
-			String prepollresponse=Global.workshopresponsepollobject.get(course_id);
-			// get all student poll results and split 
-			pollresponse=prepollresponse+pollresponse+"@@";
-			Global.workshopresponsepollobject.replace(course_id,pollresponse);
-			pollcount = Global.remotecountresponsepoll.get(course_id);
-			pollcount++;
-			Global.remotecountresponsepoll.replace(course_id, pollcount);
-
 			return "Your poll response has been successfully submitted";
 		}
-
+		
 	}
 
 

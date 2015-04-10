@@ -67,4 +67,6 @@ public class Global {
 	public static ConcurrentHashMap<String, String> loggedparticipantlist =  new ConcurrentHashMap<String, String>();
 	// Responded poll  students list
 	public static ConcurrentHashMap<String, List<String>> respondedpollstudlist = new ConcurrentHashMap<String, List<String>>();
+	// Responded poll  students list
+	public static ConcurrentHashMap<String, List<String>> remoterespondedpollstudlist = new ConcurrentHashMap<String, List<String>>();
 }

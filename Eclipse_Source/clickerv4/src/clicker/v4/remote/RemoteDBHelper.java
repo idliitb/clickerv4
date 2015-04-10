@@ -437,7 +437,7 @@ public class RemoteDBHelper {
 	
 	public int getpollidnew(String launchtime, String workshopid) throws SQLException
 	{
-		System.out.println("//////////////////////////pollidnew launchtime is : "+launchtime);
+		System.out.println("pollidnew launchtime is : "+launchtime);
 			int pollidnew = 0;
 			Connection conn = null;
 			DatabaseConnection dbcon = new DatabaseConnection();
@@ -470,8 +470,8 @@ public class RemoteDBHelper {
 			return pollidnew;			
 	}
 	//saving workshop poll responses	
-	public void saveremotepollresponse(String studentid, String response , String launchtime , String workshopid) throws SQLException{
-		int p=getpollidnew(launchtime,workshopid);
+	public void saveremotepollresponse(String studentid, String response , String launchtime , String workshopid , int pollid , String flag) throws SQLException{
+		//int p=getpollidnew(launchtime,workshopid);
 		System.out.println("in poll response saving...");
 		Connection conn = null;
 		DatabaseConnection dbcon = new DatabaseConnection();
@@ -481,14 +481,56 @@ public class RemoteDBHelper {
 			 * querry to insert the raise question into database wrt student id ,courseid
 			 */
 			java.util.Date date= new java.util.Date();
-			System.out.println("====================== "+new Timestamp(date.getTime()));
+			//System.out.println("====================== "+new Timestamp(date.getTime()));
 			int option=Integer.parseInt(response);
-			st1 = conn.prepareStatement("INSERT INTO poll (ParticipantID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
-			st1.setString(1,studentid);
-			st1.setInt(2,option);
-			st1.setString(3,launchtime);
-			st1.setInt(4,p);
-			st1.executeUpdate();		
+			
+			
+			/*
+			 * querry to check whether we have duplicate record or not
+			 */
+			if(flag=="new")
+			{
+				/*
+				 * querry to insert the raise question into database wrt student id ,courseid
+				 */		
+				
+				st1 = conn.prepareStatement("INSERT INTO poll (ParticipantID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
+				st1.setString(1,studentid);
+				st1.setInt(2,option);
+				st1.setString(3,launchtime);
+				st1.setInt(4,pollid);
+				st1.executeUpdate();	
+			}
+			else
+			{
+				System.out.println("in poll response saving...saving old response");
+				st1 = conn.prepareStatement("select ParticipantID , Response from poll where ParticipantID=? and PollID=?");
+				st1.setString(1,studentid);
+				st1.setInt(2,pollid);
+				ResultSet resultSet = st1.executeQuery();
+
+				if(resultSet.next())
+				{
+					System.out.println("response already present in the database :--> "+resultSet.getInt("ParticipantID")+""+resultSet.getInt("Response")); 
+					
+				}
+				else
+				{
+					st1 = conn.prepareStatement("INSERT INTO poll (ParticipantID,Response,TimeStamp,PollID) VALUES (?,?,?,?)");
+					st1.setString(1,studentid);
+					st1.setInt(2,option);
+					st1.setString(3,launchtime);
+					
+					st1.setInt(4,pollid);
+					
+					st1.executeUpdate();
+					
+				}
+				resultSet.close();
+			}
+			
+			
+			
 		}
 		catch (SQLException e2) {
 			// Exception when executing java.sql related commands, print error message to the console
@@ -498,10 +540,42 @@ public class RemoteDBHelper {
 			dbcon.closeRemoteConnection(conn);
 		}
 	}
-			
+	
+	/*to send previous poll response 
+	 * public void ResendpollJsonForLateResponse(String MainCenterURL)
+	{
+		String cid = getRemoteCenterID();
+		Connection conn = null;
+		ResultSet resultSet=null;
+		DatabaseConnection dbcon = new DatabaseConnection();
+		try{			
+			conn = dbcon.createRemoteDatabaseConnection();
+			String selectquery="select  ";
+			st1 = conn.prepareStatement(selectquery);
+			//st1.setString(1, launchtime);
+			//st1.setString(2, workshopID);				
+			resultSet = st1.executeQuery();		
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				st1.close();
+				dbcon.closeRemoteConnection(conn);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	*/
+	
 	//This is used to get the Remote center Id from database which will be used 
 	//while sending response json to maincenter
-	public String getRemoteCenterID(String workshopID,String coordinatorID ){
+	public String getRemoteCenterID(String workshopID, String coordinatorID){
 		String centerid = null;
 		Connection conn = null;
 

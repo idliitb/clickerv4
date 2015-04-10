@@ -22,12 +22,8 @@ String Coordinator = (String) session.getAttribute("CoordinatorID");
 String WorkshopID=(String) session.getAttribute("WorkshopID");
 String pollquestion= request.getParameter("pollquestion");
 String MainCenterURL=(String)session.getAttribute("MainCenterURL");
-
 RemoteDBHelper dbh=new RemoteDBHelper();
-dbh.getRemoteCenterID(WorkshopID,Coordinator);
-String centerid=dbh.getRemoteCenterID(WorkshopID,Coordinator);	
-
-
+String centerid=dbh.getRemoteCenterID(WorkshopID,Coordinator);
 JSONReadandparse js=new JSONReadandparse();
 js.newPollJsonForMain(WorkshopID,Coordinator,centerid,pollquestion,MainCenterURL);
 

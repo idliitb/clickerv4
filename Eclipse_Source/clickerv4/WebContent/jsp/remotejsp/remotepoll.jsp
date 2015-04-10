@@ -113,11 +113,15 @@ else
 					System.out.println("Problem in saving entry in database");
 				}
 		
+		Global.remoterespondedpollstudlist.clear();
+		List<String> check_duplicate_student = new ArrayList<String>( );
+			     
 		Global.workshoppolljsonobject.put(WorkshopID, json);
 		
 		Global.workshopresponsepollobject.put(WorkshopID,"@@");
 		int count = 0;
 		Global.remotecountresponsepoll.put(WorkshopID, count);
+		Global.remoterespondedpollstudlist.put(WorkshopID, check_duplicate_student);
 
 }
 %>
@@ -333,6 +337,8 @@ function showC(){
 						rep++;
 						//alert("idle : "+rep);
 							if(rep==4){
+								old_totalstudentattended = totalstudentattended;
+								//alert("old_totalstudentattended"+old_totalstudentattended);
 								clearInterval(down1);
 								$('#container').highcharts({
 							        chart: {
@@ -427,6 +433,108 @@ function showC(){
 								xmlHttp.open("GET","responsejson.jsp?pollquestion="+encodeURIComponent(document.getElementById("pollquestionhidden").value),false);
 								xmlHttp.send(null);
 								readMainCenter();
+							}
+							else if(rep>=5){
+								///////////////////////////////////////////////////////
+								
+								if(totalstudentattended != old_totalstudentattended) 
+									{
+									//alert("new response added : "+(totalstudentattended - old_totalstudentattended)); 
+									var xmlHttp=null;
+									xmlHttp=new XMLHttpRequest();
+									xmlHttp.open("GET","responsejson.jsp?pollquestion="+encodeURIComponent(document.getElementById("pollquestionhidden").value),false);
+									xmlHttp.send(null);
+									readMainCenter();
+									}
+								clearInterval(down1);
+								$('#container').highcharts({
+							        chart: {
+							            plotBackgroundColor: null,
+							            plotBorderWidth: null,
+							            plotShadow: false,
+							            borderColor: '#EBBA95',
+							            borderWidth: 2,
+							            
+							        },	
+							        title: {
+							            text: null,
+							        },
+							        tooltip: {
+						                formatter: function() {
+						                    return '<b>'+ this.point.name +'</b>: '+ this.y ;
+						                }
+						            },
+							        plotOptions: {
+							            pie: {
+							               
+							                startAngle: -90,
+							                endAngle: 90,
+							                center: ['50%', '75%']
+							            },
+							            series: {
+							                cursor: 'pointer',
+							                point: {
+							                    events: {
+							                        click: function() {
+							                            
+							                            var areaname = this.name;
+							                            if(areaname=='Attended')
+							                            {
+							                                rflag="Attended";
+							                            	showPollResponsesDialog(rflag,"stats");
+							                            }
+							                            else if(areaname=='Not Attended')
+							                            {
+							                            	rflag="Not Attended";
+							                            	showPollResponsesDialog(rflag,"stats");
+							                            }
+							                            
+							                        }
+							                    }
+							                }
+							            }
+							        },
+							        series: [{
+							            type: 'pie',
+							            size: '130%',
+							            innerSize: '40%',
+							            data: [
+							                {
+							                    name: 'Attended',		                  
+							                   	y:parseInt(totalstudentattended),
+							                   // color:'#FFBF00', 
+							                   	color:'#0066CC'
+							                },
+							                {
+							                    name: 'Not Attended',		                  
+							                   	y:parseInt(notattendedcount),
+							                    //color:'#B18904', 
+							                   	color:'#66A3E0',
+							                },
+							               
+							                
+							            ],
+								        dataLabels: 
+						                {
+						                	
+						                    enabled: true,
+						                      style: {
+						                        fontWeight: 'bold',
+						                        color: 'white',
+						                        fontSize:'20px',
+						                        textShadow: '0px 1px 2px black',
+						                        
+						                    },
+						                      distance: -25,
+						                       formatter: function() {
+						                    return this.y ;
+						                },
+						                },
+							        showInLegend:true,
+							        }]
+							    });
+							  document.getElementById("reset").style.visibility = "visible";
+								
 							}
 					}
 				}
@@ -525,8 +633,8 @@ function showPollResponsesDialog(rflag,charttype) {
 		
 					<div id="container" style="margin-top:100px; width: 250px; height: 250px; margin: auto; float:right;"></div>
 			
-					<button class="ui-createquiz-button" style="float:right; margin-top:100px;margin-right:80px; width:80px; visibility:hidden ;" id="reset" type="button" onclick="reset1();">
-						<span><font size="4px" >Reset</font></span>
+					<button class="ui-createquiz-button" style="float:right; margin-top:100px;margin-right:80px; width:80px; visibility:hidden ;" id="reset" type="button" onclick="showC();">
+						<span><font size="4px" >Refresh</font></span>
 					</button>
 				</div>
 			</td>

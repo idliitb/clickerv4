@@ -24,7 +24,7 @@ public class GetAllQuestions {
 		quest = "";
 	}
 
-	public String getAllQuestions(int qtype,String InstrID, String courseid, int selector) {
+	public String getAllQuestions(int qtype,String InstrID, String courseid, int selector, int math_select) {
 		DatabaseConnection db = new DatabaseConnection();
 		con = db.createDatabaseConnection();
 		String query = null;
@@ -37,11 +37,12 @@ public class GetAllQuestions {
 				{
 					if (qtype != 0)
 					{
-						query = "select Question, QuestionID, Archived, Shuffle, Credit, QuestionType from question where QuestionType=? and InstrID=? and CourseID=? order by QuestionID desc ";
+						query = "select Question, QuestionID, Archived, Shuffle, Credit, QuestionType from question where QuestionType=? and InstrID=? and CourseID=? and MathSelect = ? order by QuestionID desc ";
 						pstmt = con.prepareStatement(query);
 						pstmt.setInt(1, qtype);
 						pstmt.setString(2,InstrID);
 						pstmt.setString(3, courseid);
+						pstmt.setInt(4, math_select);
 					}
 					else 
 					{
@@ -85,11 +86,12 @@ public class GetAllQuestions {
 			{
 				if (qtype != 0)
 				{
-					query = "select Question, QuestionID, Archived, Shuffle, Credit, QuestionType from question where QuestionType=? and CourseID=? and InstrID != ? order by QuestionID desc ";
+					query = "select Question, QuestionID, Archived, Shuffle, Credit, QuestionType from question where QuestionType=? and CourseID=? and InstrID != ? and MathSelect = ? order by QuestionID desc ";
 					pstmt = con.prepareStatement(query);
 					pstmt.setInt(1, qtype);
 					pstmt.setString(2, courseid);
 					pstmt.setString(3, InstrID);
+					pstmt.setInt(4, math_select);
 				}
 				else 
 				{
@@ -144,7 +146,7 @@ public class GetAllQuestions {
 				System.out.println("--->" + shuffle.substring(0, shuffle.length() - 1));
 				System.out.println("--->" + question_repeated.substring(0, question_repeated.length() - 1));*/
 				
-				quest = quest.substring(0, quest.length() - 1) + "#@" + credits.substring(0, credits.length() - 1) + "!@" 
+				quest = quest.substring(0, quest.length() - 2) + "#@" + credits.substring(0, credits.length() - 1) + "!@" 
 						+ shuffle.substring(0, shuffle.length() - 1) + "$@" + question_repeated.substring(0, question_repeated.length() - 1);
 			}
 		} catch (Exception e) {

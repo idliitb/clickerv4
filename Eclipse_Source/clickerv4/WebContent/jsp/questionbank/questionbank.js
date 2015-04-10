@@ -141,7 +141,7 @@ function filterQuestions(flag)
 		document.getElementById("quest").innerHTML="";		
 	}
 	
-	for(var i = 0;i < question.length - 1;i++)
+	for(var i = 0;i < question.length;i++)
 	{
 		if(question[i].toUpperCase().indexOf(query.toUpperCase())!=-1)
 			{				
@@ -239,7 +239,7 @@ function filterQuestions(flag)
 				//alert("last child:" + document.getElementById("options").id);
 				parent.appendChild(header);
 				parent.appendChild(options);
-				
+				MathJax.Hub.Queue(["Typeset", MathJax.Hub, parent]);
 				//alert("question: " + qid[1]);
 				document.getElementById("opts" + j).appendChild(opts_div);				
 				document.getElementById("opts" + j).appendChild(info_div);								
@@ -442,24 +442,26 @@ function addQuestions( )
 	
 	try
 	{
-		if(qtype == 3)
-			document.getElementById("math_select").style.display = "none";
-		else
-		{
+		//if(qtype == 3)
+			//document.getElementById("math_select").style.display = "none";
+		//else
+		//{
 			document.getElementById("math_select").style.display = "block";
 			
-			if(qtype == 1)
+			/*if(qtype == 1)
 				document.getElementById("math_select_value").value = 5;
 			else if(qtype == 2)
 				document.getElementById("math_select_value").value = 6;
-			else 
+			else if(qtype == 3)
 				document.getElementById("math_select_value").value = 7;
+			else
+				document.getElementById("math_select_value").value = 8;*/
 		
 			if(document.getElementById("math_select_value").checked)
-				math_select_value = document.getElementById("math_select_value").value;
+				math_select_value = 2;//document.getElementById("math_select_value").value;
 			else
-				math_select_value = "none";
-		}
+				math_select_value = 1;
+		//}
 		
 		switch(qtype)
 		{
@@ -467,7 +469,7 @@ function addQuestions( )
 			break;
 			case '2': url = "multichoice.jsp?math_select_value=" + math_select_value;
 			break;
-			case '3': url = "numeric.jsp";
+			case '3': url = "numeric.jsp?math_select_value=" + math_select_value;
 			break;
 			case '4': url = "truefalse.jsp?math_select_value=" + math_select_value;
 			break;
@@ -486,9 +488,9 @@ function editQuestion(qid)
 	$("#editquestions").dialog({
 		title:"Edit Question",
 		modal:true,
-		height:516,
-		//position:"absolute",
-	    width:848,
+		height:700,
+		position: {my: "center", at: "top", of: window},
+	    width:1060,
 	    autoOpen:false
 	});
 	

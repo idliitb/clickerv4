@@ -51,24 +51,29 @@ public class AddTrueFalseDB extends HttpServlet {
 			float credits = Float.parseFloat(request.getParameter("credits"));
 			float negativemark = Float.parseFloat(request.getParameter("negativemark"));
 			String courseid = (String) request.getSession().getAttribute("courseID");
-			int shuffle = 1;
+			int shuffle = 1, math_select = Integer.parseInt(request.getParameter("math_option")), question_type;
 			if(request.getParameter("shuffle") != null)
 				shuffle = 0;
 			//System.out.println("shuffle: " + shuffle);
-			
+						
+			/*if(math_select != null)
+				question_type = 8;
+			else*/
+				question_type = 4;
 			
 			conn = dbconn.createDatabaseConnection();
-			String query1="insert into question(Question,Archived,Credit,ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query1="insert into question(Question,Archived,Credit, MathSelect, ImageName,QuestionType,InstrID, Shuffle, CourseID, NegativeMark) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement st =conn.prepareStatement(query1 , Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, question);
 			st.setInt(2, 0);
 			st.setFloat(3, credits);
-			st.setString(4,	image);
-			st.setInt(5, 4);
-			st.setString(6,instructorid);
-			st.setInt(7, shuffle);
-			st.setString(8, courseid);
-			st.setFloat(9, negativemark);
+			st.setInt(4, math_select);
+			st.setString(5,	image);
+			st.setInt(6, question_type);
+			st.setString(7,instructorid);
+			st.setInt(8, shuffle);
+			st.setString(9, courseid);
+			st.setFloat(10, negativemark);
 			int rs=st.executeUpdate();
 			ResultSet res = st.getGeneratedKeys();
 			if(res.next()){

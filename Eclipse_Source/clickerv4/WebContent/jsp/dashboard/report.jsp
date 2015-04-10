@@ -26,6 +26,7 @@ if (InstructorID == null) {
 		<script src="../../js/jquery-1.9.1.js"></script>
 		<script src="../../js/jquery-ui.js"></script>
 		<script src="../../js/reportdashboard.js"></script>	
+		<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
 	</head>
 	<body onload="loadDOMCoursesData('<%=InstructorID%>', 'instr')" class="ui-Mainbody" style="width:100%; height:100%; text-align: center; background-color: #fff;">
 		<%@ include file= "../../jsp/includes/menuheader.jsp" %>

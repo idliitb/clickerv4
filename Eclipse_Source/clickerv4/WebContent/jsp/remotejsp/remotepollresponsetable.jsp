@@ -28,7 +28,7 @@ try {
 		responseTable = new StringBuffer("<table width=300px border='1' cellpadding='5'><tr><th>S.No</th><th>Participant ID</th><th>Response</th>");
 		//int pid=rdh.getPollid();
 		int pid=rdh.getpollidnew(launchtimepoll, WorkshopID);
-		st = (PreparedStatement) con.prepareStatement("SELECT ParticipantID, Response from poll where PollID=? and Response=?;");
+		st = (PreparedStatement) con.prepareStatement("SELECT DISTINCT ParticipantID, Response from poll where PollID=? and Response=?;");
 		st.setInt(1,pid);
 		st.setString(2,responseflag);
 		rs=st.executeQuery();	
@@ -54,7 +54,7 @@ try {
 		int pid=rdh.getpollidnew(launchtimepoll,WorkshopID);
 		if(responseflag.equals("Attended"))
 		{
-			st = con.prepareStatement("SELECT ParticipantID from poll where PollID=?");
+			st = con.prepareStatement("SELECT DISTINCT ParticipantID from poll where PollID=?");
 			st.setInt(1,pid);
 		}
 		else

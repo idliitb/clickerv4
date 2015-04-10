@@ -67,6 +67,7 @@ function getHighChart(instrid, questionID,ChartType){
 				images += "</ol><img style='width: 440px; height: 250px;' alt='No Response...' src='../../"+instrid+"/Chart"+qid+".jpeg?"+new Date().getTime()+"' onclick='showResponsesDialog("+quizJson.questions[qid].id+")'>";
 			
 			document.getElementById("questiondetails").innerHTML = questiondetail;	
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"questiondetails"]);
 			document.getElementById("Questionchart").innerHTML = images;	
 			
 		}

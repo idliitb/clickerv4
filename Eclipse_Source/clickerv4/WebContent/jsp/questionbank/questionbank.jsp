@@ -34,6 +34,7 @@ if (InstructorID == null) {
 <link href="../../js/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
 <script type="text/javascript" src="questionbank.js"></script>
 
 
@@ -44,12 +45,19 @@ display:none
 </style>
 
 </head>
-
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
 <script>
 $(document).ready(function(){
 	<%if(request.getParameter("fileUploadStatus")!=null){%>
 	alert('<%=request.getParameter("fileUploadStatus")%>');
 	<%}%>
+	MathJax.Hub.Queue(["Typeset",MathJax.Hub,"quest"]);
 });
 </script>
 
@@ -89,6 +97,10 @@ $(document).ready(function(){
 						<option value="2" >Multiple Choice correct</option>
 						<option value="3" >Numerical Answer</option>
 						<option value="4" >True or False</option>
+						<option value="5" >Mathematical Single Choice</option>
+						<option value="6" >Mathematical Multiple Choice</option>
+						<option value="7" >Mathematical Numerical Questions</option>
+						<option value="8" >Mathematical True or False</option>
 					</select>
 				</div>				
 			</section>

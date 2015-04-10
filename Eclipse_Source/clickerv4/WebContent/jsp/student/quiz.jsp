@@ -7,6 +7,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Quiz</title>
 <script src="../../js/div.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../mathJax/MathJax.js?config=TeX-AMS_HTML-full"></script>
+<script>
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]]
+        }
+      });
+    </script>
+		<script>
+		$(document).ready(function(){
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub,"qcontainer"]);
+		});
+     
+    </script>
 <%
 	if (session.getAttribute("StudentID") == null) {
 		response.sendRedirect("studentexit.jsp");
@@ -906,7 +920,7 @@ function sendResponse(submitType){
 			removeCookie("qr" +responseJSON.response.quizrecordId);
 			removeCookie("timing" +responseJSON.response.quizrecordId);
 			removeCookie("revise"+responseJSON.response.quizrecordId);
-			showQuizStastics();			
+			//showQuizStastics();			
 			setCookie(responseJSON.response.quiztype + "lastattempted", responseJSON.response.quizrecordId, 7);
 			if(submitType=="timeout" && quiz.isShowAns){  
 				showQuizStastics();

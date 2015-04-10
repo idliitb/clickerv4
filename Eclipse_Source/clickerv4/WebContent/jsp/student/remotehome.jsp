@@ -81,6 +81,30 @@ function getXMLhttp() {
 				document.getElementById("reportbtn").className = "homemenu";
 				}
 		}
+	///**************************************** 
+	
+	var remotepreviouspollresponse = getpollresponseCookie("remotepreviouspollresponse");
+	//alert("remotepreviouspollresponse : "+remotepreviouspollresponse); 
+
+			if (remotepreviouspollresponse!="") {
+			//alert("in prev if");
+			getXMLhttp();
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+				{
+					//alert( xmlhttp.status );
+					var ack = xmlhttp.responseText;
+					//alert("in if alert"+ack);
+				}
+			};
+			xmlhttp.open("POST", "../../rest/quiz/poll",false);
+			xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+			xmlhttp.send(remotepreviouspollresponse);
+			
+		
+			}
+			removeCookie("remotepreviouspollresponse");
 		}
 	
 	function getpollCookie(cname) {
@@ -93,13 +117,27 @@ function getXMLhttp() {
 	    }
 	    return "";
 	}
-
+	function getpollresponseCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+	    }
+	    return "";
+	}
+	function removeCookie(cname) {
+		document.cookie = cname+ "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	}
 	function checkpoll(studcourse, mode) {
 		var xmlhttp1;
 		xmlhttp1 = new XMLHttpRequest();
-		xmlhttp1.onreadystatechange = function() {
+		xmlhttp1.onreadystatechange = function() 
+		{
 
-			if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) {
+			if (xmlhttp1.readyState == 4 && xmlhttp1.status == 200) 
+			{
 				var polljson = JSON.parse(xmlhttp1.responseText);
 				var pollid = polljson.pollid;
 				var pollquestion = polljson.pollquestion;
@@ -112,10 +150,12 @@ function getXMLhttp() {
 				{
 					alert("Poll has not launched");
 				}
-				else if(pollid==getpollCookie("remotepolllastattempted")){
+				else if(pollid==getpollCookie("remotepolllastattempted"))
+				{
 					alert("Poll Already Attempted");
 				}
-				else {
+				else
+				{
 					pollquestion = pollquestion.replace(/'/g, "\\'");
 					document.getElementById("pollquestion").value=pollquestion;
 					document.getElementById("polljson").value=launchtime + "@"+ currenttime + "@" + workshopid + "@" + quizTime+"@"+pollid;
